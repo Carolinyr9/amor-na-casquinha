@@ -1,0 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
+
+:root{
+    --roxo-bebe: #D4C7FF;
+    --Nunito: 'Nunito', sans-serif;
+    --Agbalumo: 'Agbalumo';
+
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+/* Menu */
+
+header {
+	position: fixed;
+    width: 100%;
+	padding: 20px;
+	display: flex;
+	justify-content: space-around;
+	z-index: 2;
+}
+
+header img {
+	width: 30px;
+	height: 30px;
+}
+
+.logo {
+    display: flex;
+    font-family: var(--Agbalumo);
+    transition: 0.3s;
+    align-items: center;
+}
+
+.logo img{
+    width: 40px;
+    height: auto;
+    margin-right: 9px;
+}
+
+nav.navigation {
+    display: none;
+    font-family: var(--Nunito);
+}
+
+.navigation > a:hover {
+    color: white;
+    transition: 0.2s;
+}
+
+.carrinho:hover {
+    fill: white;
+}
+
+.toggleBox {
+	filter: invert(0);
+}
+
+nav.navigation.active {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	position: fixed;
+	left: 50%;
+    font-family: var(--Agbalumo);
+	top: 0;
+	width: 50%;
+	height: 100%;
+	background-color: var(--roxo-bebe);
+}
+
+nav.navigation.active a {
+	padding: 20px;
+	font-size: 1.15rem;
+	font-weight: 500;
+	text-decoration: none;
+    font-family: var(--Agbalumo);
+    transition: 0.3s;
+}
+.navigation.active > a:hover {
+  color: white;
+}
+
+.carrinho {
+    transition: 0.3s;
+    fill: black;
+}
+
+/* Fim */
+
+.cabecalho{
+    background-color: var(--roxo-bebe);
+    height: 130px;
+    font-family: var(--Agbalumo);
+    font-size: 24px;
+    border-radius: 0 0 11% 11%;
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    z-index: 999;
+}
+
+main{
+    padding-top: 150px;
+}
+
+.titulo1{
+    font-family: var(--Agbalumo);
+    font-size: 1.30rem;
+    color: black;
+}
+
+.cabecalho #menu{
+    width: 12%;
+    height: 17%;
+}
+
+.cabecalho .login, .sobre{
+    display: none;
+}
+
+.cabecalho a, a:visited, a:active{
+    color: black;
+    text-decoration: none;
+}
+
+.rodape {
+    padding-top: 15px;
+    background-color: var(--roxo-bebe);
+    height: 170px;
+    font-family: var(--Agbalumo);
+    font-size: 24px;
+    border-radius: 11% 11% 0 0;
+    margin-top: 10%;
+}
+
+.rodape p{
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+@media (min-width: 768px) {
+    .cabecalho{
+        height: 122px;
+        border-radius: 0 0 30px 30px;
+    }
+
+    nav.navigation {
+		display: flex;
+		align-items: center;
+        justify-content: space-around;
+        width: 25%;
+	}
+
+    .navigation a{
+        margin: 0 5px;
+        font-family: var(--Agbalumo);
+        font-size: 1.80rem;
+    }
+
+    #toggleBtn {
+        display: none;
+    }
+
+    .titulo1{
+        display: block;
+        width: 450px;
+        font-size: 2.20rem;
+    }
+    .logo img{
+        width: 89px;
+        height: 85px;
+    }
+
+    .rodape .linha{
+        width: 1176px;
+        height: 24px;
+    }
+    .logo{
+        width: 90px;
+        height: 60px;  
+    }
+    .rodape h3{
+        font-family: var(--Agbalumo);
+        font-size: 35px;
+    }
+    .rodape p{
+        font-size: 19.254px;
+    }
+}
