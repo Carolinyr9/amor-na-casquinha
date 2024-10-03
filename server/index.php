@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style/indexS.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <?php

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/loginS.css">
     <link rel="stylesheet" href="style/forms.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
     main{
         padding-top: 15px;
