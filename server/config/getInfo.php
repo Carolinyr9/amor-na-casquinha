@@ -36,6 +36,7 @@ do{
             $_SESSION["userName"] = $nome;
             $_SESSION["userEmail"] = $email;
             $_SESSION["userTel"] = $telefone;
+            $_SESSION["userProfile"] = 'CLIE';
             $_SESSION["userEnderecoId"] = $row['Body'];
 
             header('location: ../sobre.php');
