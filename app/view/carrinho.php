@@ -17,6 +17,8 @@ session_start();
 <body>
     <?php
         include_once 'components/header.php';
+        require_once '../controller/carrinhoController.php';
+        $carrinhoController = new carrinhoController();
     ?>
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Carrinho</h1>
@@ -24,7 +26,13 @@ session_start();
             <form method="post" action="notaFiscal.php" class="container-fluid d-flex flex-column align-items-center conteiner1">
                 <input type="hidden" name="cart" value="1">
                 <?php
-                    include_once 'config/getCart.php';
+                    if (isset($_GET["add"])) {
+                        $carrinhoController->addProduto($_GET["add"]);
+                    }
+                    if (isset($_GET["action"]) && $_GET["action"] === 'remove' && isset($_GET["item"])) {
+                        $carrinhoController->removeProduto($_GET["item"]);
+                    }
+                    $carrinhoController->listarCarrinho();
                 ?>
             </form>
             <button class="voltar"><a href="index.php">Voltar</a></button>
