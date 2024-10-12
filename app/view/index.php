@@ -17,6 +17,9 @@
 <body>
     <?php
         include_once 'components/header.php';
+        require_once '../controller/produtoController.php';
+        $produtoController = new produtoController();
+?>
     ?>
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Boas-vindas ao Amor de Casquinha!</h1>
@@ -25,7 +28,7 @@
                 <h3>Explore nosssas opções de sorvete</h3>
                 <div class="c1">
                     <?php
-                        include_once 'config/getProducts.php';
+                        $produtoController-> selecionarProdutos();
                     ?>
                 </div>
             </div>

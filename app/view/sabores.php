@@ -1,5 +1,5 @@
 <?php
-require_once 'config/blockURLAccess.php';
+require_once '../config/blockURLAccess.php';
 session_start();
 ?>
 <!DOCTYPE html>
@@ -18,13 +18,19 @@ session_start();
 <body>
     <?php
         include_once 'components/header.php';
+        require_once '../controller/produtoVariacaoController.php';
+        $produtoVariacaoController = new produtoVariacaoController();
     ?>
-    <main>
+   <main>
         <h1 class="m-auto text-center pt-4 pb-4">Variações</h1>
-        <div class="conteiner d-flex flex-column align-items-center justify-content-center">
-            <div class="conteiner1">
+        <div class="container d-flex flex-column align-items-center justify-content-center">
+            <div class="container1">
                 <?php
-                    include_once 'config/getVariacoes.php';
+                    if (isset($_GET["produto"])) {
+                        $produtoVariacaoController->selecionarVariacaoProdutos($_GET["produto"]);
+                    } else {
+                        echo '<p>Produto não especificado.</p>';
+                    }
                 ?>      
             </div>
             <button class="voltar"><a href="index.php">Voltar</a></button>

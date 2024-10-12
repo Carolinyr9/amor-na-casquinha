@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $dbname = "db_sorveteria";
-$username = "carol";
+$username = "root";
 $password = "";
 $conn = "";
 
