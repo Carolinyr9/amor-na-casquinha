@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12/10/2024 às 18:06
+-- Tempo de geração: 12/10/2024 às 20:39
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -38,6 +38,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_VariacaoLerProdutoId` (IN `id` I
 		FROM variacaoProduto 
         WHERE desativado = 0
 		AND idProduto = id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_VariacaoLerProdutoIdVariacao` (IN `id` INT)   BEGIN
+	SELECT * 
+		FROM variacaoproduto 
+        WHERE desativado = 0
+		AND idVariacao = id;
 END$$
 
 DELIMITER ;
