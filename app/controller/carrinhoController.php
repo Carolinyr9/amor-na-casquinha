@@ -19,5 +19,13 @@
         public function removeProduto($id) {
             $this->carrinho->removeProduto($id);
         }
+
+        public function getTotal(){
+            $this->carrinho->getTotal();
+        }
+
+        public function atualizarCarrinho(){
+            $this->carrinho->atualizarCarrinho();
+        }
     }
 ?>

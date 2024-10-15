@@ -1,31 +1,9 @@
 <?php
-require_once 'config/blockURLAccess.php';
+require_once '../config/blockURLAccess.php';
 session_start();
-if(isset($_POST["cart"]) && isset($_SESSION["cartArray"]))
-{
-    //Pegando no POST a quantidade selecionada de cada item do carrinho e atualizando na SESSION
-    foreach ($_SESSION["cartArray"] as $variacaoId => $cartItem) {
-        
-        $id = $variacaoId;
-        $nome = $cartItem["nome"];
-        $preco = $cartItem["preco"];
-        $foto = $cartItem["foto"];
-        $qntd = $cartItem["qntd"];
-
-        if(isset($_POST["select".$id]))
-        {
-            $qntd = $_POST["select".$id]; //atualiza qntd com POST
-        }
-
-        // Atualiza dados na SESSION
-        $_SESSION["cartArray"][$id] = array (
-            "nome" => $nome,
-            "preco" => $preco,
-            "foto" => $foto,
-            "qntd" => $qntd
-        );
-    }
-}
+require_once '../controller/carrinhoController.php';
+$carrinhoController = new carrinhoController();
+$carrinhoController->atualizarCarrinho();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -48,7 +26,7 @@ if(isset($_POST["cart"]) && isset($_SESSION["cartArray"]))
         <div class="conteiner1 container d-flex flex-column align-items-center">
             <h3>Confirmar Pedido?</h3>
             <?php
-                include_once 'config/getTotal.php';
+                $carrinhoController->getTotal();
             ?>
         </div>
     </main>

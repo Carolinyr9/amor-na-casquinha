@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12/10/2024 às 20:39
+-- Tempo de geração: 15/10/2024 às 01:21
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -25,6 +25,19 @@ DELIMITER $$
 --
 -- Procedimentos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_GetClienteInfo` (IN `email` VARCHAR(60))   BEGIN
+    SELECT * 
+    FROM clientes
+    WHERE clientes.email LIKE email
+    LIMIT 1;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_GetPedidoInfo` (IN `idCliente` INT)   BEGIN
+    SELECT * 
+    FROM pedidos
+    WHERE idCliente LIKE idCliente;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ProdutoLerAtivo` (`limitF` INT, `offsetF` INT)   BEGIN
 	SELECT * 
 		FROM produtos
@@ -45,6 +58,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_VariacaoLerProdutoIdVariacao` (I
 		FROM variacaoproduto 
         WHERE desativado = 0
 		AND idVariacao = id;
+END$$
+
+--
+-- Funções
+--
+CREATE DEFINER=`root`@`localhost` FUNCTION `FN_GetClienteId` (`email` VARCHAR(60)) RETURNS INT(11) DETERMINISTIC BEGIN
+    DECLARE clienteId INT;
+
+    SELECT idCliente INTO clienteId
+    FROM clientes
+    WHERE clientes.email LIKE email
+    LIMIT 1;
+
+    IF clienteId IS NOT NULL THEN
+        RETURN clienteId;
+    ELSE
+        RETURN NULL;
+    END IF;
 END$$
 
 DELIMITER ;

@@ -20,6 +20,14 @@
             $this->conn = $database->getConnection();
         }
 
+        public function getPedidosCliente($idCliente) {
+            
+        }
+
+        public function getPedidos(){
+
+        }
+
     }
 
 ?>
