@@ -4,7 +4,7 @@ if (!defined('STDIN')) {
     if (!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) {
         
         session_start();
-        if(isset($_SESSION['userProfile']) && ($_SESSION['userProfile'] == 'FUNC' || $_SESSION['userProfile'] == 'FADM')) 
+        if(isset($_SESSION['userPerfil']) && ($_SESSION['userPerfil'] == 'FUNC' || $_SESSION['userPerfil'] == 'FADM')) 
         {
             header("location: pedidos.php");
         }
