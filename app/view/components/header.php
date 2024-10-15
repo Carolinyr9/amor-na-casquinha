@@ -7,7 +7,7 @@
         <nav class="navigation text-center">
             <?php
             if(isset($_SESSION["userEmail"])){
-                switch($_SESSION["userProfile"]){
+                switch($_SESSION["userPerfil"]){
                     case "CLIE":
                         echo "<a href='index.php'>Início</a>";
                         echo "<a href='sobre.php'>Perfil</a>";
@@ -28,7 +28,7 @@
                         break;
                 }
 
-                echo "<a href='config/logoff.php'>Sair</a>";
+                echo "<a href='../controller/logoff.php'>Sair</a>";
             }
             else
             {
