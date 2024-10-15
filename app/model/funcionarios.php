@@ -1,7 +1,7 @@
 <?php 
     require_once '../config/database.php';
 
-    class Employee{
+    class Funcionarios{
         private $id;
         private $nome;
         private $tipo;
@@ -17,7 +17,7 @@
 
     }
 
-    public function createEmployee($login, $senha, $nome, $telefone){
+    public function insereFunc($login, $senha, $nome, $telefone){
         try{
             $value = "FUNC";
             $cmd = $conn->prepare("CALL SP_FuncionarioCreate(?, ?, ?, ?, ?)");
