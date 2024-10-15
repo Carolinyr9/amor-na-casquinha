@@ -1,5 +1,5 @@
 <?php
-require_once 'config/blockURLAccess.php';
+require_once '../config/blockURLAccess.php';
 session_start();
 ?>
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ session_start();
         <h1 class="m-auto text-center pt-4 pb-4">Funcionários</h1>
         <div class="conteiner">
             <button class="add">Adicionar Funcionário</button>
-            <form action="config/createFunc.php" method="POST" id="addFormulario">
+            <form action="editarFuncionario" method="POST" id="addFormulario">
                 <label for="nome1">Nome:</label>
                 <input type="text" id="nome1" name="nomeFunAdd" placeholder="Nome">
                 <label for="email2">Email:</label>
