@@ -1,5 +1,12 @@
 <?php
-    session_start();
+    require_once '../controller/loginController.php';
+
+    $loginCtl = new LoginController();
+    
+    if(isset($_POST['btnSubmit'])) {
+        $email = $_POST['email'];
+        $loginCtl->login($email);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
