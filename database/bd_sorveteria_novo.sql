@@ -147,7 +147,7 @@ CREATE TABLE `funcionarios` (
   `idFuncionario` int(11) NOT NULL,
   `desativado` tinyint(4) DEFAULT 0,
   `adm` tinyint(4) DEFAULT NULL,
-  `profile` char(4) DEFAULT 'FUNC',
+  `perfil` char(4) DEFAULT 'FUNC',
   `nome` varchar(255) DEFAULT NULL,
   `telefone` varchar(25) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
