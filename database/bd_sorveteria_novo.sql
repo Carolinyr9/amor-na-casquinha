@@ -212,8 +212,12 @@ CREATE TABLE `produtos` (
   `marca` varchar(255) NOT NULL,
   `codigoProduto` int(11) NOT NULL,
   `descricao` text DEFAULT NULL,
-  `desativado` int(11) DEFAULT NULL
+  `desativado` int(11) DEFAULT NULL,
+  `foto` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `produtos`
 --
 
 INSERT INTO `produtos` (`idProduto`, `idFornecedor`, `nome`, `marca`, `codigoProduto`, `descricao`, `desativado`, `foto`) VALUES
@@ -234,6 +238,9 @@ CREATE TABLE `variacaoproduto` (
   `fotoVariacao` varchar(255) NOT NULL,
   `idProduto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `variacaoproduto`
 --
 
 INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `precoVariacao`, `fotoVariacao`, `idProduto`) VALUES
@@ -324,7 +331,7 @@ ALTER TABLE `variacaoproduto`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
@@ -336,7 +343,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `estoque`
@@ -348,13 +355,13 @@ ALTER TABLE `estoque`
 -- AUTO_INCREMENT de tabela `fornecedores`
 --
 ALTER TABLE `fornecedores`
-  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `pedidoproduto`
@@ -372,13 +379,13 @@ ALTER TABLE `pedidos`
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `variacaoproduto`
 --
 ALTER TABLE `variacaoproduto`
-  MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restrições para tabelas despejadas
