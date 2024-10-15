@@ -40,10 +40,10 @@
     </div>
     <main>
         <div class="d-flex justify-content-center align-items-center">
-            <form action="config/getUser.php" method="post" class="d-flex flex-column formu">
+            <form action="login.php" method="POST" class="d-flex flex-column formu">
                 <input type="email" name="email" placeholder="E-mail" required>
                 <input type="password" name="senha" placeholder="Senha" required>
-                <input type="submit" value="Login">
+                <input type="submit"  name="btnSubmit" value="Login">
                 <a href="registro.php" class="pagRegistro">Não possui login? Clique para criar conta!</a>
             </form>
         </div>
