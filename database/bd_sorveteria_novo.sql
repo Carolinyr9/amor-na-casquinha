@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07/10/2024 às 21:15
+-- Tempo de geração: 15/10/2024 às 02:45
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -20,6 +20,656 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `bd_sorveteria`
 --
+
+DELIMITER $$
+--
+-- Procedimentos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AtualizarCliente` (IN `emailIN` VARCHAR(255), IN `newEmailIN` VARCHAR(60), IN `nomeIN` VARCHAR(50), IN `telefoneIN` VARCHAR(25), IN `ruaEnd` VARCHAR(255), IN `numeroEnd` INT, IN `complementoEnd` VARCHAR(255), IN `bairroEnd` VARCHAR(255), IN `cepEnd` VARCHAR(20), IN `cidadeEnd` VARCHAR(255), IN `estadoEnd` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT nome from clientes where email like emailIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		SET @enderecoId := (SELECT idEndereco FROM clientes WHERE email like emailIN LIMIT 1);
+		UPDATE endereco SET
+			cep = cepEnd, 
+			rua = ruaEnd, 
+			numero = numeroEnd, 
+			complemento = complementoEnd, 
+			bairro = bairroEnd,
+            cidade = cidadeEnd,
+            estado = estadoEnd
+            WHERE idEndereco = @enderecoId;
+		UPDATE clientes SET
+			nome = nomeIN,
+			email = newEmailIN,
+			telefone = telefoneIN
+			WHERE email like emailIN;
+		SELECT 
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_UPDATED' AS 'Message';
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CancelarPedido` (`idPedidoIN` INT, `DtCancelamentoIN` DATETIME, `motivoCancelamentoIN` VARCHAR(255))   BEGIN
+    IF NOT EXISTS (SELECT * FROM pedidos WHERE idPedido = idPedidoIN)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_PEDIDO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+    ELSE
+        UPDATE pedidos SET DtCancelamento = DtCancelamentoIN, motivoCancelamento = motivoCancelamentoIN WHERE idPedido = idPedidoIN;
+        SELECT 
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DeletarClientePorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT email from clientes where email like emailIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_CLIENTE_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		SET @enderecoId := (SELECT idEndereco FROM cliente WHERE email like emailIN LIMIT 1);
+		UPDATE endereco SET
+			cep = NULL, 
+			rua = NULL, 
+			numero = NULL, 
+			complemento = NULL, 
+			bairro = NULL,
+            cidade = NULL,
+            estado = NULL
+            WHERE idEndereco = @enderecoId;
+        UPDATE cliente SET
+			desativado = 1,
+			nome = NULL,
+			email = NULL,
+            senha = NULL,
+			telefone = NULL
+			WHERE email like emailIN;
+        SELECT
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_DELETED' AS 'Message';
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarCliente` (`emailIN` VARCHAR(255))   BEGIN
+    IF NOT EXISTS (SELECT email from clientes where email like emailIN)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_CLIENTE_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+    ELSE
+        SET @enderecoId := (SELECT idEndereco FROM cliente WHERE email like emailIN LIMIT 1);
+        UPDATE endereco SET
+            cep = NULL, 
+            rua = NULL, 
+            numero = NULL, 
+            complemento = NULL, 
+            bairro = NULL,
+            cidade = NULL,
+            estado = NULL
+            WHERE idEndereco = @enderecoId;
+        UPDATE cliente SET desativado = 1 WHERE email like emailIN;
+        SELECT
+            '204' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_DELETED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarEstoqueProdutoPorId` (IN `idEstoqueIN` INT, IN `idProdutoIN` INT)   BEGIN
+	IF NOT EXISTS (SELECT codigoProduto from estoque where idEstoque like idEstoqueIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_PRODUTO_INEXISTENTE' AS 'Error', '' AS 'Message';
+    ELSE
+        UPDATE estoque SET desativado = 1 WHERE idEstoque = idEstoqueIN;
+        UPDATE produtos SET desativado = 1 WHERE idProduto = idProdutoIN;
+        UPDATE variacaoProduto SET desativado = 1 WHERE idProduto = idProdutoIN;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFornecedorPorId` (IN `idFornecedorIN` INT)   BEGIN
+    IF NOT EXISTS (SELECT idFornecedor FROM fornecedores WHERE idFornecedor like idFornecedorIN AND desativado != 1)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_FORNECEDOR_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+    ELSE
+        UPDATE fornecedores SET desativado = 1 WHERE idFornecedor = idFornecedorIN;
+        SELECT
+            '204' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_DELETED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFuncionarioPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT email FROM funcionarios WHERE email like emailIN AND desativado != 1)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_FUNCIONARIO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+        UPDATE funcionarios SET
+			desativado = 1,
+            senha = NULL
+			WHERE email like emailIN;
+        SELECT
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_DELETED' AS 'Message';
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarProdutoPorID` (`idProdutoIN` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT idProduto FROM produtos WHERE idProduto like idProdutoIN AND desativado != 1)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_PRODUTO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+        SET @id_estoque := (SELECT idEstoque FROM estoque WHERE idProduto = idProdutoIN);
+        UPDATE estoque SET desativado = 1 WHERE idEstoque = idEstoqueIN;
+        UPDATE produtos SET desativado = 1 WHERE idProduto = idProdutoIN;
+        UPDATE variacaoProduto SET desativado = 1 WHERE idProduto = idProdutoIN;
+        SELECT
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_DELETED' AS 'Message';
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarCliente` (`idClienteIN` INT, `nomeIN` VARCHAR(255), `emailIN` VARCHAR(255), `telefoneIN` VARCHAR(25), `idEnderecoIN` INT, `ruaEnd` VARCHAR(255), `numeroEnd` INT, `complementoEnd` VARCHAR(255), `bairroEnd` VARCHAR(255), `cepEnd` VARCHAR(20), `cidadeEnd` VARCHAR(255), `estadoEnd` VARCHAR(255))   BEGIN
+    IF NOT EXISTS (SELECT idCliente from clientes where idCliente like idClienteIN)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_CLIENTE_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+    ELSE
+        UPDATE endereco SET
+            cep = cepEnd, 
+            rua = ruaEnd, 
+            numero = numeroEnd, 
+            complemento = complementoEnd, 
+            bairro = bairroEnd,
+            cidade = cidadeEnd,
+            estado = estadoEnd
+            WHERE idEndereco = idEnderecoIN;
+        UPDATE clientes SET
+            nome = nomeIN,
+            email = emailIN,
+            telefone = telefoneIN
+            WHERE idCliente = idClienteIN;
+        SELECT 
+            '204' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_UPDATED' AS 'Message';
+    END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarEmpresa` (IN `cnpjIN` VARCHAR(20), IN `nomeFantasiaIN` VARCHAR(255), IN `cnpjNovoIN` VARCHAR(20), IN `telefoneIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `ruaEnd` VARCHAR(255), IN `numeroEnd` INT, IN `complementoEnd` VARCHAR(255), IN `bairroEnd` VARCHAR(255), IN `cepEnd` VARCHAR(20), IN `cidadeEnd` VARCHAR(255), IN `estadoEnd` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT nomeFantasia from empresa where cnpj like cnpjIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		SET @enderecoId := (SELECT idEndereco FROM empresa WHERE cnpj like cnpjIN LIMIT 1);
+		UPDATE endereco SET
+			cep = cepEnd, 
+			rua = ruaEnd, 
+			numero = numeroEnd, 
+			complemento = complementoEnd, 
+			bairro = bairroEnd,
+            cidade = cidadeEnd,
+            estado = estadoEnd
+            WHERE idEndereco = @enderecoId;
+		UPDATE empresa SET
+			nomeFantasia = nomeFantasiaIN,
+			cpnj = cnpjNovoIN,
+			endereco = @enderecoId,
+            telefone = telefoneIN,
+            email = emailIN
+			WHERE cnpj like cnpjIN;
+		SELECT 
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_UPDATED' AS 'Message';
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarEstoque` (`idEstoqueIN` INT, `dtEntradaIN` DATE, `quantidadeIN` INT, `dtFabricacaoIN` DATE, `dtVencimentoIN` DATE, `precoCompraIN` DECIMAL(15,2), `qtdMinimaIN` INT, `qtdVendidaIN` INT)   BEGIN
+    IF NOT EXISTS (SELECT idEstoque from estoque where idEstoque like idEstoqueIN)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_PRODUTO_INEXISTENTE' AS 'Error', '' AS 'Message';
+    ELSE
+        UPDATE estoque SET dtEntrada = dtEntradaIN, quantidade = quantidadeIN, dtFabricacao = dtFabricacaoIN, 
+        dtVencimento = dtVencimentoIN, precoCompra = precoCompraIN, qtdMinima = qtdMinimaIN, qtdVendida = qtdVendidaIN
+        WHERE idEstoque = idEstoqueIN;
+        SELECT
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarFuncionarioPorEmail` (`emailIN` VARCHAR(255), `emailNovoIN` VARCHAR(255), `nomeIN` VARCHAR(255), `telefoneIN` VARCHAR(25), `adm` TINYINT)   BEGIN
+	IF NOT EXISTS (SELECT email from funcionarios where email like emailIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		UPDATE funcionarios SET
+			nome = nomeIN,
+			email = newEmailIN,
+			telefone = telefoneIN,
+            adm = adm
+			WHERE email like emailIN;
+		SELECT 
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_UPDATED' AS 'Message';
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarPedidoStatus` (`idPedidoIN` INT, `statusPedidoIN` VARCHAR(20))   BEGIN
+	SET @total_do_pedido := (SELECT sum(subtotal) FROM pedidoProduto WHERE idPedido = idProdutoIN);
+	UPDATE pedidos SET
+		dataPedido = dataIN,
+        totalPedido = @total_do_pedido,
+		statusPedido = statusP,
+		funcionarios_idFuncionario = funcionario,
+		enderecos_idEndereco = endereco
+		WHERE idPedido = idP;
+	SELECT 
+		'204' AS 'Status',
+		'' AS 'Error',
+		'SUCCESS_UPDATED' AS 'Message';
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoPorId` (`idProdutoIN` VARCHAR(255), `idFornecedorIN` INT, `nomeIN` VARCHAR(255), `marcaIN` VARCHAR(255), `codigoProdutoIN` INT, `descricaoIN` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT nomeProduto from produtos where idProduto like idProdutoIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_PRODUTO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		UPDATE produtos SET IdFornecedor = idFornecedorIN, nome = nomeIN, marca = marcaIN, codigoProduto = codigoProdutoIN, descricao = descricaoIN WHERE idProduto = idProdutoIN;
+		SELECT 
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_UPDATED' AS 'Message';
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarSenha` (`emailIN` VARCHAR(255), `novaSenhaIN` VARCHAR(255))   BEGIN
+	IF EXISTS (SELECT email FROM funcionarios WHERE email like emailIN)
+    THEN
+		UPDATE funcionarios SET
+			senha = novaSenhaIN
+			WHERE email like emailIN;
+		SELECT 
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_UPDATED' AS 'Message';
+	ELSEIF EXISTS (SELECT email from clientes where email like emailIN)
+		THEN
+			UPDATE clientes SET
+				senha = novaSenhaIN
+				WHERE email like emailIN;
+			SELECT 
+				'204' AS 'Status',
+				'' AS 'Error',
+				'SUCCESS_UPDATED' AS 'Message';
+	ELSE
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarVariacao` (`idVariacaoIN` VARCHAR(255), `nomeVariacaoIN` VARCHAR(255), `precoVariacaoIN` DECIMAL(10,2), `fotoVariacaoIN` VARCHAR(255), `idProduto` INT)   BEGIN
+	IF NOT EXISTS (SELECT nomeVariacao from variacaoProduto where idVariacao like idVariacaoIN AND desativado != 1)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_NOME_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		UPDATE variacaoProduto SET nomeVariacao = nomeVariacaoIN, precoVariacao = precoVariacaoIN, fotos = fotosVariacaoIN, idProduto = idProduto 
+            WHERE idVariacao = idVariacaoIN;
+		SELECT 
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_UPDATED' AS 'Message';
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirCliente` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `senhaIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25), IN `ruaEnd` VARCHAR(255), IN `numeroEnd` INT, IN `complementoEnd` VARCHAR(255), IN `bairroEnd` VARCHAR(255), IN `cepEnd` VARCHAR(20), IN `cidadeEnd` VARCHAR(255), IN `estadoEnd` VARCHAR(255))   BEGIN
+	IF EXISTS (SELECT email from clientes where email like emailIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_CADASTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		INSERT INTO enderecos(`cep`, `rua`, `numero`, `complemento`, `bairro`, `cidade`, `estado`) 
+		VALUES (cepEnd, ruaEnd, numeroEnd, complementoEnd, bairroEnd, cidadeEnd, estadoEnd
+		);
+        SET @last_id_in_enderecos = LAST_INSERT_ID();
+        INSERT INTO clientes(
+			`nome`,
+			`email`,
+			`senha`,
+			`telefone`,
+			`idEndereco`, `desativado`) 
+		VALUES (nomeIN, emailIN, senhaIN, telefoneIN, @last_id_in_enderecos, 0
+		);
+		SELECT 
+			'201' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_CREATED' AS 'Message';
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirEstoque` (IN `codigoProdutoIN` INT, IN `dtEntradaIN` DATE, IN `quantidadeIN` INT, IN `dtFabricacaoIN` DATE, IN `dtVencimentoIN` DATE, IN `precoCompraIN` DOUBLE, IN `qtdMinimaIN` INT, IN `qtdVendidaIN` INT, IN `qtdOcorrenciaIN` INT, IN `nomeIN` VARCHAR(255), IN `fabricanteIN` VARCHAR(255), IN `marcaIN` VARCHAR(255), IN `descricaoIN` VARCHAR(255), IN `imagemIN` VARCHAR(255))   BEGIN
+	IF EXISTS (SELECT nome FROM produtos where codigoProduto like codigoProdutoIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_PRODUTO_EXISTENTE' AS 'Error', '' AS 'Message';
+	ELSE
+        INSERT INTO produtos(`fabricanteId`, `nome`, `marca`, `codigoProduto`, `descricao`, `imagem`)
+			VALUES (fabricanteIdIN, nomeIN, marcaIN, codigoProdutoIN, descricaoIN, imagemIN);
+            SET @last_id_in_produtos = LAST_INSERT_ID();
+        INSERT INTO estoque(`idProduto`, `codigoProduto`, `dtEntrada`, `quantidade`, `dtFabricacao`, 
+                            `dtVencimento`, `precoCompra`, `qtdMinima`, `qtdVendida`, `qtdOcorrencia`)
+        VALUES (@last_id_in_produtos, codigoProdutoIN, dtEntradaIN, quantidadeIN, dtFabricacaoIN, 
+                dtVencimentoIN, precoCompraIN, qtdMinimaIN, qtdVendidaIN, qtdOcorrenciaIN);
+		SELECT 
+			'201' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_CREATED' AS 'Message';
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFornecedor` (IN `nomeFornecedorIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25), IN `emailIN` VARCHAR(255), IN `cnpjIN` VARCHAR(25), IN `idEnderecoIN` INT)   BEGIN
+    IF EXISTS (SELECT cnpj from fornecedores where cnpj like cnpjIN)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_CNPJ_CADASTRADO' AS 'Error', '' AS 'Message';
+    ELSE
+        INSERT INTO fornecedores(`nomeFornecedor`, `telefone`, `email`, `cnpj`, `idEndereco`) VALUES (nomeFornecedorIN, telefoneIN, emailIN, cnpjIN, idEnderecoIN);
+        SELECT 
+            '201' AS 'Status', 
+            '' AS 'Error', 
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFuncionario` (IN `emailIN` VARCHAR(255), IN `senhaIN` VARCHAR(255), IN `nomeIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25), IN `adm` TINYINT)   BEGIN
+	IF EXISTS (SELECT email from funcionarios where email like emailIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_CADASTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+        INSERT INTO funcionario(
+			`nome`,
+			`email`,
+			`senha`,
+			`telefone`,
+			`adm`)
+			VALUES (nomeIN, emailIN, senhaIN, telefoneIN, adm);
+		SELECT 
+			'201' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_CREATED' AS 'Message';
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirOcorrenciaEstoque` (`idEstoqueIN` INT, `ocorrenciaIN` VARCHAR(1000), `dtOcorrenciaIN` DATE)   BEGIN
+    IF NOT EXISTS (SELECT idEstoque from estoque where idEstoque like idEstoqueIN)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_PRODUTO_INEXISTENTE' AS 'Error', '' AS 'Message';
+    ELSE
+        UPDATE estoque SET ocorrencia = ocorrenciaIN, dtOcorrencia = dtOcorrenciaIN
+            WHERE idEstoque = idEstoqueIN;
+        SELECT
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirPedido` (`emailIN` VARCHAR(255), `dtPedidoIN` DATETIME, `tipoFreteIN` INT, `qtdItemsIN` INT)   BEGIN
+	IF NOT EXISTS (SELECT rua FROM enderecos WHERE idEndereco = idEnderecoIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_ENDERECO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		SET @status_pedido := 'Aguardando Pagamento';
+        SET @id_cliente := (SELECT idCliente FROM clientes WHERE email like emailIN);
+        SET @id_endereco := (SELECT idEndereco FROM clientes WHERE idCliente like id_cliente);
+
+        INSERT INTO pedidos(`idCliente`, `dtPedido`, `tipoFrete`, `idEndereco`, `qtdItems`, `statusPedido`)
+			VALUES (@id_cliente, dtPedidoIN, tipoFreteIN, @id_endereco, qtdItems, @status_pedido);
+        SET @id_pedido := LAST_INSERT_ID();
+		SELECT 
+			'201' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_CREATED' AS 'Message',
+            LAST_INSERT_ID() AS 'Body';
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirPedidoDtPagamento` (`idPedidoIN` INT, `dtPagamentoIN` DATETIME)   BEGIN
+    IF NOT EXISTS (SELECT * FROM pedidos WHERE idPedido = idPedidoIN)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_PEDIDO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+    ELSE
+        UPDATE pedidos SET dataPagamento = dtPagamentoIN WHERE idPedido = idPedidoIN;
+        SELECT 
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirPedidoProduto` (`idPedidoIN` INT, `idVariacaoIN` INT, `qntdIN` INT)   BEGIN
+	SET @idProduto := (SELECT idProduto FROM variacaoProduto WHERE idVariacao = idVariacaoIN);
+    SET @variacaoPreco := (SELECT precoVariacao FROM variacaoProduto WHERE idVariacao = idVariacaoIN);
+    SET @total := @preco * qntd;
+
+	INSERT INTO pedidoProduto(`idPedido`, `idProduto`, `idVariacao`, `quantidade`, `total`)	VALUES (idPedidoIN, @produto, idVariacaoIN, qntdIN, @total);
+	SET @total_do_pedido := (SELECT sum(subtotal) FROM pedidoProduto WHERE idPedido = idPedidoIN);
+    UPDATE pedidos SET valorTotal = @total_do_pedido WHERE idPedido = pedido;
+	SELECT
+		'201' AS 'Status',
+		'' AS 'Error',
+		'SUCCESS_CREATED' AS 'Message';
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirVaricao` (`nomeVariacaoIN` VARCHAR(255), `precoVariacaoIN` DECIMAL(10,2), `fotoVaricaoIN` VARCHAR(255), `idProdutoIN` INT, `desativadoIN` TINYINT, `nomeProdutoIN` VARCHAR(255))   BEGIN
+	IF EXISTS (SELECT nomeVariacao FROM variacaoProduto WHERE nomeVariacao like nomeVariacaoIN)
+    THEN
+		SELECT '403' AS 'Status', 'ERROR_VARIACAO_CADASTRADA' AS 'Error', '' AS 'Message';
+	ELSEIF NOT EXISTS (SELECT nome FROM produtos where nome like nomeProdutoIN)
+		THEN
+			SELECT '403' AS 'Status', 'ERROR_PRODUTO_NAO_CADASTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		SET @produto_id := (SELECT idProduto FROM produtos WHERE nome like nomeProdutoIN);
+        INSERT INTO variacaoProduto(`nomeVariacao`, `precoVariacao`, `fotos`, `idProduto`, `desativado`) VALUES (nomeVariacaoIN, precoVariacaoIN, fotoVaricaoIN, @produto_id, desativadoIN);
+		SELECT 
+			'201' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_CREATED' AS 'Message';
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarClientePorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT email from clientes where email like emailIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		SELECT * 
+			FROM clientes 
+			INNER JOIN enderecos
+            ON cliente.idEndereco = enderecos.idEndereco
+            WHERE email like emailIN LIMIT 1;
+        SELECT 
+			'201' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_CREATED' AS 'Message';
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEmpresa` (IN `cnpjIN` VARCHAR(20))   BEGIN
+	IF NOT EXISTS (SELECT nomeFantasia from empresa where cnpj like cnpjIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		SELECT * 
+			FROM empresa 
+			INNER JOIN enderecos
+            ON empresa.idEndereco = enderecos.idEndereco
+            WHERE cnpj like cnpjIN LIMIT 1;
+        SELECT
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEstoque` ()   BEGIN
+    IF NOT EXISTS (SELECT * FROM estoque WHERE desativado != 1)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_ESTOQUE_VAZIO' AS 'Error', '' AS 'Message';
+	ELSE
+        SELECT * FROM estoque WHERE desativado = 0;
+        SELECT
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEstoquePorProduto` (`idProdutoIN` INT)   BEGIN
+    IF NOT EXISTS (SELECT idProduto from estoque where idProduto like idProdutoIN)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_PRODUTO_INEXISTENTE' AS 'Error', '' AS 'Message';
+    ELSE
+        SELECT * FROM estoque WHERE idProduto = idProdutoIN;
+        SELECT
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedores` ()   BEGIN 
+    IF NOT EXISTS (SELECT * FROM fornecedores WHERE desativado != 1) 
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_FORNECEDORES_EXISTENTES' AS 'Error', '' AS 'Message';
+    ELSE
+        SELECT * 
+            FROM fornecedores WHERE desativado != 1;
+        SELECT
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedorPorID` (`idFornecedorIN` INT)   BEGIN
+    IF NOT EXISTS (SELECT idFornecedor from fornecedores where idFornecedor like idFornecedorIN)
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_FORNECEDOR_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+    ELSE
+        SELECT * FROM fornecedores WHERE idFornecedor = idFornecedorIN;
+        SELECT
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFuncionarioPorEmail` (`emailIN` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT email from funcionarios where email like emailIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		SELECT * FROM funcionarios WHERE email like emailIN LIMIT 1;
+        SELECT
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFuncionarios` ()   BEGIN
+    IF NOT EXISTS (SELECT * FROM funcionarios WHERE desativado = 0) 
+    THEN
+        SELECT '403' AS 'Status', 'ERROR_FUNCIONARIOS_EXISTENTES' AS 'Error', '' AS 'Message';
+    ELSE
+        SELECT * 
+            FROM funcionarios WHERE desativado = 0;
+        SELECT
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorCliente` (`emailIN` VARCHAR(255))   BEGIN
+	SET @id_cliente := (SELECT idCliente FROM clientes WHERE email like emailIN);
+    IF (isnull(@id_cliente))
+    THEN
+		SELECT '403' AS 'Status', 'ERROR_CLIENTE_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		SELECT * FROM pedidos 
+            LEFT OUTER JOIN pedidoProduto
+            ON pedidos.idPedido = pedidoProduto.idPedido
+			WHERE pedidos.idCliente = @id_cliente;
+	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorID` (`idPedidoIN` INT)   BEGIN
+	SELECT * FROM pedidos
+        LEFT OUTER JOIN pedidoProduto
+		ON pedidos.idPedido = pedidoProduto.idPedido
+        WHERE pedidos.idPedido = idPedidoIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorStatus` (`statusPedidoIN` VARCHAR(20))   BEGIN
+	SELECT * 
+		FROM pedidos
+        LEFT OUTER JOIN pedidoProduto
+		ON pedidos.idPedido = pedidoProduto.idPedido
+        WHERE pedidos.statusPedido like statusPedidoIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidosEmAndamento` ()   BEGIN
+    IF NOT EXISTS (SELECT * FROM pedidos WHERE statusPedido like 'Aguardando Pagamento' OR statusPedido like 'Em Andamento')
+    then 
+    	SELECT '403' AS 'Status', 'ERROR_PEDIDOS_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+	SELECT * FROM pedidos LEFT OUTER JOIN pedidoProduto ON pedidos.idPedido = pedidoProduto.pedidos_idPedido 
+        WHERE (pedidos.statusPedido not like 'Finalizado' AND pedidos.statusPedido not like 'Entregue');
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutoPorID` (`idProdutoIN` INT, `limitF` INT, `offsetF` INT)   BEGIN
+	SELECT * FROM produtos WHERE idProduto = idProdutoIN AND desativado = 0 LIMIT limitF OFFSET offsetF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutos` (`limitF` INT, `offsetF` INT)   BEGIN
+	SELECT * FROM produtos WHERE desativado = 0  LIMIT limitF OFFSET offsetF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacao` (`limitF` INT, `offsetF` INT)   BEGIN
+	SELECT * FROM variacaoProduto WHERE desativado != 1 LIMIT limitF OFFSET offsetF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacaoPorID` (`idVaricaoIN` INT)   BEGIN
+	SELECT * FROM variacaoProduto WHERE desativado != 1 AND idVariacao = idVaricaoIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVaricaoPorCodigoProduto` (`codigoProdutoIN` VARCHAR(255))   BEGIN
+	SET @produto_id := (SELECT idProduto FROM produtos WHERE codigoProduto like codigoProdutoIN);
+	SELECT * FROM variacaoProduto WHERE desativado != 1 AND idProduto = @produto_id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVaricaoPorProduto` (`idProduto` INT)   BEGIN
+	SELECT * FROM variacaoProduto WHERE desativado != 1 AND idProduto = idProduto;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Login` (IN `emailIN` VARCHAR(255))   BEGIN
+	IF EXISTS (SELECT email FROM funcionarios WHERE email like emailIN)
+    THEN
+		SELECT * FROM funcionarios WHERE email LIKE email LIMIT 1;
+	ELSEIF EXISTS (SELECT email FROM clientes WHERE email LIKE emailIN)
+		THEN
+			SELECT * FROM clientes INNER JOIN enderecos ON clientes.idEndereco = enderecos.idEndereco WHERE email LIKE email LIMIT 1;
+	ELSE
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message', '' AS 'Body';
+    END IF;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
