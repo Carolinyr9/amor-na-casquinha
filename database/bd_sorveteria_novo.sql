@@ -38,6 +38,13 @@ CREATE TABLE `clientes` (
   `idEndereco` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `clientes`
+--
+
+INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
+(1, 0, 'joao', 'jo@email.com', '1234', '44564-2132', 'CLIE', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -69,6 +76,18 @@ CREATE TABLE `enderecos` (
   `cidade` varchar(225) DEFAULT NULL,
   `estado` varchar(225) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `enderecos`
+--
+
+INSERT INTO `enderecos` (`idEndereco`, `cep`, `rua`, `numero`, `complemento`, `bairro`, `cidade`, `estado`) VALUES
+(1, '7884562', 'Rua dos Anjos', 2, '', 'Jardins', 'Guarulhos', 'SP'),
+(2, '90050-340', 'Rua das Flores', 123, 'Apto 101', 'Centro', 'Porto Alegre', 'RS'),
+(3, '20040-001', 'Av. Atlântica', 456, NULL, 'Copacabana', 'Rio de Janeiro', 'RJ'),
+(4, '30130-010', 'Rua da Harmonia', 789, 'Loja B', 'Savassi', 'Belo Horizonte', 'MG'),
+(5, '01001-000', 'Praça da Sé', 321, 'Sala 5', 'Centro', 'São Paulo', 'SP'),
+(6, '40020-030', 'Rua da Praia', 654, NULL, 'Barra', 'Salvador', 'BA');
 
 -- --------------------------------------------------------
 
@@ -107,6 +126,17 @@ CREATE TABLE `fornecedores` (
   `idEndereco` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `fornecedores`
+--
+
+INSERT INTO `fornecedores` (`idFornecedor`, `nomeFornecedor`, `telefone`, `email`, `cnpj`, `desativado`, `idEndereco`) VALUES
+(1, 'Sorvetes do Sul', '51987654321', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 0, 2),
+(2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 0, 3),
+(3, 'Doces e Sorvetes Ltda', NULL, 'info@docesesorvetes.com.br', '56.789.012/0001-55', 1, 4),
+(4, 'IceDream Sorvetes', '31987654321', NULL, '23.456.789/0001-77', 0, 5),
+(5, 'Delícias Geladas', NULL, NULL, '34.567.890/0001-88', 1, 6);
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +154,13 @@ CREATE TABLE `funcionarios` (
   `senha` varchar(255) DEFAULT NULL,
   `idEndereco` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `funcionarios`
+--
+
+INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
+(1, 0, 1, 'FUNC', 'Jessica', '96309-8589', 'je@email.com', '1234', 1);
 
 -- --------------------------------------------------------
 
@@ -177,6 +214,11 @@ CREATE TABLE `produtos` (
   `descricao` text DEFAULT NULL,
   `desativado` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+--
+
+INSERT INTO `produtos` (`idProduto`, `idFornecedor`, `nome`, `marca`, `codigoProduto`, `descricao`, `desativado`, `foto`) VALUES
+(1, 1, 'Pote de Sorvete', 'Marca', 0, 'Pote de sorvete', 0, 'poteLogo.png'),
+(2, 2, 'Picolé', 'Marca', 0, 'Picolé', 0, 'picoleLogo.png');
 
 -- --------------------------------------------------------
 
@@ -192,6 +234,11 @@ CREATE TABLE `variacaoproduto` (
   `fotoVariacao` varchar(255) NOT NULL,
   `idProduto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+--
+
+INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `precoVariacao`, `fotoVariacao`, `idProduto`) VALUES
+(1, 0, 'Havaiano', 25.99, 'havaianoPote.png', 1),
+(2, 0, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1);
 
 --
 -- Índices para tabelas despejadas
