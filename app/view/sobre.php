@@ -2,7 +2,17 @@
     require_once '../config/blockURLAccess.php';
     session_start();
     require_once '../config/config.php';
-    // include_once 'config/createPedido.php';
+    require_once '../controller/clienteController.php';
+    require_once '../controller/pedidoController.php';
+    
+    $pedidoController = new pedidoController();
+    $clienteController = new clienteController();
+
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["btnSubmit"])) {
+        $pedidoController->criarPedido($_SESSION["userEmail"], $_POST["ckbIsDelivery"] ? 0 : 1, 6);
+    }
+    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -27,12 +37,7 @@
             <div class="c1">
                 <div class="d-flex justify-content-center m-2"><img src="images/funcionario1.png" alt="" ></div>
                 <?php 
-                    echo '
-                    <div id="dados">
-                        <p>Nome: '.$_SESSION["userName"].'</p>
-                        <p>Endereço: '.$_SESSION["userCep"].' - '.$_SESSION["userRua"].', '.$_SESSION["userNum"].', '.$_SESSION["userCompl"].' - '.$_SESSION["userBairro"].'</p>
-                    </div>
-                    ';
+                    $clienteController->getCliente($_SESSION["userEmail"]);
                 ?>  
                 <form action="" method="POST" id="formulario">
                     <label for="nome">Nome:</label>
@@ -48,7 +53,9 @@
         <div class="conteiner1 conteiner d-flex align-items-center flex-column w-75 p-4 my-3">
             <h3>Meus pedidos</h3>
             <?php
-                include_once "config/getPedidos.php";
+                $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
+
+                
             ?>
         </div>
     </main>
