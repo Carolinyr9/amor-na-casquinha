@@ -13,8 +13,6 @@
         }
 
         public function criarPedido($email, $tipoFrete, $qtdItems){
-
-            echo 'tchau';
             $this->pedido->criarPedido($email, $tipoFrete, $qtdItems);
         }
     }
