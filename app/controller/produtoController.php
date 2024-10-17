@@ -12,8 +12,24 @@
             $this->produto->selecionarProdutos();
         }
 
-        public function selecionarVariacaoProdutos(){
-            $this->produto->selecionarVariacaoProdutos();
+        public function selecionarProdutosPorID($id){
+            $this->produto->selecionarProdutosPorID($id);
+        }
+
+        public function selecionarProdutosFunc(){
+            $this->produto->selecionarProdutosFunc();
+        }
+
+        public function adicionarProduto($nomeProduto, $marca, $descricao, $idFornecedor, $imagemProduto){
+            $this->produto->adicionarProduto($nomeProduto, $marca, $descricao, $idFornecedor, $imagemProduto);
+        }
+
+        public function editarProduto($id, $nomeProduto, $marca, $descricao, $imagemProduto){
+            $this->produto->editarProduto($id, $nomeProduto, $marca, $descricao, $imagemProduto);
+        }
+
+        function removerProduto($idProduto){
+            $this->produto->removerProduto($idProduto);
         }
     }
 ?>

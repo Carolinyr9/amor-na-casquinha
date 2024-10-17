@@ -27,6 +27,22 @@ $carrinhoController->atualizarCarrinho();
             <h3>Confirmar Pedido?</h3>
             <?php
                 $carrinhoController->getTotal();
+                if($_SESSION["userEmail"]){
+                    echo '
+                    <form action="sobre.php" method="post">
+                        <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" checked=true>
+                        <label for="ckbIsDelivery" id="labelForCkbIsDelivery">O pedido será entregue no seu endereço!</label>
+                        <div id="addressDiv">'; // chamar aqui a enderecoController para listar endereço
+                    echo   '</div>
+                        <input type="hidden" name="notaFiscal" value="1">
+                        <input name="btnSubmit" id="btnSubmit" type="submit" value="Concluir Pedido" class="btn">
+                    </form>';
+                }
+                else{
+                    echo '
+                    <button id="btnGoToLogin" class="btn">Fazer Login para Concluir Pedido</button>
+                    ';
+                }
             ?>
         </div>
     </main>

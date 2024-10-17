@@ -16,29 +16,29 @@
         }
 
         public function getCliente($email) {
-            if (isset($_SESSION["userEmail"])) {
+            if (isset($email)) {
                 $stmt = $this->conn->prepare("CALL SP_GetClienteInfo(?)");
                 $stmt->bindParam(1, $email);
                 $stmt->execute();
-
+    
                 if ($stmt->rowCount() > 0) {
                     $row = $stmt->fetch();
-                    $this->id = $row["id"];                 
+                    $this->id = $row["idCliente"];                 
                     $this->nome = $row["nome"];             
                     $this->email = $row["email"];           
                     $this->telefone = $row["telefone"];    
                     $this->senha = $row["senha"];
                     $this->idEndereco = $row["idEndereco"]; 
-
-                    $this->cliente->mostrarDadosCliente();
+    
+                    $this->mostrarDadosCliente();
                 } else {
                     echo "Cliente não encontrado!";
                 }
             } else {
-                echo "Sessão não encontrada!";
+                echo "Email não fornecido!";
             }
         }
-
+    
         public function mostrarDadosCliente() {
             if (!empty($this->nome)) {
                 echo '
@@ -46,7 +46,7 @@
                     <p>Nome: '.$this->nome.'</p>
                     <p>Email: '.$this->email.'</p>
                     <p>Telefone: '.$this->telefone.'</p>
-                    <p>ID do Endereço: '.$this->idEndereco.'</p> <!-- Exibe o ID do endereço, se necessário -->
+                    <p>ID do Endereço: '.$this->idEndereco.'</p> 
                 </div>
                 ';
             } else {
@@ -54,5 +54,4 @@
             }
         }
     }
-?>
-
+    ?>

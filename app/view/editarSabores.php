@@ -1,5 +1,5 @@
 <?php
-require_once 'config/blockURLAccess.php';
+require_once '../config/blockURLAccess.php';
 session_start();
 ?>
 <!DOCTYPE html>
@@ -16,62 +16,55 @@ session_start();
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
-    
+
     <?php
-        include_once 'components/header.php';
-        require 'config/config.php';
+    include_once 'components/header.php';
+    require_once '../controller/produtoVariacaoController.php';
+    $produtoVariacaoController = new produtoVariacaoController();
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $idProduto = $_GET["produto"];
+        $nomeProduto = isset($_POST['nomeSabAdd']) ? $_POST['nomeSabAdd'] : '';
+        $preco = isset($_POST['precoSabAdd']) ? $_POST['precoSabAdd'] : '';
+        $foto = isset($_POST['nomeImagemSabAdd']) ? $_POST['nomeImagemSabAdd'] : '';
+
+        $produtoVariacaoController->adicionarProduto($idProduto, $nomeProduto, $preco, $foto);
+    }
     ?>
 
     <main>
-            <h1>Sabores</h1>
-        
-        <div class=" d-flex flex-column align-items-center justify-content-center">
-          <?php  
-          $var = isset($_SESSION['var']) ? $_SESSION['var'] : ""; 
+        <h1>Sabores</h1>
+
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <?php  
+            $var = isset($_SESSION['var']) ? $_SESSION['var'] : ""; 
             echo $var;
             $_SESSION['var'] = NULL;
-          ?>
+            ?>
             <button class="add">Adicionar Sabor</button>
             <div>
-                    <form action="config/createSabor.php" method="POST" id="addFormulario">
-                        <label for="nome">Nome:</label>
-                        <input type="text" id="nome" name="nomeSabAdd" placeholder="Nome do produto">
-                        <label for="preco">Preço:</label>
-                        <input type="text" id="preco" name="precoSabAdd" placeholder="Preço do produto">
-                        <label for="nomeImagem">Nome do arquivo de imagem:</label>
-                        <input type="text" id="nomeImagem" name="nomeImagemSabAdd" placeholder="imagem.png">
-                        <label for="tipoP">Tipo de Produto:</label>
-                        
-                        <select id="tipoProduto" name="tipoProdAdd">
-                            <?php
-                            $idProduto = $_GET["produto"];
-                            $stmt = $conn->prepare('SELECT * from tbproduto where idProduto = :id');
-                            $stmt->bindParam(':id', $idProduto);
-                            $stmt->execute();
-
-                            while($row = $stmt->fetch()){
-                                echo "<option value='" . $row['nomeProduto'] . "'>" . $row['nomeProduto'] . "</option>";
-                            }
-                             
-                            
-                            $_SESSION['idProduto'] = $idProduto;
-                            ?>
-                        </select>
-                        <button name="bntCreatSab" type="submit">Salvar</button>
-                    </form>
-                </div>
+                <form action="" method="POST" id="addFormulario">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nomeSabAdd" placeholder="Nome do produto">
+                    <label for="preco">Preço:</label>
+                    <input type="text" id="preco" name="precoSabAdd" placeholder="Preço do produto">
+                    <label for="nomeImagem">Nome do arquivo de imagem:</label>
+                    <input type="text" id="nomeImagem" name="nomeImagemSabAdd" placeholder="imagem.png">
+                    
+                    <button name="bntCreatSab" type="submit">Salvar</button>
+                </form>
+            </div>
             <div class="conteiner1">
-                    <?php
-                        include_once 'config/getVariacoesFun.php';
-                        
-                    ?>
+                <?php
+                $produtoVariacaoController->selecionarVariacaoProdutosFunc($_GET["produto"]);
+                ?>
             </div>
             <button class="voltar"><a href="editarProdutos.php">Voltar</a></button>
         </div>
     </main>
-    
+
     <?php
-        include_once 'components/footer.php';
+    include_once 'components/footer.php';
     ?>
     
     <script src="script/header.js"></script>

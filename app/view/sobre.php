@@ -1,9 +1,14 @@
 <?php
-    require_once '../config/blockURLAccess.php';
-    session_start();
-    require_once '../config/config.php';
-    // include_once 'config/createPedido.php';
+require_once '../config/blockURLAccess.php';
+session_start();
+require_once '../config/config.php';
+require_once '../controller/clienteController.php';
+require_once '../controller/pedidoController.php';
+
+$pedidoController = new pedidoController();
+$clienteController = new clienteController();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -18,28 +23,30 @@
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
-    <?php
-        include_once 'components/header.php';
-    ?>
+    <?php include_once 'components/header.php'; ?>
     <main>
-        <!-- TODO: Puxar dados do cliente com $_SESSION -->
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["btnSubmit"])) {
+            $pedidoController->criarPedido($_SESSION["userEmail"], $_POST["ckbIsDelivery"] ? 0 : 1, 6);
+        } else {
+            echo '<div class="alert alert-warning" role="alert">Nenhum pedido foi criado. Preencha o formulário e tente novamente.</div>';
+        }
+        ?>
+        
         <div class="conteiner1 conteiner d-flex align-items-center flex-column w-75 p-4 my-3">
             <div class="c1">
-                <div class="d-flex justify-content-center m-2"><img src="images/funcionario1.png" alt="" ></div>
+                <div class="d-flex justify-content-center m-2">
+                    <img src="images/funcionario1.png" alt="">
+                </div>
                 <?php 
-                    echo '
-                    <div id="dados">
-                        <p>Nome: '.$_SESSION["userName"].'</p>
-                        <p>Endereço: '.$_SESSION["userCep"].' - '.$_SESSION["userRua"].', '.$_SESSION["userNum"].', '.$_SESSION["userCompl"].' - '.$_SESSION["userBairro"].'</p>
-                    </div>
-                    ';
+                $clienteController->getCliente($_SESSION["userEmail"]);
                 ?>  
                 <form action="" method="POST" id="formulario">
                     <label for="nome">Nome:</label>
                     <input type="text" id="nome" placeholder="Nome completo">
                     <label for="endereco">Endereço:</label>
                     <input type="text" id="endereco" placeholder="Endereço">
-                    <button type="submit">Salvar</button>
+                    <button type="submit" name="btnSubmit">Salvar</button>
                 </form>
             </div>
             <button id="edit">Editar</button>
@@ -48,13 +55,11 @@
         <div class="conteiner1 conteiner d-flex align-items-center flex-column w-75 p-4 my-3">
             <h3>Meus pedidos</h3>
             <?php
-                include_once "config/getPedidos.php";
+            $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
             ?>
         </div>
     </main>
-    <?php
-        include_once 'components/footer.php';
-    ?>
+    <?php include_once 'components/footer.php'; ?>
     <script src="script/editar.js"></script>
 </body>
 </html>
