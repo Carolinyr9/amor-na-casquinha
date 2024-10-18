@@ -20,10 +20,6 @@ class Pedido {
         $this->conn = $database->getConnection();
     }
 
-    public function getPedidosCliente($idCliente) {
-        
-    }
-
     public function listarPedidoPorCliente($email) {
         if (isset($email)) {
             $stmt = $this->conn->prepare("CALL ListarPedidoPorCliente(?)");
@@ -87,5 +83,44 @@ class Pedido {
             echo "Erro: " . $e->getMessage();
         }
     }
+
+    public function listarPedidos() {
+        $stmt = $this->conn->prepare("CALL ListarPedidos()");
+        $stmt->execute(); 
+    
+        if ($stmt->rowCount() > 0) {
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($result as $row) {
+                $lastPedidoId = $row["idPedido"];
+                
+                echo '<div class="c1">
+                        <div class="c2">
+                            <div class="c3">
+                                <picture>
+                                    <img src="../images/FUNC.png" alt="Pedido ' . $row["idPedido"] . '">
+                                </picture>
+                            </div>
+                            <div>
+                                <div id="dados">
+                                    <h3 class="titulo px-3">Número do Pedido: ' . $row["idPedido"] . '</h3>
+                                    <div class="px-3">
+                                        <p>Realizado em: ' . $row['dtPedido'] . '</p>
+                                        <p>Total: R$ ' . number_format($row['valorTotal'], 2, ',', '.') . '</p>
+                                        <p>' . (($row['tipoFrete'] == 1) ? 'É para entrega!' : 'É para buscar na sorveteria!') . '</p>
+                                        <p>Status: ' . $row['statusPedido'] . '</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>        
+                    </div>';
+            }
+        } else {
+            echo '<p>Nenhum pedido encontrado.</p>'; 
+        }
+    
+        $stmt = null;
+    }
+    
 }
 ?>

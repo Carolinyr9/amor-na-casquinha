@@ -62,8 +62,9 @@ class ProdutoVariacao {
             do {
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     if ($row['desativado'] == 0) {
-                        $redirectToExcluir = 'excluirSabor.php?Produto=' . $row['idVariacao'];
-                        $redirectToEditar = 'editaSabor.php?Produto=' . $row['idVariacao'];
+                        $redirectToExcluir = 'excluirSabor.php?idVariacao=' . $row['idVariacao'];
+                        $redirectToEditar = 'editaSabor.php?idProduto=' . $row['idProduto'] . '&idVariacao=' . $row['idVariacao'];
+                        
                         echo '
                         <div class="c1">
                             <div class="c2">
@@ -93,12 +94,10 @@ class ProdutoVariacao {
         try {
             $desativado = 0;
             $stmt = $this->conn->prepare("CALL InserirVariacao(?, ?, ?, ?)");
-    
             $stmt->bindParam(1, $nomeProduto);    
             $stmt->bindParam(2, $preco);           
             $stmt->bindParam(3, $foto);     
             $stmt->bindParam(4, $idProduto);    
-
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
             
@@ -113,6 +112,65 @@ class ProdutoVariacao {
             }
         } catch (PDOException $e) {
             echo "Erro ao inserir o produto: " . $e->getMessage();
+        }
+    }
+
+    public function selecionarProdutosPorID($idProduto) {
+        $stmt = $this->conn->prepare("CALL ListarVariacaoPorID(?)");
+        $stmt->bindParam(1, $idProduto, PDO::PARAM_INT);
+        $stmt->execute();
+
+        do {
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo '
+                <form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '" method="GET" id="formulario" class="formulario">
+                    <input type="hidden" name="idProduto" value="' . htmlspecialchars($row['idProduto']) . '">
+                    <input type="hidden" name="idVariacao" value="' . htmlspecialchars($row['idVariacao']) . '">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nomeSabEdt" value="' . htmlspecialchars($row['nomeVariacao']) . '">
+                    <label for="preco">Preço:</label>
+                    <input type="text" id="preco" name="precoSabEdt" value="' . htmlspecialchars($row['precoVariacao']) . '">
+                    <label for="imagem">Imagem:</label>
+                    <input type="text" id="imagem" name="imagemSabEdt" value="' . htmlspecialchars($row['fotoVariacao']) . '">
+                    <button type="submit" name="btnEditar">Salvar</button>
+                </form>';
+            }
+        } while ($stmt->nextRowset());
+    }
+
+    public function editarProduto($idVariacao, $idProduto, $nomeProduto, $preco, $imagemProduto) {
+        try {
+            $stmt = $this->conn->prepare("CALL EditarVariacaoPorID(?, ?, ?, ?, ?)");
+            $stmt->bindParam(1, $idVariacao, PDO::PARAM_INT);
+            $stmt->bindParam(2, $nomeProduto, PDO::PARAM_STR);    
+            $stmt->bindParam(3, $preco, PDO::PARAM_STR);           
+            $stmt->bindParam(4, $imagemProduto, PDO::PARAM_STR);    
+            $stmt->bindParam(5, $idProduto, PDO::PARAM_INT);
+            $stmt->execute();
+            header("Location: " . $_SERVER['PHP_SELF'] . 
+                   "?idProduto=" . $idProduto . 
+                   "&idVariacao=" . $idVariacao . 
+                   "&nomeProduto=" . urlencode($nomeProduto) . 
+                   "&preco=" . urlencode($preco) . 
+                   "&imagemProduto=" . urlencode($imagemProduto));
+            exit;
+        } catch (PDOException $e) {
+            echo "Erro ao editar o produto: " . $e->getMessage();
+        }
+    }
+
+    function removerProduto($idProduto) {
+        try {
+            $stmt = $this->conn->prepare("CALL DesativarVariacaoPorID(?)");
+            $stmt->bindParam(1, $idProduto);
+            $stmt->execute();
+    
+            echo '<script>
+                alert("Produto excluído com sucesso");
+                window.location.href = "/amor-na-casquinha/app/view/editarProdutos.php";
+              </script>';
+        } catch (PDOException $e) {
+            echo "Erro no banco de dados: " . $e->getMessage();
         }
     }
 }

@@ -1,7 +1,6 @@
 <?php
-require_once 'config/blockURLAccess.php';
+require_once '../config/blockURLAccess.php';
 session_start();
-require 'config/config.php';
 ?>
 
 <!DOCTYPE html>
@@ -21,58 +20,37 @@ require 'config/config.php';
     
     <?php
         include_once 'components/header.php';
+        require_once '../controller/produtoVariacaoController.php';
+        $produtoVariacaoController = new produtoVariacaoController();
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['idProdutoExcl'])) {
+            $idProduto = $_POST['idProdutoExcl'];
+            $produtoVariacaoController->removerProduto($idProduto);
+        }
     ?>
 
     <main>
-            <h1>Desativar Sabor</h1>
+        <h1>Desativar Sabor</h1>
     
         <div class="conteiner">
             <h3>Tem certeza que deseja desativar esse Sabor?</h3>
             
             <div class="conteiner1">   
-                <div class="c1">
+            <div class="c1">
                     <?php
-                        $idSabor = $_GET['Produto'];
-
-                        try{
-                            $cmd = $conn->prepare("CALL SP_VariacaoReadById(?)");
-                            $cmd->bindParam(1, $idSabor);
-                            $cmd->execute();
-                        } catch (PDOException $e) {
-                            echo "Erro no banco de dados: " . $e->getMessage();
-                        } catch (Exception $e) {
-                            echo "Erro genérico: " . $e->getMessage();
-                        }
-            
-                        while($row = $cmd->fetch()){
-                            echo'
-                            <form action="config/deleteSab.php" method="POST" id="formulario" class="formulario">
-                                <input type="hidden" name="idSabExcl" value="'.$row['idVariacao'].'">
-                                <button name="btnEcluirSab" type="submit">Excluir</button>
-                            </form>';  
-
-                            echo '
-                                <div class="c2">
-                                    <div class="c3">
-                                        <picture>
-                                        <img src="images/'.$row["fotoVariacao"].'" alt="'.$row["nomeVariacao"].'" class="imagem">
-                                        </picture>
-                                    </div>
-                                    <div class="d-flex flex-column">
-                                        <div id="dados">
-                                            <h3 class="titulo px-3">'.$row["nomeVariacao"].'</h3>
-                                            <div class="px-3">
-                                                <p>Preço:'.$row["precoVariacao"].'</p>
-                                            </div>
-                                        </div>
-                                    </div>        
-                                </div>
-                            ';
-                        }
-                        
+                    if (isset($_GET['idVariacao'])) {
+                        $idProduto = $_GET['idVariacao'];
+                        $produtoVariacaoController->selecionarProdutosPorID($idProduto);
+                        echo '
+                        <form action="" method="POST" id="formulario" class="formulario">
+                            <input type="hidden" name="idProdutoExcl" value="' . htmlspecialchars($idProduto) . '">
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>';
+                    } else {
+                        echo '<p>Produto não encontrado.</p>';
+                    }
                     ?>
                 </div>
-            </div>
             <button class="voltar"><a href="editarProdutos.php">Voltar</a></button>
         </div>
     </main>

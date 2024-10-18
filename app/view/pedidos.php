@@ -17,6 +17,8 @@ session_start();
 <body>
     <?php
         include_once 'components/header.php';
+        require_once '../controller/pedidoController.php';
+        $pedidoController = new pedidoController();
     ?>
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Pedidos</h1>
@@ -24,7 +26,7 @@ session_start();
             <div class="conteiner1">
                 <div>
                     <?php
-                        include_once 'config/getPedidosFunc.php';
+                        $pedidoController->listarPedidos();
                     ?>
                 </div>
             </div>

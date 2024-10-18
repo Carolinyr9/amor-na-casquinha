@@ -39,7 +39,7 @@
             ?>
         </nav>
         <div class="toggleBox" id="toggleBtn">
-            <img src="images/image 2.png" alt="Menu" id="toggleBtn">
+            <img src="../images/image 2.png" alt="Menu" id="toggleBtn">
         </div>
     </div>
 </header>
