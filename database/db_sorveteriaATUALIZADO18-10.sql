@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18/10/2024 às 01:18
+-- Tempo de geração: 18/10/2024 às 23:02
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -182,6 +182,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarProdutoPorID` (IN `idProdu
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarVariacaoPorId` (IN `idVariacaoIN` INT)   BEGIN
+    -- Verifica se a variação existe e não está desativada
+    IF NOT EXISTS (SELECT idVariacao FROM variacaoProduto WHERE idVariacao = idVariacaoIN AND desativado != 1) THEN
+        SELECT '403' AS 'Status', 'ERROR_VARIACAO_NAO_ENCONTRADA' AS 'Error', '' AS 'Message';
+    ELSE
+        -- Atualiza a variação para desativá-la
+        UPDATE variacaoProduto SET desativado = 1 WHERE idVariacao = idVariacaoIN;
+
+        -- Retorna mensagem de sucesso
+        SELECT
+            '204' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_DELETED' AS 'Message';
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarCliente` (`idClienteIN` INT, `nomeIN` VARCHAR(255), `emailIN` VARCHAR(255), `telefoneIN` VARCHAR(25), `idEnderecoIN` INT, `ruaEnd` VARCHAR(255), `numeroEnd` INT, `complementoEnd` VARCHAR(255), `bairroEnd` VARCHAR(255), `cepEnd` VARCHAR(20), `cidadeEnd` VARCHAR(255), `estadoEnd` VARCHAR(255))   BEGIN
     IF NOT EXISTS (SELECT idCliente from clientes where idCliente like idClienteIN)
     THEN
@@ -285,7 +301,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarPedidoStatus` (`idPedidoIN` I
 		'SUCCESS_UPDATED' AS 'Message';
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoPorId` (`idProdutoIN` INT, `nomeIN` VARCHAR(255), `marcaIN` VARCHAR(255), `descricaoIN` VARCHAR(255), `fotoIN` VARCHAR(50))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoPorId` (IN `idProdutoIN` INT, IN `nomeIN` VARCHAR(255), IN `marcaIN` VARCHAR(255), IN `descricaoIN` VARCHAR(255), IN `fotoIN` VARCHAR(50))   BEGIN
     IF NOT EXISTS (SELECT * FROM produtos WHERE idProduto = idProdutoIN) THEN
         SELECT '403' AS 'Status', 'ERROR_PRODUTO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
     ELSE
@@ -293,7 +309,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoPorId` (`idProdutoIN` 
         SET nome = nomeIN, 
             marca = marcaIN, 
             descricao = descricaoIN, 
-            foto = fotoIN 
+            fotoVariacao = fotoIN 
         WHERE idProduto = idProdutoIN;
         
         SELECT 
@@ -327,18 +343,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarSenha` (`emailIN` VARCHAR(255
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarVariacao` (`idVariacaoIN` VARCHAR(255), `nomeVariacaoIN` VARCHAR(255), `precoVariacaoIN` DECIMAL(10,2), `fotoVariacaoIN` VARCHAR(255), `idProduto` INT)   BEGIN
-	IF NOT EXISTS (SELECT nomeVariacao from variacaoProduto where idVariacao like idVariacaoIN AND desativado != 1)
-	THEN
-		SELECT '403' AS 'Status', 'ERROR_NOME_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
-	ELSE
-		UPDATE variacaoProduto SET nomeVariacao = nomeVariacaoIN, precoVariacao = precoVariacaoIN, fotos = fotosVariacaoIN, idProduto = idProduto 
-            WHERE idVariacao = idVariacaoIN;
-		SELECT 
-			'204' AS 'Status',
-			'' AS 'Error',
-			'SUCCESS_UPDATED' AS 'Message';
-	END IF; 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarVariacaoPorID` (IN `idVariacaoIN` INT, IN `nomeVariacaoIN` VARCHAR(255), IN `precoVariacaoIN` DECIMAL(10,2), IN `fotoVariacaoIN` VARCHAR(255), IN `idProdutoIN` INT)   BEGIN
+    -- Tente atualizar diretamente e depois verifique se houve alguma linha afetada
+    UPDATE variacaoProduto 
+    SET nomeVariacao = nomeVariacaoIN, 
+        precoVariacao = precoVariacaoIN, 
+        fotoVariacao = fotoVariacaoIN, 
+        idProduto = idProdutoIN 
+    WHERE idVariacao = idVariacaoIN AND desativado != 1;
+
+    -- Verifica se alguma linha foi afetada pela atualização
+    IF ROW_COUNT() = 0 THEN
+        SELECT '403' AS 'Status', 'ERROR_NOME_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+    ELSE
+        SELECT 
+            '204' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_UPDATED' AS 'Message';
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirCliente` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `senhaIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25), IN `ruaEnd` VARCHAR(255), IN `numeroEnd` INT, IN `complementoEnd` VARCHAR(255), IN `bairroEnd` VARCHAR(255), IN `cepEnd` VARCHAR(20), IN `cidadeEnd` VARCHAR(255), IN `estadoEnd` VARCHAR(255))   BEGIN
@@ -1037,7 +1059,18 @@ CREATE TABLE `variacaoproduto` (
 INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `precoVariacao`, `fotoVariacao`, `idProduto`) VALUES
 (1, 0, 'Havaiano', 25.99, 'havaianoPote.png', 1),
 (2, 0, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1),
-(3, 0, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1);
+(3, 0, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1),
+(4, 0, 'ChupChup - Unicórnio', 3.99, 'unicornioChup.png', 3),
+(5, 0, 'Chup Chup - Coco', 3.99, 'cocoChup.png', 3),
+(6, 0, 'Chup Chup - Morango', 3.99, 'morangoChup.png', 3),
+(7, 0, 'ChupChup - Maracujá', 3.99, 'maracujaChup.png', 3),
+(8, 0, 'Picolé - Mousse de Doce de Leite', 7.99, 'mousse-doce-leitePicole.png', 2),
+(9, 0, ' Picolé - Coraçãozinho', 6.99, 'coracaozinhoPicole.png', 2),
+(10, 0, 'Picolé - Açaí', 7.99, 'acaiPicole.png', 2),
+(11, 0, 'Picolé - Flocos', 7.99, 'flocosPicole.png', 2),
+(12, 0, 'Sundae - Morango', 16.99, 'morangoSundae.png', 4),
+(13, 0, 'Sundae - Baunilha', 16.99, 'baunilhaSundae.png', 4),
+(14, 0, 'Napolitano - Pote 2L', 36.50, 'napolitanoPote.png', 1);
 
 --
 -- Índices para tabelas despejadas
@@ -1177,7 +1210,7 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `variacaoproduto`
 --
 ALTER TABLE `variacaoproduto`
-  MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restrições para tabelas despejadas
