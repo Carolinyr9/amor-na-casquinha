@@ -4,6 +4,7 @@
 --
 -- Host: 127.0.0.1
 -- Tempo de geração: 18/10/2024 às 23:02
+-- Tempo de geração: 18/10/2024 às 23:56
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -575,6 +576,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEmpresa` (IN `cnpjIN` VARCHAR
 	END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEnderecoPorID` (IN `idEnderecoIN` INT)   BEGIN
+    SELECT *
+    FROM
+        enderecos
+    WHERE
+        idEndereco = idEnderecoIN;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEstoque` ()   BEGIN
     IF NOT EXISTS (SELECT * FROM estoque WHERE desativado != 1)
 	THEN
@@ -681,6 +690,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorStatus` (`statusPedi
         LEFT OUTER JOIN pedidoProduto
 		ON pedidos.idPedido = pedidoProduto.idPedido
         WHERE pedidos.statusPedido like statusPedidoIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidos` ()   BEGIN
+    SELECT * FROM pedidos;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidosEmAndamento` ()   BEGIN
@@ -1198,7 +1211,7 @@ ALTER TABLE `pedidoproduto`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
