@@ -3,7 +3,6 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18/10/2024 às 23:02
 -- Tempo de geração: 18/10/2024 às 23:56
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
@@ -1022,7 +1021,16 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipoFrete`, `rastreioFrete`, `idEndereco`, `valorTotal`, `qtdItems`, `dtCancelamento`, `motivoCancelamento`, `statusPedido`) VALUES
-(1, 1, '2024-10-17 23:16:12', NULL, 0, NULL, 1, NULL, 6, NULL, NULL, 'Aguardando Pagamento');
+(1, 1, '2024-10-17 23:16:12', NULL, 0, NULL, 1, NULL, 6, NULL, NULL, 'Aguardando Pagamento'),
+(2, 1, '2024-10-01 10:30:00', '2024-10-01 11:00:00', 0, NULL, 1, 150.75, 3, NULL, NULL, 'Concluído'),
+(3, 1, '2024-10-02 14:15:00', NULL, 1, 'R123456789', 2, 200.00, 5, NULL, NULL, 'Aguardando Pagamento'),
+(4, 1, '2024-10-03 09:00:00', '2024-10-03 09:45:00', 1, 'R987654321', 1, 120.50, 2, NULL, NULL, 'Concluído'),
+(5, 1, '2024-10-04 11:30:00', NULL, 0, NULL, 3, 175.90, 4, NULL, NULL, 'Aguardando Envio'),
+(6, 1, '2024-10-05 13:45:00', NULL, 0, NULL, 2, 250.00, 6, NULL, NULL, 'Aguardando Pagamento'),
+(7, 1, '2024-10-06 15:00:00', '2024-10-06 15:30:00', 1, 'R246813579', 1, 300.25, 1, NULL, NULL, 'Concluído'),
+(8, 1, '2024-10-07 08:15:00', NULL, 1, 'R135792468', 3, 130.99, 3, NULL, NULL, 'Aguardando Envio'),
+(9, 1, '2024-10-08 19:00:00', NULL, 0, NULL, 1, 90.00, 2, NULL, NULL, 'Aguardando Pagamento'),
+(10, 1, '2024-10-18 23:49:22', NULL, 1, NULL, 1, NULL, 6, NULL, NULL, 'Aguardando Pagamento');
 
 -- --------------------------------------------------------
 
