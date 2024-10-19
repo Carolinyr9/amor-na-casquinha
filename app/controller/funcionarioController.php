@@ -23,5 +23,9 @@
             return $funDados;
         }
 
+        public function inserirFunc($nome, $email, $telefone, $senha, $adm){
+            $this->funcionario->inserirFunc($nome, $email, $telefone, $senha, $adm);
+        }
+
     }
 ?>
