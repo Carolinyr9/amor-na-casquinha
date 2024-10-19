@@ -17,5 +17,11 @@
                 return $listaFuncionarios;
             }
         }
+
+        public function listarFuncionarioEmail($email){
+            $funDados = $this->funcionario->listarFuncionarioEmail($email);
+            return $funDados;
+        }
+
     }
 ?>
