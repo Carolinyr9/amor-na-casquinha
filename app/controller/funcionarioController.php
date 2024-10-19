@@ -3,5 +3,19 @@
 
     class FuncionarioController{
         private $funcionario;
+
+        public function __construct(){
+            $this->funcionario = new Funcionarios();
+        }
+
+        public function listarFunc(){
+            $listaFuncionarios = $this->funcionario->listarFunc();
+
+            if($listaFuncionarios == null || count($listaFuncionarios) == 0){
+                return "Nenhum funcionário encontrado.";
+            }else{ 
+                return $listaFuncionarios;
+            }
+        }
     }
 ?>
