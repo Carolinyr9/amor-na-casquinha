@@ -31,5 +31,8 @@
             $this->funcionario->atualizarFunc($emailAntigo, $nome, $email, $telefone);
         }
 
+        public function deletarFunc($email){
+            $this->funcionario->deletarFunc($email);
+        }
     }
 ?>
