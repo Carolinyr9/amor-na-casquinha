@@ -27,5 +27,9 @@
             $this->funcionario->inserirFunc($nome, $email, $telefone, $senha, $adm);
         }
 
+        public function atualizarFunc($emailAntigo, $nome, $email, $telefone){
+            $this->funcionario->atualizarFunc($emailAntigo, $nome, $email, $telefone);
+        }
+
     }
 ?>
