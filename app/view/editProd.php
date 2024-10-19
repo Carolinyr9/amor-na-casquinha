@@ -1,7 +1,8 @@
 <?php
-require_once 'config/blockURLAccess.php';
+require_once '../config/blockURLAccess.php';
 session_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,36 +18,28 @@ session_start();
 </head>
 <body>
     <?php
-        include_once 'components/header.php';
+    require_once '../controller/produtoController.php';
+    $produtoController = new produtoController();
+    include_once 'components/header.php';
+
+    if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['produto']) && isset($_GET['marcaProdEdt'])) {
+        $id = $_GET['produto'];
+        $nomeProduto = isset($_GET['nomeProdEdt']) ? $_GET['nomeProdEdt'] : '';
+        $marca = isset($_GET['marcaProdEdt']) ? $_GET['marcaProdEdt'] : '';
+        $descricao = isset($_GET['descricaoProdEdt']) ? $_GET['descricaoProdEdt'] : '';
+        $imagemProduto = isset($_GET['imagemProdEdt']) ? $_GET['imagemProdEdt'] : '';
+    
+        $produtoController->editarProduto($id, $nomeProduto, $marca, $descricao, $imagemProduto);
+    }
     ?>
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Editar Produto</h1>
         <div class="conteiner">
             <div class="conteiner1">
-                
                 <div class="c1">
                     <div class="c2">
                         <?php
-                        require 'config/config.php';
-                        $idProduto = $_GET['produto'];
-                        $stmt = $conn->prepare('SELECT * from tbproduto where idProduto = :id');
-                        $stmt->bindParam(':id', $idProduto);
-                        $stmt->execute();
-
-                        while($row = $stmt->fetch()){
-                            echo'
-                            <form action="config/updateProd.php" method="POST" id="formulario" class="formulario">
-                                <input type="hidden" name="nomeProdAtual" value="'.$row['nomeProduto'].'">
-                                <label for="nome2">Nome:</label>
-                                <input type="text" id="nome2" name="nomeProdEdt" placeholder="Nome" value="'.$row['nomeProduto'].'">
-                                <label for="email2">Tipo:</label>
-                                <input type="text" id="tipo2" name="tipoProdEdt" placeholder="Tipo" value="'.$row['tipoProduto'].'">
-                                <label for="foto2">Nome do arquivo de imagem:</label>
-                                <input type="text" id="imagem2" name="imagemProdEdt" placeholder="imagem.png" value="'.$row['fotoProduto'].'">
-                                <button type="submit">Salvar</button>
-                            </form>';  
-                        }
-                            
+                        $produtoController->selecionarProdutosPorID($_GET['produto']);
                         ?>
                     </div>
                 </div>
@@ -55,7 +48,7 @@ session_start();
         </div>
     </main>
     <?php
-        include_once 'components/footer.php';
+    include_once 'components/footer.php';
     ?>
 </body>
 </html>
