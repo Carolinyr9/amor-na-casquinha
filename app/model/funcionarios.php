@@ -15,29 +15,79 @@
             $this->conn = $database->getConnection();
         }
 
+        public function listarFunc(){
+            try{
+                $cmd = $this->conn->prepare("CALL ListarFuncionarios()");
+                $cmd->execute();
+                $funcionarios = $cmd->fetchAll();
+                return $funcionarios;
+            } catch (PDOException $e) {
+                echo "Erro no banco de dados: " . $e->getMessage();
+            }
+
+        }
+
+        public function listarFuncionarioEmail($email){
+            try{
+                $cmd = $this->conn->prepare("CALL ListarFuncionarioPorEmail(?)");
+                $cmd->bindParam(1, $email);
+                $cmd->execute();
+                $funcionarios = $cmd->fetchAll();
+                return $funcionarios;
+            } catch (PDOException $e) {
+                echo "Erro no banco de dados: " . $e->getMessage();
+            }
+ 
+        }
+
+        public function inserirFunc($nome, $email, $telefone, $senha, $adm){
+            try{
+                $cmd = $this->conn->prepare("CALL InserirFuncionario(?, ?, ?, ?, ?)");
+                $cmd->bindParam(1, $nome);
+                $cmd->bindParam(2, $email);
+                $cmd->bindParam(3, $telefone);
+                $cmd->bindParam(4, $senha);
+                $cmd->bindParam(5, $adm);
+                $cmd->execute();
+            } catch (PDOException $e) {
+                echo "Erro no banco de dados: " . $e->getMessage();
+            } 
+            
+            echo '<script>window.location.href = "../view/sessaoFuncionarios.php";</script>';
+            exit;
+        }
+
+        public function atualizarFunc($emailAntigo, $nome, $email, $telefone){
+            try{
+                $cmd = $this->conn->prepare("CALL EditarFuncionarioPorEmail(?, ?, ?, ?)");
+                $cmd->bindParam(1, $emailAntigo);
+                $cmd->bindParam(2, $email);
+                $cmd->bindParam(3, $nome);
+                $cmd->bindParam(4, $telefone);
+                $cmd->execute();
+
+                echo '<script>window.location.href = "../view/sessaoFuncionarios.php";</script>';
+                exit;
+            } catch (PDOException $e) {
+                echo "Erro no banco de dados: " . $e->getMessage();
+            }
+        }
+
+        public function deletarFunc($email){
+            try{
+                $cmd = $this->conn->prepare("CALL DesativarFuncionarioPorEmail(?)");
+                $cmd->bindParam(1, $email);
+                $cmd->execute();
+
+                echo '<script>window.location.href = "../view/sessaoFuncionarios.php";</script>';
+                exit;
+            } catch (PDOException $e) {
+                echo "Erro no banco de dados: " . $e->getMessage();
+            }
+        }
+
     }
 
-    public function insereFunc($login, $senha, $nome, $telefone){
-        try{
-            $value = "FUNC";
-            $cmd = $conn->prepare("CALL SP_FuncionarioCreate(?, ?, ?, ?, ?)");
-            $cmd->bindParam(1, $_POST['emailFunAdd']);
-            $cmd->bindParam(2, $_POST['senhaFunAdd']);
-            $cmd->bindParam(3, $_POST['nomeFunAdd']);
-            $cmd->bindParam(4, $_POST['telefoneFunAdd']);
-            $cmd->bindParam(5, $value);
-            
-            $cmd->execute();
-        } catch (PDOException $e) {
-            echo "Erro no banco de dados: " . $e->getMessage();
-        } catch (PDOException $e) {
-            echo "Erro genérico: " . $e->getMessage();
-        }
-        
-        echo '<script>';
-        echo 'window.location.href = "";';
-        echo '</script>';
-        exit;
-    }
+    
 
 ?>
