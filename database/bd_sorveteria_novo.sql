@@ -243,16 +243,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarEstoque` (`idEstoqueIN` INT, 
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarFuncionarioPorEmail` (`emailIN` VARCHAR(255), `emailNovoIN` VARCHAR(255), `nomeIN` VARCHAR(255), `telefoneIN` VARCHAR(25), `adm` TINYINT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarFuncionarioPorEmail` (IN `emailIN` VARCHAR(255), IN `emailNovoIN` VARCHAR(255), IN `nomeIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25))   BEGIN
 	IF NOT EXISTS (SELECT email from funcionarios where email like emailIN)
 	THEN
 		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
 	ELSE
 		UPDATE funcionarios SET
 			nome = nomeIN,
-			email = newEmailIN,
-			telefone = telefoneIN,
-            adm = adm
+			email = emailNovoIN,
+			telefone = telefoneIN
 			WHERE email like emailIN;
 		SELECT 
 			'204' AS 'Status',
@@ -383,18 +382,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFornecedor` (IN `nomeFornece
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFuncionario` (IN `emailIN` VARCHAR(255), IN `senhaIN` VARCHAR(255), IN `nomeIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25), IN `adm` TINYINT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFuncionario` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `telefoneIN` VARCHAR(255), IN `senhaIN` VARCHAR(25), IN `admIN` TINYINT)   BEGIN
 	IF EXISTS (SELECT email from funcionarios where email like emailIN)
 	THEN
 		SELECT '403' AS 'Status', 'ERROR_EMAIL_CADASTRADO' AS 'Error', '' AS 'Message';
 	ELSE
-        INSERT INTO funcionario(
+        INSERT INTO funcionarios(
 			`nome`,
 			`email`,
-			`senha`,
 			`telefone`,
+			`senha`,
 			`adm`)
-			VALUES (nomeIN, emailIN, senhaIN, telefoneIN, adm);
+			VALUES (nomeIN, emailIN, telefoneIN, senhaIN, admIN);
 		SELECT 
 			'201' AS 'Status',
 			'' AS 'Error',
