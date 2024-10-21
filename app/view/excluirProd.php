@@ -1,5 +1,6 @@
 <?php
 require_once '../config/blockURLAccess.php';
+session_start();
 ?>
 
 <!DOCTYPE html>

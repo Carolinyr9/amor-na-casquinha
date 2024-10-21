@@ -20,7 +20,7 @@ class Carrinho {
     }
 
     public function addProduto($variacaoId) {
-        $stmt = $this->conn->prepare("CALL SP_VariacaoLerProdutoIdVariacao(?)");
+        $stmt = $this->conn->prepare("CALL ListarVariacaoAtivaPorId(?)");
         $stmt->bindParam(1, $variacaoId);
         $stmt->execute();
 

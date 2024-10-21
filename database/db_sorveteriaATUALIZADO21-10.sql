@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 18/10/2024 às 01:18
+-- Tempo de geração: 22/10/2024 às 01:25
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -182,6 +182,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarProdutoPorID` (IN `idProdu
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarVariacaoPorId` (IN `idVariacaoIN` INT)   BEGIN
+    -- Verifica se a variação existe e não está desativada
+    IF NOT EXISTS (SELECT idVariacao FROM variacaoProduto WHERE idVariacao = idVariacaoIN AND desativado != 1) THEN
+        SELECT '403' AS 'Status', 'ERROR_VARIACAO_NAO_ENCONTRADA' AS 'Error', '' AS 'Message';
+    ELSE
+        -- Atualiza a variação para desativá-la
+        UPDATE variacaoProduto SET desativado = 1 WHERE idVariacao = idVariacaoIN;
+
+        -- Retorna mensagem de sucesso
+        SELECT
+            '204' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_DELETED' AS 'Message';
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarCliente` (`idClienteIN` INT, `nomeIN` VARCHAR(255), `emailIN` VARCHAR(255), `telefoneIN` VARCHAR(25), `idEnderecoIN` INT, `ruaEnd` VARCHAR(255), `numeroEnd` INT, `complementoEnd` VARCHAR(255), `bairroEnd` VARCHAR(255), `cepEnd` VARCHAR(20), `cidadeEnd` VARCHAR(255), `estadoEnd` VARCHAR(255))   BEGIN
     IF NOT EXISTS (SELECT idCliente from clientes where idCliente like idClienteIN)
     THEN
@@ -285,7 +301,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarPedidoStatus` (`idPedidoIN` I
 		'SUCCESS_UPDATED' AS 'Message';
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoPorId` (`idProdutoIN` INT, `nomeIN` VARCHAR(255), `marcaIN` VARCHAR(255), `descricaoIN` VARCHAR(255), `fotoIN` VARCHAR(50))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoPorId` (IN `idProdutoIN` INT, IN `nomeIN` VARCHAR(255), IN `marcaIN` VARCHAR(255), IN `descricaoIN` VARCHAR(255), IN `fotoIN` VARCHAR(50))   BEGIN
     IF NOT EXISTS (SELECT * FROM produtos WHERE idProduto = idProdutoIN) THEN
         SELECT '403' AS 'Status', 'ERROR_PRODUTO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
     ELSE
@@ -327,18 +343,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarSenha` (`emailIN` VARCHAR(255
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarVariacao` (`idVariacaoIN` VARCHAR(255), `nomeVariacaoIN` VARCHAR(255), `precoVariacaoIN` DECIMAL(10,2), `fotoVariacaoIN` VARCHAR(255), `idProduto` INT)   BEGIN
-	IF NOT EXISTS (SELECT nomeVariacao from variacaoProduto where idVariacao like idVariacaoIN AND desativado != 1)
-	THEN
-		SELECT '403' AS 'Status', 'ERROR_NOME_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
-	ELSE
-		UPDATE variacaoProduto SET nomeVariacao = nomeVariacaoIN, precoVariacao = precoVariacaoIN, fotos = fotosVariacaoIN, idProduto = idProduto 
-            WHERE idVariacao = idVariacaoIN;
-		SELECT 
-			'204' AS 'Status',
-			'' AS 'Error',
-			'SUCCESS_UPDATED' AS 'Message';
-	END IF; 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarVariacaoPorID` (IN `idVariacaoIN` INT, IN `nomeVariacaoIN` VARCHAR(255), IN `precoVariacaoIN` DECIMAL(10,2), IN `fotoVariacaoIN` VARCHAR(255), IN `idProdutoIN` INT)   BEGIN
+    -- Tente atualizar diretamente e depois verifique se houve alguma linha afetada
+    UPDATE variacaoProduto 
+    SET nomeVariacao = nomeVariacaoIN, 
+        precoVariacao = precoVariacaoIN, 
+        fotoVariacao = fotoVariacaoIN, 
+        idProduto = idProdutoIN 
+    WHERE idVariacao = idVariacaoIN AND desativado != 1;
+
+    -- Verifica se alguma linha foi afetada pela atualização
+    IF ROW_COUNT() = 0 THEN
+        SELECT '403' AS 'Status', 'ERROR_NOME_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+    ELSE
+        SELECT 
+            '204' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_UPDATED' AS 'Message';
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirCliente` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `senhaIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25), IN `ruaEnd` VARCHAR(255), IN `numeroEnd` INT, IN `complementoEnd` VARCHAR(255), IN `bairroEnd` VARCHAR(255), IN `cepEnd` VARCHAR(20), IN `cidadeEnd` VARCHAR(255), IN `estadoEnd` VARCHAR(255))   BEGIN
@@ -519,21 +541,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirVariacao` (IN `nomeVariacaoI
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarClientePorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
-	IF NOT EXISTS (SELECT email from clientes where email like emailIN)
-	THEN
-		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
-	ELSE
-		SELECT * 
-			FROM clientes 
-			INNER JOIN enderecos
-            ON cliente.idEndereco = enderecos.idEndereco
-            WHERE email like emailIN LIMIT 1;
-        SELECT 
-			'201' AS 'Status',
-			'' AS 'Error',
-			'SUCCESS_CREATED' AS 'Message';
-	END IF;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarClientePorEmail` (IN `email` VARCHAR(60))   BEGIN
+    SELECT * 
+    FROM clientes
+    WHERE clientes.email LIKE email
+    LIMIT 1;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEmpresa` (IN `cnpjIN` VARCHAR(20))   BEGIN
@@ -551,6 +563,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEmpresa` (IN `cnpjIN` VARCHAR
             '' AS 'Error',
             'SUCCESS_CREATED' AS 'Message';
 	END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEnderecoPorID` (IN `idEnderecoIN` INT)   BEGIN
+    SELECT *
+    FROM
+        enderecos
+    WHERE
+        idEndereco = idEnderecoIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarEstoque` ()   BEGIN
@@ -661,6 +681,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorStatus` (`statusPedi
         WHERE pedidos.statusPedido like statusPedidoIN;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidos` ()   BEGIN
+    SELECT * FROM pedidos;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidosEmAndamento` ()   BEGIN
     IF NOT EXISTS (SELECT * FROM pedidos WHERE statusPedido like 'Aguardando Pagamento' OR statusPedido like 'Em Andamento')
     then 
@@ -669,6 +693,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidosEmAndamento` ()   BEGI
 	SELECT * FROM pedidos LEFT OUTER JOIN pedidoProduto ON pedidos.idPedido = pedidoProduto.pedidos_idPedido 
         WHERE (pedidos.statusPedido not like 'Finalizado' AND pedidos.statusPedido not like 'Entregue');
     END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutoAtivo` (IN `limitF` INT, IN `offsetF` INT)   BEGIN
+	SELECT * 
+		FROM produtos
+        WHERE desativado = 0
+		LIMIT limitF 
+        OFFSET offsetF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutoPorID` (`idProdutoIN` INT, `limitF` INT, `offsetF` INT)   BEGIN
@@ -683,8 +715,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacao` (`limitF` INT, `off
 	SELECT * FROM variacaoProduto WHERE desativado != 1 LIMIT limitF OFFSET offsetF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacaoAtivaPorId` (IN `id` INT)   BEGIN
+    SELECT * 
+    FROM variacaoproduto 
+    WHERE desativado = 0
+    AND idVariacao = id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacaoPorID` (`idVaricaoIN` INT)   BEGIN
 	SELECT * FROM variacaoProduto WHERE desativado != 1 AND idVariacao = idVaricaoIN;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacaoPorTipo` (IN `id` INT)   BEGIN
+	SELECT * 
+		FROM variacaoProduto 
+        WHERE desativado = 0
+		AND idProduto = id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVaricaoPorCodigoProduto` (`codigoProdutoIN` VARCHAR(255))   BEGIN
@@ -706,73 +752,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Login` (IN `emailIN` VARCHAR(255)) 
 	ELSE
 		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message', '' AS 'Body';
     END IF;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_GetClienteInfo` (IN `email` VARCHAR(60))   BEGIN
-    SELECT * 
-    FROM clientes
-    WHERE clientes.email LIKE email
-    LIMIT 1;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_GetPedidoInfo` (IN `idCliente` INT)   BEGIN
-    SELECT * 
-    FROM pedidos
-    WHERE idCliente LIKE idCliente;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ProdutoCreate` (IN `nome` VARCHAR(50), IN `marca` VARCHAR(50), IN `descricao` TEXT, IN `idFornecedor` INT, IN `foto` VARCHAR(255), IN `desativado` INT)   BEGIN
-    -- Verifica se o produto já está cadastrado com o mesmo nome
-    IF EXISTS (SELECT nomeProduto FROM tbProduto WHERE nomeProduto = nome)
-    THEN
-        -- Retorna um erro se o nome do produto já estiver cadastrado
-        SELECT '403' AS 'Status', 'ERROR_NOME_CADASTRADO' AS 'Error', '' AS 'Message';
-    ELSE
-        -- Insere o novo produto na tabela tbProduto, incluindo o campo desativado
-        INSERT INTO tbProduto(
-            `nomeProduto`,
-            `marcaProduto`,
-            `descricaoProduto`,
-            `idFornecedor`,
-            `fotoProduto`,
-            `desativado`
-        ) VALUES (
-            nome, 
-            marca, 
-            descricao, 
-            idFornecedor, 
-            foto,
-            desativado
-        );
-        
-        -- Retorna uma mensagem de sucesso
-        SELECT 
-            '201' AS 'Status',
-            '' AS 'Error',
-            'SUCCESS_CREATED' AS 'Message';
-    END IF;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_ProdutoLerAtivo` (`limitF` INT, `offsetF` INT)   BEGIN
-	SELECT * 
-		FROM produtos
-        WHERE desativado = 0
-		LIMIT limitF 
-        OFFSET offsetF;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_VariacaoLerProdutoId` (IN `id` INT)   BEGIN
-	SELECT * 
-		FROM variacaoProduto 
-        WHERE desativado = 0
-		AND idProduto = id;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_VariacaoLerProdutoIdVariacao` (IN `id` INT)   BEGIN
-	SELECT * 
-		FROM variacaoproduto 
-        WHERE desativado = 0
-		AND idVariacao = id;
 END$$
 
 --
@@ -987,7 +966,15 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipoFrete`, `rastreioFrete`, `idEndereco`, `valorTotal`, `qtdItems`, `dtCancelamento`, `motivoCancelamento`, `statusPedido`) VALUES
-(1, 1, '2024-10-17 23:16:12', NULL, 0, NULL, 1, NULL, 6, NULL, NULL, 'Aguardando Pagamento');
+(2, 1, '2024-10-01 10:30:00', '2024-10-01 11:00:00', 0, NULL, 1, 150.75, 3, NULL, NULL, 'Concluído'),
+(3, 1, '2024-10-02 14:15:00', NULL, 1, 'R123456789', 2, 200.00, 5, NULL, NULL, 'Aguardando Pagamento'),
+(4, 1, '2024-10-03 09:00:00', '2024-10-03 09:45:00', 1, 'R987654321', 1, 120.50, 2, NULL, NULL, 'Concluído'),
+(5, 1, '2024-10-04 11:30:00', NULL, 0, NULL, 3, 175.90, 4, NULL, NULL, 'Aguardando Envio'),
+(6, 1, '2024-10-05 13:45:00', NULL, 0, NULL, 2, 250.00, 6, NULL, NULL, 'Aguardando Pagamento'),
+(7, 1, '2024-10-06 15:00:00', '2024-10-06 15:30:00', 1, 'R246813579', 1, 300.25, 1, NULL, NULL, 'Concluído'),
+(8, 1, '2024-10-07 08:15:00', NULL, 1, 'R135792468', 3, 130.99, 3, NULL, NULL, 'Aguardando Envio'),
+(9, 1, '2024-10-08 19:00:00', NULL, 0, NULL, 1, 90.00, 2, NULL, NULL, 'Aguardando Pagamento'),
+(11, 1, '2024-10-22 01:16:55', NULL, 0, NULL, 1, NULL, 6, NULL, NULL, 'Aguardando Pagamento');
 
 -- --------------------------------------------------------
 
@@ -1013,7 +1000,8 @@ INSERT INTO `produtos` (`idProduto`, `idFornecedor`, `nome`, `marca`, `descricao
 (1, 1, 'Pote', 'Kibon', 'Potes de sorvete', 0, 'poteLogo.png'),
 (2, 2, 'Picolé', 'Marca', 'Picolés', 0, 'picoleLogo.png'),
 (3, 2, 'ChupChup', 'Garoto', 'ChupChup', 0, 'chupLogo.png'),
-(4, 2, 'Sundae', 'Nestle', 'Sundae', 0, 'sundaeLogo.png');
+(4, 2, 'Sundae', 'Nestle', 'Sundae', 0, 'sundaeLogo.png'),
+(5, 1, 'Açaí', 'AcaiGalaxy', 'Açai', 0, 'acaiLogo.png');
 
 -- --------------------------------------------------------
 
@@ -1037,7 +1025,24 @@ CREATE TABLE `variacaoproduto` (
 INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `precoVariacao`, `fotoVariacao`, `idProduto`) VALUES
 (1, 0, 'Havaiano', 25.99, 'havaianoPote.png', 1),
 (2, 0, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1),
-(3, 0, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1);
+(3, 0, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1),
+(4, 0, 'ChupChup - Unicórnio', 3.99, 'unicornioChup.png', 3),
+(5, 0, 'Chup Chup - Coco', 3.97, 'cocoChup.png', 3),
+(6, 0, 'Chup Chup - Morango', 3.99, 'morangoChup.png', 3),
+(7, 0, 'ChupChup - Maracujá', 3.99, 'maracujaChup.png', 3),
+(8, 0, 'Picolé - Mousse de Doce de Leite', 7.99, 'mousse-doce-leitePicole.png', 2),
+(9, 0, ' Picolé - Coraçãozinho', 6.99, 'coracaozinhoPicole.png', 2),
+(10, 0, 'Picolé - Açaí', 7.99, 'acaiPicole.png', 2),
+(11, 0, 'Picolé - Flocos', 7.99, 'flocosPicole.png', 2),
+(12, 0, 'Sundae - Morango', 16.99, 'morangoSundae.png', 4),
+(13, 0, 'Sundae - Baunilha', 16.99, 'baunilhaSundae.png', 4),
+(14, 0, 'Napolitano - Pote 2L', 36.50, 'napolitanoPote.png', 1),
+(15, 0, 'Açai com banana', 46.50, 'acai-bananaAcai.png', 5),
+(16, 0, 'Açai com morango', 46.50, 'acai-morangoAcai.png', 5),
+(17, 0, 'Açai com leite', 46.50, 'acai-leitinhoAcai.png', 5),
+(18, 0, 'Açai com iorgute', 37.50, 'acai-iogurteAcai.png', 5),
+(19, 0, 'Açai com guarana', 36.50, 'acai-guaranaAcai.png', 5),
+(20, 0, 'Açai Original', 40.00, 'acaiLogo.png', 5);
 
 --
 -- Índices para tabelas despejadas
@@ -1165,19 +1170,19 @@ ALTER TABLE `pedidoproduto`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `variacaoproduto`
 --
 ALTER TABLE `variacaoproduto`
-  MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Restrições para tabelas despejadas

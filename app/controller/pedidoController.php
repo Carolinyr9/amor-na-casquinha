@@ -15,5 +15,9 @@
         public function criarPedido($email, $tipoFrete, $qtdItems){
             $this->pedido->criarPedido($email, $tipoFrete, $qtdItems);
         }
+
+        public function listarPedidos(){
+            $this->pedido->listarPedidos();
+        }
     }
 ?>
