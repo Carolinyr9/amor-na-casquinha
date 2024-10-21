@@ -39,6 +39,8 @@ if(isset($_GET['exclFunc'])) {
 <body>
     <?php
         include_once 'components/header.php';
+
+        echo "test";
     ?>
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Funcionários</h1>
