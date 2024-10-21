@@ -26,14 +26,14 @@ class Cliente {
                 $stmt->bindParam(1, $email);
                 $stmt->execute();
     
-                if ($stmt->rowCount() > 0) {
-                    $row = $stmt->fetch();
-                    $this->id = $row["idCliente"];                 
-                    $this->nome = $row["nome"];             
-                    $this->email = $row["email"];           
-                    $this->telefone = $row["telefone"];    
-                    $this->senha = $row["senha"];
-                    $this->idEndereco = $row["idEndereco"]; 
+            if ($stmt->rowCount() > 0) {
+                $row = $stmt->fetch();
+                $this->id = $row["idCliente"];                 
+                $this->nome = $row["nome"];             
+                $this->email = $row["email"];           
+                $this->telefone = $row["telefone"];    
+                $this->senha = $row["senha"];
+                $this->idEndereco = $row["idEndereco"]; 
     
                     $this->mostrarDadosCliente();
                     $stmt->closeCursor();
