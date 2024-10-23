@@ -1,5 +1,5 @@
 <?php
-require_once 'config/blockURLAccess.php';
+require_once '../config/blockURLAccess.php';
 session_start();
 ?>
 <!DOCTYPE html>
@@ -13,11 +13,12 @@ session_start();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/pedidosS.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <?php
         include_once 'components/header.php';
+        require_once '../controller/entregadorController.php';
+        $entregadorController = new entregadorController();
     ?>
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Pedidos</h1>
@@ -25,7 +26,7 @@ session_start();
             <div class="conteiner1">
                 <div>
                     <?php
-                        include_once 'config/getPedidosFunc.php';
+                        $entregadorController->listarPedidosAtribuidos(1);
                     ?>
                 </div>
             </div>

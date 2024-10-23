@@ -19,5 +19,10 @@
         public function listarPedidos(){
             $this->pedido->listarPedidos();
         }
+
+        public function listarPedidosAtribuidos($email){
+            $this->pedido->listarPedidosAtribuidos($email);
+        }
+        
     }
 ?>

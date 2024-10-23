@@ -30,6 +30,8 @@
                     <?php
                         $produtoController-> selecionarProdutos();
                     ?>
+
+                    <a href="pedidosEntregador.php">entregador</a>
                 </div>
             </div>
         </section>

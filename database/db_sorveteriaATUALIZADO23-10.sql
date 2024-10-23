@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
-<<<<<<<< HEAD:database/db_sorveteriaATUALIZADO21-10.sql
--- Tempo de geração: 22/10/2024 às 01:25
-========
--- Tempo de geração: 18/10/2024 às 23:56
->>>>>>>> e3eb4d0a19fc2717a1e3f510ad0e2e8e94c1be5c:database/db_sorveteriaATUALIZADO18-10.sql
+-- Tempo de geração: 23/10/2024 às 17:12
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -313,7 +309,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoPorId` (IN `idProdutoI
         SET nome = nomeIN, 
             marca = marcaIN, 
             descricao = descricaoIN, 
-            fotoVariacao = fotoIN 
+            foto = fotoIN 
         WHERE idProduto = idProdutoIN;
         
         SELECT 
@@ -689,6 +685,28 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidos` ()   BEGIN
     SELECT * FROM pedidos;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidosAtribuidosEntregador` (IN `entregador_id` INT)   BEGIN
+    SELECT 
+        p.idPedido,
+        p.idCliente,
+        p.dtPedido,
+        p.dtPagamento,
+        p.tipoFrete,
+        p.rastreioFrete,
+        p.idEndereco,
+        p.valorTotal,
+        p.qtdItems,
+        p.dtCancelamento,
+        p.motivoCancelamento,
+        p.statusPedido
+    FROM 
+        Pedidos p
+    INNER JOIN 
+        Entregador e ON JSON_CONTAINS(e.idPedidosAtribuidos, JSON_QUOTE(CAST(p.idPedido AS CHAR)))
+    WHERE 
+        e.idEntregador = entregador_id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidosEmAndamento` ()   BEGIN
     IF NOT EXISTS (SELECT * FROM pedidos WHERE statusPedido like 'Aguardando Pagamento' OR statusPedido like 'Em Andamento')
     then 
@@ -848,6 +866,31 @@ INSERT INTO `enderecos` (`idEndereco`, `cep`, `rua`, `numero`, `complemento`, `b
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `entregador`
+--
+
+CREATE TABLE `entregador` (
+  `idEntregador` int(11) NOT NULL,
+  `desativado` int(11) DEFAULT 0,
+  `perfil` varchar(100) DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `telefone` varchar(15) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(255) NOT NULL,
+  `cnh` varchar(20) NOT NULL,
+  `idPedidosAtribuidos` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`idPedidosAtribuidos`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `entregador`
+--
+
+INSERT INTO `entregador` (`idEntregador`, `desativado`, `perfil`, `nome`, `telefone`, `email`, `senha`, `cnh`, `idPedidosAtribuidos`) VALUES
+(1, 0, 'ENTR', 'João Silva', '1234567890', 'joao.silva@example.com', 'senha123', '12345678900', '[2]');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `estoque`
 --
 
@@ -970,10 +1013,6 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipoFrete`, `rastreioFrete`, `idEndereco`, `valorTotal`, `qtdItems`, `dtCancelamento`, `motivoCancelamento`, `statusPedido`) VALUES
-<<<<<<<< HEAD:database/db_sorveteriaATUALIZADO21-10.sql
-========
-(1, 1, '2024-10-17 23:16:12', NULL, 0, NULL, 1, NULL, 6, NULL, NULL, 'Aguardando Pagamento'),
->>>>>>>> e3eb4d0a19fc2717a1e3f510ad0e2e8e94c1be5c:database/db_sorveteriaATUALIZADO18-10.sql
 (2, 1, '2024-10-01 10:30:00', '2024-10-01 11:00:00', 0, NULL, 1, 150.75, 3, NULL, NULL, 'Concluído'),
 (3, 1, '2024-10-02 14:15:00', NULL, 1, 'R123456789', 2, 200.00, 5, NULL, NULL, 'Aguardando Pagamento'),
 (4, 1, '2024-10-03 09:00:00', '2024-10-03 09:45:00', 1, 'R987654321', 1, 120.50, 2, NULL, NULL, 'Concluído'),
@@ -982,11 +1021,7 @@ INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipo
 (7, 1, '2024-10-06 15:00:00', '2024-10-06 15:30:00', 1, 'R246813579', 1, 300.25, 1, NULL, NULL, 'Concluído'),
 (8, 1, '2024-10-07 08:15:00', NULL, 1, 'R135792468', 3, 130.99, 3, NULL, NULL, 'Aguardando Envio'),
 (9, 1, '2024-10-08 19:00:00', NULL, 0, NULL, 1, 90.00, 2, NULL, NULL, 'Aguardando Pagamento'),
-<<<<<<<< HEAD:database/db_sorveteriaATUALIZADO21-10.sql
 (11, 1, '2024-10-22 01:16:55', NULL, 0, NULL, 1, NULL, 6, NULL, NULL, 'Aguardando Pagamento');
-========
-(10, 1, '2024-10-18 23:49:22', NULL, 1, NULL, 1, NULL, 6, NULL, NULL, 'Aguardando Pagamento');
->>>>>>>> e3eb4d0a19fc2717a1e3f510ad0e2e8e94c1be5c:database/db_sorveteriaATUALIZADO18-10.sql
 
 -- --------------------------------------------------------
 
@@ -1039,11 +1074,7 @@ INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `prec
 (2, 0, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1),
 (3, 0, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1),
 (4, 0, 'ChupChup - Unicórnio', 3.99, 'unicornioChup.png', 3),
-<<<<<<<< HEAD:database/db_sorveteriaATUALIZADO21-10.sql
 (5, 0, 'Chup Chup - Coco', 3.97, 'cocoChup.png', 3),
-========
-(5, 0, 'Chup Chup - Coco', 3.99, 'cocoChup.png', 3),
->>>>>>>> e3eb4d0a19fc2717a1e3f510ad0e2e8e94c1be5c:database/db_sorveteriaATUALIZADO18-10.sql
 (6, 0, 'Chup Chup - Morango', 3.99, 'morangoChup.png', 3),
 (7, 0, 'ChupChup - Maracujá', 3.99, 'maracujaChup.png', 3),
 (8, 0, 'Picolé - Mousse de Doce de Leite', 7.99, 'mousse-doce-leitePicole.png', 2),
@@ -1052,7 +1083,6 @@ INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `prec
 (11, 0, 'Picolé - Flocos', 7.99, 'flocosPicole.png', 2),
 (12, 0, 'Sundae - Morango', 16.99, 'morangoSundae.png', 4),
 (13, 0, 'Sundae - Baunilha', 16.99, 'baunilhaSundae.png', 4),
-<<<<<<<< HEAD:database/db_sorveteriaATUALIZADO21-10.sql
 (14, 0, 'Napolitano - Pote 2L', 36.50, 'napolitanoPote.png', 1),
 (15, 0, 'Açai com banana', 46.50, 'acai-bananaAcai.png', 5),
 (16, 0, 'Açai com morango', 46.50, 'acai-morangoAcai.png', 5),
@@ -1060,9 +1090,6 @@ INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `prec
 (18, 0, 'Açai com iorgute', 37.50, 'acai-iogurteAcai.png', 5),
 (19, 0, 'Açai com guarana', 36.50, 'acai-guaranaAcai.png', 5),
 (20, 0, 'Açai Original', 40.00, 'acaiLogo.png', 5);
-========
-(14, 0, 'Napolitano - Pote 2L', 36.50, 'napolitanoPote.png', 1);
->>>>>>>> e3eb4d0a19fc2717a1e3f510ad0e2e8e94c1be5c:database/db_sorveteriaATUALIZADO18-10.sql
 
 --
 -- Índices para tabelas despejadas
@@ -1087,6 +1114,13 @@ ALTER TABLE `empresa`
 --
 ALTER TABLE `enderecos`
   ADD PRIMARY KEY (`idEndereco`);
+
+--
+-- Índices de tabela `entregador`
+--
+ALTER TABLE `entregador`
+  ADD PRIMARY KEY (`idEntregador`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Índices de tabela `estoque`
@@ -1163,6 +1197,12 @@ ALTER TABLE `enderecos`
   MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT de tabela `entregador`
+--
+ALTER TABLE `entregador`
+  MODIFY `idEntregador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `estoque`
 --
 ALTER TABLE `estoque`
@@ -1190,11 +1230,7 @@ ALTER TABLE `pedidoproduto`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-<<<<<<<< HEAD:database/db_sorveteriaATUALIZADO21-10.sql
   MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-========
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
->>>>>>>> e3eb4d0a19fc2717a1e3f510ad0e2e8e94c1be5c:database/db_sorveteriaATUALIZADO18-10.sql
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -1206,11 +1242,7 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `variacaoproduto`
 --
 ALTER TABLE `variacaoproduto`
-<<<<<<<< HEAD:database/db_sorveteriaATUALIZADO21-10.sql
   MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
-========
-  MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
->>>>>>>> e3eb4d0a19fc2717a1e3f510ad0e2e8e94c1be5c:database/db_sorveteriaATUALIZADO18-10.sql
 
 --
 -- Restrições para tabelas despejadas

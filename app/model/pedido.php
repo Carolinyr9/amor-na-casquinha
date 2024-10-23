@@ -134,5 +134,25 @@ class Pedido {
                 </div>        
             </div>';
     }
+
+    public function listarPedidosAtribuidos($email) {
+        try {
+            $stmt = $this->conn->prepare("CALL ListarPedidosAtribuidosEntregador(?)");
+            $stmt->bindParam(1, $email, PDO::PARAM_INT);
+            $stmt->execute();
+
+            if ($stmt->rowCount() > 0) {
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                foreach ($result as $row) {
+                    $this->mostrarListarPedidos($row); 
+                }
+            } else {
+                echo '<p>Nenhum pedido encontrado.</p>'; 
+            }
+        } catch (PDOException $e) {
+            echo "Erro ao listar pedidos atribuídos: " . $e->getMessage();
+        }
+    }
 }
 ?>
