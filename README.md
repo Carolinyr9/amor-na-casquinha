@@ -55,13 +55,9 @@ Essas funcionalidades combinadas oferecem uma solução abrangente para a gestã
 6. Por fim entre na página utilizando o 'localhost'
 
 **Bonus -** Caso queira logar como funcionário utilize:
--  Para funcionário padrão:
-   
-Email: carolinyr9@gmail.com  | Senha: 1234
-
 - Para funcionário administrador:
   
-Email: gabrielbarb@gmail.com | Senha: 1234
+Email: je@gmail.com | Senha: 1234
 
 
 ## Autores
