@@ -82,6 +82,21 @@
                                     ';
                                 }
                                 break;
+                            case 'ENTR':
+                                if($senha == $row["senha"]) {
+                                    $_SESSION["userEmail"] = $row["email"];
+                                    $_SESSION["userName"] = $row["nome"];
+                                    $_SESSION["userTel"] = $row["telefone"];
+                                    $_SESSION["userPerfil"] = $row["perfil"];
+                                    header("location: ../view/pedidos.php");
+                                } else {
+                                    echo '
+                                        <script>
+                                            alert("Senha errada!");
+                                            location.replace("../view/login.php"); 
+                                        </script> 
+                                    ';
+                                }
                             default:
                                 echo '
                                     <script>
