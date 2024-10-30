@@ -23,6 +23,13 @@
         public function listarPedidosAtribuidos($email){
             $this->pedido->listarPedidosAtribuidos($email);
         }
-        
+
+        public function atribuirEntregador($idPedido, $idEntregador) {
+            $this->pedido->atribuirEntregador($idPedido, $idEntregador);
+        }
+
+        public function listarPedidoPorId($idPedido){
+            $this->pedido->listarPedidoPorId($idPedido);
+        }
     }
 ?>

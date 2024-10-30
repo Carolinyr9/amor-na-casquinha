@@ -8,6 +8,13 @@
             $this->entregador = new Entregador();
         }
 
+        public function listarEntregadores($idPedido) {
+            $this->entregador->listarEntregadores($idPedido);
+        }
+
+        public function listarEntregadorPorId($idEntregador) {
+            $this->entregador->listarEntregadorPorId($idEntregador);
+        }
         
     }
 ?>
