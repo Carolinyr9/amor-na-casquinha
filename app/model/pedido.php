@@ -2,6 +2,19 @@
 require_once '../config/database.php';
 
 class Pedido {
+    private $idPedido;
+    private $idCliente;
+    private $dataPedido;
+    private $dataPagamento;
+    private $tipoFrete;
+    private $rastreioFrete;
+    private $idEndereco;
+    private $valorTotal;
+    private $qtdItens;
+    private $dataCancelamento;
+    private $motivoCancelamento;
+    private $statusPedido;
+    private $idEntregador;
     private $conn;
 
     public function __construct() {
@@ -55,6 +68,53 @@ class Pedido {
         } else {
             throw new Exception("ID do pedido não fornecido!");
         }
+    }
+
+    public function listarPedidoPorId($idPedido) {
+        if (isset($idPedido)) {
+            try {
+                $stmt = $this->conn->prepare("CALL ListarPedidoPorID(?)");
+                $stmt->bindParam(1, $idPedido, PDO::PARAM_INT);
+                $stmt->execute();
+    
+                if ($stmt->rowCount() > 0) {
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        $this->mostrarListarPedidosPorId($row);
+                        $_SESSION['idEntregador'] = $row['idEntregador'];
+                    }
+                } else {
+                    echo "Sem pedidos associados.";
+                }
+            } catch (PDOException $e) {
+                echo "Erro ao listar pedidos: " . $e->getMessage();
+            }
+        } else {
+            echo "ID do pedido não fornecido!";
+        }
+    }
+    
+
+    private function mostrarListarPedidosPorId($row) { 
+        $redirectToAlterarStatus = 'atribuirEntregador.php?idPedido=' . $row['idPedido'];
+        $redirectToAcompanharEntrega = 'informacoesPedido.php?idPedido=' . $row['idPedido'];
+        echo '
+            <div>
+                <div id="dados">
+                    <h3 class="titulo px-3">Número do Pedido: ' . $row["idPedido"] . '</h3>
+                    <div class="px-3">
+                        <p>Realizado em: ' . $row['dtPedido'] . '</p>
+                        <p>Total: R$ ' . number_format($row['valorTotal'], 2, ',', '.') . '</p>
+                        <p>' . (($row['tipoFrete'] == 1) ? 'É para entrega!' : 'É para buscar na sorveteria!') . '</p>
+                        <p>Status: ' . $row['statusPedido'] . '</p>';
+                        
+                        if ($row['tipoFrete'] == 1 && isset($row['idEntregador'])) {
+                            echo '<p>Entregador '. $row['idEntregador'] . ' atribuído ao pedido</p>
+                            <button id="vari"><a href="' . $redirectToAcompanharEntrega. '">Acompanhar Entrega</a></button>';
+                                }
+        echo                    '<button id="vari"><a href="' . $redirectToAlterarStatus . '">Alterar Status</a></button>
+                    </div>
+                </div>
+            </div>';
     }
 
     public function criarPedido($email, $tipoFrete, $qtdItens) {
