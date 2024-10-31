@@ -5,8 +5,11 @@ require_once '../config/config.php';
 require_once '../controller/clienteController.php';
 require_once '../controller/pedidoController.php';
 
-$pedidoController = new pedidoController();
-$clienteController = new clienteController();
+$pedidoController = new PedidoController();
+$clienteController = new ClienteController();
+
+$clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
+$pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
 ?>
 
 <!DOCTYPE html>
@@ -16,8 +19,8 @@ $clienteController = new clienteController();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/sobreS.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
@@ -28,36 +31,66 @@ $clienteController = new clienteController();
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["btnSubmit"])) {
             $pedidoController->criarPedido($_SESSION["userEmail"], $_POST["ckbIsDelivery"] ? 0 : 1, 6);
-        } else {
-            echo '<div class="alert alert-warning" role="alert">Nenhum pedido foi criado. Preencha o formulário e tente novamente.</div>';
         }
         ?>
         
         <div class="conteiner1 conteiner d-flex align-items-center flex-column w-75 p-4 my-3">
             <div class="c1">
-                <div class="d-flex justify-content-center m-2">
-                    <img src="images/funcionario1.png" alt="">
-                </div>
-                <?php 
-                $clienteController->getCliente($_SESSION["userEmail"]);
-                ?>  
+                
+                <?php if (isset($clienteData["error"])): ?>
+                    <div class="alert alert-danger">
+                        <?php echo $clienteData["error"]; ?>
+                    </div>
+                <?php else: ?>
+                    <div id="dados">
+                        <p>Nome: <?= htmlspecialchars($clienteData['nome']); ?></p>
+                        <p>Email: <?= htmlspecialchars($clienteData['email']); ?></p>
+                        <p>Telefone: <?= htmlspecialchars($clienteData['telefone']); ?></p>
+                        <p>Endereço: </p> 
+                        <?php if (isset($clienteData['endereco']['rua'])): ?>
+                            <div id="endereco">
+                                <p>
+                                    <?=
+                                    htmlspecialchars($clienteData['endereco']['rua']) . ', ' . 
+                                    htmlspecialchars($clienteData['endereco']['numero']) . ', ' . 
+                                    (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 
+                                    htmlspecialchars($clienteData['endereco']['bairro']) . ', ' . 
+                                    htmlspecialchars($clienteData['endereco']['cidade']) . ', ' . 
+                                    htmlspecialchars($clienteData['endereco']['estado']) . ', ' . 
+                                    htmlspecialchars($clienteData['endereco']['cep']); ?>
+                                </p>
+                            </div>
+                        <?php else: ?>
+                            <p>Endereço não encontrado!</p>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+
                 <form action="" method="POST" id="formulario">
                     <label for="nome">Nome:</label>
                     <input type="text" id="nome" placeholder="Nome completo">
                     <label for="endereco">Endereço:</label>
                     <input type="text" id="endereco" placeholder="Endereço">
-                    <button type="submit" name="btnSubmit">Salvar</button>
+                    <button type="submit" name="btnAlterar">Salvar</button>
                 </form>
             </div>
             <button id="edit">Editar</button>
         </div>
-
-        <div class="conteiner1 conteiner d-flex align-items-center flex-column w-75 p-4 my-3">
-            <h3>Meus pedidos</h3>
-            <?php
-            $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
-            ?>
-        </div>
+        <br>
+        <h3>Meus pedidos</h3>
+        <?php if (empty($pedidos)): ?>
+            <p>Nenhum pedido encontrado.</p>
+        <?php else: ?>
+            <?php foreach ($pedidos as $pedido): ?>
+                <div class="conteiner1 conteiner d-flex align-items-center flex-column w-75 p-4 my-3">
+                    <h5 class="titulo">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h5>
+                    <p><strong>Data do Pedido:</strong> <?= htmlspecialchars($pedido['dtPedido']); ?></p>
+                    <p><strong>Total:</strong> R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
+                    <p><strong>Tipo de Frete:</strong> <?= ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
+                    <p><strong>Status:</strong> <?= htmlspecialchars($pedido['statusPedido']); ?></p>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </main>
     <?php include_once 'components/footer.php'; ?>
     <script src="script/editar.js"></script>

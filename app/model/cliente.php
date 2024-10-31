@@ -26,73 +26,79 @@ class Cliente {
                 $stmt->bindParam(1, $email);
                 $stmt->execute();
     
-            if ($stmt->rowCount() > 0) {
-                $row = $stmt->fetch();
-                $this->id = $row["idCliente"];                 
-                $this->nome = $row["nome"];             
-                $this->email = $row["email"];           
-                $this->telefone = $row["telefone"];    
-                $this->senha = $row["senha"];
-                $this->idEndereco = $row["idEndereco"]; 
-    
-                    $this->mostrarDadosCliente();
-                    $stmt->closeCursor();
-                    $this->listarEndereco($this->idEndereco);
+                if ($stmt->rowCount() > 0) {
+                    $row = $stmt->fetch();
+                    $this->id = $row["idCliente"];                 
+                    $this->nome = $row["nome"];             
+                    $this->email = $row["email"];           
+                    $this->telefone = $row["telefone"];    
+                    $this->senha = $row["senha"];
+                    $this->idEndereco = $row["idEndereco"]; 
                     
-                    return $this->idEndereco; 
+                    // Aqui fechamos o cursor antes de fazer a próxima consulta
+                    $stmt->closeCursor(); 
+    
+                    $endereco = $this->listarEndereco($this->idEndereco);
+    
+                    return [
+                        "nome" => $this->nome,
+                        "email" => $this->email,
+                        "telefone" => $this->telefone,
+                        "endereco" => $endereco
+                    ];
                 } else {
-                    echo "Cliente não encontrado!";
+                    return ["error" => "Cliente não encontrado!"];
                 }
             } catch (PDOException $e) {
-                echo "Erro ao obter dados do cliente: " . $e->getMessage();
+                return ["error" => "Erro ao obter dados do cliente: " . $e->getMessage()];
             }
         } else {
-            echo "Email não fornecido!";
+            return ["error" => "Email não fornecido!"];
         }
     }
     
-
-    public function mostrarDadosCliente() {
-        try {
-            if (!empty($this->nome)) {
-                echo '
-                <div id="dados">
-                    <p>Nome: '.$this->nome.'</p>
-                    <p>Email: '.$this->email.'</p>
-                    <p>Telefone: '.$this->telefone.'</p>
-                    <p>Endereço: </p> 
-                </div>
-                ';
-            } else {
-                echo "Dados do cliente não estão disponíveis!";
-            }
-        } catch (Exception $e) {
-            echo "Erro ao mostrar dados do cliente: " . $e->getMessage();
-        }
-    }
-
-    public function listarEndereco($idEndereco){
+    private function listarEndereco($idEndereco){
+        echo $idEndereco;
         try {
             $stmt = $this->conn->prepare("CALL ListarEnderecoPorID(?)");
             $stmt->bindParam(1, $idEndereco);
             $stmt->execute();
-    
+            
             if ($stmt->rowCount() > 0) {
                 $row = $stmt->fetch();
-                echo '
-                    <div id="endereco">
-                        <p>'. $row["rua"] . ', ' . $row["numero"] . ', ' . 
-                        ($row["complemento"] ? $row["complemento"] . ', ' : '') . 
-                        $row["bairro"] . ', ' . $row["cidade"] . ', ' . $row["estado"] . ', ' . $row["cep"] .'</p>
-                    </div>
-                ';
+                $stmt->closeCursor(); // Fechamos o cursor aqui também
     
+                return [
+                    "rua" => $row["rua"],
+                    "numero" => $row["numero"],
+                    "complemento" => $row["complemento"],
+                    "bairro" => $row["bairro"],
+                    "cidade" => $row["cidade"],
+                    "estado" => $row["estado"],
+                    "cep" => $row["cep"]
+                ];
             } else {
-                echo "Endereço não encontrado!";
+                return [
+                    "error" => "Endereço não encontrado!",
+                    "rua" => null,
+                    "numero" => null,
+                    "bairro" => null,
+                    "cidade" => null,
+                    "estado" => null,
+                    "cep" => null
+                ];
             }
         } catch (PDOException $e) {
-            echo "Erro ao listar o endereço: " . $e->getMessage();
+            return [
+                "error" => "Erro ao listar o endereço: " . $e->getMessage(),
+                "rua" => null,
+                "numero" => null,
+                "bairro" => null,
+                "cidade" => null,
+                "estado" => null,
+                "cep" => null
+            ];
         }
     }
-}
-?>
+    
+}    

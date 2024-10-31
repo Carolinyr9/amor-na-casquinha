@@ -1,31 +1,44 @@
-<?php 
-    require_once '../model/carrinho.php';
+<?php
+require_once '../model/Carrinho.php';
 
-    class CarrinhoController {
-        private $carrinho;
+class CarrinhoController {
+    private $carrinho;
 
-        public function __construct() {
-            $this->carrinho = new Carrinho();
-        }
+    public function __construct() {
+        $this->carrinho = new Carrinho();
+    }
 
-        public function addProduto($variacaoId){
+    public function adicionarProduto($variacaoId) {
+        try {
             $this->carrinho->addProduto($variacaoId);
-        }
-
-        public function listarCarrinho() {
-            $this->carrinho->listarCarrinho();
-        }
-
-        public function removeProduto($id) {
-            $this->carrinho->removeProduto($id);
-        }
-
-        public function getTotal(){
-            $this->carrinho->getTotal();
-        }
-
-        public function atualizarCarrinho(){
-            $this->carrinho->atualizarCarrinho();
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
     }
+
+    public function removerProduto($id) {
+        $this->carrinho->removeProduto($id);
+    }
+
+    public function atualizarCarrinho() {
+        $this->carrinho->atualizarCarrinho();
+    }
+
+    public function listarCarrinho() {
+        return $this->carrinho->listarCarrinho();
+    }
+
+    public function calcularTotal() {
+        return $this->carrinho->getTotal();
+    }
+
+    public function getPedidoData() {
+        $total = $this->carrinho->getTotal();
+        $isUserLoggedIn = isset($_SESSION["userEmail"]) && !empty($_SESSION["userEmail"]);
+        return [
+            "total" => $total,
+            "isUserLoggedIn" => $isUserLoggedIn
+        ];
+    }
+}
 ?>

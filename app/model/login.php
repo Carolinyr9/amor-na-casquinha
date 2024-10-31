@@ -27,6 +27,7 @@
                 foreach($result as $row)
                 {
                     $perfil = $row["perfil"];
+                    $_SESSION[$perfil] = $perfil;
                     $desativado = $row["desativado"];
             
                     if($desativado == 1){

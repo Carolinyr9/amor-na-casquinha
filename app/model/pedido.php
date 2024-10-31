@@ -2,18 +2,6 @@
 require_once '../config/database.php';
 
 class Pedido {
-    private $idPedido;
-    private $idCliente;
-    private $dataPedido;
-    private $dataPagamento;
-    private $tipoFrete;
-    private $rastreioFrete;
-    private $idEndereco;
-    private $valorTotal;
-    private $qtdItens;
-    private $dataCancelamento;
-    private $motivoCancelamento;
-    private $statusPedido;
     private $conn;
 
     public function __construct() {
@@ -21,7 +9,7 @@ class Pedido {
             $database = new DataBase(); 
             $this->conn = $database->getConnection();
         } catch (PDOException $e) {
-            echo "Erro ao conectar com o banco de dados: " . $e->getMessage();
+            throw new Exception("Erro ao conectar com o banco de dados: " . $e->getMessage());
         }
     }
 
@@ -32,42 +20,41 @@ class Pedido {
                 $stmt->bindParam(1, $email);
                 $stmt->execute();
 
+                $pedidos = [];
                 if ($stmt->rowCount() > 0) {
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        $this->idPedido = $row["idPedido"];
-                        $this->idCliente = $row["idCliente"];
-                        $this->dataPedido = $row["dtPedido"];
-                        $this->dataPagamento = $row["dtPagamento"];
-                        $this->tipoFrete = $row["tipoFrete"];
-                        $this->rastreioFrete = $row["rastreioFrete"];
-                        $this->idEndereco = $row["idEndereco"];
-                        $this->valorTotal = $row["valorTotal"];
-                        $this->qtdItens = $row["qtdItems"];
-                        $this->dataCancelamento = $row["dtCancelamento"];
-                        $this->motivoCancelamento = $row["motivoCancelamento"];
-                        $this->statusPedido = $row["statusPedido"];
-                        $this->mostrarListarPedidosPorCliente(); 
+                        $pedidos[] = $row; // Armazena todos os pedidos em um array
                     }
+                    return $pedidos; // Retorna todos os pedidos
                 } else {
-                    echo "Sem pedidos associados.";
+                    return []; // Retorna um array vazio se não houver pedidos
                 }
             } catch (PDOException $e) {
-                echo "Erro ao listar pedidos: " . $e->getMessage();
+                throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
             }
         } else {
-            echo "Email não fornecido!";
+            throw new Exception("Email não fornecido!");
         }
     }
 
-    public function mostrarListarPedidosPorCliente() {
-        echo '
-            <p>Número do Pedido: '.$this->idPedido.'</p>
-            <p>Realizado em: '.$this->dataPedido.'</p>
-            <p>Total: R$'.$this->valorTotal.'</p>
-            <p>'.(($this->tipoFrete == 0) ? 'É para entrega!' : 'É para buscar na sorveteria!').'</p>
-            <p>Status: '.$this->statusPedido.'</p>
-            <hr/>
-        ';
+    public function listarPedidoPorId($idPedido) {
+        if (isset($idPedido)) {
+            try {
+                $stmt = $this->conn->prepare("CALL ListarPedidoPorID(?)");
+                $stmt->bindParam(1, $idPedido, PDO::PARAM_INT);
+                $stmt->execute();
+
+                $pedido = null;
+                if ($stmt->rowCount() > 0) {
+                    $pedido = $stmt->fetch(PDO::FETCH_ASSOC); // Busca apenas um pedido
+                }
+                return $pedido; // Retorna o pedido ou null
+            } catch (PDOException $e) {
+                throw new Exception("Erro ao listar pedido: " . $e->getMessage());
+            }
+        } else {
+            throw new Exception("ID do pedido não fornecido!");
+        }
     }
 
     public function criarPedido($email, $tipoFrete, $qtdItens) {
@@ -81,15 +68,9 @@ class Pedido {
             $stmt->bindParam(4, $qtdItens);
             $stmt->execute();
 
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($result['Status'] == '201') {
-                echo "Pedido criado com sucesso! ID do Pedido: " . $result['Body'];
-            } else {
-                echo "Erro ao criar o pedido: " . $result['Error'];
-            }
+            return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna o resultado
         } catch (PDOException $e) {
-            echo "Erro ao criar o pedido: " . $e->getMessage();
+            throw new Exception("Erro ao criar o pedido: " . $e->getMessage());
         }
     }
 
@@ -98,60 +79,28 @@ class Pedido {
             $stmt = $this->conn->prepare("CALL ListarPedidos()");
             $stmt->execute(); 
 
+            $pedidos = [];
             if ($stmt->rowCount() > 0) {
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                
-                foreach ($result as $row) {
-                    $this->mostrarListarPedidos($row); 
-                }
-            } else {
-                echo '<p>Nenhum pedido encontrado.</p>'; 
+                $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC); // Busca todos os pedidos
             }
+            return $pedidos; // Retorna todos os pedidos
         } catch (PDOException $e) {
-            echo "Erro ao listar pedidos: " . $e->getMessage();
+            throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
         }
     }
 
-    private function mostrarListarPedidos($row) { 
-        echo '<div class="c1">
-                <div class="c2">
-                    <div class="c3">
-                        <picture>
-                            <img src="../images/FUNC.png" alt="Pedido ' . $row["idPedido"] . '">
-                        </picture>
-                    </div>
-                    <div>
-                        <div id="dados">
-                            <h3 class="titulo px-3">Número do Pedido: ' . $row["idPedido"] . '</h3>
-                            <div class="px-3">
-                                <p>Realizado em: ' . $row['dtPedido'] . '</p>
-                                <p>Total: R$ ' . number_format($row['valorTotal'], 2, ',', '.') . '</p>
-                                <p>' . (($row['tipoFrete'] == 1) ? 'É para entrega!' : 'É para buscar na sorveteria!') . '</p>
-                                <p>Status: ' . $row['statusPedido'] . '</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>        
-            </div>';
-    }
-
-    public function listarPedidosAtribuidos($email) {
+    public function atribuirEntregador($idPedido, $idEntregador) {
         try {
-            $stmt = $this->conn->prepare("CALL ListarPedidosAtribuidosEntregador(?)");
-            $stmt->bindParam(1, $email, PDO::PARAM_INT);
+            $stmt = $this->conn->prepare("CALL AtribuirPedidoEntregador(?, ?)");
+            $stmt->bindParam(1, $idPedido, PDO::PARAM_INT);
+            $stmt->bindParam(2, $idEntregador, PDO::PARAM_INT);
             $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                
-                foreach ($result as $row) {
-                    $this->mostrarListarPedidos($row); 
-                }
-            } else {
-                echo '<p>Nenhum pedido encontrado.</p>'; 
-            }
+            echo "<script>
+                    alert('Entregador atribuído com sucesso!');
+                    window.location.href = 'pedidos.php';
+                </script>";
         } catch (PDOException $e) {
-            echo "Erro ao listar pedidos atribuídos: " . $e->getMessage();
+            throw new Exception("Erro ao atualizar entregador: " . $e->getMessage());
         }
     }
 }
