@@ -15,11 +15,13 @@
                         break;
                     case "FUNC":
                         echo "<a href='pedidos.php'>Pedidos</a>";
+                        echo "<a href='sessaoFornecedores.php'>Fornecedores</a>";
                         break;
                     case "FADM":
                         echo "<a href='pedidos.php'>Pedidos</a>";
                         echo "<a href='editarProdutos.php'>Produtos</a>";
                         echo "<a href='sessaoFuncionarios.php'>Funcionários</a>";
+                        echo "<a href='sessaoFornecedores.php'>Fornecedores</a>";
                         break;
                     default:
                         echo "<a href='index.php'>Início</a>";

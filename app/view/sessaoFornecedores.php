@@ -1,24 +1,29 @@
 <?php
 require_once '../config/blockURLAccess.php';
-require_once '../controller/funcionarioController.php';
+require_once '../controller/fornecedorController.php';
 session_start();
 
-$func = new FuncionarioController();
+$forn = new FornecedorController();
 
-$listaFuncionarios = $func->listarFunc();
+$listaFornecedores = $forn->listarForn();
 
-if (isset($_POST['submitBtn'])) {
-    $nome = $_POST['nomeFun'];
-    $email = $_POST['emailFun'];
-    $telefone = $_POST['telefoneFun'];
-    $senha = $_POST['senhaFun'];
-    $adm = $_POST['admFun'];
-
-    $result = $func->inserirFunc($nome, $email, $telefone, $senha, $adm);
+if(isset($_POST['submitBtn'])) {
+    $nome = $_POST['nomeForn'];
+    $email = $_POST['emailForn'];
+    $telefone = $_POST['telefoneForn'];
+    $cnpj = $_POST['cnpjForn'];
+    $rua = $_POST['ruaForn'];
+    $numero = $_POST['numeroForn'];
+    $bairro = $_POST['bairroForn'];
+    $complemento = $_POST['complementoForn'];
+    $cep = $_POST['cepForn'];
+    $cidade = $_POST['cidadeForn'];
+    $estado = $_POST['estadoForn'];
+    $forn->inserirForn($nome, $email, $telefone, $cnpj, $rua, $numero, $bairro, $complemento, $cep, $cidade, $estado);
 }
 
 if(isset($_GET['exclFunc'])) {
-    $func->deletarFunc($_GET['exclFunc']);
+    $forn->deletarFunc($_GET['exclFunc']);
 }
 ?>
 <!DOCTYPE html>
@@ -27,7 +32,7 @@ if(isset($_GET['exclFunc'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funcionários</title>
+    <title>Fornecedores</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
@@ -41,35 +46,42 @@ if(isset($_GET['exclFunc'])) {
         include_once 'components/header.php';
     ?>
     <main>
-        <h1 class="m-auto text-center pt-4 pb-4">Funcionários</h1>
+        <h1 class="m-auto text-center pt-4 pb-4">Fornecedores</h1>
         <div class="conteiner">
-            <button class="add">Adicionar Funcionário</button>
-            <form action="sessaoFuncionarios.php" method="POST" id="addFormulario">
+            <button class="add">Adicionar Fornecedores</button>
+            <form action="sessaoFornecedores.php" method="POST" id="addFormulario">
                 <label for="nome1" required>Nome:</label>
-                <input type="text" id="nome1" name="nomeFun" placeholder="Nome">
-                <label for="email2">Email:</label>
-                <input type="email" id="email1" name="emailFun" placeholder="Email" required>
+                <input type="text" id="nome1" name="nomeForn" placeholder="Nome" required>
+                <label for="email1">Email:</label>
+                <input type="email" id="email1" name="emailForn" placeholder="Email" required>
                 <label for="telefone1">Telefone:</label>
-                <input type="text" id="telefone1" name="telefoneFun" placeholder="(11) 955555555" required>
-                <label for="senha1">Senha:</label>
-                <input type="password" id="senha1" name="senhaFun" placeholder="Senha" required>
-                <label for="adm1"><input type="radio" id="adm1" name="admFun" value=1> Administrador</label>
+                <input type="text" id="telefone1" name="telefoneForn" placeholder="(11) 955555555" required>
+                <label for="cnpj1">CNPJ:</label>
+                <input type="text" id="cnpj1" name="cnpjForn" placeholder="CNPJ" required>
+                <label for="rua1">Rua:</label>
+                <input type="text" id="rua1" name="ruaForn" placeholder="Rua" required>
+                <label for="bairro1">Bairro:</label>
+                <input type="text" id="bairro1" name="bairroForn" placeholder="Bairro" required>    
+                <label for="numero1">Número:</label>
+                <input type="text" id="numero1" name="numeroForn" placeholder="Número" required>
+                <label for="complemento1">Complemento:</label>
+                <input type="text" id="complemento1" name="complementoForn" placeholder="Complemento">
+                <label for="cep1">CEP:</label>
+                <input type="text" id="cep1" name="cepForn" placeholder="CEP" required>
+                <label for="cidade1">Cidade:</label>
+                <input type="text" id="cidade1" name="cidadeForn" placeholder="Cidade" required>
+                <label for="estado1">Estado:</label>
+                <input type="text" id="estado1" name="estadoForn" placeholder="Estado" required>
                 <input type="submit" name="submitBtn" value="Adicionar">
             </form>
             <div class="conteiner1">
-                
                     <?php
-                        foreach ($listaFuncionarios as $row) {
-                            $redirectToEditar = 'editarFuncionarios.php?funcEmail='.$row['email'];
-                            $redirectToExcluir = 'sessaoFuncionarios.php?exclFunc='.$row['email'];
+                        foreach ($listaFornecedores as $row) {
+                            $redirectToEditar = 'editarFornecedores.php?fornEmail='.$row['email'];
+                            $redirectToExcluir = 'sessaoFornecedores.php?exclForn='.$row['email'];
                             echo '<div class="c1">
                                     <div class="c2">
-                                        <!-- <div class="c3">
-                                            <picture>
-                                            <source media="(min-width: 768px)" srcset="images/'.$row["perfil"].'.png">
-                                            <img src="images/'.$row["perfil"].'.png" alt="'.$row["nome"].'">
-                                            </picture>
-                                        </div> -->
+                                       
                                         <div class="d-flex flex-column">
                                             <div id="dados">
                                                 <h3 class="titulo px-3">'.$row["nome"].'</h3>
