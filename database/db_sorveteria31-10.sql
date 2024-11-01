@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 31/10/2024 às 22:42
+-- Tempo de geração: 01/11/2024 às 01:12
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,6 +25,7 @@ DELIMITER $$
 --
 -- Procedimentos
 --
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `AtribuirPedidoEntregador` (IN `p_idPedido` INT, IN `p_idEntregador` INT)   BEGIN
     UPDATE pedidos
     SET idEntregador = p_idEntregador
@@ -134,12 +135,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarEstoqueProdutoPorId` (IN `
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFornecedorPorId` (IN `idFornecedorIN` INT)   BEGIN
-    IF NOT EXISTS (SELECT idFornecedor FROM fornecedores WHERE idFornecedor like idFornecedorIN AND desativado != 1)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFornecedorPorEmail` (IN `emailFornecedorIN` INT)   BEGIN
+    IF NOT EXISTS (SELECT idFornecedor FROM fornecedores WHERE email like emailFornecedorIN AND desativado != 1)
     THEN
         SELECT '403' AS 'Status', 'ERROR_FORNECEDOR_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
     ELSE
-        UPDATE fornecedores SET desativado = 1 WHERE idFornecedor = idFornecedorIN;
+        UPDATE fornecedores SET desativado = 1 WHERE email = emailFornecedorIN;
         SELECT
             '204' AS 'Status',
             '' AS 'Error',
@@ -274,16 +275,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarEstoque` (`idEstoqueIN` INT, 
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarFuncionarioPorEmail` (`emailIN` VARCHAR(255), `emailNovoIN` VARCHAR(255), `nomeIN` VARCHAR(255), `telefoneIN` VARCHAR(25), `adm` TINYINT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarFornecedorPorEmail` (IN `emailIN` VARCHAR(255), IN `emailNovoIN` VARCHAR(255), IN `nomeIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25))   BEGIN
+	IF NOT EXISTS (SELECT email from fornecedores where email like emailIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+		UPDATE fornecedores SET
+			nome = nomeIN,
+			email = emailNovoIN,
+			telefone = telefoneIN
+			WHERE email like emailIN;
+		SELECT 
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_UPDATED' AS 'Message';
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarFuncionarioPorEmail` (IN `emailIN` VARCHAR(255), IN `emailNovoIN` VARCHAR(255), IN `nomeIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25))   BEGIN
 	IF NOT EXISTS (SELECT email from funcionarios where email like emailIN)
 	THEN
 		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
 	ELSE
 		UPDATE funcionarios SET
 			nome = nomeIN,
-			email = newEmailIN,
-			telefone = telefoneIN,
-            adm = adm
+			email = emailNovoIN,
+			telefone = telefoneIN
 			WHERE email like emailIN;
 		SELECT 
 			'204' AS 'Status',
@@ -412,31 +429,32 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirEstoque` (IN `codigoProdutoI
 	END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFornecedor` (IN `nomeFornecedorIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25), IN `emailIN` VARCHAR(255), IN `cnpjIN` VARCHAR(25), IN `idEnderecoIN` INT)   BEGIN
-    IF EXISTS (SELECT cnpj from fornecedores where cnpj like cnpjIN)
-    THEN
-        SELECT '403' AS 'Status', 'ERROR_CNPJ_CADASTRADO' AS 'Error', '' AS 'Message';
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFornecedor` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `telefoneIN` VARCHAR(20), IN `cnpjIN` VARCHAR(18), IN `ruaIN` VARCHAR(255), IN `numeroIN` INT, IN `complementoIN` VARCHAR(255), IN `bairroIN` VARCHAR(255), IN `cepIN` VARCHAR(10), IN `cidadeIN` VARCHAR(255), IN `estadoIN` VARCHAR(255))   BEGIN
+ 
+    IF NOT EXISTS (SELECT 1 FROM fornecedores WHERE cnpj = cnpj) THEN
+        INSERT INTO enderecos (rua, numero, complemento, bairro, cep, cidade, estado) VALUES (ruaIN, numeroIN, complementoIN, bairroIN, cepIN, cidadeIN, estadoIN);
+        SET @last_id_in_enderecos = LAST_INSERT_ID();
+        INSERT INTO fornecedores (nome, email, telefone, cnpj, idEndereco)
+        VALUES (nomeIN, emailIN, telefoneIN, cnpjIN, @last_id_in_enderecos);
+        
+        SELECT '201' AS Status, 'SUCCESS' AS Message, 'Fornecedor inserido com sucesso.' AS Info;
     ELSE
-        INSERT INTO fornecedores(`nomeFornecedor`, `telefone`, `email`, `cnpj`, `idEndereco`) VALUES (nomeFornecedorIN, telefoneIN, emailIN, cnpjIN, idEnderecoIN);
-        SELECT 
-            '201' AS 'Status', 
-            '' AS 'Error', 
-            'SUCCESS_CREATED' AS 'Message';
+        SELECT '409' AS Status, 'ERROR_DUPLICATE' AS Message, 'Fornecedor com este email ou CNPJ já existe.' AS Info;
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFuncionario` (IN `emailIN` VARCHAR(255), IN `senhaIN` VARCHAR(255), IN `nomeIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25), IN `adm` TINYINT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFuncionario` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `telefoneIN` VARCHAR(255), IN `senhaIN` VARCHAR(25), IN `admIN` TINYINT)   BEGIN
 	IF EXISTS (SELECT email from funcionarios where email like emailIN)
 	THEN
 		SELECT '403' AS 'Status', 'ERROR_EMAIL_CADASTRADO' AS 'Error', '' AS 'Message';
 	ELSE
-        INSERT INTO funcionario(
+        INSERT INTO funcionarios(
 			`nome`,
 			`email`,
-			`senha`,
 			`telefone`,
+			`senha`,
 			`adm`)
-			VALUES (nomeIN, emailIN, senhaIN, telefoneIN, adm);
+			VALUES (nomeIN, emailIN, telefoneIN, senhaIN, admIN);
 		SELECT 
 			'201' AS 'Status',
 			'' AS 'Error',
@@ -630,20 +648,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedores` ()   BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedorPorID` (`idFornecedorIN` INT)   BEGIN
-    IF NOT EXISTS (SELECT idFornecedor from fornecedores where idFornecedor like idFornecedorIN)
-    THEN
-        SELECT '403' AS 'Status', 'ERROR_FORNECEDOR_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedorPorEmail` (IN `emailIN` INT)   BEGIN
+    IF NOT EXISTS (SELECT * FROM fornecedores WHERE email = emailIN) THEN
+
+        SELECT '403' AS Status, 'ERROR_FORNECEDOR_NAO_ENCONTRADO' AS Error, '' AS Message;
     ELSE
-        SELECT * FROM fornecedores WHERE idFornecedor = idFornecedorIN;
-        SELECT
-            '201' AS 'Status',
-            '' AS 'Error',
-            'SUCCESS_CREATED' AS 'Message';
+        SELECT * FROM fornecedores WHERE email = emailIN LIMIT 1;
+        
+        SELECT '201' AS Status, '' AS Error, 'SUCCESS_CREATED' AS Message;
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFuncionarioPorEmail` (`emailIN` VARCHAR(255))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFuncionarioPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
 	IF NOT EXISTS (SELECT email from funcionarios where email like emailIN)
 	THEN
 		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
@@ -788,6 +804,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Login` (IN `emailIN` VARCHAR(255)) 
 	ELSEIF EXISTS (SELECT email FROM clientes WHERE email LIKE emailIN)
 		THEN
 			SELECT * FROM clientes INNER JOIN enderecos ON clientes.idEndereco = enderecos.idEndereco WHERE email LIKE email LIMIT 1;
+    ELSEIF EXISTS (SELECT email FROM entregador WHERE email LIKE emailIN)
+    	THEN
+        	SELECT * FROM entregador WHERE email LIKE email;
 	ELSE
 		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message', '' AS 'Body';
     END IF;
@@ -947,7 +966,7 @@ INSERT INTO `estoque` (`idEstoque`, `idProduto`, `dtEntrada`, `quantidade`, `dtF
 
 CREATE TABLE `fornecedores` (
   `idFornecedor` int(11) NOT NULL,
-  `nomeFornecedor` varchar(255) NOT NULL,
+  `nome` varchar(255) NOT NULL,
   `telefone` varchar(20) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `cnpj` varchar(20) NOT NULL,
@@ -959,8 +978,8 @@ CREATE TABLE `fornecedores` (
 -- Despejando dados para a tabela `fornecedores`
 --
 
-INSERT INTO `fornecedores` (`idFornecedor`, `nomeFornecedor`, `telefone`, `email`, `cnpj`, `desativado`, `idEndereco`) VALUES
-(1, 'Sorvetes do Sul', '51987654321', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 0, 1),
+INSERT INTO `fornecedores` (`idFornecedor`, `nome`, `telefone`, `email`, `cnpj`, `desativado`, `idEndereco`) VALUES
+(1, 'Sorvetes do Sul', '51987654321', 'contato@sorvetesdosul.com', '12.345.678/0001-99', 0, 1),
 (2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 0, 2),
 (3, 'Doces e Sorvetes Ltda', NULL, 'info@docesesorvetes.com.br', '56.789.012/0001-55', 1, 3),
 (4, 'IceDream Sorvetes', '31987654321', NULL, '23.456.789/0001-77', 0, 4),
@@ -989,7 +1008,9 @@ CREATE TABLE `funcionarios` (
 --
 
 INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
-(1, 0, 1, 'FUNC', 'Jessica', '96309-8589', 'je@email.com', '1234', 1);
+(1, 0, 1, 'FUNC', 'Jessica', '96309-8589', 'je@email.com', '1234', 1),
+(2, 1, NULL, 'FUNC', 'carol', '123123', 'caa@em.com', NULL, NULL),
+(3, 0, 1, 'FUNC', 'carol', '94759-3432', 'ca@email.com', '1234', NULL);
 
 -- --------------------------------------------------------
 
