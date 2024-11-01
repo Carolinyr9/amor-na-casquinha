@@ -3,7 +3,8 @@ require_once '../config/blockURLAccess.php';
 session_start();
 require_once '../controller/produtoController.php';
 
-$produtoController = new produtoController();
+$produtoController = new ProdutoController();
+$produtos = $produtoController->listarProdutos();
 ?>
 
 <!DOCTYPE html>
@@ -22,13 +23,14 @@ $produtoController = new produtoController();
 <body>
     <?php include_once 'components/header.php'; 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $nomeProduto = isset($_POST['nomeProAdd']) ? $_POST['nomeProAdd'] : '';
-        $marca = isset($_POST['marcaProAdd']) ? $_POST['marcaProAdd'] : '';
-        $descricao = isset($_POST['descricaoProAdd']) ? $_POST['descricaoProAdd'] : '';
-        $idFornecedor = isset($_POST['fornecedor']) ? $_POST['fornecedor'] : '';
-        $imagemProduto = isset($_POST['imagemProAdd']) ? $_POST['imagemProAdd'] : '';
+        $nomeProduto = $_POST['nomeProAdd'] ?? '';
+        $marca = $_POST['marcaProAdd'] ?? '';
+        $descricao = $_POST['descricaoProAdd'] ?? '';
+        $idFornecedor = $_POST['fornecedor'] ?? '';
+        $imagemProduto = $_POST['imagemProAdd'] ?? '';
 
         $produtoController->adicionarProduto($nomeProduto, $marca, $descricao, $idFornecedor, $imagemProduto);
+        header("Location: editarProdutos.php");
     } ?>
     
     <main>
@@ -51,7 +53,30 @@ $produtoController = new produtoController();
                 </form>
             </div>
             <div class="conteiner1">
-                <?php $produtoController->selecionarProdutosFunc(); ?>
+                <?php
+                if ($produtos) {
+                    foreach ($produtos as $row) {
+                        $redirectToVariacao = 'editarSabores.php?produto=' . $row['idProduto'];
+                        $redirectToEditar = 'editProd.php?produto=' . $row['idProduto'];
+                        $redirectToExcluir = 'excluirProd.php?produto=' . $row['idProduto'];
+                        echo '
+                        <div class="c1">
+                            <div class="card categ d-flex align-items-center">
+                                <picture>
+                                    <img src="../images/' . htmlspecialchars($row["foto"]) . '" alt="' . htmlspecialchars($row["nome"]) . '">
+                                </picture>
+                                <div class="botao text-center d-flex justify-content-evenly mt-3">
+                                    <button id="vari"><a href="' . htmlspecialchars($redirectToVariacao) . '">Ver Sabores</a></button>        
+                                    <button id="edit"><a href="' . htmlspecialchars($redirectToEditar) . '">Editar</a></button>        
+                                    <button id="excl"><a href="' . htmlspecialchars($redirectToExcluir) . '">Excluir</a></button>        
+                                </div>
+                            </div>
+                        </div>';
+                    }
+                } else {
+                    echo '<p>Nenhum produto encontrado.</p>';
+                }
+                ?>
             </div>
         </div>
     </main>

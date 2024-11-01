@@ -20,39 +20,47 @@ session_start();
     <?php
     include_once 'components/header.php';
     require_once '../controller/produtoController.php';
-    $produtoController = new produtoController();
+
+    $produtoController = new ProdutoController();
+    $produtoId = $_GET['produto'] ?? null;
+    $produto = $produtoId ? $produtoController->obterProdutoPorID($produtoId) : null;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['idProdutoExcl'])) {
         $idProduto = $_POST['idProdutoExcl'];
         $produtoController->removerProduto($idProduto);
+        header("Location: editarProdutos.php");
+        exit();
     }
     ?>
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Excluir Produto</h1>
         <div class="container">
             <h3>Tem certeza que deseja excluir esse produto?</h3>
-            <div class="container1">   
+            <div class="container1 text-center">   
                 <div class="c1">
-                    <?php
-                    if (isset($_GET['produto'])) {
-                        $idProduto = $_GET['produto'];
-                        $produtoController->selecionarProdutosPorID($idProduto);
-                        echo '
+                    <?php if ($produto): ?>
+                        <div class="categ d-flex align-items-center">
+                            <picture>
+                                <img src="../images/<?= htmlspecialchars($produto["foto"]) ?>" alt="<?= htmlspecialchars($produto["nome"]) ?>" class="imagem">
+                            </picture>
+                            <div class="d-flex align-items-center flex-column c2">
+                                <h4><?= htmlspecialchars($produto["nome"]) ?></h4>
+                                <p>Descrição: <?= htmlspecialchars($produto["descricao"]) ?></p>
+                                <p>Número de Identificação: <?= htmlspecialchars($produto["idProduto"]) ?></p>
+                            </div>
+                        </div>
                         <form action="" method="POST" id="formulario" class="formulario">
-                            <input type="hidden" name="idProdutoExcl" value="' . htmlspecialchars($idProduto) . '">
+                            <input type="hidden" name="idProdutoExcl" value="<?= htmlspecialchars($produto['idProduto']) ?>">
                             <button type="submit" class="btn btn-danger">Excluir</button>
-                        </form>';
-                    } else {
-                        echo '<p>Produto não encontrado.</p>';
-                    }
-                    ?>
+                        </form>
+                    <?php else: ?>
+                        <p>Produto não encontrado.</p>
+                    <?php endif; ?>
                 </div>
             </div>
             <button class="voltar"><a href="editarProdutos.php">Voltar</a></button>
         </div>
     </main>
-    <?php
-    include_once 'components/footer.php';
-    ?>
+    <?php include_once 'components/footer.php'; ?>
 </body>
 </html>

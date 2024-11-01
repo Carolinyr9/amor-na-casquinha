@@ -19,17 +19,21 @@ session_start();
 <body>
     <?php
     require_once '../controller/produtoController.php';
-    $produtoController = new produtoController();
+    
+    $produtoController = new ProdutoController();
+    $produtoId = $_GET['produto'] ?? null;
+    $produto = $produtoId ? $produtoController->obterProdutoPorID($produtoId) : null;
     include_once 'components/header.php';
 
     if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['produto']) && isset($_GET['marcaProdEdt'])) {
         $id = $_GET['produto'];
-        $nomeProduto = isset($_GET['nomeProdEdt']) ? $_GET['nomeProdEdt'] : '';
-        $marca = isset($_GET['marcaProdEdt']) ? $_GET['marcaProdEdt'] : '';
-        $descricao = isset($_GET['descricaoProdEdt']) ? $_GET['descricaoProdEdt'] : '';
-        $imagemProduto = isset($_GET['imagemProdEdt']) ? $_GET['imagemProdEdt'] : '';
+        $nomeProduto = $_GET['nomeProdEdt'] ?? '';
+        $marca = $_GET['marcaProdEdt'] ?? '';
+        $descricao = $_GET['descricaoProdEdt'] ?? '';
+        $imagemProduto = $_GET['imagemProdEdt'] ?? '';
     
         $produtoController->editarProduto($id, $nomeProduto, $marca, $descricao, $imagemProduto);
+        header("Location: editProd.php?produto=$produtoId");
     }
     ?>
     <main>
@@ -39,7 +43,23 @@ session_start();
                 <div class="c1">
                     <div class="c2">
                         <?php
-                        $produtoController->selecionarProdutosPorID($_GET['produto']);
+                        if ($produto) {
+                            echo '
+                            <form action="' . htmlspecialchars($_SERVER["PHP_SELF"] . '?produto=' . $produto['idProduto']) . '" method="GET" id="formulario" class="formulario">
+                                <input type="hidden" name="produto" value="' . htmlspecialchars($produto['idProduto']) . '">
+                                <label for="nome2">Nome:</label>
+                                <input type="text" id="nome2" name="nomeProdEdt" placeholder="Nome" value="' . htmlspecialchars($produto['nome']) . '">
+                                <label for="marca2">Marca:</label>
+                                <input type="text" id="marca2" name="marcaProdEdt" placeholder="Marca" value="' . htmlspecialchars($produto['marca']) . '">
+                                <label for="descricao2">Descrição:</label>
+                                <input type="text" id="descricao2" name="descricaoProdEdt" placeholder="Descrição" value="' . htmlspecialchars($produto['descricao']) . '">
+                                <label for="foto2">Nome do arquivo de imagem:</label>
+                                <input type="text" id="imagem2" name="imagemProdEdt" placeholder="imagem.png" value="' . htmlspecialchars($produto['foto']) . '">
+                                <button type="submit">Salvar</button>
+                            </form>';
+                        } else {
+                            echo '<p>Produto não encontrado.</p>';
+                        }
                         ?>
                     </div>
                 </div>
@@ -47,8 +67,6 @@ session_start();
             <button class="voltar"><a href="editarProdutos.php">Voltar</a></button>
         </div>
     </main>
-    <?php
-    include_once 'components/footer.php';
-    ?>
+    <?php include_once 'components/footer.php'; ?>
 </body>
 </html>
