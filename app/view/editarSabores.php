@@ -10,7 +10,6 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Sabores</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/editarSaboresS.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
@@ -20,7 +19,8 @@ session_start();
     <?php
     include_once 'components/header.php';
     require_once '../controller/produtoVariacaoController.php';
-    $produtoVariacaoController = new produtoVariacaoController();
+    $produtoVariacaoController = new ProdutoVariacaoController();
+    $variacoes = $produtoVariacaoController->selecionarVariacaoProdutos($_GET["produto"]);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $idProduto = $_GET["produto"];
@@ -29,6 +29,7 @@ session_start();
         $foto = isset($_POST['nomeImagemSabAdd']) ? $_POST['nomeImagemSabAdd'] : '';
 
         $produtoVariacaoController->adicionarProduto($idProduto, $nomeProduto, $preco, $foto);
+        header("Location: editarSabores.php?produto=$idProduto");
     }
     ?>
 
@@ -54,9 +55,35 @@ session_start();
                     <button name="bntCreatSab" type="submit">Salvar</button>
                 </form>
             </div>
-            <div class="conteiner1">
+
+            <div class="container1">
                 <?php
-                $produtoVariacaoController->selecionarVariacaoProdutosFunc($_GET["produto"]);
+                if (is_array($variacoes) && count($variacoes) > 0) {
+                    foreach ($variacoes as $produto) {
+                        $redirectToExcluir = 'excluirSabor.php?idVariacao=' . htmlspecialchars($produto['idVariacao']);
+                        $redirectToEditar = 'editaSabor.php?idProduto=' . htmlspecialchars($produto['idProduto']) . '&idVariacao=' . htmlspecialchars($produto['idVariacao']);
+                        
+                        echo '
+                        <div class="c1">
+                            <div class="c2">
+                                <div><img src="../images/' . htmlspecialchars($produto["fotoVariacao"]) . '" alt="' . htmlspecialchars($produto["nomeVariacao"]) . '" class="imagem"></div>
+                                <div class="c3">
+                                    <h3 class="titulo px-2">' . htmlspecialchars($produto["nomeVariacao"]) . '</h3>
+                                    <div class="preco d-flex flex-produto justify-content-between px-2">
+                                        <p>Preço</p>
+                                        <span>R$ ' . htmlspecialchars($produto["precoVariacao"]) . '</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="botao text-center d-flex justify-content-evenly mt-3">
+                                <button id="excl"><a href="' . $redirectToExcluir . '">Excluir</a></button>                        
+                                <button id="edit"><a href="' . $redirectToEditar . '">Editar</a></button>
+                            </div>
+                        </div>';
+                    }
+                } else {
+                    echo '<p>Nenhuma variação de produto encontrada.</p>';
+                }
                 ?>
             </div>
             <button class="voltar"><a href="editarProdutos.php">Voltar</a></button>
