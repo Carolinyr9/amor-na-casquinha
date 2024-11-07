@@ -2,10 +2,16 @@
 require_once '../config/blockURLAccess.php';
 session_start();
 require_once '../controller/carrinhoController.php';
+require_once '../controller/clienteController.php';
 
 $carrinhoController = new CarrinhoController();
+$clienteController = new ClienteController();
 $carrinhoController->atualizarCarrinho();
 $pedidoData = $carrinhoController->getPedidoData();
+$clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
+
+// Calcular o total
+$total = $carrinhoController->calcularTotal();
 ?>
 
 <!DOCTYPE html>
@@ -34,8 +40,25 @@ $pedidoData = $carrinhoController->getPedidoData();
                         O pedido será entregue no seu endereço!
                     </label>
                     <div id="addressDiv">
-                        <!-- Exibição do endereço do usuário aqui, caso necessário -->
+                        <p>
+                            <?= 
+                            htmlspecialchars($clienteData['endereco']['rua']) . ', ' . 
+                            htmlspecialchars($clienteData['endereco']['numero']) . ', ' . 
+                            (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 
+                            htmlspecialchars($clienteData['endereco']['bairro']) . ', ' . 
+                            htmlspecialchars($clienteData['endereco']['cidade']) . ', ' . 
+                            htmlspecialchars($clienteData['endereco']['estado']) . ', ' . 
+                            htmlspecialchars($clienteData['endereco']['cep']); ?>
+                        </p>
                     </div>
+
+                    <div class="total-div">
+                        <h4>Total do Pedido</h4>
+                        <p>R$ <?= number_format($total, 2, ',', '.') ?></p>
+                    </div>
+                    
+                    <input type="hidden" name="totalPedido" value="<?= htmlspecialchars($total); ?>">
+
                     <input type="hidden" name="notaFiscal" value="1">
                     <input name="btnSubmit" id="btnSubmit" type="submit" value="Concluir Pedido" class="btn">
                 </form>

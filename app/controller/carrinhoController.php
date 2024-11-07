@@ -40,5 +40,9 @@ class CarrinhoController {
             "isUserLoggedIn" => $isUserLoggedIn
         ];
     }
+
+    public function limparCarrinho() {
+        $this->carrinho->limparCarrinho();
+    }
 }
 ?>

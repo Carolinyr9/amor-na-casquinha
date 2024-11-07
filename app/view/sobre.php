@@ -4,12 +4,24 @@ session_start();
 require_once '../config/config.php';
 require_once '../controller/clienteController.php';
 require_once '../controller/pedidoController.php';
+require_once '../controller/carrinhoController.php';
 
 $pedidoController = new PedidoController();
 $clienteController = new ClienteController();
+$carrinho = new Carrinho();
 
 $clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
 $pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["btnSubmit"])) {
+    $total = $carrinho->getTotal(); 
+    if ($total > 0) {
+        $pedidoController->criarPedido($_SESSION["userEmail"], $_POST["ckbIsDelivery"] ? 0 : 1, $total);
+        unset($_POST);
+        $carrinho->limparCarrinho(); 
+        header("Location: sobre.php");
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -28,12 +40,6 @@ $pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
 <body>
     <?php include_once 'components/header.php'; ?>
     <main>
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["btnSubmit"])) {
-            $pedidoController->criarPedido($_SESSION["userEmail"], $_POST["ckbIsDelivery"] ? 0 : 1, 6);
-        }
-        ?>
-        
         <div class="conteiner1 conteiner d-flex align-items-center flex-column w-75 p-4 my-3">
             <div class="c1">
                 
@@ -43,6 +49,7 @@ $pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
                     </div>
                 <?php else: ?>
                     <div id="dados">
+                        
                         <p>Nome: <?= htmlspecialchars($clienteData['nome']); ?></p>
                         <p>Email: <?= htmlspecialchars($clienteData['email']); ?></p>
                         <p>Telefone: <?= htmlspecialchars($clienteData['telefone']); ?></p>
@@ -50,7 +57,7 @@ $pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
                         <?php if (isset($clienteData['endereco']['rua'])): ?>
                             <div id="endereco">
                                 <p>
-                                    <?=
+                                    <?= 
                                     htmlspecialchars($clienteData['endereco']['rua']) . ', ' . 
                                     htmlspecialchars($clienteData['endereco']['numero']) . ', ' . 
                                     (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 

@@ -33,6 +33,9 @@ $total = $carrinhoController->calcularTotal();
         <div class="container d-flex flex-column align-items-center">
             <form method="post" action="notaFiscal.php" class="container-fluid d-flex flex-column align-items-center conteiner1">
                 <input type="hidden" name="cart" value="1">
+                <!-- Campo oculto para enviar o total -->
+                <input type="hidden" name="total" value="<?= htmlspecialchars($total); ?>">
+
                 <?php if (!empty($produtos)): ?>
                     <?php foreach ($produtos as $produto): ?>
                         <div class="c1">

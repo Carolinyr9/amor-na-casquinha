@@ -57,7 +57,7 @@ class Pedido {
         }
     }
 
-    public function criarPedido($email, $tipoFrete, $qtdItens) {
+    public function criarPedido($email, $tipoFrete, $valorTotal) {
         try {
             $dataPedido = date('Y-m-d H:i:s');
 
@@ -65,10 +65,10 @@ class Pedido {
             $stmt->bindParam(1, $email);
             $stmt->bindParam(2, $dataPedido);
             $stmt->bindParam(3, $tipoFrete);
-            $stmt->bindParam(4, $qtdItens);
+            $stmt->bindParam(4, $valorTotal);
             $stmt->execute();
 
-            return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna o resultado
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new Exception("Erro ao criar o pedido: " . $e->getMessage());
         }

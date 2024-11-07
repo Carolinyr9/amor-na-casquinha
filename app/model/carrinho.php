@@ -103,5 +103,11 @@ class Carrinho {
             unset($_SESSION["cartArray"][$id]);
         }
     }
+
+    public function limparCarrinho() {
+        if (isset($_SESSION["cartArray"])) {
+            unset($_SESSION["cartArray"]); 
+        }
+    }
 }
 ?>

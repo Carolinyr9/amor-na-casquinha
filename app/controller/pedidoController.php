@@ -24,9 +24,9 @@ class PedidoController {
         }
     }
 
-    public function criarPedido($email, $tipoFrete, $qtdItens) {
+    public function criarPedido($email, $tipoFrete, $total) {
         try {
-            return $this->pedidoModel->criarPedido($email, $tipoFrete, $qtdItens);
+            return $this->pedidoModel->criarPedido($email, $tipoFrete, $total);
         } catch (Exception $e) {
             return ["error" => $e->getMessage()];
         }
