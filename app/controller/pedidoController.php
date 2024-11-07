@@ -47,5 +47,13 @@ class PedidoController {
             echo "error" . $e->getMessage();
         }
     }
+
+    public function mudarStatus($idPedido, $usuario) {
+        try {
+            $this->pedidoModel->mudarStatus($idPedido, $usuario);
+        } catch (Exception $e) {
+            echo "error" . $e->getMessage();
+        }
+    }
 }
 ?>

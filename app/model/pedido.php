@@ -23,11 +23,11 @@ class Pedido {
                 $pedidos = [];
                 if ($stmt->rowCount() > 0) {
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        $pedidos[] = $row; // Armazena todos os pedidos em um array
+                        $pedidos[] = $row; 
                     }
-                    return $pedidos; // Retorna todos os pedidos
+                    return $pedidos;  
                 } else {
-                    return []; // Retorna um array vazio se não houver pedidos
+                    return [];  
                 }
             } catch (PDOException $e) {
                 throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
@@ -46,9 +46,9 @@ class Pedido {
 
                 $pedido = null;
                 if ($stmt->rowCount() > 0) {
-                    $pedido = $stmt->fetch(PDO::FETCH_ASSOC); // Busca apenas um pedido
+                    $pedido = $stmt->fetch(PDO::FETCH_ASSOC);  
                 }
-                return $pedido; // Retorna o pedido ou null
+                return $pedido;  
             } catch (PDOException $e) {
                 throw new Exception("Erro ao listar pedido: " . $e->getMessage());
             }
@@ -81,27 +81,72 @@ class Pedido {
 
             $pedidos = [];
             if ($stmt->rowCount() > 0) {
-                $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC); // Busca todos os pedidos
+                $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC); 
             }
-            return $pedidos; // Retorna todos os pedidos
+            return $pedidos; 
         } catch (PDOException $e) {
             throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
         }
     }
 
-    public function atribuirEntregador($idPedido, $idEntregador) {
+    public function mudarStatus($idPedido, $usuario) {
         try {
-            $stmt = $this->conn->prepare("CALL AtribuirPedidoEntregador(?, ?)");
+            $pedido = $this->listarPedidoPorId($idPedido);
+    
+            $novoStatus = $this->determinarNovoStatusPorUsuario($usuario, $pedido);
+    
+            $stmt = $this->conn->prepare("CALL EditarStatusPedido(?, ?)");
             $stmt->bindParam(1, $idPedido, PDO::PARAM_INT);
-            $stmt->bindParam(2, $idEntregador, PDO::PARAM_INT);
+            $stmt->bindParam(2, $novoStatus, PDO::PARAM_STR);
             $stmt->execute();
-            echo "<script>
-                    alert('Entregador atribuído com sucesso!');
-                    window.location.href = 'pedidos.php';
-                </script>";
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao atualizar entregador: " . $e->getMessage());
+    
+        } catch (Exception $e) {
+            throw new Exception("Erro ao atualizar status do pedido: " . $e->getMessage());
         }
     }
+
+    private function determinarNovoStatusPorUsuario($usuario, $pedido) {
+        switch($usuario) {
+            case 'ENTR':
+                return $this->determinarNovoStatusEntregador($pedido);
+    
+            case 'CLIE':
+                return $this->determinarNovoStatusCliente($pedido);
+    
+            case 'FUNC':
+                return $this->determinarNovoStatusFuncionario($pedido);
+    
+            default:
+                return $pedido['statusPedido'];
+        }
+    }
+
+    private function determinarNovoStatusFuncionario($pedido) {
+        return $this->determinarNovoStatus($pedido['statusPedido'], [
+            'Aguardando Pagamento' => 'Aguardando Envio',
+            'Aguardando Envio' => 'A Caminho',
+            'Entregue' => $pedido['tipoFrete'] == 0 ? 'Concluído' : 'Entregue'
+        ]);
+    }
+    
+    private function determinarNovoStatusCliente($pedido) {
+        return $this->determinarNovoStatus($pedido['statusPedido'], [
+            'A Caminho' => 'Entregue',
+            'Aguardando Pagamento' => 'Cancelado',
+            'Aguardando Envio' => 'Cancelado'
+        ]);
+    }
+    
+    private function determinarNovoStatusEntregador($pedido) {
+        return $this->determinarNovoStatus($pedido['statusPedido'], [
+            'A Caminho' => 'Entrega Falhou',
+            'Entregue' => 'Concluído'
+        ]);
+    }
+    
+    private function determinarNovoStatus($statusAtual, $mudancas) {
+        return $mudancas[$statusAtual] ?? $statusAtual;
+    }
+    
 }
 ?>
