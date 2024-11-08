@@ -56,7 +56,7 @@ session_start();
                 </form>
             </div>
 
-            <div class="container1">
+            <div class="d-flex flex-row flex-wrap m-auto w-75 justify-content-center">
                 <?php
                 if (is_array($variacoes) && count($variacoes) > 0) {
                     foreach ($variacoes as $produto) {
@@ -64,20 +64,20 @@ session_start();
                         $redirectToEditar = 'editaSabor.php?idProduto=' . htmlspecialchars($produto['idProduto']) . '&idVariacao=' . htmlspecialchars($produto['idVariacao']);
                         
                         echo '
-                        <div class="c1">
-                            <div class="c2">
+                        <div class="c1 rounded-4">
+                            <div class="d-flex flex-row">
                                 <div><img src="../images/' . htmlspecialchars($produto["fotoVariacao"]) . '" alt="' . htmlspecialchars($produto["nomeVariacao"]) . '" class="imagem"></div>
-                                <div class="c3">
+                                <div class="d-flex flex-column justify-content-center">
                                     <h3 class="titulo px-2">' . htmlspecialchars($produto["nomeVariacao"]) . '</h3>
-                                    <div class="preco d-flex flex-produto justify-content-between px-2">
+                                    <div class="preco d-flex justify-content-between px-2">
                                         <p>Preço</p>
                                         <span>R$ ' . htmlspecialchars($produto["precoVariacao"]) . '</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="botao text-center d-flex justify-content-evenly mt-3">
-                                <button id="excl"><a href="' . $redirectToExcluir . '">Excluir</a></button>                        
-                                <button id="edit"><a href="' . $redirectToEditar . '">Editar</a></button>
+                                <button id="excl" class="rounded-3 border-0"><a class="text-decoration-none" href="' . $redirectToExcluir . '">Excluir</a></button>                        
+                                <button id="edit" class="rounded-3 border-0"><a class="text-decoration-none" href="' . $redirectToEditar . '">Editar</a></button>
                             </div>
                         </div>';
                     }

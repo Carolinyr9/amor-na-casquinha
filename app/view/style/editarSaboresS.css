@@ -26,23 +26,15 @@ main{
     background-color: var(--azul-bebe);
 }
 
-.conteiner1{
-    display: flex;
-    flex-direction: column;
-}
 
 .c1{
     background-color: var(--verde-bebe);
     padding: 15px;
-    border-radius: 20px;
     margin: 20px 0;
     display: flex;
     flex-direction: column;
-}
-
-.c2 {
-    display: flex;
-    flex-direction: row !important;
+    width: 400px;
+    height: 240px;
 }
 
 .c3{
@@ -78,8 +70,6 @@ main{
 
 .botao #excl{
     background-color: var(--rosa-bebe);
-    border: none;
-    border-radius: 7px;
     font-family: var(--Agbalumo);
     width: 90px;
     height: 30px;
@@ -87,8 +77,6 @@ main{
 
 .botao #edit{
     background-color: var(--azul-bebe);
-    border: none;
-    border-radius: 7px;
     font-family: var(--Agbalumo);
     width: 90px;
     height: 30px;
