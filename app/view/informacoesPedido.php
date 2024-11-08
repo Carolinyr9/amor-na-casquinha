@@ -17,15 +17,15 @@ $pedidoController = new PedidoController();
     <title>Informações do Pedido</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
-    <link rel="stylesheet" href="style/editFuncS.css">
+    <link rel="stylesheet" href="style/infoPedidos.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
-    <main class="container my-5">
+    <main class="container my-5 text-center flex flex-column justify-content-center">
         <h1 class="text-center mb-4">Informações do Pedido</h1>
         
-        <div class="card">
+        <div class="w-50 d-flex justify-content-center blue m-auto rounded-5 pt-3">
             <div class="card-body text-center">
                 <?php
                 $idPedido = $_GET['idPedido'] ?? null;
@@ -69,7 +69,7 @@ $pedidoController = new PedidoController();
             </div>
         </div>
         
-        <button class="btn btn-secondary mt-4"><a class="text-white" href="pedidos.php">Voltar</a></button>
+        <button class="btn-yellow rounded-4 mt-5"><a href="pedidos.php">Voltar</a></button>
     </main>
     <?php include_once 'components/footer.php'; ?>
     

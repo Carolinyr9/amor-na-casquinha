@@ -19,7 +19,7 @@ $pedidoController = new PedidoController();
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
-    <main class="container my-5 text-center">
+    <main class="container my-5 text-center flex flex-column justify-content-center">
         <h1 class="mb-4">Meus Pedidos</h1>
         <?php
         $pedidos = $pedidoController->listarPedidos(); 
@@ -29,8 +29,8 @@ $pedidoController = new PedidoController();
                 $redirectAtribuirEntregador = 'atribuirEntregador.php?idPedido=' . $pedido['idPedido'];
                 $redirectToInformacao = 'informacoesPedido.php?idPedido=' . $pedido['idPedido'];
                 ?>
-                <div class="card mb-4">
-                    <div class="card-body text-center">
+                <div class="conteiner0">
+                    <div class="conteiner1">
                         <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h3>
                         <p>Realizado em: <?= htmlspecialchars($pedido['dtPedido']); ?></p>
                         <p>Total: R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
@@ -39,7 +39,7 @@ $pedidoController = new PedidoController();
                         <?php
                         if ($pedido['tipoFrete'] == 1 && is_null($pedido['idEntregador'])) {
                             ?>
-                            <button id="vari" class="btn btn-primary"><a class="text-white" href="<?= $redirectAtribuirEntregador; ?>">Atribuir Entregador</a></button>
+                            <button class="btnAtribuir"><a href="<?= $redirectAtribuirEntregador; ?>">Atribuir Entregador</a></button>
                             <?php
                         } else if ($pedido['tipoFrete'] == 1) {
                             ?>
@@ -47,7 +47,7 @@ $pedidoController = new PedidoController();
                             <?php
                         }
                         ?>
-                        <button id="vari" class="btn btn-secondary"><a class="text-white" href="<?= $redirectToInformacao; ?>">Ver Informações</a></button>
+                        <button class="btnVerInfos mt-3"><a href="<?= $redirectToInformacao; ?>">Ver Informações</a></button>
                     </div>
                 </div>
                 <?php

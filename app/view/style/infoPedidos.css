@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
+
+:root{
+    --roxo-bebe: #D4C7FF;
+    --Nunito: 'Nunito', sans-serif;
+    --Agbalumo: 'Agbalumo';
+    --azul-bebe: #C9EFFF;
+    --rosa-bebe: #FFC7E8;
+    --amarelo-bebe: #FFFAC7;
+    --verde-bebe: #E2FFC7;
+}
+
+.blue{
+    background-color: var(--azul-bebe);
+}
+
+.btn-yellow{
+    background-color: var(--amarelo-bebe);
+    border: none;
+    font-family: var(--Agbalumo);
+    width: 90px;
+    height: 30px;
+}
+
+.btn-yellow a{
+    color: black;
+    text-decoration: none;
+}
