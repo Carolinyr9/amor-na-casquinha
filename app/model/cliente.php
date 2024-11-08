@@ -35,7 +35,6 @@ class Cliente {
                     $this->senha = $row["senha"];
                     $this->idEndereco = $row["idEndereco"]; 
                     
-                    // Aqui fechamos o cursor antes de fazer a próxima consulta
                     $stmt->closeCursor(); 
     
                     $endereco = $this->listarEndereco($this->idEndereco);
@@ -66,9 +65,10 @@ class Cliente {
             
             if ($stmt->rowCount() > 0) {
                 $row = $stmt->fetch();
-                $stmt->closeCursor(); // Fechamos o cursor aqui também
+                $stmt->closeCursor(); 
     
                 return [
+                    "idEndereco" => $row["idEndereco"],
                     "rua" => $row["rua"],
                     "numero" => $row["numero"],
                     "complemento" => $row["complemento"],
@@ -101,4 +101,24 @@ class Cliente {
         }
     }
     
+    public function editarCliente($email, $idEndereco, $nome, $telefone, $rua, $cep, $numero, $bairro, $cidade, $estado, $complemento) {
+        try {
+            $stmt = $this->conn->prepare("CALL EditarCliente(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bindParam(1, $nome);
+            $stmt->bindParam(2, $email);           
+            $stmt->bindParam(3, $telefone);
+            $stmt->bindParam(4, $idEndereco);
+            $stmt->bindParam(5, $rua);
+            $stmt->bindParam(6, $numero);    
+            $stmt->bindParam(7, $complemento);
+            $stmt->bindParam(8, $bairro);
+            $stmt->bindParam(9, $cep);           
+            $stmt->bindParam(10, $cidade);
+            $stmt->bindParam(11, $estado);
+            $stmt->execute();
+
+        } catch (PDOException $e) {
+            echo "Erro ao editar as informações do cliente: " . $e->getMessage();
+        }
+    }
 }    

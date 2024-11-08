@@ -10,7 +10,6 @@ $carrinhoController->atualizarCarrinho();
 $pedidoData = $carrinhoController->getPedidoData();
 $clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
 
-// Calcular o total
 $total = $carrinhoController->calcularTotal();
 ?>
 

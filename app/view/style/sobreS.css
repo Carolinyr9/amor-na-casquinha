@@ -51,6 +51,11 @@ button[type=submit]{
     margin: 10px;
 }
 
+.btn-primary {
+    display: inline-block !important;
+    visibility: visible !important;
+}
+
 @media (min-width: 768px) {
     .conteiner1{
         width: 50% !important;

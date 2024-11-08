@@ -21,17 +21,25 @@ $pedidoController = new PedidoController();
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
-    <?php include_once 'components/header.php'; ?>
+<?php
+    include_once 'components/header.php';
+    $pedidoId = $_GET['idPedido'] ?? null;
+    $usuario = $_SESSION['perfil'] ?? null;
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mudarStatus'])) {
+        $pedidoController->mudarStatus($pedidoId, $usuario);
+        header("Location: informacoesPedido.php?idPedido=$pedidoId");
+        exit();
+    }
+?>
     <main class="container my-5 text-center flex flex-column justify-content-center">
         <h1 class="text-center mb-4">Informações do Pedido</h1>
         
         <div class="w-50 d-flex justify-content-center blue m-auto rounded-5 pt-3">
             <div class="card-body text-center">
                 <?php
-                $idPedido = $_GET['idPedido'] ?? null;
-
-                if ($idPedido) {
-                    $pedido = $pedidoController->listarPedidoPorId($idPedido);
+                if ($pedidoId) {
+                    $pedido = $pedidoController->listarPedidoPorId($pedidoId);
 
                     if ($pedido) {
                         echo '<h3>Número do Pedido: ' . htmlspecialchars($pedido['idPedido']) . '</h3>';
@@ -39,12 +47,21 @@ $pedidoController = new PedidoController();
                         echo '<p>Total: R$ ' . number_format($pedido['valorTotal'], 2, ',', '.') . '</p>';
                         echo '<p>' . ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!') . '</p>';
                         echo '<p>Status: ' . htmlspecialchars($pedido['statusPedido']) . '</p>';
-                        
+
+                        $statusPermitidos = ['Aguardando Pagamento', 'Aguardando Envio'];
+
+                        if (in_array($pedido['statusPedido'], $statusPermitidos) || ($pedido['tipoFrete'] == 0 && $pedido['statusPedido'] == 'Entregue')) {
+                            echo '<form method="POST" action="">';
+                            echo '<input type="hidden" name="mudarStatus" value="1">';
+                            echo '<button type="submit" class="btn btn-primary">Mudar Status</button>';
+                            echo '</form>';
+                        }
+
                         if ($pedido['tipoFrete'] == 1) {
                             $entregador = $entregadorController->getEntregadorPorId($pedido['idEntregador']);
                             if ($entregador) {
                                 echo '
-                                    <div class="card categ d-flex align-items-center">
+                                    <div class="card categ d-flex align-items-center mt-4">
                                         <div class="d-flex align-items-center flex-column c2">
                                             <h3 class="titulo px-3">' . htmlspecialchars($entregador[0]["nome"] ?? '') . '</h3>
                                             <div class="px-3">
@@ -52,7 +69,7 @@ $pedidoController = new PedidoController();
                                                 <p>Celular: ' . htmlspecialchars($entregador[0]["telefone"] ?? '') . '</p>
                                                 <p>CNH: ' . htmlspecialchars($entregador[0]["cnh"] ?? '') . '</p>
                                             </div>
-                                            <button><a href="atribuirEntregador.php?idEntregador=' . htmlspecialchars($entregador[0]['idEntregador'] ?? '') . '&idPedido=' . htmlspecialchars($idPedido) . '">Atribuir entregador</a></button>
+                                            <button class="btn btn-info"><a class="text-white" href="atribuirEntregador.php?idEntregador=' . htmlspecialchars($entregador[0]['idEntregador'] ?? '') . '&idPedido=' . htmlspecialchars($pedidoId) . '">Atribuir entregador</a></button>
                                         </div>
                                     </div>';
                             } else {
