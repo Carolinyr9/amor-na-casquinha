@@ -24,17 +24,17 @@
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Boas-vindas ao Amor de Casquinha!</h1>
         <section>
-            <div class="conteiner1 d-flex flex-column justify-content-center align-items-center">
-                <h3>Explore nossas opções de sorvete</h3>
-                <div class="c1">
+            <div class="conteiner1 d-flex flex-column justify-content-center align-items-center rounded-4 p-4">
+                <h3 class="text-center pb-1">Explore nossas opções de sorvete</h3>
+                <div class="c1 d-flex flex-wrap flex-row justify-content-between align-items-center">
                     <?php foreach ($produtos as $produto): ?>
-                        <div class="card categ d-flex align-items-center">
+                        <div class="card categ d-flex align-items-center rounded-4 h-auto border-0 mt-3">
                             <picture>
                                 <img src="../images/<?= htmlspecialchars($produto["foto"]) ?>" alt="<?= htmlspecialchars($produto["nome"]) ?>" class="imagem">
                             </picture>
                             <div class="d-flex align-items-center flex-column c2">
-                                <h4><?= htmlspecialchars($produto["nome"]) ?></h4>
-                                <button><a href="sabores.php?produto=<?= htmlspecialchars($produto['idProduto']) ?>">ver</a></button>
+                                <h4 class="text-center m-auto"><?= htmlspecialchars($produto["nome"]) ?></h4>
+                                <button class=" border-0 rounded-4 fw-bold m-1"><a class="text-decoration-none text-body" href="sabores.php?produto=<?= htmlspecialchars($produto['idProduto']) ?>">ver</a></button>
                             </div>
                         </div>
                     <?php endforeach; ?>

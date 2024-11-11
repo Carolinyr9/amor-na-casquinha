@@ -10,21 +10,11 @@
     --verde-bebe: #E2FFC7;
 }
 
-header h1{
-    font-family: var(--Agbalumo);
-    font-size: 2rem;
-    width: 70%;
-    text-align: center;
-    margin: 20px auto;
-}
-
 .c1{
     background-color: var(--verde-bebe);
     padding: 15px;
-    border-radius: 20px;
     margin: 20px 0;
-    display: flex;
-    flex-direction: column;
+    width: 86%;
 }
 
 .c2 {
@@ -62,29 +52,65 @@ header h1{
 
 .add{
     background-color: var(--rosa-bebe);
-    border: none;
-    border-radius: 20px;
     font-family: var(--Agbalumo);
-    height: 40px;
-    font-size: 1.30rem;
-    width: 240px;
+    height: 30px;
+    width: 190px;
+    font-family: var(--Nunito);
+    background-color: var(--rosa-bebe);
+    font-weight: Bold;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+  
+.add:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
+}
+  
+.add:active {
+    background-color: #f58cd4;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    box-shadow: none;
+    transform: scale(0.98);
 }
 
 .voltar{
     background-color: var(--azul-bebe);
-    border: none;
-    border-radius: 20px;
     font-family: var(--Nunito);
-    font-weight: bolder;
-    font-size: 1.70rem;
-    width: 190px;
-    height: 40px;
-    margin-top: 20px;
+    width: 100px;
     color: black;
+    transition: all 0.5s;
+    border-radius: 20px;
+    -webkit-transition: all 0.5s;
+}
+  
+.voltar:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
+}
+  
+.voltar:active {
+    background-color: #6ccad6;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    box-shadow: none;
+    transform: scale(0.98);
 }
 
 a, a:visited, a:active, a:hover{
     color: black;
+}
+
+.imagem{
+    width: 70px;
+    height: auto;
+}
+
+@media (max-width: 767px) {
+    .c1{
+        /* width: 100px; */
+    }
 }
 
 @media (min-width: 768px) {
@@ -101,8 +127,27 @@ a, a:visited, a:active, a:hover{
     }
     .c1{
         margin: 29px;
+        width: 36%;
     }
+
     h1{
         padding-top: 20px !important;
+    }
+
+    .add{
+        height: 40px;
+        font-size: 1.30rem;
+        width: 240px;
+    }
+
+    .voltar{
+        background-color: var(--azul-bebe);
+        border: none;
+        font-family: var(--Nunito);
+        width: 150px;
+        height: 40px;
+        color: black;
+        transition: all 0.5s;
+        -webkit-transition: all 0.5s;
     }
 }

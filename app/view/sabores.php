@@ -23,7 +23,7 @@ session_start();
    <main>
         <h1 class="m-auto text-center pt-4 pb-4">Variações</h1>
         <div class="container d-flex flex-column align-items-center justify-content-center">
-            <div class="container1">
+            <div class="container1 d-flex flex-row flex-wrap justify-content-center">
                 <?php
                     if (isset($_GET["produto"])) {
                         $variacoes = $produtoVariacaoController->selecionarVariacaoProdutos($_GET["produto"]);
@@ -31,7 +31,7 @@ session_start();
                         foreach ($variacoes as $variacao) {
                             $redirectTo = 'carrinho.php?add=' . htmlspecialchars($variacao['idVariacao']);
                             echo '
-                            <div class="c1">
+                            <div class="c1 d-flex flex-column rounded-4">
                                 <div class="c2">
                                     <div><img src="../images/' . htmlspecialchars($variacao["fotoVariacao"]) . '" alt="' . htmlspecialchars($variacao["nomeVariacao"]) . '" class="imagem"></div>
                                     <div class="c3">
@@ -43,7 +43,7 @@ session_start();
                                     </div>
                                 </div>
                                 <div class="botao text-center d-flex justify-content-evenly mt-3">
-                                    <button class="add"><a href="' . $redirectTo . '">Adicionar ao Carrinho</a></button>
+                                    <button class="add border-0 rounded-4"><a class="text-decoration-none" href="' . $redirectTo . '">Adicionar ao Carrinho</a></button>
                                 </div>
                             </div>';
                         }
@@ -52,7 +52,7 @@ session_start();
                     }
                 ?>      
             </div>
-            <button class="voltar"><a href="index.php">Voltar</a></button>
+            <button class="voltar fs-4 fw-bold roudend-3 mt-5 border-0"><a class="text-decoration-none" href="index.php">Voltar</a></button>
         </div>
     </main>
     <?php

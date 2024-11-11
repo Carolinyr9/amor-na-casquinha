@@ -8,68 +8,54 @@
     --rosa-bebe: #FFC7E8;
 }
 
-header h1{
-    font-family: var(--Agbalumo);
-    font-size: 2rem;
-    width: 70%;
-    margin: 2% auto;
-}
-
 .conteiner1{
     background-color: var(--azul-bebe);
     width: 89%;
-    border-radius: 20px;
-    padding: 20px;
     margin: 0 auto 70px;
 }
 
 .c1{
-    display: grid;
-    grid-template-columns: 160px 160px;
-    justify-items: center;
 }
 
 .imagem{
-    width: 130px;
+    width: 70px;
     height: auto;
     margin: 10px;
 }
 
 .conteiner1 h3{
     font-family: var(--Agbalumo);
-    font-size: 1.50rem;
-    text-align: center;
-    width: 80%;
-    padding-bottom: 10px;
 }
 
 .categ{
-    width: 148px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    height: auto;
-    margin: 20px;
+    width: 114px;
 }
 
-.categ button{
+.categ  button {
     width: 90px;
-    border: none;
-    background-color: var(--rosa-bebe);
-    border-radius: 20px;
     font-family: var(--Nunito);
-    font-weight: bold;
-    margin: 10px;
+    background-color: var(--rosa-bebe);
+    font-weight: Bold;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+  }
+  
+.categ  button:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
 }
-
-.categ button a, a:visited, a:active{
-    text-decoration: none;
-    color: black;
+  
+.categ  button:active {
+    background-color: #f58cd4;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+    box-shadow: none;
+    transform: scale(0.98);
 }
 
 .categ h4{
     font-family: var(--Nunito);
     font-size: 1.30rem;
-    text-align: center;
     margin: 9px 0;
 }
 
@@ -86,11 +72,15 @@ header h1{
         flex-direction: row !important;
         flex-wrap: wrap;
     }
+    .imagem{
+        width: 130px;
+        height: auto;
+        margin: 10px;
+    }
     .categ{
         flex-direction: row;
         width: 362px;
         height: 138px;
-        border: none;
         display: flex;
     }
     .c2{
