@@ -31,16 +31,16 @@ $total = $carrinhoController->calcularTotal();
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Carrinho</h1>
         <div class="container d-flex flex-column align-items-center">
-            <form method="post" action="notaFiscal.php" class="container-fluid d-flex flex-column align-items-center conteiner1">
+            <form method="post" action="notaFiscal.php" class="container-fluid d-flex flex-column align-items-center conteiner1 rounded-4 mt-4 py-3 px-2">
                 <input type="hidden" name="cart" value="1">
                 <!-- Campo oculto para enviar o total -->
                 <input type="hidden" name="total" value="<?= htmlspecialchars($total); ?>">
 
                 <?php if (!empty($produtos)): ?>
                     <?php foreach ($produtos as $produto): ?>
-                        <div class="c1">
+                        <div class="borders my-3 py-3 card-width">
                             <div class="row">
-                                <div class="col col-4 c2">
+                                <div class="col col-4 c2 d-flex align-items-center justify-content-center">
                                     <img src="../images/<?= $produto['foto'] ?>" alt="<?= $produto['nome'] ?>" class="imagem">
                                 </div>
                                 <div class="col c3">
@@ -52,28 +52,28 @@ $total = $carrinhoController->calcularTotal();
                                 </div>
                             </div>
                             <div class="botao text-center d-flex justify-content-evenly mt-3 flex-row">
-                                <div class="col col-3 d-flex align-items-start excl">
-                                    <a href="?action=remove&item=<?= $produto['id'] ?>" class="b-excluir">Excluir</a>
+                                <div class="col col-3 d-flex align-items-start">
+                                    <a href="?action=remove&item=<?= $produto['id'] ?>" class="btn-excluir rounded-3 text-decoration-none">Excluir</a>
                                 </div>
                                 <div class="col d-flex align-items-start col-7">
                                     <p>Quantid.</p>
-                                    <select id="select<?= $produto['id'] ?>" name="select<?= $produto['id'] ?>">
+                                    <select class="ms-2 border-0" id="select<?= $produto['id'] ?>" name="select<?= $produto['id'] ?>">
                                         <?= $produto['quantidades'] ?>
                                     </select>
                                 </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
-                    <div class="c4">
+                    <div class="d-flex flex-row justify-content-between w-75 my-3">
                         <h4>Total</h4>
                         <p>R$ <?= $total ?></p>
                     </div>
-                    <input class="conc" type="submit" value="Concluir"/>
+                    <input class="btn-concluir fs-5 rounded-4" type="submit" value="Concluir"/>
                 <?php else: ?>
                     <p>Carrinho está vazio!</p>
                 <?php endif; ?>
             </form>
-            <button class="voltar"><a href="index.php">Voltar</a></button>
+            <button class="voltar fs-5 fw-bold mt-5 border-0 rounded-4"><a class="text-decoration-none" href="index.php">Voltar</a></button>
         </div>
     </main>
     <?php include_once 'components/footer.php'; ?>

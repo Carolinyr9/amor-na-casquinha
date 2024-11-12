@@ -68,19 +68,36 @@ picture img{
     width: 90px;
     height: 30px;
     margin: 5px 0;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
 }
 
 .botao #excl{
     background-color: var(--rosa-bebe);
 }
 
+#excl:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
+}
+
 .botao #edit{
     background-color: var(--azul-bebe);
+}
+
+#edit:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
 }
 
 .botao #vari{
     background-color: var(--amarelo-bebe);
     width: 100px !important;
+}
+
+#vari:hover {
+    background-color: #b9b15b;
+    transform: scale(1.1);
 }
 
 .botao #vari a, a:visited, a:active{

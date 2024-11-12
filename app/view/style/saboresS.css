@@ -66,22 +66,12 @@
     background-color: #f58cd4;
     transform: scale(1.1);
 }
-  
-.add:active {
-    background-color: #f58cd4;
-    transition: all 0.25s;
-    -webkit-transition: all 0.25s;
-    box-shadow: none;
-    transform: scale(0.98);
-}
 
 .voltar{
     background-color: var(--azul-bebe);
     font-family: var(--Nunito);
     width: 100px;
-    color: black;
     transition: all 0.5s;
-    border-radius: 20px;
     -webkit-transition: all 0.5s;
 }
   
@@ -90,13 +80,6 @@
     transform: scale(1.1);
 }
   
-.voltar:active {
-    background-color: #6ccad6;
-    transition: all 0.25s;
-    -webkit-transition: all 0.25s;
-    box-shadow: none;
-    transform: scale(0.98);
-}
 
 a, a:visited, a:active, a:hover{
     color: black;

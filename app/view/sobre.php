@@ -68,23 +68,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <?php include_once 'components/header.php'; ?>
     <main>
-        <div class="conteiner1 conteiner d-flex align-items-center flex-column w-75 p-4 my-3">
-            <div class="c1">
+        <div class="conteiner1 rounded-4 text-center d-flex align-items-center flex-column w-75 p-4 my-3">
+            <div class="c1 w-100">
                 <?php if (isset($clienteData["error"])): ?>
                     <div class="alert alert-danger">
                         <?php echo htmlspecialchars($clienteData["error"]); ?>
                     </div>
                 <?php else: ?>
                     <div id="dados">
-                        <p>Nome: <?= htmlspecialchars($clienteData['nome']); ?></p>
-                        <p>Email: <?= htmlspecialchars($clienteData['email']); ?></p>
-                        <p>Telefone: <?= htmlspecialchars($clienteData['telefone']); ?></p>
-                        <p>Endereço: </p>
+                        <p class="fs-5">Nome: <?= htmlspecialchars($clienteData['nome']); ?></p>
+                        <p class="fs-5">Email: <?= htmlspecialchars($clienteData['email']); ?></p>
+                        <p class="fs-5">Telefone: <?= htmlspecialchars($clienteData['telefone']); ?></p>
+                        <p class="fs-5">Endereço: </p>
                         
                         <?php
                         if (isset($clienteData['endereco']['rua'])): ?>
                             <div id="endereco">
-                                <p>
+                                <p class="fs-5">
                                     <?= htmlspecialchars($clienteData['endereco']['rua']) . ', ' . 
                                         htmlspecialchars($clienteData['endereco']['numero']) . ', ' . 
                                         (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 
@@ -100,44 +100,64 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 <?php endif; ?>
 
-                <form action="" method="POST" id="formulario">
-                    <p>Usuário</p>
+                <form action="" class="w-100" method="POST" id="formulario">
+                    <p class="fs-5">Usuário</p>
                     <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($clienteData['nome'] ?? ''); ?>" placeholder="Nome completo">
+                    <input class="rounded-3 border-0 mr-4" type="text" id="nome" name="nome" value="<?= htmlspecialchars($clienteData['nome'] ?? ''); ?>" placeholder="Nome completo">
                     
                     <label for="telefone">Telefone:</label>
-                    <input type="text" id="telefone" name="telefone" value="<?= htmlspecialchars($clienteData['telefone'] ?? ''); ?>" placeholder="Telefone">
+                    <input class="rounded-3 border-0 mr-4" type="text" id="telefone" name="telefone" value="<?= htmlspecialchars($clienteData['telefone'] ?? ''); ?>" placeholder="Telefone">
                     
                     <br>
-                    <p>Endereço</p>
+                    <p class="fs-5">Endereço</p>
                     
-                    <label for="cep">CEP:</label>
-                    <input type="text" id="cep" name="cep" value="<?= htmlspecialchars($clienteData['endereco']['cep'] ?? ''); ?>" placeholder="CEP">
-                    
-                    <label for="rua">Rua:</label>
-                    <input type="text" id="rua" name="rua" value="<?= htmlspecialchars($clienteData['endereco']['rua'] ?? ''); ?>" placeholder="Rua">
-                    
-                    <label for="numero">Número:</label>
-                    <input type="number" id="numero" name="numero" value="<?= htmlspecialchars($clienteData['endereco']['numero'] ?? ''); ?>" placeholder="Número">
-                    
-                    <label for="complemento">Complemento:</label>
-                    <input type="text" id="complemento" name="complemento" value="<?= htmlspecialchars($clienteData['endereco']['complemento'] ?? ''); ?>" placeholder="Complemento">
-                    
-                    <label for="bairro">Bairro:</label>
-                    <input type="text" id="bairro" name="bairro" value="<?= htmlspecialchars($clienteData['endereco']['bairro'] ?? ''); ?>" placeholder="Bairro">
-                    
-                    <label for="cidade">Cidade:</label>
-                    <input type="text" id="cidade" name="cidade" value="<?= htmlspecialchars($clienteData['endereco']['cidade'] ?? ''); ?>" placeholder="Cidade">
-                    
-                    <label for="estado">Estado:</label>
-                    <input type="text" id="estado" name="estado" value="<?= htmlspecialchars($clienteData['endereco']['estado'] ?? ''); ?>" placeholder="Estado">
+                    <div class="container">
+                        <div class="row my-2">
+                            <div class="col">
+                                <label for="rua">Rua:</label>
+                                <input class="rounded-3 border-0 mr-4" type="text" id="rua" name="rua" value="<?= htmlspecialchars($clienteData['endereco']['rua'] ?? ''); ?>" placeholder="Rua">
+                            </div>
+
+                            <div class="col">
+                                <label for="numero">Número:</label>
+                                <input class="rounded-3 border-0 mr-4" type="number" id="numero" name="numero" value="<?= htmlspecialchars($clienteData['endereco']['numero'] ?? ''); ?>" placeholder="Número">
+                            </div>
+                        </div>
+                        
+                        <div class="row my-2">
+                            <div class="col">
+                                <label for="complemento">Complem.:</label>
+                                <input class="rounded-3 border-0 mr-4" type="text" id="complemento" name="complemento" value="<?= htmlspecialchars($clienteData['endereco']['complemento'] ?? ''); ?>" placeholder="Complemento">
+                            </div>
+
+                            <div class="col">
+                                <label for="cep">CEP:</label>
+                                <input class="rounded-3 border-0 mr-4" type="text" id="cep" name="cep" value="<?= htmlspecialchars($clienteData['endereco']['cep'] ?? ''); ?>" placeholder="CEP">
+                            </div>
+                        </div>
+                        
+                        <div class="row my-2">
+                            <div class="col">
+                                <label for="bairro">Bairro:</label>
+                                <input class="rounded-3 border-0 mr-4" type="text" id="bairro" name="bairro" value="<?= htmlspecialchars($clienteData['endereco']['bairro'] ?? ''); ?>" placeholder="Bairro">
+                            </div>
+                            
+                            <div class="col">
+                                <label for="cidade">Cidade:</label>
+                                <input class="rounded-3 border-0 mr-4" type="text" id="cidade" name="cidade" value="<?= htmlspecialchars($clienteData['endereco']['cidade'] ?? ''); ?>" placeholder="Cidade">
+                            </div>
+                        </div>
+                        
+                        <label for="estado">Estado:</label>
+                        <input class="rounded-3 border-0 mr-4" type="text" id="estado" name="estado" value="<?= htmlspecialchars($clienteData['endereco']['estado'] ?? ''); ?>" placeholder="Estado">
+                    </div>
 
                     <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($clienteData['endereco']['idEndereco'] ?? ''); ?>">
 
-                    <button type="submit" name="btnAlterarCliente">Salvar</button>
+                    <button type="submit" name="btnAlterarCliente" class="rounded-4 border-0 fs-5 mt-4">Salvar</button>
                 </form>
             </div>
-            <button id="edit">Editar</button>
+            <button id="edit" class="rounded-4 m-auto border-0 fs-5">Editar</button>
         </div>
 
         <br>
@@ -146,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Nenhum pedido encontrado.</p>
         <?php else: ?>
             <?php foreach ($pedidos as $pedido): ?>
-                <div class="conteiner1 conteiner d-flex align-items-center flex-column w-75 p-4 my-3">
+                <div class="conteiner-pedidos rounded-4 text-center d-flex align-items-center flex-column w-75 p-4 my-3">
                     <h5 class="titulo">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h5>
                     <p><strong>Data do Pedido:</strong> <?= htmlspecialchars($pedido['dtPedido']); ?></p>
                     <p><strong>Total:</strong> R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>

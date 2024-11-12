@@ -21,34 +21,32 @@ main{
 
 .conteiner1{
     background-color: var(--azul-bebe);
-    border-radius: 20px;
     text-align: center;
+}
+
+.conteiner-pedidos{
+    background-color: var(--azul-bebe);
 }
 
 button{
     width: 100px;
-    margin: auto;
-    border: none;
     height: 35px;
     background-color: var(--rosa-bebe);
-    border-radius: 20px;
     font-family: var(--Agbalumo);
 }
 
 form{
     display: none;
 }
+
 .exibir{
     display: flex !important;
     flex-direction: column;
     align-items: center;
 }
+
 form input{
     padding-left: 4px;
-}
-
-button[type=submit]{
-    margin: 10px;
 }
 
 .btn-primary {
@@ -65,18 +63,32 @@ button[type=submit]{
         align-items: center !important;
         
     }
+    .conteiner-pedidos{
+        width: 40% !important;
+    }
     .conteiner1 img{
         width: 200px;
         height: auto;
         margin: 30px;
     }
     .c1{
-        font-size: 1.50rem;
         width: 50%;
     }
     button{
-        width: 130px;
-        height: 45px;
-        font-size: 1.50rem;
+        width: 88px;
+        height: 28px;
+        transition: all 0.5s;
+        -webkit-transition: all 0.5s;
+    }   
+  
+    button:hover {
+        background-color: #f58cd4;
+        transform: scale(1.1);
     }
+
+    form label, input{
+        font-size: 1.2rem;
+        height: 30px;
+    }
+
 }
