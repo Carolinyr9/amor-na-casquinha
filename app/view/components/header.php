@@ -22,6 +22,9 @@
                         echo "<a href='editarProdutos.php'>Produtos</a>";
                         echo "<a href='pessoas.php'>Pessoas</a>";
                         break;
+                    case "ENTR":
+                        echo "<a href='pedidosEntregador.php'>Pedidos</a>";
+                        break;
                     default:
                         echo "<a href='index.php'>Início</a>";
                         echo "<a href='login.php'>Login</a>";
