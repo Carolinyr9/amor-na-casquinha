@@ -147,6 +147,32 @@ class Pedido {
     private function determinarNovoStatus($statusAtual, $mudancas) {
         return $mudancas[$statusAtual] ?? $statusAtual;
     }
-    
+ 
+    public function atribuirEntregador($idPedido, $idEntregador) {
+        try {
+            $stmt = $this->conn->prepare("CALL ListarPedidosAtribuidosEntregador(?)");
+            $stmt->bindParam(1, $email, PDO::PARAM_INT);
+            $stmt = $this->conn->prepare("CALL AtribuirPedidoEntregador(?, ?)");
+            $stmt->bindParam(1, $idPedido, PDO::PARAM_INT);
+            $stmt->bindParam(2, $idEntregador, PDO::PARAM_INT);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                foreach ($result as $row) {
+                    $this->mostrarListarPedidos($row); 
+                }
+            } else {
+                echo '<p>Nenhum pedido encontrado.</p>'; 
+            }
+            echo "<script>
+                    alert('Entregador atribuído com sucesso!');
+                    window.location.href = 'pedidos.php';
+                </script>";
+        } catch (PDOException $e) {
+            echo "Erro ao listar pedidos atribuídos: " . $e->getMessage();
+            throw new Exception("Erro ao atualizar entregador: " . $e->getMessage());
+        }
+    }
 }
 ?>

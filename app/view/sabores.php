@@ -52,7 +52,7 @@ session_start();
                     }
                 ?>      
             </div>
-            <button class="voltar fs-4 fw-bold roudend-3 mt-5 border-0"><a class="text-decoration-none" href="index.php">Voltar</a></button>
+            <button class="voltar d-flex justify-content-center align-items-center fs-4 fw-bold rounded-4 mt-5 border-0"><a class="text-decoration-none fs-5" href="index.php">Voltar</a></button>
         </div>
     </main>
     <?php

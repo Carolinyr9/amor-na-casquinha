@@ -90,7 +90,7 @@
                                     $_SESSION["userName"] = $row["nome"];
                                     $_SESSION["userTel"] = $row["telefone"];
                                     $_SESSION["userPerfil"] = $row["perfil"];
-                                    header("location: ../view/pedidos.php");
+                                    header("location: ../view/pedidosEntregador.php");
                                 } else {
                                     echo '
                                         <script>

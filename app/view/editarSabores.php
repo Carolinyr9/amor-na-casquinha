@@ -42,7 +42,7 @@ session_start();
             echo $var;
             $_SESSION['var'] = NULL;
             ?>
-            <button class="add">Adicionar Sabor</button>
+            <button class="add fs-5 fw-bold rounded-4 border-0 my-3">Adicionar Sabor</button>
             <div>
                 <form action="" method="POST" id="addFormulario">
                     <label for="nome">Nome:</label>
@@ -64,13 +64,14 @@ session_start();
                         $redirectToEditar = 'editaSabor.php?idProduto=' . htmlspecialchars($produto['idProduto']) . '&idVariacao=' . htmlspecialchars($produto['idVariacao']);
                         
                         echo '
-                        <div class="c1 rounded-4">
-                            <div class="d-flex flex-row">
-                                <div><img src="../images/' . htmlspecialchars($produto["fotoVariacao"]) . '" alt="' . htmlspecialchars($produto["nomeVariacao"]) . '" class="imagem"></div>
+                        <div class="c1 p-3 my-3 d-flex flex-column rounded-4">
+                            <div class="head-box d-flex flex-row justify-content-between">
+                                <div class="img-box" style="width: 40%; height: auto;">
+                                <img class="imagem m-2 rounded-4 w-100 h-auto" src="../images/' . htmlspecialchars($produto["fotoVariacao"]) . '" alt="' . htmlspecialchars($produto["nomeVariacao"]) . '">
+                                </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                    <h3 class="titulo px-2">' . htmlspecialchars($produto["nomeVariacao"]) . '</h3>
-                                    <div class="preco d-flex justify-content-between px-2">
-                                        <p>Preço</p>
+                                    <h3 class="titulo mt-2 fs-6 fw-bold pl-2 px-2 text-wrap">' . htmlspecialchars($produto["nomeVariacao"]) . '</h3>
+                                    <div class="preco d-flex justify-content-end px-2 mt-3 pl-2">
                                         <span>R$ ' . htmlspecialchars($produto["precoVariacao"]) . '</span>
                                     </div>
                                 </div>
@@ -86,7 +87,7 @@ session_start();
                 }
                 ?>
             </div>
-            <button class="voltar"><a href="editarProdutos.php">Voltar</a></button>
+            <button class="voltar mt-3 fs-5 fw-bold rounded-4 border-0"><a href="editarProdutos.php">Voltar</a></button>
         </div>
     </main>
 

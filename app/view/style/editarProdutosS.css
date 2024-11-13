@@ -34,10 +34,7 @@ main{
 
 .c1{
     background-color: var(--verde-bebe);
-    padding: 15px;
-    border-radius: 20px;
-    margin: 20px 0;
-    
+    width: 55%;
 }
 
 .categ{
@@ -47,9 +44,13 @@ main{
     border: none;
 }
 
+picture{
+    width: 57%;
+}
+
 picture img{
     margin: 8px;
-    width: 160px;
+    width: 100%;
     height: auto;
 }
 
@@ -65,8 +66,9 @@ picture img{
     border: none;
     border-radius: 7px;
     font-family: var(--Agbalumo);
-    width: 90px;
-    height: 30px;
+    min-width: 100px;
+    max-width: 130px;
+    min-height: 30px;
     margin: 5px 0;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
@@ -96,7 +98,7 @@ picture img{
 }
 
 #vari:hover {
-    background-color: #b9b15b;
+    background-color: #f7ee93 !important;
     transform: scale(1.1);
 }
 
@@ -122,23 +124,6 @@ picture img{
     width: 190px;
     height: 40px;
     margin: 20px 0;
-}
-
-.voltar{
-    background-color: var(--azul-bebe);
-    border: none;
-    border-radius: 20px;
-    font-family: var(--Nunito);
-    font-weight: bolder;
-    font-size: 1.60rem;
-    width: 190px;
-    height: 40px;
-    margin: 20px auto;
-}
-
-.voltar a, a:visited, a:active{
-    color: black;
-    text-decoration: none;
 }
 
 .c1 form{
@@ -169,15 +154,25 @@ form{
 @media (min-width: 768px) {
     
     .conteiner1{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
         width: 90%;
-        justify-content: center;
+        gap: 40px !important;
+        flex-direction: row !important;
     }
+
     .c1{
-        margin: 29px;
+        width: 25% !important;
+        
     }
+
+    .card{
+        justify-content: space-around !important;
+        flex-direction: row !important
+    }
+
+    img{
+        width: 75%;
+    }
+
     h1{
         padding-top: 20px !important;
     }

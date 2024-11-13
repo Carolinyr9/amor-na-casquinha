@@ -52,7 +52,7 @@ $produtos = $produtoController->listarProdutos();
                     <button type="submit">Salvar</button>
                 </form>
             </div>
-            <div class="conteiner1">
+            <div class="conteiner1 d-flex flex-wrap gap-3 justify-content-center align-items-center">
                 <?php
                 if ($produtos) {
                     foreach ($produtos as $row) {
@@ -60,15 +60,15 @@ $produtos = $produtoController->listarProdutos();
                         $redirectToEditar = 'editProd.php?produto=' . $row['idProduto'];
                         $redirectToExcluir = 'excluirProd.php?produto=' . $row['idProduto'];
                         echo '
-                        <div class="c1">
-                            <div class="card categ d-flex align-items-center">
+                        <div class="c1 p-2 rounded-4 my-3 d-flex justify-content-center">
+                            <div class="card categ d-flex justify-content-center align-items-center flex-column">
                                 <picture>
                                     <img src="../images/' . htmlspecialchars($row["foto"]) . '" alt="' . htmlspecialchars($row["nome"]) . '">
                                 </picture>
                                 <div class="botao text-center d-flex justify-content-evenly mt-3">
-                                    <button id="vari"><a href="' . htmlspecialchars($redirectToVariacao) . '">Ver Sabores</a></button>        
-                                    <button id="edit"><a href="' . htmlspecialchars($redirectToEditar) . '">Editar</a></button>        
-                                    <button id="excl"><a href="' . htmlspecialchars($redirectToExcluir) . '">Excluir</a></button>        
+                                    <button id="vari"><a class="text-decoration-none" href="' . htmlspecialchars($redirectToVariacao) . '">Ver Sabores</a></button>        
+                                    <button id="edit"><a class="text-decoration-none" href="' . htmlspecialchars($redirectToEditar) . '">Editar</a></button>        
+                                    <button id="excl"><a class="text-decoration-none" href="' . htmlspecialchars($redirectToExcluir) . '">Excluir</a></button>        
                                 </div>
                             </div>
                         </div>';

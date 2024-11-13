@@ -29,39 +29,12 @@ main{
 
 .c1{
     background-color: var(--verde-bebe);
-    padding: 15px;
-    margin: 20px 0;
-    display: flex;
-    flex-direction: column;
     width: 400px;
-    height: 240px;
-}
-
-.c3{
-    width: 200px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
-.imagem{
-    border-radius: 20px;
-    margin: 10px;
-    width: 110px;
-    height: auto;
 }
 
 .titulo{
-    margin-top: 10px;
     font-family: var(--Nunito);
-    font-size: 1.25rem;
-    font-weight: bold;
-    padding-left: 10px;
-}
-
-.preco{
-    margin: 50px 0 0 0;
-    padding-left: 10px;
+    max-width: 120px;
 }
 
 .preco span{
@@ -73,6 +46,13 @@ main{
     font-family: var(--Agbalumo);
     width: 90px;
     height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+  
+#excl:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
 }
 
 .botao #edit{
@@ -80,6 +60,13 @@ main{
     font-family: var(--Agbalumo);
     width: 90px;
     height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+  
+#edit:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
 }
 
 .botao #excl a, a:visited, a:active{
@@ -92,26 +79,30 @@ main{
 
 .add{
     background-color: var(--azul-bebe);
-    border: none;
-    border-radius: 20px;
     font-family: var(--Nunito);
-    font-weight: bolder;
-    font-size: 1.30rem;
-    width: 190px;
-    height: 40px;
-    margin: 20px 0;
+    width: 180px;
+    height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+  
+.add:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
 }
 
 .voltar{
     background-color: var(--azul-bebe);
-    border: none;
-    border-radius: 20px;
     font-family: var(--Nunito);
-    font-weight: bolder;
-    font-size: 1.60rem;
-    width: 190px;
-    height: 40px;
-    margin-top: 20px;
+    width: 110px;
+    height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+  
+.voltar:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
 }
 
 .voltar a, a:visited, a:active{
@@ -131,7 +122,6 @@ main{
 form input{
     padding-left: 4px;
     border-radius: 10px;
-    border: 2px solid rgb(167, 167, 167);
 }
 
 form button[type=submit]{
@@ -146,11 +136,15 @@ form{
 
 @media (min-width: 768px) {
     
-    .imagem{
-        width: 140px;
-        height: auto;
+    .img-box{
+        width: 40% !important;
     }
-
+    .titulo{
+        font-size: 1.2rem !important;
+    }
+    .head-box{
+        justify-content: space-around !important;
+    }
     .conteiner1{
         display: flex;
         flex-direction: row;
@@ -160,12 +154,23 @@ form{
     }
     .c1{
         margin: 29px;
+        width: 28%;
     }
     h1{
         padding-top: 20px !important;
     }
     .botao #excl, #edit{
         font-size: 1.25rem;
+    }
+    .voltar a{
+        font-size: 1.35rem !important;
+        height: 40px;
+        width: 130px;
+    }
+    .add{
+        font-size: 1.35rem !important;
+        height: 35px;
+        width: 200px;
     }
     
 }
