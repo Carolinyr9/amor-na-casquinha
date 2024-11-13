@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/11/2024 às 01:38
+-- Tempo de geração: 13/11/2024 às 02:01
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -1035,7 +1035,7 @@ CREATE TABLE `funcionarios` (
 --
 
 INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
-(1, 0, 1, 'FUNC', 'Jessica', '96309-8589', 'je@email.com', '1234', 1);
+(1, 0, 1, 'FUNC', 'Jessica', '96309-85895', 'je@email.com', '1234', 1);
 
 -- --------------------------------------------------------
 
@@ -1085,7 +1085,7 @@ INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipo
 (46, 1, '2024-11-07 00:58:08', NULL, 0, NULL, 1, 63.49, 0, NULL, NULL, 'Aguardando Envio', NULL),
 (47, 1, '2024-11-07 19:46:42', NULL, 0, NULL, 1, 42.98, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
 (48, 1, '2024-11-07 19:46:57', NULL, 1, NULL, 1, 7.98, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
-(49, 1, '2024-11-07 19:47:59', NULL, 1, NULL, 1, 11.97, 0, NULL, NULL, 'Aguardando Envio', NULL);
+(49, 1, '2024-11-07 19:47:59', NULL, 1, NULL, 1, 11.97, 0, NULL, NULL, 'Aguardando Envio', 1);
 
 -- --------------------------------------------------------
 
