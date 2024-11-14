@@ -48,6 +48,14 @@ class PedidoController {
         }
     }
 
+    public function listarPedidosEntregador($emailEntregador) {
+        try {
+            return $this->pedidoModel->listarPedidosEntregador($emailEntregador);
+        } catch (Exception $e) {
+            return "error" . $e->getMessage();
+        }
+    }
+
     public function mudarStatus($idPedido, $usuario) {
         try {
             $this->pedidoModel->mudarStatus($idPedido, $usuario);

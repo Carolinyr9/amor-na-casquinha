@@ -89,6 +89,21 @@ class Pedido {
         }
     }
 
+    public function listarPedidosEntregador($emailEntregador) {
+        try {
+            $stmt = $this->conn->prepare("CALL ListarPedidosPorEmailEntregador(?)");
+            $stmt->bindParam(1, $emailEntregador, PDO::PARAM_STR);
+            $stmt->execute(); 
+
+            $pedidos = [];
+            if ($stmt->rowCount() > 0) {
+                $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+            }
+            return $pedidos; 
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
+        }
+    }
     public function mudarStatus($idPedido, $usuario) {
         try {
             $pedido = $this->listarPedidoPorId($idPedido);
