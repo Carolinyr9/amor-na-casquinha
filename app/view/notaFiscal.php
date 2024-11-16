@@ -3,14 +3,25 @@ require_once '../config/blockURLAccess.php';
 session_start();
 require_once '../controller/carrinhoController.php';
 require_once '../controller/clienteController.php';
+require_once '../controller/PedidoController.php';
 
 $carrinhoController = new CarrinhoController();
 $clienteController = new ClienteController();
 $carrinhoController->atualizarCarrinho();
 $pedidoData = $carrinhoController->getPedidoData();
 $clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
+$pedidoController = new PedidoController();
 
 $total = $carrinhoController->calcularTotal();
+
+$frete = 0;
+$totalComFrete = $total; 
+
+    $cep = $clienteData['endereco']['cep'];
+    $frete = $pedidoController->calcularFrete($cep);
+    if (is_numeric($frete)) {
+        $totalComFrete = $total + $frete;
+    } 
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +36,17 @@ $total = $carrinhoController->calcularTotal();
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/notaFiscalS.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <script>
+        function atualizarFrete() {
+            var checkbox = document.getElementById('ckbIsDelivery');
+            if (checkbox.checked) {
+                document.getElementById('freteDiv').style.display = 'none';
+            } else {
+                document.getElementById('freteDiv').style.display = 'block';
+            }
+            location.reload();
+        }
+    </script>
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
@@ -33,8 +55,10 @@ $total = $carrinhoController->calcularTotal();
             <h3>Confirmar Pedido?</h3>
 
             <?php if ($pedidoData["isUserLoggedIn"]): ?>
-                <form action="sobre.php" method="post">
-                    <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" checked>
+                <form name="pedidoForm" action="sobre.php" method="post">
+                    <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" 
+                        <?= isset($_POST['ckbIsDelivery']) && $_POST['ckbIsDelivery'] == 'on' ? 'checked' : '' ?>
+                        onchange="atualizarFrete()"> 
                     <label for="ckbIsDelivery" id="labelForCkbIsDelivery">
                         O pedido será entregue no seu endereço!
                     </label>
@@ -55,9 +79,18 @@ $total = $carrinhoController->calcularTotal();
                         <h4>Total do Pedido</h4>
                         <p>R$ <?= number_format($total, 2, ',', '.') ?></p>
                     </div>
-                    
-                    <input type="hidden" name="totalPedido" value="<?= htmlspecialchars($total); ?>">
 
+                    <div class="frete-div">
+                        <h4>Frete</h4>
+                        <p>R$ <?= $frete ?></p>
+                    </div>
+
+                    <div class="total-com-frete">
+                        <h4>Total com Frete</h4>
+                        <p>R$ <?= number_format($totalComFrete, 2, ',', '.') ?></p>
+                    </div>
+
+                    <input type="hidden" name="totalPedido" value="<?= htmlspecialchars($totalComFrete); ?>">
                     <input type="hidden" name="notaFiscal" value="1">
                     <input name="btnSubmit" id="btnSubmit" type="submit" value="Concluir Pedido" class="btn">
                 </form>

@@ -89,6 +89,21 @@ class Pedido {
         }
     }
 
+    public function listarPedidosEntregador($emailEntregador) {
+        try {
+            $stmt = $this->conn->prepare("CALL ListarPedidosPorEmailEntregador(?)");
+            $stmt->bindParam(1, $emailEntregador, PDO::PARAM_STR);
+            $stmt->execute(); 
+
+            $pedidos = [];
+            if ($stmt->rowCount() > 0) {
+                $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+            }
+            return $pedidos; 
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
+        }
+    }
     public function mudarStatus($idPedido, $usuario) {
         try {
             $pedido = $this->listarPedidoPorId($idPedido);
@@ -174,5 +189,31 @@ class Pedido {
             throw new Exception("Erro ao atualizar entregador: " . $e->getMessage());
         }
     }
+
+    public function calcularFrete($cep) {
+        $url = "http://localhost:8080/sorveteria/frete?cep=" . urlencode($cep);
+        $ch = curl_init();
+        $timeout = 5;
+    
+        // Configura a URL e o método GET
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+    
+        // Executa a requisição
+        $data = curl_exec($ch);
+    
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+            return 'Erro ao calcular o frete.';
+        }
+    
+        curl_close($ch);
+    
+        echo "Frete retornado: " . $data;
+        return $data;
+    }
+    
+    
 }
 ?>

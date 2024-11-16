@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/11/2024 às 02:01
+-- Tempo de geração: 14/11/2024 às 22:21
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -777,6 +777,33 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidosEmAndamento` ()   BEGI
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidosPorEmailEntregador` (IN `p_email` VARCHAR(255))   BEGIN
+    DECLARE v_idEntregador INT;
+    
+    SELECT idEntregador INTO v_idEntregador
+    FROM entregador
+    WHERE email = p_email;
+
+    IF v_idEntregador IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Entregador não encontrado';
+    ELSE
+        SELECT *
+        FROM pedidos p
+        WHERE p.idEntregador = v_idEntregador;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidosPorEntregador` (IN `p_idEntregador` INT)   BEGIN
+    SELECT *
+    FROM 
+        Pedidos
+    WHERE 
+        idEntregador = p_idEntregador
+    ORDER BY 
+        statusPedido ASC, 
+        idPedido ASC;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutoAtivo` (IN `limitF` INT, IN `offsetF` INT)   BEGIN
 	SELECT * 
 		FROM produtos
@@ -1085,7 +1112,9 @@ INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipo
 (46, 1, '2024-11-07 00:58:08', NULL, 0, NULL, 1, 63.49, 0, NULL, NULL, 'Aguardando Envio', NULL),
 (47, 1, '2024-11-07 19:46:42', NULL, 0, NULL, 1, 42.98, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
 (48, 1, '2024-11-07 19:46:57', NULL, 1, NULL, 1, 7.98, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
-(49, 1, '2024-11-07 19:47:59', NULL, 1, NULL, 1, 11.97, 0, NULL, NULL, 'Aguardando Envio', 1);
+(49, 1, '2024-11-07 19:47:59', NULL, 1, NULL, 1, 11.97, 0, NULL, NULL, 'Aguardando Envio', 1),
+(50, 1, '2024-11-14 21:11:54', NULL, 1, NULL, 1, 16.99, 0, NULL, NULL, 'Aguardando Envio', 1),
+(51, 1, '2024-11-14 21:18:22', NULL, 1, NULL, 1, 74.00, 0, NULL, NULL, 'Aguardando Pagamento', NULL);
 
 -- --------------------------------------------------------
 
@@ -1295,7 +1324,7 @@ ALTER TABLE `pedidoproduto`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
