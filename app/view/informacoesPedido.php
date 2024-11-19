@@ -35,8 +35,8 @@ $pedidoController = new PedidoController();
     <main class="container my-5 text-center flex flex-column justify-content-center">
         <h1 class="text-center mb-4">Informações do Pedido</h1>
         
-        <div class="w-50 d-flex justify-content-center blue m-auto rounded-5 pt-3">
-            <div class="card-body text-center">
+        <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
+            <div class="container text-center">
                 <?php
                 if ($pedidoId) {
                     $pedido = $pedidoController->listarPedidoPorId($pedidoId);
@@ -53,7 +53,7 @@ $pedidoController = new PedidoController();
                         if (in_array($pedido['statusPedido'], $statusPermitidos) || ($pedido['tipoFrete'] == 0 && $pedido['statusPedido'] == 'Entregue')) {
                             echo '<form method="POST" action="">';
                             echo '<input type="hidden" name="mudarStatus" value="1">';
-                            echo '<button type="submit" class="btn btn-primary">Mudar Status</button>';
+                            echo '<button type="submit" class="btnStatus px-3">Mudar Status</button>';
                             echo '</form>';
                         }
 
@@ -61,7 +61,7 @@ $pedidoController = new PedidoController();
                             $entregador = $entregadorController->getEntregadorPorId($pedido['idEntregador']);
                             if ($entregador) {
                                 echo '
-                                    <div class="card categ d-flex align-items-center mt-4">
+                                    <div class="card blue border-0 d-flex align-items-center mt-4">
                                         <div class="d-flex align-items-center flex-column c2">
                                             <h3 class="titulo px-3">' . htmlspecialchars($entregador[0]["nome"] ?? '') . '</h3>
                                             <div class="px-3">
@@ -69,7 +69,6 @@ $pedidoController = new PedidoController();
                                                 <p>Celular: ' . htmlspecialchars($entregador[0]["telefone"] ?? '') . '</p>
                                                 <p>CNH: ' . htmlspecialchars($entregador[0]["cnh"] ?? '') . '</p>
                                             </div>
-                                            <button class="btn btn-info"><a class="text-white" href="atribuirEntregador.php?idEntregador=' . htmlspecialchars($entregador[0]['idEntregador'] ?? '') . '&idPedido=' . htmlspecialchars($pedidoId) . '">Atribuir entregador</a></button>
                                         </div>
                                     </div>';
                             } else {

@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
+
+:root{
+    --roxo-bebe: #D4C7FF;
+    --Nunito: 'Nunito', sans-serif;
+    --Agbalumo: 'Agbalumo';
+    --azul-bebe: #C9EFFF;
+    --rosa-bebe: #FFC7E8;
+    --amarelo-bebe: #FFFAC7;
+    --verde-bebe: #E2FFC7;
+}
+
+*{
+    font-family: var(--Nunito);
+}
+
+main{
+    min-height: calc(100vh - 170px);
+}
+
+.box-pessoas{
+    background-color: var(--verde-bebe);
+}
+
+.box-link{
+    background-color: var(--rosa-bebe);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    background-color: var(--rosa-bebe);
+}
+
+.box-link:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
+}

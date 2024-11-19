@@ -75,6 +75,14 @@ h1{
     font-family: var(--Agbalumo);
     padding: 1px 10px;
     height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    background-color: var(--amarelo-bebe);
+}
+
+.btnAtribuir:hover {
+    background-color: #f7ee93;
+    transform: scale(1.1);
 }
 
 .btnVerInfos{

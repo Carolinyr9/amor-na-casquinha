@@ -48,7 +48,7 @@ nav.navigation {
 
 .navigation > a:hover {
     color: white;
-    transition: 0.2s;
+    transition: 0.5s;
 }
 
 .carrinho:hover {
@@ -157,9 +157,9 @@ main{
 	}
 
     .navigation a{
-        margin: 0 5px;
+        margin: 0 10px;
         font-family: var(--Agbalumo);
-        font-size: 1.80rem;
+        font-size: 1.6rem;
     }
 
     #toggleBtn {

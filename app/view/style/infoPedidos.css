@@ -26,3 +26,30 @@
     color: black;
     text-decoration: none;
 }
+
+.btnStatus{
+    border: none;
+    border-radius: 7px;
+    font-family: var(--Agbalumo);
+    height: 30px;
+    margin: 5px 0;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    background-color: var(--rosa-bebe);
+}
+
+.btnStatus:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
+}
+
+.card{
+    border-top: 1px solid #c4c4c4 !important;
+    border-width: 100px;
+}
+
+@media (min-width: 768px) {
+    .box-pedido{
+        width: 40% !important;
+    }
+}
