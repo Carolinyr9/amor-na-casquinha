@@ -30,8 +30,7 @@ session_start();
                     <?php
                     if (!empty($pedidos)) {
                         foreach ($pedidos as $pedido) {
-                            $redirectAtribuirEntregador = 'atribuirEntregador.php?idPedido=' . $pedido['idPedido'];
-                            $redirectToInformacao = 'informacoesPedido.php?idPedido=' . $pedido['idPedido'];
+                            $redirectToRotas = 'rotasEntregador.php?idEndereco=' . $pedido['idEndereco'];
                             ?>
                             <div class="conteiner0">
                                 <div class="conteiner1">
@@ -41,7 +40,7 @@ session_start();
                                     <p><?= ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
                                     <p>Status: <?= htmlspecialchars($pedido['statusPedido']); ?></p>
                                     
-                                    <button class="btnVerInfos mt-3"><a href="<?= $redirectToInformacao; ?>">Ver Rotas</a></button>
+                                    <button class="btnVerInfos mt-3"><a href="<?= $redirectToRotas; ?>">Ver Rotas</a></button>
                                 </div>
                             </div>
                             <?php

@@ -56,8 +56,8 @@ class Cliente {
         }
     }
     
-    private function listarEndereco($idEndereco){
-        echo $idEndereco;
+    public function listarEndereco($idEndereco){
+
         try {
             $stmt = $this->conn->prepare("CALL ListarEnderecoPorID(?)");
             $stmt->bindParam(1, $idEndereco);
@@ -121,4 +121,22 @@ class Cliente {
             echo "Erro ao editar as informações do cliente: " . $e->getMessage();
         }
     }
+
+    public function getCep($idEndereco){
+        try{
+            $stmt = $this->conn->prepare("CALL ListarCep(?)");
+            $stmt->bindParam(1, $idEndereco, PDO::PARAM_INT);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($row) {
+                return $row['cep'];
+            } else {
+                return null; 
+            }
+
+        } catch (PDOException $e) {
+            echo "Erro ao pegar o cep do cliente: " . $e->getMessage();
+        }
+}
 }    

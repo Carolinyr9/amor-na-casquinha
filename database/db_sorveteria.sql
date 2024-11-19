@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 14/11/2024 às 22:21
+-- Tempo de geração: 20/11/2024 às 00:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -579,6 +579,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirVariacao` (IN `nomeVariacaoI
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarCep` (IN `idEndereco` INT)   BEGIN
+    SELECT cep
+    FROM enderecos
+    WHERE idEndereco = idEndereco;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarClientePorEmail` (IN `email` VARCHAR(60))   BEGIN
     SELECT * 
     FROM clientes
@@ -813,6 +819,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutoAtivo` (IN `limitF` IN
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutoPorID` (`idProdutoIN` INT, `limitF` INT, `offsetF` INT)   BEGIN
+
 	SELECT * FROM produtos WHERE idProduto = idProdutoIN AND desativado = 0 LIMIT limitF OFFSET offsetF;
 END$$
 
@@ -908,7 +915,8 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
-(1, 0, 'joao lucas binario', 'jo@email.com', '1234', '44564-2132', 'CLIE', 1);
+(1, 0, 'joao lucas binario', 'jo@email.com', '1234', '44564-2132', 'CLIE', 1),
+(2, 0, 'Caroliny Rocha', 'ca@email.com', '1234', '44564-2132', 'CLIE', 5);
 
 -- --------------------------------------------------------
 
@@ -947,11 +955,11 @@ CREATE TABLE `enderecos` (
 --
 
 INSERT INTO `enderecos` (`idEndereco`, `cep`, `rua`, `numero`, `complemento`, `bairro`, `cidade`, `estado`) VALUES
-(1, '90050-340', 'Rua das Flores', 123, 'Apto 101', 'Centro', 'Porto Alegre', 'RS'),
-(2, '20040-001', 'Av. Atlântica', 456, NULL, 'Copacabana', 'Rio de Janeiro', 'RJ'),
-(3, '30130-010', 'Rua da Harmonia', 789, 'Loja B', 'Savassi', 'Belo Horizonte', 'MG'),
-(4, '01001-000', 'Praça da Sé', 321, 'Sala 5', 'Centro', 'São Paulo', 'SP'),
-(5, '40020-030', 'Rua da Praia', 654, NULL, 'Barra', 'Salvador', 'BA');
+(1, '90570020', 'Rua Tobias da Silva', 120, '', 'Moinhos de Vento', 'Porto Alegre', 'Rio Grande do Sul'),
+(2, '08110520', 'Rua Edson de Carvalho Guimarães', 19, NULL, 'Vila Alabama', 'São Paulo', 'SP'),
+(3, '08110492', 'Rua Moisés José Pereira', 50, '', 'Vila Alabama', 'São Paulo', 'SP'),
+(4, '08110640', 'Rua Raimundo Mendes Figueiredo', 152, '', 'Vila Alabama', 'São Paulo', 'SP'),
+(5, '08110210', 'Rua Enseada das Garoupas', 401, NULL, 'Vila Silva Teles', 'São Paulo', 'SP');
 
 -- --------------------------------------------------------
 
@@ -1112,9 +1120,12 @@ INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipo
 (46, 1, '2024-11-07 00:58:08', NULL, 0, NULL, 1, 63.49, 0, NULL, NULL, 'Aguardando Envio', NULL),
 (47, 1, '2024-11-07 19:46:42', NULL, 0, NULL, 1, 42.98, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
 (48, 1, '2024-11-07 19:46:57', NULL, 1, NULL, 1, 7.98, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
-(49, 1, '2024-11-07 19:47:59', NULL, 1, NULL, 1, 11.97, 0, NULL, NULL, 'Aguardando Envio', 1),
+(49, 2, '2024-11-07 19:47:59', NULL, 1, NULL, 5, 11.97, 0, NULL, NULL, 'Aguardando Envio', 1),
 (50, 1, '2024-11-14 21:11:54', NULL, 1, NULL, 1, 16.99, 0, NULL, NULL, 'Aguardando Envio', 1),
-(51, 1, '2024-11-14 21:18:22', NULL, 1, NULL, 1, 74.00, 0, NULL, NULL, 'Aguardando Pagamento', NULL);
+(51, 1, '2024-11-14 21:18:22', NULL, 1, NULL, 1, 74.00, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
+(52, 1, '2024-11-19 23:44:15', NULL, 1, NULL, 1, 6.99, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
+(53, 1, '2024-11-19 23:50:10', NULL, 1, NULL, 1, 6.99, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
+(54, 1, '2024-11-19 23:52:01', NULL, 1, NULL, 1, 25.99, 0, NULL, NULL, 'Aguardando Pagamento', NULL);
 
 -- --------------------------------------------------------
 
@@ -1276,7 +1287,7 @@ ALTER TABLE `variacaoproduto`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
@@ -1324,7 +1335,7 @@ ALTER TABLE `pedidoproduto`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`

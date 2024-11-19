@@ -1,27 +1,37 @@
 <?php
 require_once '../config/blockURLAccess.php';
 session_start();
+
 require_once '../controller/carrinhoController.php';
 require_once '../controller/clienteController.php';
 require_once '../controller/PedidoController.php';
 
+// Instância dos controllers
 $carrinhoController = new CarrinhoController();
 $clienteController = new ClienteController();
-$carrinhoController->atualizarCarrinho();
-$pedidoData = $carrinhoController->getPedidoData();
-$clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
 $pedidoController = new PedidoController();
 
+// Atualizar carrinho
+$carrinhoController->atualizarCarrinho();
+$pedidoData = $carrinhoController->getPedidoData();
+$clienteData = isset($_SESSION["userEmail"]) 
+    ? $clienteController->getClienteData($_SESSION["userEmail"]) 
+    : null;
+
 $total = $carrinhoController->calcularTotal();
+$frete = 0.0;
+$totalComFrete = $total;
 
-$frete = 0;
-$totalComFrete = $total; 
+// Verifica se o cliente está logado e se o frete deve ser calculado
+$isDelivery = isset($_POST['isDelivery']) && $_POST['isDelivery'] === '1';
 
+if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
     $cep = $clienteData['endereco']['cep'];
     $frete = $pedidoController->calcularFrete($cep);
     if (is_numeric($frete)) {
-        $totalComFrete = $total + $frete;
-    } 
+        $totalComFrete += $frete;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -36,17 +46,6 @@ $totalComFrete = $total;
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/notaFiscalS.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
-    <script>
-        function atualizarFrete() {
-            var checkbox = document.getElementById('ckbIsDelivery');
-            if (checkbox.checked) {
-                document.getElementById('freteDiv').style.display = 'none';
-            } else {
-                document.getElementById('freteDiv').style.display = 'block';
-            }
-            location.reload();
-        }
-    </script>
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
@@ -54,39 +53,43 @@ $totalComFrete = $total;
         <div class="conteiner1 container d-flex flex-column align-items-center">
             <h3>Confirmar Pedido?</h3>
 
-            <?php if ($pedidoData["isUserLoggedIn"]): ?>
-                <form name="pedidoForm" action="sobre.php" method="post">
-                    <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" 
-                        <?= isset($_POST['ckbIsDelivery']) && $_POST['ckbIsDelivery'] == 'on' ? 'checked' : '' ?>
-                        onchange="atualizarFrete()"> 
+            <?php if (isset($_SESSION["userEmail"])): ?>
+                <form id="pedidoForm" name="pedidoForm" method="post" action="sobre.php">
+                    <input type="hidden" name="isDelivery" id="isDelivery" value="<?= $isDelivery ? '1' : '0' ?>">
+                    <input type="hidden" name="totalComFrete" id="totalComFrete" value="<?= htmlspecialchars($totalComFrete); ?>">
+
+                    <input 
+                        name="ckbIsDelivery" 
+                        id="ckbIsDelivery" 
+                        type="checkbox" 
+                        <?= $isDelivery ? 'checked' : '' ?>>
                     <label for="ckbIsDelivery" id="labelForCkbIsDelivery">
                         O pedido será entregue no seu endereço!
                     </label>
                     <div id="addressDiv">
                         <p>
-                            <?= 
-                            htmlspecialchars($clienteData['endereco']['rua']) . ', ' . 
-                            htmlspecialchars($clienteData['endereco']['numero']) . ', ' . 
-                            (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 
-                            htmlspecialchars($clienteData['endereco']['bairro']) . ', ' . 
-                            htmlspecialchars($clienteData['endereco']['cidade']) . ', ' . 
-                            htmlspecialchars($clienteData['endereco']['estado']) . ', ' . 
-                            htmlspecialchars($clienteData['endereco']['cep']); ?>
+                            <?= htmlspecialchars($clienteData['endereco']['rua']) . ', ' . 
+                                htmlspecialchars($clienteData['endereco']['numero']) . ', ' . 
+                                (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 
+                                htmlspecialchars($clienteData['endereco']['bairro']) . ', ' . 
+                                htmlspecialchars($clienteData['endereco']['cidade']) . ', ' . 
+                                htmlspecialchars($clienteData['endereco']['estado']) . ', ' . 
+                                htmlspecialchars($clienteData['endereco']['cep']); ?>
                         </p>
                     </div>
 
                     <div class="total-div">
-                        <h4>Total do Pedido</h4>
+                        <h4>Subtotal</h4>
                         <p>R$ <?= number_format($total, 2, ',', '.') ?></p>
                     </div>
 
-                    <div class="frete-div">
+                    <div class="frete-div" id="freteDiv" style="display: <?= $isDelivery ? 'block' : 'none' ?>;">
                         <h4>Frete</h4>
-                        <p>R$ <?= $frete ?></p>
+                        <p>R$ <?= number_format($frete, 2, ',', '.') ?></p>
                     </div>
 
                     <div class="total-com-frete">
-                        <h4>Total com Frete</h4>
+                        <h4>Total do Pedido</h4>
                         <p>R$ <?= number_format($totalComFrete, 2, ',', '.') ?></p>
                     </div>
 
@@ -95,11 +98,11 @@ $totalComFrete = $total;
                     <input name="btnSubmit" id="btnSubmit" type="submit" value="Concluir Pedido" class="btn">
                 </form>
             <?php else: ?>
-                <button id="btnGoToLogin" class="btn">Fazer Login para Concluir Pedido</button>
+                <button id="btnGoToLogin" class="btn" onclick="window.location.href='login.php'">Fazer Login para Concluir Pedido</button>
             <?php endif; ?>
         </div>
     </main>
     <?php include_once 'components/footer.php'; ?>
-    <script src="script/notaFiscal.js"></script>
+    <script src="script/atualizarFrete.js"></script>
 </body>
 </html>

@@ -15,5 +15,9 @@ class ClienteController {
     public function editarCliente($email, $idEndereco, $nome, $telefone, $rua, $cep, $numero, $bairro, $cidade, $estado, $complemento) {
         $this->cliente->editarCliente($email, $idEndereco, $nome, $telefone, $rua, $cep, $numero, $bairro, $cidade, $estado, $complemento);
     }
+
+    public function listarEndereco($idEndereco) {
+        return $this->cliente->listarEndereco($idEndereco);
+    }
 }
 ?>
