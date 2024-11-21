@@ -44,5 +44,9 @@ class CarrinhoController {
     public function limparCarrinho() {
         $this->carrinho->limparCarrinho();
     }
+
+    public function atualizarQtdd($id, $quantidade){
+        $this->carrinho->atualizarQtdd($id, $quantidade);
+    }
 }
 ?>

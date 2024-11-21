@@ -42,9 +42,7 @@ class Carrinho {
                     "foto" => $foto,
                     "qntd" => 1
                 );
-            } else {
-                $_SESSION["cartArray"][$id]["qntd"] += 1;
-            }
+            } 
         } else {
             throw new Exception("Produto não encontrado!");
         }
@@ -107,6 +105,13 @@ class Carrinho {
     public function limparCarrinho() {
         if (isset($_SESSION["cartArray"])) {
             unset($_SESSION["cartArray"]); 
+        }
+    }
+
+    public function atualizarQtdd($id, $quantidade) {
+        if (isset($_SESSION["cartArray"][$id])) {
+
+            $_SESSION["cartArray"][$id]["qntd"] = $quantidade;
         }
     }
 }

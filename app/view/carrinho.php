@@ -13,6 +13,26 @@ if (isset($_GET["action"]) && $_GET["action"] === 'remove' && isset($_GET["item"
 
 $produtos = $carrinhoController->listarCarrinho();
 $total = $carrinhoController->calcularTotal();
+
+$data = json_decode(file_get_contents('php://input'), true);
+
+if (isset($data['id']) && isset($data['quantidade'])) {
+    $id = $data['id'];
+    $quantidade = (int)$data['quantidade'];
+
+    if (isset($_SESSION["cartArray"][$id])) {
+        $carrinhoController->atualizarQtdd($id, $quantidade);
+
+        $novoTotal = $carrinhoController->calcularTotal();
+
+        echo json_encode(['success' => true, 'novoTotal' => $novoTotal]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Produto não encontrado']);
+    }
+    exit;
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +77,11 @@ $total = $carrinhoController->calcularTotal();
                                 </div>
                                 <div class="col d-flex align-items-start col-7">
                                     <p>Quantid.</p>
-                                    <select class="ms-2 border-0" id="select<?= $produto['id'] ?>" name="select<?= $produto['id'] ?>">
+                                    <select 
+                                        class="ms-2 border-0" 
+                                        id="select<?= $produto['id'] ?>" 
+                                        name="select<?= $produto['id'] ?>" 
+                                        onchange="updateProdutoQuantidade(<?= $produto['id'] ?>, this.value)">
                                         <?= $produto['quantidades'] ?>
                                     </select>
                                 </div>
@@ -66,7 +90,8 @@ $total = $carrinhoController->calcularTotal();
                     <?php endforeach; ?>
                     <div class="d-flex flex-row justify-content-between w-75 my-3">
                         <h4>Total</h4>
-                        <p>R$ <?= $total ?></p>
+                        <p id="totalValue">R$ <?= $total ?></p>
+                        <?php echo $total; ?>
                     </div>
                     <input class="btn-concluir fs-5 rounded-4" type="submit" value="Concluir"/>
                 <?php else: ?>
@@ -77,5 +102,6 @@ $total = $carrinhoController->calcularTotal();
         </div>
     </main>
     <?php include_once 'components/footer.php'; ?>
+    <script src="script/atualizarQtddCarrinho.js"></script>
 </body>
 </html>
