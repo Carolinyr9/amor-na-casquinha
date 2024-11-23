@@ -1,5 +1,14 @@
 {
     "require-dev": {
         "phpunit/phpunit": "11"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/"
+        },
+        "files": [
+            "app/config/database.php"
+        ]
     }
 }

@@ -9,9 +9,14 @@ class ComposerStaticInita50aa7a4aac6a4ff483de5f21554c3ee
     public static $files = array (
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+        '289386b7d2bf7f304728ddd298532b31' => __DIR__ . '/../..' . '/app/config/database.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'a' => 
+        array (
+            'app\\' => 4,
+        ),
         'P' => 
         array (
             'PhpParser\\' => 10,
@@ -23,6 +28,10 @@ class ComposerStaticInita50aa7a4aac6a4ff483de5f21554c3ee
     );
 
     public static $prefixDirsPsr4 = array (
+        'app\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app',
+        ),
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
