@@ -41,6 +41,7 @@ if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nota Fiscal</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
@@ -61,8 +62,7 @@ if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
                     <input 
                         name="ckbIsDelivery" 
                         id="ckbIsDelivery" 
-                        type="checkbox" 
-                        <?= $isDelivery ? 'checked' : '' ?>>
+                        type="checkbox">
                     <label for="ckbIsDelivery" id="labelForCkbIsDelivery">
                         O pedido será entregue no seu endereço!
                     </label>
@@ -83,7 +83,7 @@ if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
                         <p>R$ <?= number_format($total, 2, ',', '.') ?></p>
                     </div>
 
-                    <div class="frete-div" id="freteDiv" style="display: <?= $isDelivery ? 'block' : 'none' ?>;">
+                    <div class="frete-div" id="freteDiv" style="display: none;">
                         <h4>Frete</h4>
                         <p>R$ <?= number_format($frete, 2, ',', '.') ?></p>
                     </div>
