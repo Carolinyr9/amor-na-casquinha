@@ -57,22 +57,26 @@ class Pedido {
         }
     }
 
-    public function criarPedido($email, $tipoFrete, $valorTotal) {
+    public function criarPedido($email, $tipoFrete, $valorTotal, $frete) {
         try {
             $dataPedido = date('Y-m-d H:i:s');
-
-            $stmt = $this->conn->prepare("CALL InserirPedido(?, ?, ?, ?)");
+    
+            $stmt = $this->conn->prepare("CALL InserirPedido(?, ?, ?, ?, ?)");
+            
             $stmt->bindParam(1, $email);
             $stmt->bindParam(2, $dataPedido);
             $stmt->bindParam(3, $tipoFrete);
             $stmt->bindParam(4, $valorTotal);
+            $stmt->bindParam(5, $frete,);
+    
             $stmt->execute();
-
+    
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new Exception("Erro ao criar o pedido: " . $e->getMessage());
         }
     }
+    
 
     public function listarPedidos() {
         try {

@@ -24,7 +24,7 @@ $pedidoController = new PedidoController();
 <?php
     include_once 'components/header.php';
     $pedidoId = $_GET['idPedido'] ?? null;
-    $usuario = $_SESSION['perfil'] ?? null;
+    $usuario = $_SESSION['userPerfil'] ?? null;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mudarStatus'])) {
         $pedidoController->mudarStatus($pedidoId, $usuario);

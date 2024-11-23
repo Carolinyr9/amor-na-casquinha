@@ -53,7 +53,6 @@ if (isset($data['id']) && isset($data['quantidade'])) {
         <div class="container d-flex flex-column align-items-center">
             <form method="post" action="notaFiscal.php" class="container-fluid d-flex flex-column align-items-center conteiner1 rounded-4 mt-4 py-3 px-2">
                 <input type="hidden" name="cart" value="1">
-                <!-- Campo oculto para enviar o total -->
                 <input type="hidden" name="total" value="<?= htmlspecialchars($total); ?>">
 
                 <?php if (!empty($produtos)): ?>
@@ -91,7 +90,6 @@ if (isset($data['id']) && isset($data['quantidade'])) {
                     <div class="d-flex flex-row justify-content-between w-75 my-3">
                         <h4>Total</h4>
                         <p id="totalValue">R$ <?= $total ?></p>
-                        <?php echo $total; ?>
                     </div>
                     <input class="btn-concluir fs-5 rounded-4" type="submit" value="Concluir"/>
                 <?php else: ?>

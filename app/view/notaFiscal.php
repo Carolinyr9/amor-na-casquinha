@@ -6,12 +6,10 @@ require_once '../controller/carrinhoController.php';
 require_once '../controller/clienteController.php';
 require_once '../controller/PedidoController.php';
 
-// Instância dos controllers
 $carrinhoController = new CarrinhoController();
 $clienteController = new ClienteController();
 $pedidoController = new PedidoController();
 
-// Atualizar carrinho
 $carrinhoController->atualizarCarrinho();
 $pedidoData = $carrinhoController->getPedidoData();
 $clienteData = isset($_SESSION["userEmail"]) 
@@ -22,7 +20,6 @@ $total = $carrinhoController->calcularTotal();
 $frete = 0.0;
 $totalComFrete = $total;
 
-// Verifica se o cliente está logado e se o frete deve ser calculado
 $isDelivery = isset($_POST['isDelivery']) && $_POST['isDelivery'] === '1';
 
 if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
@@ -57,8 +54,7 @@ if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
             <?php if (isset($_SESSION["userEmail"])): ?>
                 <form id="pedidoForm" name="pedidoForm" method="post" action="sobre.php">
                     <input type="hidden" name="isDelivery" id="isDelivery" value="<?= $isDelivery ? '1' : '0' ?>">
-                    <input type="hidden" name="totalComFrete" id="totalComFrete" value="<?= htmlspecialchars($totalComFrete); ?>">
-
+                    
                     <input 
                         name="ckbIsDelivery" 
                         id="ckbIsDelivery" 
@@ -86,11 +82,13 @@ if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
                     <div class="frete-div" id="freteDiv" style="display: none;">
                         <h4>Frete</h4>
                         <p>R$ <?= number_format($frete, 2, ',', '.') ?></p>
+                        <input type="hidden" name="frete" id="frete" value="<?= htmlspecialchars($frete); ?>">
                     </div>
 
                     <div class="total-com-frete">
                         <h4>Total do Pedido</h4>
                         <p>R$ <?= number_format($totalComFrete, 2, ',', '.') ?></p>
+                        <input type="hidden" name="totalComFrete" id="totalComFrete" value="<?= htmlspecialchars($totalComFrete); ?>">
                     </div>
 
                     <input type="hidden" name="totalPedido" value="<?= htmlspecialchars($totalComFrete); ?>">
