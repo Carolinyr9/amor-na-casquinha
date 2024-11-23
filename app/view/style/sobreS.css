@@ -35,7 +35,7 @@ button{
     font-family: var(--Agbalumo);
 }
 
-form{
+.formEditar{
     display: none;
 }
 
