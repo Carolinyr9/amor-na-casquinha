@@ -1,3 +1,13 @@
+$(document).ready(function(){
+    $('#ckbIsDelivery').change(function(){
+        if($(this).is(':checked')) {
+            $('#freteDiv').fadeIn();
+        } else {
+            $('#freteDiv').fadeOut(); 
+        }
+    });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     const checkbox = document.getElementById("ckbIsDelivery");
     const form = document.getElementById("pedidoForm");
