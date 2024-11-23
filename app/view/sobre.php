@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 <?php endif; ?>
 
-                <form action="" class="w-100" method="POST" id="formulario">
+                <form action="" class="w-100 formEditar" method="POST" id="formulario">
                     <p class="fs-5">Usuário</p>
                     <label for="nome">Nome:</label>
                     <input class="rounded-3 border-0 mr-4" type="text" id="nome" name="nome" value="<?= htmlspecialchars($clienteData['nome'] ?? ''); ?>" placeholder="Nome completo">
@@ -175,6 +175,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                     <?php 
                     $statusPermitidos = ['Aguardando Pagamento', 'Aguardando Envio'];
+                    $resul = in_array($pedido['statusPedido'], $statusPermitidos) ? "deu" : "não deu";
+                    echo $resul;
                     
                     if ($pedido['statusPedido'] == 'A Caminho'): ?>
                         <form method="POST" action="">
