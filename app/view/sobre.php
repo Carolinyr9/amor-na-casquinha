@@ -10,6 +10,7 @@ $pedidoController = new PedidoController();
 $clienteController = new ClienteController();
 $carrinho = new Carrinho();
 
+echo $_SESSION["userEmail"];
 $clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
 $pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
 
@@ -152,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <button type="submit" name="btnAlterarCliente" class="rounded-4 border-0 fs-5 mt-4">Salvar</button>
                 </form>
             </div>
-            <button id="edit" class="rounded-4 m-auto border-0 fs-5">Editar</button>
+            <button id="edit" class="btnEditar rounded-4 m-auto border-0 fs-5">Editar</button>
         </div>
 
         <br>
@@ -185,7 +186,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form method="POST" action="">
                             <input type="hidden" name="mudarStatus" value="1">
                             <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
-                            <button type="submit" class="btn btn-primary">Cancelar Pedido</button>
+                            <button type="submit" class="btnCancelaPedido rounded-4 border-0 fw-bold">Cancelar Pedido</button>
                         </form>
                     <?php endif; ?>
                 </div>

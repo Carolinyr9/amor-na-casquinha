@@ -28,13 +28,6 @@ main{
     background-color: var(--azul-bebe);
 }
 
-button{
-    width: 100px;
-    height: 35px;
-    background-color: var(--rosa-bebe);
-    font-family: var(--Agbalumo);
-}
-
 .formEditar{
     display: none;
 }
@@ -49,9 +42,40 @@ form input{
     padding-left: 4px;
 }
 
-.btn-primary {
-    display: inline-block !important;
-    visibility: visible !important;
+.btnEditar{
+    width: 100px;
+    transition: all 0.5s;
+    background-color: var(--rosa-bebe);
+    -webkit-transition: all 0.5s;
+}   
+
+.btnEditar:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
+}
+
+.btnCancelaPedido{
+    width: 151px;
+    transition: all 0.5s;
+    background-color: var(--rosa-bebe);
+    -webkit-transition: all 0.5s;
+}   
+
+.btnCancelaPedido:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
+}
+
+.btnMudarStatus{
+    width: 193px;
+    transition: all 0.5s;
+    background-color: var(--amarelo-bebe);
+    -webkit-transition: all 0.5s;
+}   
+
+.btnMudarStatus:hover {
+    background-color: #f7ee93;
+    transform: scale(1.1);
 }
 
 @media (min-width: 768px) {
@@ -74,21 +98,22 @@ form input{
     .c1{
         width: 50%;
     }
-    button{
-        width: 88px;
-        height: 28px;
-        transition: all 0.5s;
-        -webkit-transition: all 0.5s;
-    }   
-  
-    button:hover {
-        background-color: #f58cd4;
-        transform: scale(1.1);
-    }
 
     form label, input{
         font-size: 1.2rem;
         height: 30px;
+    }
+
+    .btnEditar{
+        width: 100px;
+    }
+
+    .btnMudarStatus{
+        width: 190px;
+    }
+
+    .btnCancelaPedido{
+        width: 140px;
     }
 
 }

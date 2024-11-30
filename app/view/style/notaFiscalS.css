@@ -17,32 +17,21 @@ main{
 .conteiner1{
     background-color: var(--verde-bebe);
     border-radius: 20px;
-    width: 342px;
+    width: 87%;
 }
 
 .conteiner1 h3{
     margin-top: 20px;
 }
 
-.c1{
-    margin: 20px 0;
-    border-top: 2px solid var(--roxo-bebe);
-    border-bottom: 2px solid var(--roxo-bebe);
-    padding: 8px 0;
+.pedidoForm{
+    width: 90% !important;
 }
 
 .imagem{
     border-radius: 20px;
     width: 120px;
     height: auto;
-}
-
-.c3 h3{
-    font-size: 1.50rem;
-}
-
-.botao{
-    height: 30px;
 }
 
 .btn{
@@ -72,24 +61,13 @@ main{
     padding: 0 10px;
 }
 
-.c4{
-    display: flex;
-    justify-content: space-between !important;
-    width: 100%;
-    margin: 20px 0;
-}
-
 @media (min-width: 768px)  {
     .conteiner1{
         width: 40%;
         padding: 20px 0;
     }
-    
-    .c1{
-        width: 80%;
-    }
 
-    .c4{
-        width: 80%;
+    #pedidoForm{
+        width: 90% !important;
     }
 }
