@@ -15,18 +15,15 @@ $pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["btnSubmit"])) {
-        $total = $carrinho->getTotal();
-        if ($total > 0) {
-            $pedidoController->criarPedido($_SESSION["userEmail"], isset($_POST["ckbIsDelivery"]) ? 1 : 0, $total);
-            unset($_POST);
-            $carrinho->limparCarrinho();
-            header("Location: sobre.php");
-        }
+        $pedidoController->criarPedido($_SESSION["userEmail"], isset($_POST["ckbIsDelivery"]) ? 1 : 0, $_POST["totalComFrete"], isset($_POST["frete"]) ? $_POST["frete"] : NULL, isset($_POST["meioDePagamento"]) ? $_POST["meioDePagamento"] : NULL);
+        unset($_POST);
+        $carrinho->limparCarrinho();
+        header("Location: sobre.php");
     }
 
     if (isset($_POST['mudarStatus'])) {
-        $pedidoId = $_GET['idPedido'] ?? null;
-        $usuario = $_SESSION['perfil'] ?? null;
+        $pedidoId = $_POST['idPedido'] ?? null;
+        $usuario = $_SESSION['userPerfil'] ?? null;
         $pedidoController->mudarStatus($pedidoId, $usuario);
         header("Location: sobre.php");
         exit();
@@ -45,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_POST["cidade"],
             $_POST["estado"],
             $_POST["complemento"]
-            
         );
         header("Location: sobre.php");
         exit();
@@ -81,17 +77,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <p class="fs-5">Telefone: <?= htmlspecialchars($clienteData['telefone']); ?></p>
                         <p class="fs-5">Endereço: </p>
                         
-                        <?php
-                        if (isset($clienteData['endereco']['rua'])): ?>
+                        <?php if (isset($clienteData['endereco']['rua'])): ?>
                             <div id="endereco">
                                 <p class="fs-5">
-                                    <?= htmlspecialchars($clienteData['endereco']['rua']) . ', ' . 
-                                        htmlspecialchars($clienteData['endereco']['numero']) . ', ' . 
-                                        (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 
-                                        htmlspecialchars($clienteData['endereco']['bairro']) . ', ' . 
-                                        htmlspecialchars($clienteData['endereco']['cidade']) . ', ' . 
-                                        htmlspecialchars($clienteData['endereco']['estado']) . ', ' . 
-                                        htmlspecialchars($clienteData['endereco']['cep']); ?>
+                                    <?= htmlspecialchars($clienteData['endereco']['rua']) . ', ' .
+                                       htmlspecialchars($clienteData['endereco']['numero']) . ', ' .
+                                       (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 
+                                       htmlspecialchars($clienteData['endereco']['bairro']) . ', ' .
+                                       htmlspecialchars($clienteData['endereco']['cidade']) . ', ' .
+                                       htmlspecialchars($clienteData['endereco']['estado']) . ', ' .
+                                       htmlspecialchars($clienteData['endereco']['cep']); ?>
                                 </p>
                             </div>
                         <?php else: ?>
@@ -171,24 +166,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p><strong>Data do Pedido:</strong> <?= htmlspecialchars($pedido['dtPedido']); ?></p>
                     <p><strong>Total:</strong> R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
                     <p><strong>Tipo de Frete:</strong> <?= ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
+                    <p><strong>Pagamento:</strong> <?= htmlspecialchars($pedido['meioPagamento']); ?></p>
                     <p><strong>Status:</strong> <?= htmlspecialchars($pedido['statusPedido']); ?></p>
                     
                     <?php 
                     $statusPermitidos = ['Aguardando Pagamento', 'Aguardando Envio'];
                     $resul = in_array($pedido['statusPedido'], $statusPermitidos) ? "deu" : "não deu";
-                    echo $resul;
                     
                     if ($pedido['statusPedido'] == 'A Caminho'): ?>
                         <form method="POST" action="">
                             <input type="hidden" name="mudarStatus" value="1">
+                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
                             <button type="submit" class="btn btn-primary">Mudar para: Entregue</button>
                         </form>
                     <?php endif; ?>
                     
-                    <?php 
-                    if (in_array($pedido['statusPedido'], $statusPermitidos)): ?>
+                    <?php if (in_array($pedido['statusPedido'], $statusPermitidos)): ?>
                         <form method="POST" action="">
                             <input type="hidden" name="mudarStatus" value="1">
+                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
                             <button type="submit" class="btn btn-primary">Cancelar Pedido</button>
                         </form>
                     <?php endif; ?>

@@ -24,13 +24,14 @@ class PedidoController {
         }
     }
 
-    public function criarPedido($email, $tipoFrete, $total) {
+    public function criarPedido($email, $tipoFrete, $total, $frete, $meioDePagamento) {
         try {
-            return $this->pedidoModel->criarPedido($email, $tipoFrete, $total);
+            $this->pedidoModel->criarPedido($email, $tipoFrete, $total, $frete, $meioDePagamento);
         } catch (Exception $e) {
             return ["error" => $e->getMessage()];
         }
     }
+    
 
     public function listarPedidos() {
         try {

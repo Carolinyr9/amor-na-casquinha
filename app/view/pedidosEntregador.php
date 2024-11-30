@@ -16,12 +16,22 @@ session_start();
 </head>
 <body>
     <?php
-        include_once 'components/header.php';
-        require_once '../controller/PedidoController.php';
-        $pedidoController = new PedidoController();
-        
-        $pedidos = $pedidoController->listarPedidosEntregador($_SESSION['userEmail']);
+    include_once 'components/header.php';
+    require_once '../controller/PedidoController.php';
+    $pedidoController = new PedidoController();
+    
+    $usuario = $_SESSION['userPerfil'] ?? null;
+    
+    $pedidos = $pedidoController->listarPedidosEntregador($_SESSION['userEmail']);
+    if (isset($_POST['mudarStatus']) && isset($_POST['idPedido'])) {
+        $pedidoId = $_POST['idPedido']; 
+
+        $pedidoController->mudarStatus($pedidoId, $usuario);
+        header("Location: pedidosEntregador.php"); 
+        exit();
+    }
     ?>
+    
     <main>
         <h1 class="m-auto text-center pt-4 pb-4">Pedidos</h1>
         <div class="conteiner">
@@ -41,6 +51,23 @@ session_start();
                                     <p>Status: <?= htmlspecialchars($pedido['statusPedido']); ?></p>
                                     
                                     <button class="btnVerInfos mt-3"><a href="<?= $redirectToRotas; ?>">Ver Rotas</a></button>
+                                    
+                                    <?php if ($pedido['statusPedido'] == 'A Caminho'): ?>
+                                        <form method="POST" action="">
+                                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
+                                            <input type="hidden" name="mudarStatus" value="1">
+                                            <button type="submit" class="btn btn-primary">A Entrega Falhou</button>
+                                        </form>
+                                    <?php endif; ?>
+                                    
+                                    <?php if ($pedido['statusPedido'] == 'Entregue'): ?>
+                                        <form method="POST" action="">
+                                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
+                                            <input type="hidden" name="mudarStatus" value="1">
+                                            <button type="submit" class="btn btn-primary">Pedido Concluido</button>
+                                        </form>
+                                    <?php endif; ?>
+                                  
                                 </div>
                             </div>
                             <?php
@@ -50,7 +77,6 @@ session_start();
                         <div class="alert alert-warning">Nenhum pedido encontrado.</div>
                         <?php
                     }
-                        
                     ?>
                 </div>
             </div>
@@ -58,7 +84,7 @@ session_start();
     </main>
     
     <?php
-        include_once 'components/footer.php';
+    include_once 'components/footer.php';
     ?>
 </body>
 </html>

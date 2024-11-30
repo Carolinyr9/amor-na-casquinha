@@ -50,6 +50,7 @@ class Pedido {
                 }
                 return $pedido;  
             } catch (PDOException $e) {
+                echo $e;
                 throw new Exception("Erro ao listar pedido: " . $e->getMessage());
             }
         } else {
@@ -57,22 +58,27 @@ class Pedido {
         }
     }
 
-    public function criarPedido($email, $tipoFrete, $valorTotal) {
+    public function criarPedido($email, $tipoFrete, $valorTotal, $frete, $meioDePagamento) {
         try {
             $dataPedido = date('Y-m-d H:i:s');
-
-            $stmt = $this->conn->prepare("CALL InserirPedido(?, ?, ?, ?)");
+    
+            $stmt = $this->conn->prepare("CALL CriarPedido(?, ?, ?, ?, ?, ?)");
+            
             $stmt->bindParam(1, $email);
             $stmt->bindParam(2, $dataPedido);
             $stmt->bindParam(3, $tipoFrete);
             $stmt->bindParam(4, $valorTotal);
+            $stmt->bindParam(5, $frete,);
+            $stmt->bindParam(6, $meioDePagamento,);
             $stmt->execute();
-
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
+            echo "Erro ao criar o pedido: " . $e->getMessage();
             throw new Exception("Erro ao criar o pedido: " . $e->getMessage());
         }
     }
+    
 
     public function listarPedidos() {
         try {
@@ -138,7 +144,7 @@ class Pedido {
 
     private function determinarNovoStatusFuncionario($pedido) {
         return $this->determinarNovoStatus($pedido['statusPedido'], [
-            'Aguardando Pagamento' => 'Aguardando Envio',
+            'Aguardando Confirmação' => 'Aguardando Envio',
             'Aguardando Envio' => 'A Caminho',
             'Entregue' => $pedido['tipoFrete'] == 0 ? 'Concluído' : 'Entregue'
         ]);
@@ -147,7 +153,7 @@ class Pedido {
     private function determinarNovoStatusCliente($pedido) {
         return $this->determinarNovoStatus($pedido['statusPedido'], [
             'A Caminho' => 'Entregue',
-            'Aguardando Pagamento' => 'Cancelado',
+            'Aguardando Confirmação' => 'Cancelado',
             'Aguardando Envio' => 'Cancelado'
         ]);
     }

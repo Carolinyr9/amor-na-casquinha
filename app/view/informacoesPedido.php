@@ -24,7 +24,7 @@ $pedidoController = new PedidoController();
 <?php
     include_once 'components/header.php';
     $pedidoId = $_GET['idPedido'] ?? null;
-    $usuario = $_SESSION['perfil'] ?? null;
+    $usuario = $_SESSION['userPerfil'] ?? null;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mudarStatus'])) {
         $pedidoController->mudarStatus($pedidoId, $usuario);
@@ -47,15 +47,7 @@ $pedidoController = new PedidoController();
                         echo '<p>Total: R$ ' . number_format($pedido['valorTotal'], 2, ',', '.') . '</p>';
                         echo '<p>' . ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!') . '</p>';
                         echo '<p>Status: ' . htmlspecialchars($pedido['statusPedido']) . '</p>';
-
-                        $statusPermitidos = ['Aguardando Pagamento', 'Aguardando Envio'];
-
-                        if (in_array($pedido['statusPedido'], $statusPermitidos) || ($pedido['tipoFrete'] == 0 && $pedido['statusPedido'] == 'Entregue')) {
-                            echo '<form method="POST" action="">';
-                            echo '<input type="hidden" name="mudarStatus" value="1">';
-                            echo '<button type="submit" class="btnStatus px-3">Mudar Status</button>';
-                            echo '</form>';
-                        }
+                        echo '<p>Meio de Pagamento: ' . htmlspecialchars($pedido['meioPagamento']) . '</p>';
 
                         if ($pedido['tipoFrete'] == 1) {
                             $entregador = $entregadorController->getEntregadorPorId($pedido['idEntregador']);
@@ -75,6 +67,16 @@ $pedidoController = new PedidoController();
                                 echo '<p>Nenhum entregador atribuído para esse pedido.</p>';
                             }
                         }
+
+                        $statusPermitidos = ['Aguardando Confirmação', 'Aguardando Envio'];
+
+                        if (in_array($pedido['statusPedido'], $statusPermitidos) || ($pedido['tipoFrete'] == 0 && $pedido['statusPedido'] == 'Entregue')) {
+                            echo '<form method="POST" action="">';
+                            echo '<input type="hidden" name="mudarStatus" value="1">';
+                            echo '<button type="submit" class="btnStatus px-3">Mudar Status</button>';
+                            echo '</form>';
+                        }
+                        
                     } else {
                         echo '<div class="alert alert-danger">Pedido não encontrado.</div>';
                     }

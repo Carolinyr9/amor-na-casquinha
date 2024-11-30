@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 20/11/2024 às 00:52
+-- Tempo de geração: 30/11/2024 às 18:29
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.0.30
 
@@ -68,6 +68,45 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `CancelarPedido` (`idPedidoIN` INT, 
             '201' AS 'Status',
             '' AS 'Error',
             'SUCCESS_CREATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `CriarPedido` (IN `emailIN` VARCHAR(255), IN `dtPedidoIN` DATETIME, IN `tipoFreteIN` INT, IN `valorTotalIN` DECIMAL(10,2), IN `freteIN` DOUBLE, IN `meioPagamentoIN` VARCHAR(20))   BEGIN
+    -- Obter o id do cliente com base no email
+    SET @id_cliente := (SELECT idCliente FROM clientes WHERE email = emailIN);
+    
+    -- Verificar se o cliente tem um endereço
+    IF NOT EXISTS (SELECT idEndereco FROM clientes WHERE idCliente = @id_cliente) THEN
+        SELECT '403' AS 'Status', 
+               'ERROR_ENDERECO_NAO_ENCONTRADO' AS 'Error', 
+               '' AS 'Message';
+    ELSE
+        -- Obter o id do endereço
+        SET @id_endereco := (SELECT idEndereco FROM clientes WHERE idCliente = @id_cliente);
+        
+        -- Definir o status do pedido
+        SET @status_pedido := 'Aguardando Confirmação';
+
+        -- Verificar o valor do frete
+        IF freteIN IS NULL THEN
+            SET @frete := 0;
+        ELSE
+            SET @frete := freteIN;
+        END IF;
+
+        -- Inserir o pedido na tabela 'pedidos', incluindo o meio de pagamento
+        INSERT INTO pedidos(`idCliente`, `dtPedido`, `tipoFrete`, `idEndereco`, `valorTotal`, `statusPedido`, `frete`, `meioPagamento`)
+            VALUES (@id_cliente, dtPedidoIN, tipoFreteIN, @id_endereco, valorTotalIN, @status_pedido, @frete, meioPagamentoIN);
+        
+        -- Obter o ID do pedido inserido
+        SET @id_pedido := LAST_INSERT_ID();
+        
+        -- Retornar resposta de sucesso
+        SELECT 
+            '201' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_CREATED' AS 'Message',
+            @id_pedido AS 'Body';
     END IF;
 END$$
 
@@ -480,37 +519,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirOcorrenciaEstoque` (`idEstoq
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirPedido` (IN `emailIN` VARCHAR(255), IN `dtPedidoIN` DATETIME, IN `tipoFreteIN` INT, IN `valorTotalIN` DECIMAL(10,2))   BEGIN
-    -- Definir a variável id_cliente a partir do email
-    SET @id_cliente := (SELECT idCliente FROM clientes WHERE email = emailIN);
-    
-    -- Verificar se o cliente possui um endereço
-    IF NOT EXISTS (SELECT idEndereco FROM clientes WHERE idCliente = @id_cliente) THEN
-        -- Se não encontrar, retorna erro
-        SELECT '403' AS 'Status', 'ERROR_ENDERECO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
-    ELSE
-        -- Definir a variável id_endereco a partir do id_cliente
-        SET @id_endereco := (SELECT idEndereco FROM clientes WHERE idCliente = @id_cliente);
-        
-        -- Definir o status do pedido como "Aguardando Pagamento"
-        SET @status_pedido := 'Aguardando Pagamento';
-
-        -- Inserir o pedido na tabela
-        INSERT INTO pedidos(`idCliente`, `dtPedido`, `tipoFrete`, `idEndereco`, `valorTotal`, `statusPedido`)
-            VALUES (@id_cliente, dtPedidoIN, tipoFreteIN, @id_endereco, valorTotalIN, @status_pedido);
-        
-        -- Obter o id do pedido recém-inserido
-        SET @id_pedido := LAST_INSERT_ID();
-        
-        -- Retornar sucesso e o id do pedido inserido
-        SELECT 
-            '201' AS 'Status',
-            '' AS 'Error',
-            'SUCCESS_CREATED' AS 'Message',
-            @id_pedido AS 'Body';
-    END IF;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirPedidoDtPagamento` (`idPedidoIN` INT, `dtPagamentoIN` DATETIME)   BEGIN
     IF NOT EXISTS (SELECT * FROM pedidos WHERE idPedido = idPedidoIN)
     THEN
@@ -719,23 +727,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFuncionarios` ()   BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorCliente` (`emailIN` VARCHAR(255))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorCliente` (IN `emailIN` VARCHAR(255))   BEGIN
 	SET @id_cliente := (SELECT idCliente FROM clientes WHERE email like emailIN);
     IF (isnull(@id_cliente))
     THEN
 		SELECT '403' AS 'Status', 'ERROR_CLIENTE_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
 	ELSE
-		SELECT * FROM pedidos 
-            LEFT OUTER JOIN pedidoProduto
-            ON pedidos.idPedido = pedidoProduto.idPedido
+		SELECT * FROM pedidos
 			WHERE pedidos.idCliente = @id_cliente;
 	END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorID` (`idPedidoIN` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorID` (IN `idPedidoIN` INT)   BEGIN
 	SELECT * FROM pedidos
-        LEFT OUTER JOIN pedidoProduto
-		ON pedidos.idPedido = pedidoProduto.idPedido
         WHERE pedidos.idPedido = idPedidoIN;
 END$$
 
@@ -859,17 +863,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVaricaoPorProduto` (`idProdut
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Login` (IN `emailIN` VARCHAR(255))   BEGIN
-	IF EXISTS (SELECT email FROM funcionarios WHERE email like emailIN)
+    IF EXISTS (SELECT email FROM funcionarios WHERE email LIKE CONCAT('%', emailIN, '%'))
     THEN
-		SELECT * FROM funcionarios WHERE email LIKE email LIMIT 1;
-	ELSEIF EXISTS (SELECT email FROM clientes WHERE email LIKE emailIN)
-		THEN
-			SELECT * FROM clientes INNER JOIN enderecos ON clientes.idEndereco = enderecos.idEndereco WHERE email LIKE email LIMIT 1;
-    ELSEIF EXISTS (SELECT email FROM entregador WHERE email LIKE emailIN)
-    	THEN
-        	SELECT * FROM entregador WHERE email LIKE email;
-	ELSE
-		SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message', '' AS 'Body';
+        SELECT * FROM funcionarios WHERE email LIKE CONCAT('%', emailIN, '%') LIMIT 1;
+    
+    ELSEIF EXISTS (SELECT email FROM clientes WHERE email LIKE CONCAT('%', emailIN, '%'))
+    THEN
+        SELECT * 
+        FROM clientes 
+        INNER JOIN enderecos ON clientes.idEndereco = enderecos.idEndereco 
+        WHERE email LIKE CONCAT('%', emailIN, '%') LIMIT 1;
+    
+    ELSEIF EXISTS (SELECT email FROM entregador WHERE email LIKE CONCAT('%', emailIN, '%'))
+    THEN
+        SELECT * FROM entregador WHERE email LIKE CONCAT('%', emailIN, '%') LIMIT 1;
+    
+    ELSE
+        SELECT '403' AS 'Status', 'ERROR_EMAIL_NAO_ENCONTRADO' AS 'Error', '' AS 'Message', '' AS 'Body';
     END IF;
 END$$
 
@@ -916,7 +926,7 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
 (1, 0, 'joao lucas binario', 'jo@email.com', '1234', '44564-2132', 'CLIE', 1),
-(2, 0, 'Caroliny Rocha', 'ca@email.com', '1234', '44564-2132', 'CLIE', 5);
+(2, 0, 'Caroliny Rocha Sampaio', 'ca@email.com', '1234', '44564-2132', 'CLIE', 5);
 
 -- --------------------------------------------------------
 
@@ -959,7 +969,7 @@ INSERT INTO `enderecos` (`idEndereco`, `cep`, `rua`, `numero`, `complemento`, `b
 (2, '08110520', 'Rua Edson de Carvalho Guimarães', 19, NULL, 'Vila Alabama', 'São Paulo', 'SP'),
 (3, '08110492', 'Rua Moisés José Pereira', 50, '', 'Vila Alabama', 'São Paulo', 'SP'),
 (4, '08110640', 'Rua Raimundo Mendes Figueiredo', 152, '', 'Vila Alabama', 'São Paulo', 'SP'),
-(5, '08110210', 'Rua Enseada das Garoupas', 401, NULL, 'Vila Silva Teles', 'São Paulo', 'SP');
+(5, '08110210', 'Rua Enseada das Garoupas', 401, '', 'Vila Silva Teles', 'São Paulo', 'SP');
 
 -- --------------------------------------------------------
 
@@ -1075,22 +1085,6 @@ INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nom
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pedidoproduto`
---
-
-CREATE TABLE `pedidoproduto` (
-  `idPedidoProduto` int(11) NOT NULL,
-  `idPedido` int(11) NOT NULL,
-  `idProduto` int(11) NOT NULL,
-  `idVariacao` int(11) NOT NULL,
-  `quantidade` int(11) DEFAULT NULL,
-  `total` decimal(10,0) NOT NULL,
-  `desativado` tinyint(4) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `pedidos`
 --
 
@@ -1100,32 +1094,32 @@ CREATE TABLE `pedidos` (
   `dtPedido` datetime DEFAULT NULL,
   `dtPagamento` datetime DEFAULT NULL,
   `tipoFrete` int(11) DEFAULT 0 COMMENT '{ { 0, Retirada }, { 1, MOTOBOY } }',
-  `rastreioFrete` varchar(255) DEFAULT NULL,
   `idEndereco` int(11) DEFAULT NULL,
   `valorTotal` decimal(12,2) DEFAULT NULL,
   `qtdItems` int(11) NOT NULL,
   `dtCancelamento` datetime DEFAULT NULL,
   `motivoCancelamento` text DEFAULT NULL,
-  `statusPedido` enum('Aguardando Pagamento','Aguardando Envio','A Caminho','Entregue','Cancelado','Concluído','Entrega Falhou') DEFAULT 'Aguardando Pagamento',
-  `idEntregador` int(11) DEFAULT NULL
+  `statusPedido` enum('Aguardando Confirmação','Aguardando Envio','A Caminho','Entregue','Cancelado','Concluído','Entrega Falhou') DEFAULT 'Aguardando Confirmação',
+  `idEntregador` int(11) DEFAULT NULL,
+  `frete` double DEFAULT NULL,
+  `meioPagamento` enum('Cartão de Débito','Cartão de Crédito','Dinheiro') NOT NULL DEFAULT 'Dinheiro'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `pedidos`
 --
 
-INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipoFrete`, `rastreioFrete`, `idEndereco`, `valorTotal`, `qtdItems`, `dtCancelamento`, `motivoCancelamento`, `statusPedido`, `idEntregador`) VALUES
-(1, 1, '2024-11-07 00:42:58', NULL, 0, NULL, 1, 22.95, 0, NULL, NULL, 'A Caminho', NULL),
-(45, 1, '2024-11-07 00:56:42', NULL, 0, NULL, 1, 7.98, 0, NULL, NULL, 'A Caminho', NULL),
-(46, 1, '2024-11-07 00:58:08', NULL, 0, NULL, 1, 63.49, 0, NULL, NULL, 'Aguardando Envio', NULL),
-(47, 1, '2024-11-07 19:46:42', NULL, 0, NULL, 1, 42.98, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
-(48, 1, '2024-11-07 19:46:57', NULL, 1, NULL, 1, 7.98, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
-(49, 2, '2024-11-07 19:47:59', NULL, 1, NULL, 5, 11.97, 0, NULL, NULL, 'Aguardando Envio', 1),
-(50, 1, '2024-11-14 21:11:54', NULL, 1, NULL, 1, 16.99, 0, NULL, NULL, 'Aguardando Envio', 1),
-(51, 1, '2024-11-14 21:18:22', NULL, 1, NULL, 1, 74.00, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
-(52, 1, '2024-11-19 23:44:15', NULL, 1, NULL, 1, 6.99, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
-(53, 1, '2024-11-19 23:50:10', NULL, 1, NULL, 1, 6.99, 0, NULL, NULL, 'Aguardando Pagamento', NULL),
-(54, 1, '2024-11-19 23:52:01', NULL, 1, NULL, 1, 25.99, 0, NULL, NULL, 'Aguardando Pagamento', NULL);
+INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipoFrete`, `idEndereco`, `valorTotal`, `qtdItems`, `dtCancelamento`, `motivoCancelamento`, `statusPedido`, `idEntregador`, `frete`, `meioPagamento`) VALUES
+(69, 2, '2024-11-30 18:06:37', NULL, 1, 5, 36.77, 0, NULL, NULL, 'A Caminho', 1, 10.78, 'Dinheiro'),
+(71, 2, '2024-11-30 18:10:00', NULL, 0, 5, 46.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
+(72, 2, '2024-11-30 18:10:54', NULL, 0, 5, 46.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
+(73, 2, '2024-11-30 18:12:42', NULL, 0, 5, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
+(74, 2, '2024-11-30 18:13:04', NULL, 0, 5, 16.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
+(75, 2, '2024-11-30 18:13:31', NULL, 0, 5, 7.98, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro'),
+(76, 2, '2024-11-30 18:13:46', NULL, 0, 5, 7.98, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro'),
+(77, 2, '2024-11-30 18:14:37', NULL, 0, 5, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
+(78, 2, '2024-11-30 18:15:15', NULL, 0, 5, 34.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito'),
+(79, 2, '2024-11-30 18:15:18', NULL, 0, 5, 34.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito');
 
 -- --------------------------------------------------------
 
@@ -1248,15 +1242,6 @@ ALTER TABLE `funcionarios`
   ADD KEY `fk_funcionario_endereco` (`idEndereco`);
 
 --
--- Índices de tabela `pedidoproduto`
---
-ALTER TABLE `pedidoproduto`
-  ADD PRIMARY KEY (`idPedidoProduto`),
-  ADD KEY `fk_pedidoproduto_pedido` (`idPedido`),
-  ADD KEY `fk_pedidoproduto_variacao` (`idVariacao`),
-  ADD KEY `fk_pedidoproduto_produto` (`idProduto`);
-
---
 -- Índices de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
@@ -1326,16 +1311,10 @@ ALTER TABLE `funcionarios`
   MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT de tabela `pedidoproduto`
---
-ALTER TABLE `pedidoproduto`
-  MODIFY `idPedidoProduto` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -1382,14 +1361,6 @@ ALTER TABLE `fornecedores`
 --
 ALTER TABLE `funcionarios`
   ADD CONSTRAINT `fk_funcionario_endereco` FOREIGN KEY (`idEndereco`) REFERENCES `enderecos` (`idEndereco`);
-
---
--- Restrições para tabelas `pedidoproduto`
---
-ALTER TABLE `pedidoproduto`
-  ADD CONSTRAINT `fk_pedidoproduto_pedido` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`),
-  ADD CONSTRAINT `fk_pedidoproduto_produto` FOREIGN KEY (`idProduto`) REFERENCES `produtos` (`idProduto`),
-  ADD CONSTRAINT `fk_pedidoproduto_variacao` FOREIGN KEY (`idVariacao`) REFERENCES `variacaoproduto` (`idVariacao`);
 
 --
 -- Restrições para tabelas `pedidos`
