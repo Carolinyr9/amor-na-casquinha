@@ -1,7 +1,6 @@
 <?php
-require_once '../config/blockURLAccess.php';
 session_start();
-
+require_once '../config/blockURLAccess.php';
 require_once '../controller/carrinhoController.php';
 require_once '../controller/clienteController.php';
 require_once '../controller/PedidoController.php';
@@ -48,8 +47,8 @@ if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
 <body>
     <?php include_once 'components/header.php'; ?>
     <main>
-        <div class="conteiner1 container d-flex flex-column align-items-center">
-            <h3>Confirmar Pedido?</h3>
+        <div class="conteiner1 container d-flex flex-column align-items-center rounded-4">
+            <h3 class="mt-3">Confirmar Pedido?</h3>
 
             <?php if (isset($_SESSION["userEmail"])): ?>
                 <form id="pedidoForm" name="pedidoForm" method="post" action="sobre.php">
@@ -107,10 +106,10 @@ if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
 
                     <input type="hidden" name="totalPedido" value="<?= htmlspecialchars($totalComFrete); ?>">
                     <input type="hidden" name="notaFiscal" value="1">
-                    <input name="btnSubmit" id="btnSubmit" type="submit" value="Concluir Pedido" class="btn">
+                    <input name="btnSubmit" id="btnSubmit" type="submit" value="Concluir Pedido" class="btnConcluir border-0 px-3 mb-3 rounded-4">
                 </form>
             <?php else: ?>
-                <button id="btnGoToLogin" class="btn" onclick="window.location.href='login.php'">Faça Login para Concluir seu Pedido</button>
+                <button id="btnGoToLogin" class="btnGoToLogin w-75 text-wrap h-auto rounded-3 mb-3 border-0 p-2" onclick="window.location.href='login.php'">Faça Login para Concluir seu Pedido</button>
             <?php endif; ?>
         </div>
     </main>

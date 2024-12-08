@@ -1,6 +1,6 @@
 <?php
-require_once '../config/blockURLAccess.php';
 session_start();
+require_once '../config/blockURLAccess.php';
 ?>
 
 <!DOCTYPE html>
@@ -32,18 +32,16 @@ session_start();
         exit();
     }
     ?>
-    <main>
+    <main class="d-flex flex-column justify-content-center align-items-center">
         <h1 class="m-auto text-center pt-4 pb-4">Excluir Produto</h1>
-        <div class="container">
-            <h3>Tem certeza que deseja excluir esse produto?</h3>
-            <div class="container1 text-center">   
-                <div class="c1">
+            <h4 class="text-center">Tem certeza que deseja excluir esse produto?</h4>
+                <div class="c1 mx-auto my-4 p-2 rounded-4 d-flex align-items-center flex-column justify-content-center">
                     <?php if ($produto): ?>
-                        <div class="categ d-flex align-items-center">
+                        <div class="d-flex align-items-center flex-column">
                             <picture>
                                 <img src="../images/<?= htmlspecialchars($produto["foto"]) ?>" alt="<?= htmlspecialchars($produto["nome"]) ?>" class="imagem">
                             </picture>
-                            <div class="d-flex align-items-center flex-column c2">
+                            <div class="d-flex align-items-center flex-column">
                                 <h4><?= htmlspecialchars($produto["nome"]) ?></h4>
                                 <p>Descrição: <?= htmlspecialchars($produto["descricao"]) ?></p>
                                 <p>Número de Identificação: <?= htmlspecialchars($produto["idProduto"]) ?></p>
@@ -51,15 +49,13 @@ session_start();
                         </div>
                         <form action="" method="POST" id="formulario" class="formulario">
                             <input type="hidden" name="idProdutoExcl" value="<?= htmlspecialchars($produto['idProduto']) ?>">
-                            <button type="submit" class="btn btn-danger">Excluir</button>
+                            <button type="submit" class="btnExcluir border-0 rounded-4 px-3 fw-bold">Excluir</button>
                         </form>
                     <?php else: ?>
                         <p>Produto não encontrado.</p>
                     <?php endif; ?>
                 </div>
-            </div>
-            <button class="voltar"><a href="editarProdutos.php">Voltar</a></button>
-        </div>
+            <button class="voltar m-auto border-0 rounded-4 fw-bold"><a class="text-decoration-none color-black" href="editarProdutos.php">Voltar</a></button>
     </main>
     <?php include_once 'components/footer.php'; ?>
 </body>

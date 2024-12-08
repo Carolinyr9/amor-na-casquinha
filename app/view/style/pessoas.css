@@ -33,3 +33,9 @@ main{
     background-color: #f58cd4;
     transform: scale(1.1);
 }
+
+@media (min-width: 768px) {
+    .box-pessoas{
+        width: 40% !important;
+    }
+}

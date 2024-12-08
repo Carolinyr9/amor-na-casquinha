@@ -41,12 +41,13 @@
         }
 
         public function inserirFunc($nome, $email, $telefone, $senha, $adm){
+            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
             try{
                 $cmd = $this->conn->prepare("CALL InserirFuncionario(?, ?, ?, ?, ?)");
                 $cmd->bindParam(1, $nome);
                 $cmd->bindParam(2, $email);
                 $cmd->bindParam(3, $telefone);
-                $cmd->bindParam(4, $senha);
+                $cmd->bindParam(4, $senhaHash);
                 $cmd->bindParam(5, $adm);
                 $cmd->execute();
             } catch (PDOException $e) {

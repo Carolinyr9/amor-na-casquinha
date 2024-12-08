@@ -1,6 +1,6 @@
 <?php
-require_once '../config/blockURLAccess.php';
 session_start();
+require_once '../config/blockURLAccess.php';
 require_once '../controller/produtoController.php';
 
 $produtoController = new ProdutoController();
@@ -36,7 +36,7 @@ $produtos = $produtoController->listarProdutos();
     <main>
         <h1>Produtos</h1>
         <div class="d-flex flex-column align-items-center justify-content-center">
-            <button class="add">Adicionar Produto</button>
+            <button class="add border-0 rounded-4 my-3 fw-bold fs-5 px-3">Adicionar Produto</button>
             <div>
                 <form action="" method="POST" id="addFormulario">
                     <label for="nome1">Nome:</label>

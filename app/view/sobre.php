@@ -1,6 +1,6 @@
 <?php
-require_once '../config/blockURLAccess.php';
 session_start();
+require_once '../config/blockURLAccess.php';
 require_once '../config/config.php';
 require_once '../controller/clienteController.php';
 require_once '../controller/pedidoController.php';
@@ -178,7 +178,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form method="POST" action="">
                             <input type="hidden" name="mudarStatus" value="1">
                             <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
-                            <button type="submit" class="btn btn-primary">Mudar para: Entregue</button>
+                            <button type="submit" class="btnMudarStatus border-0 rounded-4 h-auto px-2">Mudar para: Entregue</button>
                         </form>
                     <?php endif; ?>
                     

@@ -1,5 +1,6 @@
 <?php
-    session_start();
+session_start();
+require_once '../config/blockURLAccess.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -19,13 +20,13 @@
         include_once 'components/header.php';
     ?>
     <main>
-        <section class="box-pessoas w-50 m-auto rounded-4 py-4">
+        <section class="box-pessoas w-75 m-auto rounded-4 p-4">
             <div class="d-flex flex-column justify-content-center align-items-center gap-4">
                 <h3 class="fw-bold">Gerenciamento de Pessoas</h3>
-                <div class="box-link w-50 p-3 d-flex justify-content-center align-items-center rounded-4">
+                <div class="box-link w-auto p-3 d-flex justify-content-center align-items-center rounded-4">
                     <a class="fs-5 fw-bold text-decoration-none text-dark" href="sessaoFuncionarios.php">Funcionários</a>
                 </div>
-                <div class="box-link w-50 p-3 d-flex justify-content-center align-items-center rounded-4">
+                <div class="box-link w-auto p-3 d-flex justify-content-center align-items-center rounded-4">
                     <a class="fs-5 fw-bold text-decoration-none text-dark" href="sessaoFornecedores.php">Fornecedores</a>
                 </div>
                 

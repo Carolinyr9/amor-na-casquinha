@@ -116,14 +116,8 @@ picture img{
 
 .add{
     background-color: var(--azul-bebe);
-    border: none;
-    border-radius: 20px;
     font-family: var(--Nunito);
-    font-weight: bolder;
-    font-size: 1.30rem;
-    width: 190px;
-    height: 40px;
-    margin: 20px 0;
+    height: 29px;
 }
 
 .c1 form{

@@ -1,7 +1,7 @@
 <?php
+session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../controller/fornecedorController.php';
-session_start();
 
 $forn = new FornecedorController();
 

@@ -16,55 +16,32 @@ main{
 
 .conteiner1{
     background-color: var(--verde-bebe);
-    border-radius: 20px;
     width: 87%;
-}
-
-.conteiner1 h3{
-    margin-top: 20px;
 }
 
 .pedidoForm{
     width: 90% !important;
 }
 
-.imagem{
-    border-radius: 20px;
-    width: 120px;
-    height: auto;
+.btnGoToLogin{
+    background-color: var(--rosa-bebe);
+    font-family: var(--Agbalumo);
 }
 
-.btn{
-    background-color: var(--rosa-bebe);
-    border: none;
-    border-radius: 7px;
-    font-family: var(--Agbalumo);
-    height: 30px;
-    margin-bottom: 20px;
-}
-
-.botao .b-excluir{
-    background-color: var(--rosa-bebe);
-    border: none;
-    border-radius: 7px;
-    font-family: var(--Agbalumo);
-    width: 90px;
-    height: 30px;
-}
-
-.botao p{
-    background-color: var(--rosa-bebe);
-    border: none;
-    border-radius: 7px;
-    font-family: var(--Agbalumo);
-    height: 30px;
-    padding: 0 10px;
+.btnConcluir{
+    background-color: var(--azul-bebe);
+    height: 27px;
 }
 
 @media (min-width: 768px)  {
     .conteiner1{
         width: 40%;
         padding: 20px 0;
+    }
+
+    .btnGoToLogin{
+        height: 28px !important;
+        padding: 0 !important;
     }
 
     #pedidoForm{

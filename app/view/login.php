@@ -1,12 +1,14 @@
 <?php
-    require_once '../controller/loginController.php';
+session_start();
+require_once '../config/blockURLAccess.php';
+require_once '../controller/loginController.php';
 
+if($_SERVER["REQUEST_METHOD"] == "POST"){
     $loginCtl = new LoginController();
-    
-    if(isset($_POST['btnSubmit'])) {
-        $email = $_POST['email'];
-        $loginCtl->login($email);
-    }
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $loginCtl->login($email, $senha);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -19,32 +21,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/loginS.css">
-    <link rel="stylesheet" href="style/forms.css">
-    <style>
-    main{
-        padding-top: 15px;
-    }
-
-    h3{
-        margin-top: 20px;
-    }
-    </style>
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
 </head>
-<body>
+<body style="height: calc(100vh - 200px);">
     <?php
         include_once 'components/header.php';
     ?>
-    <div class="titulo d-flex align-items-center justify-content-center flex-column">
-        <h3>Login</h3><img src="images/Rectangle 1.png">
-    </div>
     <main>
+        <h3 class="m-auto fw-bold text-center">Login</h3>
         <div class="d-flex justify-content-center align-items-center">
-            <form action="login.php" method="POST" class="d-flex flex-column formu">
-                <input type="email" name="email" placeholder="E-mail" required>
-                <input type="password" name="senha" placeholder="Senha" required>
-                <input type="submit"  name="btnSubmit" value="Login">
-                <a href="registro.php" class="pagRegistro">Não possui login? Clique para criar conta!</a>
+            <form action="login.php" method="POST" class="d-flex flex-column justify-content-center align-items-center formu">
+                <input class="rounded-4 border-0 fw-bold pl-3" type="email" name="email" placeholder="E-mail" required>
+                <input class="rounded-4 border-0 fw-bold pl-3" type="password" name="senha" placeholder="Senha" required>
+                <input class="rounded-4 border-0 fw-bold mt-3 mb-4" type="submit"  name="btnSubmit" value="Login">
+                <a class="color-black text-decoration-none fw-bold rounded-4 border-0 p-2 mt-3 pagRegistro text-center" href="registro.php">É cliente e não possui login? Clique para criar conta!</a>
             </form>
         </div>
     </main>

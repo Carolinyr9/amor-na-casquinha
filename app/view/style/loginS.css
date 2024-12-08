@@ -10,42 +10,43 @@
     --verde-bebe: #E2FFC7;
 }
 
-main{
-    height: calc(100vh - 200px);
-}
-
-.titulo{
-    font-family: var(--Nunito);
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-top: 10%;
-}
-
-.formu input[type=text]{
+input[type=email], input[type=password], input[type=text], input[type=tel], input[type=number] {
     margin: 10px 0;
     background-color: rgba(234, 231, 231, 1);
-    height: 50px;
-    width: 320px;
-    padding-left: 10px;
+    height: 34px;
+    width: 261px;
     font-family: var(--Nunito);
-    font-weight: bold;
-    border-radius: 15px;
-    border: none;
+}
+
+h3{
+    font-family: var(--Nunito);
 }
 
 .formu input[type=submit]{
     background-color: var(--azul-bebe);
-    height: 50px;
-    width: 320px;
-    border-radius: 45px;
-    margin-top: 40px;
-    border: none;
+    width: 121px;
+}
+
+.pagRegistro {
+    background-color: #C9EFFF;
+    width: 220px;
+    font-family: var(--Nunito);
 }
 
 @media (min-width: 768px) {
-    .titulo img{
-        width: 178.538px;
-        height: 3.997px;
+
+    input[type=email], input[type=password], input[type=text], input[type=tel], input[type=number]{
+        width: 300px;
+    }
+
+    .formu input[type=submit]{
+        width: 121px;
+        height: 30px;
+    }
+
+    .pagRegistro {
+        width: 320px;
+        padding: 10px;
     }
 
 }

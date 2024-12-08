@@ -1,7 +1,6 @@
 <?php
-require_once '../config/blockURLAccess.php';
 session_start();
-
+require_once '../config/blockURLAccess.php';
 require_once '../controller/EntregadorController.php';
 require_once '../controller/PedidoController.php';
 

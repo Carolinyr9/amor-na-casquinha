@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../config/blockURLAccess.php';
 require_once '../controller/carrinhoController.php';
 
 $carrinhoController = new CarrinhoController();
@@ -74,7 +75,7 @@ if (isset($data['id']) && isset($data['quantidade'])) {
                                 <div class="col col-3 d-flex align-items-start">
                                     <a href="?action=remove&item=<?= $produto['id'] ?>" class="btn-excluir rounded-3 text-decoration-none">Excluir</a>
                                 </div>
-                                <div class="col d-flex align-items-start col-7">
+                                <div class="col d-flex align-items-start col-7" style="margin-left: 13px;">
                                     <p>Quantid.</p>
                                     <select 
                                         class="ms-2 border-0" 

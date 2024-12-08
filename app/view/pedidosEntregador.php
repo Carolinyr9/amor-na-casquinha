@@ -1,6 +1,6 @@
 <?php
-require_once '../config/blockURLAccess.php';
 session_start();
+require_once '../config/blockURLAccess.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -32,55 +32,49 @@ session_start();
     }
     ?>
     
-    <main>
-        <h1 class="m-auto text-center pt-4 pb-4">Pedidos</h1>
-        <div class="conteiner">
-            <div class="conteiner1">
-                <div>
-                    <?php
-                    if (!empty($pedidos)) {
-                        foreach ($pedidos as $pedido) {
-                            $redirectToRotas = 'rotasEntregador.php?idEndereco=' . $pedido['idEndereco'];
-                            ?>
-                            <div class="conteiner0">
-                                <div class="conteiner1">
-                                    <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h3>
-                                    <p>Realizado em: <?= htmlspecialchars($pedido['dtPedido']); ?></p>
-                                    <p>Total: R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
-                                    <p><?= ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
-                                    <p>Status: <?= htmlspecialchars($pedido['statusPedido']); ?></p>
-                                    
-                                    <button class="btnVerInfos mt-3"><a href="<?= $redirectToRotas; ?>">Ver Rotas</a></button>
-                                    
-                                    <?php if ($pedido['statusPedido'] == 'A Caminho'): ?>
-                                        <form method="POST" action="">
-                                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
-                                            <input type="hidden" name="mudarStatus" value="1">
-                                            <button type="submit" class="btn btn-primary">A Entrega Falhou</button>
-                                        </form>
-                                    <?php endif; ?>
-                                    
-                                    <?php if ($pedido['statusPedido'] == 'Entregue'): ?>
-                                        <form method="POST" action="">
-                                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
-                                            <input type="hidden" name="mudarStatus" value="1">
-                                            <button type="submit" class="btn btn-primary">Pedido Concluido</button>
-                                        </form>
-                                    <?php endif; ?>
-                                  
-                                </div>
-                            </div>
-                            <?php
-                        }
-                    } else {
-                        ?>
-                        <div class="alert alert-warning">Nenhum pedido encontrado.</div>
-                        <?php
-                    }
+    <main class="container my-5 text-center flex flex-column justify-content-center">
+        <h1 class="mb-4">Pedidos</h1>
+            <?php
+            if (!empty($pedidos)) {
+                foreach ($pedidos as $pedido) {
+                    $redirectToRotas = 'rotasEntregador.php?idEndereco=' . $pedido['idEndereco'];
                     ?>
-                </div>
-            </div>
-        </div>
+                    <div class="conteiner0">
+                        <div class="conteiner1">
+                            <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h3>
+                            <p>Realizado em: <?= htmlspecialchars($pedido['dtPedido']); ?></p>
+                            <p>Total: R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
+                            <p><?= ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
+                            <p>Status: <?= htmlspecialchars($pedido['statusPedido']); ?></p>
+                            
+                            <button class="btnVerInfos mt-3"><a href="<?= $redirectToRotas; ?>">Ver Rotas</a></button>
+                            
+                            <?php if ($pedido['statusPedido'] == 'A Caminho'): ?>
+                                <form method="POST" action="">
+                                    <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
+                                    <input type="hidden" name="mudarStatus" value="1">
+                                    <button type="submit" class="btn btn-primary">A Entrega Falhou</button>
+                                </form>
+                            <?php endif; ?>
+                            
+                            <?php if ($pedido['statusPedido'] == 'Entregue'): ?>
+                                <form method="POST" action="">
+                                    <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
+                                    <input type="hidden" name="mudarStatus" value="1">
+                                    <button type="submit" class="btn btn-primary">Pedido Concluido</button>
+                                </form>
+                            <?php endif; ?>
+                            
+                        </div>
+                    </div>
+                    <?php
+                }
+            } else {
+                ?>
+                <div class="alert alert-warning">Nenhum pedido encontrado.</div>
+                <?php
+            }
+            ?>
     </main>
     
     <?php

@@ -48,6 +48,8 @@ main{
     border-radius: 20px;
     margin: 20px 0;
     display: flex;
+    width: 80%;
+    margin: 20px auto;
     flex-direction: column;
 }
 
