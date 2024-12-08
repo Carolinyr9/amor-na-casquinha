@@ -6,11 +6,11 @@ if (!defined('STDIN')) {
         session_start();
         if(isset($_SESSION['userPerfil']) && ($_SESSION['userPerfil'] == 'FUNC' || $_SESSION['userPerfil'] == 'FADM')) 
         {
-            header("location: pedidos.php");
+            echo '<script>window.location.href = "../view/produtos.php";</script>';
         }
         else
         {
-            header("location: index.php");
+            echo '<script>window.location.href = "../view/index.php";</script>';
         }
     }
 }
