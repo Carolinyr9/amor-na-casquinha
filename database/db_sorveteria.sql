@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30/11/2024 às 18:29
+-- Tempo de geração: 08/12/2024 às 18:29
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -925,8 +925,8 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
-(1, 0, 'joao lucas binario', 'jo@email.com', '1234', '44564-2132', 'CLIE', 1),
-(2, 0, 'Caroliny Rocha Sampaio', 'ca@email.com', '1234', '44564-2132', 'CLIE', 5);
+(1, 0, 'joao lucas binario', 'jo@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 1),
+(2, 0, 'Caroliny Rocha Sampaio', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5);
 
 -- --------------------------------------------------------
 
@@ -993,11 +993,11 @@ CREATE TABLE `entregador` (
 --
 
 INSERT INTO `entregador` (`idEntregador`, `desativado`, `perfil`, `nome`, `telefone`, `email`, `senha`, `cnh`) VALUES
-(1, 0, 'ENTR', 'João Silva', '1234567890', 'joao.silva@example.com', 'senha123', '12345678900'),
-(2, 0, 'ENTR', 'Maria Oliveira', '0987654321', 'maria.oliveira@example.com', 'senha456', '09876543210'),
-(3, 0, 'ENTR', 'Carlos Santos', '1122334455', 'carlos.santos@example.com', 'senha789', '11223344550'),
-(4, 0, 'ENTR', 'Ana Costa', '2233445566', 'ana.costa@example.com', 'senha321', '22334455660'),
-(5, 0, 'ENTR', 'Pedro Lima', '3344556677', 'pedro.lima@example.com', 'senha654', '33445566770');
+(1, 0, 'ENTR', 'João Silva', '1234567890', 'joao.silva@example.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '12345678900'),
+(2, 0, 'ENTR', 'Maria Oliveira', '0987654321', 'maria.oliveira@example.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '09876543210'),
+(3, 0, 'ENTR', 'Carlos Santos', '1122334455', 'carlos.santos@example.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '11223344550'),
+(4, 0, 'ENTR', 'Ana Costa', '2233445566', 'ana.costa@example.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '22334455660'),
+(5, 0, 'ENTR', 'Pedro Lima', '3344556677', 'pedro.lima@example.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '33445566770');
 
 -- --------------------------------------------------------
 
@@ -1080,7 +1080,8 @@ CREATE TABLE `funcionarios` (
 --
 
 INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
-(1, 0, 1, 'FUNC', 'Jessica', '96309-85895', 'je@email.com', '1234', 1);
+(1, 0, 1, 'FUNC', 'Jessica', '96309-85895', 'je@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', 1),
+(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9999', 'ca@email.com', '$2y$10$IPldOGA.Hs0g9trA98', NULL);
 
 -- --------------------------------------------------------
 
@@ -1119,7 +1120,8 @@ INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipo
 (76, 2, '2024-11-30 18:13:46', NULL, 0, 5, 7.98, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro'),
 (77, 2, '2024-11-30 18:14:37', NULL, 0, 5, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
 (78, 2, '2024-11-30 18:15:15', NULL, 0, 5, 34.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito'),
-(79, 2, '2024-11-30 18:15:18', NULL, 0, 5, 34.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito');
+(79, 2, '2024-11-30 18:15:18', NULL, 0, 5, 34.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito'),
+(80, 1, '2024-12-08 13:26:16', NULL, 0, 1, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro');
 
 -- --------------------------------------------------------
 
@@ -1308,13 +1310,13 @@ ALTER TABLE `fornecedores`
 -- AUTO_INCREMENT de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
