@@ -1,6 +1,6 @@
 <?php
-require_once '../config/blockURLAccess.php';
 session_start();
+require_once '../config/blockURLAccess.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
