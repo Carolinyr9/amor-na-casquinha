@@ -1,6 +1,24 @@
 <?php
-require_once '../config/blockURLAccess.php';
 session_start();
+require_once '../config/blockURLAccess.php';
+require_once '../controller/loginController.php';
+
+if(isset($_POST['resgistrar'])){
+    $login = new LoginController();
+
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
+    $celular = $_POST['celular'];
+    $rua = $_POST['rua'];
+    $numero = $_POST['numero'];
+    $bairro = $_POST['bairro'];
+    $complemento = $_POST['complemento'];
+    $cep = $_POST['cep'];
+    $cidade = $_POST['cidade'];
+    $estado = $_POST['estado'];
+    $login->registrar($nome, $email, $senha, $celular, $rua, $numero, $bairro, $complemento, $cep, $cidade, $estado);
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -13,48 +31,34 @@ session_start();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/loginS.css">
-    <link rel="stylesheet" href="style/forms.css">
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body>
     <?php
         include_once 'components/header.php';
     ?>
-    <div class="text-center registro" style="margin: 200px auto 150px auto">
-        <div class="titulo d-flex align-items-center justify-content-center flex-column">
-            <h3>Crie sua conta!</h3>
-            <img src="images/Rectangle 1.png">
-        </div>
-    </div>
-    <main class="flex-grow-1 d-flex justify-content-center align-items-center">
-        <form action="config/getInfo.php" method="post" class="d-flex flex-column my-4 formu">
-            <input type="text" name="nome" maxlength="50" placeholder="Nome" required>
-            <input type="email" name="email" maxlength="60" placeholder="Email" required>
-            <input type="tel" name="telefone" <?php //pattern="\([0-9]{2}\)[0-9]{5}-[0-9]{4}" ?> maxlength="25" placeholder="Telefone" required>
-            <input type="text" name="cep" <?php //pattern="[0-9]{5}-[0-9]{3}" ?> maxlength="20" placeholder="CEP" required>
-            <input type="text" name="rua" maxlength="100" placeholder="Rua" required>
-            <input type="text" name="bairro" maxlength="45" placeholder="Bairro" required>
-            <input type="number" name="numero" placeholder="Número do Endereço" required>
-            <input type="text" name="complemento" maxlength="15" placeholder="Complemento" required>
-            <input type="password" name="senha" maxlength="255" placeholder="Senha" required>
-            <input type="submit" value="Registre-se" class="btn btn-primary mt-3">
-
+    <main>
+    <h3 class="m-auto fw-bold text-center">Login</h3>
+    <div class="d-flex justify-content-center align-items-center">
+        <form action="registro.php" method="post" class="d-flex flex-column my-4 formu">
+            <input class="rounded-4 border-0 fw-bold pl-3" type="text" name="nome" maxlength="50" placeholder="Nome" pattern="^[A-Za-zÀ-ÿ\s]+$" title="O nome deve conter apenas letras e espaços" required>
+            <input class="rounded-4 border-0 fw-bold pl-3" type="email" name="email" maxlength="60" placeholder="Email" required>
+            <input class="rounded-4 border-0 fw-bold pl-3" type="tel" name="celular" maxlength="25" placeholder="(XX) XXXXX-XXXX" pattern="^\(\d{2}\) \d{5}-\d{4}$" title="Coloque no formato (XX) XXXXX-XXXX" required>
+            <input class="rounded-4 border-0 fw-bold pl-3" type="text" name="cep" maxlength="20" placeholder="CEP" pattern="^\d{5}-?\d{3}$" title="Coloque no formato 99999-999"  required>
+            <input class="rounded-4 border-0 fw-bold pl-3" type="text" name="rua" maxlength="100" placeholder="Rua" required>
+            <input class="rounded-4 border-0 fw-bold pl-3" type="text" name="bairro" maxlength="45" placeholder="Bairro" required>
+            <input class="rounded-4 border-0 fw-bold pl-3" type="number" name="numero" placeholder="Número" min="1" required>
+            <input class="rounded-4 border-0 fw-bold pl-3" type="text" name="complemento" maxlength="15" placeholder="Complemento">
+            <input class="rounded-4 border-0 fw-bold pl-3" type="text" name="cidade" maxlength="45" placeholder="Cidade" required>
+            <input class="rounded-4 border-0 fw-bold pl-3" type="text" name="estado" maxlength="45" placeholder="Estado" required>
+            <input class="rounded-4 border-0 fw-bold pl-3" type="password" name="senha" maxlength="255" placeholder="Senha" minlength="8" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}" title="A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." required>
+            <input class="rounded-4 border-0 fw-bold m-auto" type="submit" value="Registre-se" name="resgistrar" class="btn btn-primary mt-3">
         </form>
+</div>
     </main>
-    <footer class="registro">
-    <div class="conteiner-fluid d-flex justify-content-center rodape align-items-center flex-column">
-        <div class="d-flex flex-row justify-content-around align-items-center">
-            <img src="images/image 1.png" alt="Logo Amor de Casquinha" class="pe-4 logo">
-            <h3>Amor de Casquinha</h3>
-        </div>
-        <img src="images/Rectangle 1048.png" class="pt-3 linha">
-        <div class="text-center">
-            <p>&copy; 2023 Amor de Casquinha Todos os direitos reservados</p>
-        </div>
-    </div>
-</footer>
+
+   <?php
+        include_once 'components/footer.php';
+    ?>
 <script src="script/header.js"></script>
-
-
 </body>
 </html>
