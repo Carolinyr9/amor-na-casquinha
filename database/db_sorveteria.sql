@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/12/2024 às 18:29
+-- Tempo de geração: 04/01/2025 às 23:07
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -883,6 +883,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Login` (IN `emailIN` VARCHAR(255)) 
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SalvarItensPedido` (IN `idPedido` INT, IN `idProduto` INT, IN `quantidade` INT)   BEGIN
+ 
+    -- Inserir os itens do pedido na tabela 'itens_pedido'
+    INSERT INTO itens_pedido(idPedido, idProduto, quantidade)
+    VALUES (idPedido, idProduto, quantidade);
+
+    -- Retornar resposta de sucesso
+    SELECT '201' AS 'Status', 'SUCCESS' AS 'Message', 'Item do pedido salvo com sucesso' AS 'Body';
+END$$
+
 --
 -- Funções
 --
@@ -925,8 +935,8 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
-(1, 0, 'joao lucas binario', 'jo@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 1),
-(2, 0, 'Caroliny Rocha Sampaio', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5);
+(1, 0, 'joao lucas binario', 'jo@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2135', 'CLIE', 1),
+(2, 0, 'Caroliny Rocha Sampaio', 'carol@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5);
 
 -- --------------------------------------------------------
 
@@ -1051,7 +1061,7 @@ CREATE TABLE `fornecedores` (
 --
 
 INSERT INTO `fornecedores` (`idFornecedor`, `nome`, `telefone`, `email`, `cnpj`, `desativado`, `idEndereco`) VALUES
-(1, 'Sorvetes do Sul', '51987654321', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 0, 1),
+(1, 'Sorvetes do Sul', '51987654325', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 0, 1),
 (2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 0, 2),
 (3, 'Doces e Sorvetes Ltda', NULL, 'info@docesesorvetes.com.br', '56.789.012/0001-55', 1, 3),
 (4, 'IceDream Sorvetes', '31987654321', NULL, '23.456.789/0001-77', 0, 4),
@@ -1081,7 +1091,28 @@ CREATE TABLE `funcionarios` (
 
 INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
 (1, 0, 1, 'FUNC', 'Jessica', '96309-85895', 'je@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', 1),
-(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9999', 'ca@email.com', '$2y$10$IPldOGA.Hs0g9trA98', NULL);
+(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9998', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `itens_pedido`
+--
+
+CREATE TABLE `itens_pedido` (
+  `idPedido` int(11) DEFAULT NULL,
+  `idProduto` int(11) DEFAULT NULL,
+  `quantidade` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `itens_pedido`
+--
+
+INSERT INTO `itens_pedido` (`idPedido`, `idProduto`, `quantidade`) VALUES
+(187, 1, 1),
+(187, 9, 3),
+(187, 12, 2);
 
 -- --------------------------------------------------------
 
@@ -1111,17 +1142,7 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipoFrete`, `idEndereco`, `valorTotal`, `qtdItems`, `dtCancelamento`, `motivoCancelamento`, `statusPedido`, `idEntregador`, `frete`, `meioPagamento`) VALUES
-(69, 2, '2024-11-30 18:06:37', NULL, 1, 5, 36.77, 0, NULL, NULL, 'A Caminho', 1, 10.78, 'Dinheiro'),
-(71, 2, '2024-11-30 18:10:00', NULL, 0, 5, 46.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(72, 2, '2024-11-30 18:10:54', NULL, 0, 5, 46.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(73, 2, '2024-11-30 18:12:42', NULL, 0, 5, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(74, 2, '2024-11-30 18:13:04', NULL, 0, 5, 16.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(75, 2, '2024-11-30 18:13:31', NULL, 0, 5, 7.98, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro'),
-(76, 2, '2024-11-30 18:13:46', NULL, 0, 5, 7.98, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro'),
-(77, 2, '2024-11-30 18:14:37', NULL, 0, 5, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(78, 2, '2024-11-30 18:15:15', NULL, 0, 5, 34.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito'),
-(79, 2, '2024-11-30 18:15:18', NULL, 0, 5, 34.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito'),
-(80, 1, '2024-12-08 13:26:16', NULL, 0, 1, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro');
+(187, 1, '2025-01-04 23:01:35', NULL, 0, 1, 80.94, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Débito');
 
 -- --------------------------------------------------------
 
@@ -1144,7 +1165,7 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`idProduto`, `idFornecedor`, `nome`, `marca`, `descricao`, `desativado`, `foto`) VALUES
-(1, 1, 'Pote', 'Kibon', 'Potes de sorvete', 0, 'poteLogo.png'),
+(1, 1, 'Pote', 'Kibon', 'Potes de sorvete', 0, '98fb6a95c11ab1b4270121f66ced7c98.png'),
 (2, 2, 'Picolé', 'Marca', 'Picolé', 0, 'picoleLogo.png'),
 (3, 2, 'ChupChup', 'Garoto', 'ChupChup', 0, 'chupLogo.png'),
 (4, 2, 'Sundae', 'Nestle', 'Sundae', 0, 'sundaeLogo.png'),
@@ -1178,7 +1199,7 @@ INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `prec
 (6, 1, 'Chup Chup - Morango', 3.99, 'morangoChup.png', 3),
 (7, 0, 'ChupChup - Maracujá', 3.99, 'maracujaChup.png', 3),
 (8, 0, 'Picolé - Mousse de Doce de Leite', 7.98, 'mousse-doce-leitePicole.png', 2),
-(9, 0, ' Picolé - Coraçãozinho', 6.99, 'coracaozinhoPicole.png', 2),
+(9, 0, ' Picolé - Coraçãozinho', 6.99, '71724a9521477340ecde4400800ba580.png', 2),
 (10, 0, 'Picolé - Açaí', 7.99, 'acaiPicole.png', 2),
 (11, 0, 'Picolé - Flocos', 7.99, 'flocosPicole.png', 2),
 (12, 0, 'Sundae - Morango', 16.99, 'morangoSundae.png', 4),
@@ -1242,6 +1263,13 @@ ALTER TABLE `fornecedores`
 ALTER TABLE `funcionarios`
   ADD PRIMARY KEY (`idFuncionario`),
   ADD KEY `fk_funcionario_endereco` (`idEndereco`);
+
+--
+-- Índices de tabela `itens_pedido`
+--
+ALTER TABLE `itens_pedido`
+  ADD KEY `idPedido` (`idPedido`),
+  ADD KEY `idProduto` (`idProduto`);
 
 --
 -- Índices de tabela `pedidos`
@@ -1316,7 +1344,7 @@ ALTER TABLE `funcionarios`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -1363,6 +1391,13 @@ ALTER TABLE `fornecedores`
 --
 ALTER TABLE `funcionarios`
   ADD CONSTRAINT `fk_funcionario_endereco` FOREIGN KEY (`idEndereco`) REFERENCES `enderecos` (`idEndereco`);
+
+--
+-- Restrições para tabelas `itens_pedido`
+--
+ALTER TABLE `itens_pedido`
+  ADD CONSTRAINT `itens_pedido_ibfk_1` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`),
+  ADD CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`idProduto`) REFERENCES `variacaoproduto` (`idVariacao`);
 
 --
 -- Restrições para tabelas `pedidos`

@@ -10,18 +10,20 @@ $pedidoController = new PedidoController();
 $clienteController = new ClienteController();
 $carrinho = new Carrinho();
 
-echo $_SESSION["userEmail"];
 $clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
 $pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
+$itensCarrinho = $carrinho->listarCarrinho();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["btnSubmit"])) {
-        $pedidoController->criarPedido($_SESSION["userEmail"], isset($_POST["ckbIsDelivery"]) ? 1 : 0, $_POST["totalComFrete"], isset($_POST["frete"]) ? $_POST["frete"] : NULL, isset($_POST["meioDePagamento"]) ? $_POST["meioDePagamento"] : NULL);
+        
+        $pedidoController->criarPedido($_SESSION["userEmail"], isset($_POST["ckbIsDelivery"]) ? 1 : 0, $_POST["totalComFrete"], isset($_POST["frete"]) ? $_POST["frete"] : NULL, isset($_POST["meioDePagamento"]) ? $_POST["meioDePagamento"] : NULL, $itensCarrinho);
         unset($_POST);
+        
         $carrinho->limparCarrinho();
         header("Location: sobre.php");
+        
     }
-
     if (isset($_POST['mudarStatus'])) {
         $pedidoId = $_POST['idPedido'] ?? null;
         $usuario = $_SESSION['userPerfil'] ?? null;

@@ -24,9 +24,10 @@ class PedidoController {
         }
     }
 
-    public function criarPedido($email, $tipoFrete, $total, $frete, $meioDePagamento) {
+    public function criarPedido($email, $tipoFrete, $total, $frete, $meioDePagamento, $itensCarrinho) {
         try {
-            $this->pedidoModel->criarPedido($email, $tipoFrete, $total, $frete, $meioDePagamento);
+            $id = $this->pedidoModel->criarPedido($email, $tipoFrete, $total, $frete, $meioDePagamento);
+            $this->pedidoModel->salvarItensPedido($itensCarrinho, $id);
         } catch (Exception $e) {
             return ["error" => $e->getMessage()];
         }
