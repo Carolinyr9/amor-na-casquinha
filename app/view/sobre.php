@@ -10,24 +10,20 @@ $pedidoController = new PedidoController();
 $clienteController = new ClienteController();
 $carrinho = new Carrinho();
 
-echo $_SESSION["userEmail"];
 $clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
 $pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
+$itensCarrinho = $carrinho->listarCarrinho();
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["btnSubmit"])) {
-        $pedidoController->criarPedido($_SESSION["userEmail"], isset($_POST["ckbIsDelivery"]) ? 1 : 0, $_POST["totalComFrete"], isset($_POST["frete"]) ? $_POST["frete"] : NULL, isset($_POST["meioDePagamento"]) ? $_POST["meioDePagamento"] : NULL);
+        
+        $pedidoController->criarPedido($_SESSION["userEmail"], isset($_POST["ckbIsDelivery"]) ? 1 : 0, $_POST["totalComFrete"], isset($_POST["frete"]) ? $_POST["frete"] : NULL, isset($_POST["meioDePagamento"]) ? $_POST["meioDePagamento"] : NULL, $itensCarrinho);
         unset($_POST);
+        
         $carrinho->limparCarrinho();
         header("Location: sobre.php");
-    }
-
-    if (isset($_POST['mudarStatus'])) {
-        $pedidoId = $_POST['idPedido'] ?? null;
-        $usuario = $_SESSION['userPerfil'] ?? null;
-        $pedidoController->mudarStatus($pedidoId, $usuario);
-        header("Location: sobre.php");
-        exit();
+        
     }
 
     if (isset($_POST["btnAlterarCliente"])) {
@@ -161,7 +157,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (empty($pedidos)): ?>
             <p>Nenhum pedido encontrado.</p>
         <?php else: ?>
-            <?php foreach ($pedidos as $pedido): ?>
+            <?php foreach ($pedidos as $pedido): 
+                $redirectToInformacao = 'informacoesPedidoCliente.php?idPedido=' . $pedido['idPedido'];?>
                 <div class="conteiner-pedidos rounded-4 text-center d-flex align-items-center flex-column w-75 p-4 my-3">
                     <h5 class="titulo">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h5>
                     <p><strong>Data do Pedido:</strong> <?= htmlspecialchars($pedido['dtPedido']); ?></p>
@@ -170,25 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p><strong>Pagamento:</strong> <?= htmlspecialchars($pedido['meioPagamento']); ?></p>
                     <p><strong>Status:</strong> <?= htmlspecialchars($pedido['statusPedido']); ?></p>
                     
-                    <?php 
-                    $statusPermitidos = ['Aguardando Pagamento', 'Aguardando Envio'];
-                    $resul = in_array($pedido['statusPedido'], $statusPermitidos) ? "deu" : "não deu";
-                    
-                    if ($pedido['statusPedido'] == 'A Caminho'): ?>
-                        <form method="POST" action="">
-                            <input type="hidden" name="mudarStatus" value="1">
-                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
-                            <button type="submit" class="btnMudarStatus border-0 rounded-4 h-auto px-2">Mudar para: Entregue</button>
-                        </form>
-                    <?php endif; ?>
-                    
-                    <?php if (in_array($pedido['statusPedido'], $statusPermitidos)): ?>
-                        <form method="POST" action="">
-                            <input type="hidden" name="mudarStatus" value="1">
-                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
-                            <button type="submit" class="btnCancelaPedido rounded-4 border-0 fw-bold">Cancelar Pedido</button>
-                        </form>
-                    <?php endif; ?>
+                    <button class="btnVerInfos mt-3"><a href="<?= $redirectToInformacao; ?>">Ver Informações</a></button>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>

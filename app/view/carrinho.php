@@ -11,7 +11,6 @@ if (isset($_GET["add"])) {
 if (isset($_GET["action"]) && $_GET["action"] === 'remove' && isset($_GET["item"])) {
     $carrinhoController->removerProduto($_GET["item"]);
 }
-
 $produtos = $carrinhoController->listarCarrinho();
 $total = $carrinhoController->calcularTotal();
 
