@@ -14,7 +14,6 @@ $clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
 $pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
 $itensCarrinho = $carrinho->listarCarrinho();
 
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["btnSubmit"])) {
         
