@@ -58,8 +58,33 @@ class Pedido {
         }
     }
 
+    public function listarInformacoesPedido($idPedido) {
+        if (isset($idPedido)) {
+            try {
+                $stmt = $this->conn->prepare("CALL ListarInformacoesPedido(?)");
+                $stmt->bindParam(1, $idPedido, PDO::PARAM_INT);
+                $stmt->execute();
+    
+                $produtos = [];
+                
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $produtos[] = $row;
+                }
+
+                return $produtos;
+            } catch (PDOException $e) {
+                echo $e;
+                throw new Exception("Erro ao listar pedido: " . $e->getMessage());
+            }
+        } else {
+            throw new Exception("ID do pedido não fornecido!");
+        }
+    }
+    
+
     public function criarPedido($email, $tipoFrete, $valorTotal, $frete, $meioDePagamento) {
         try {
+            date_default_timezone_set('America/Sao_Paulo');
             $dataPedido = date('Y-m-d H:i:s');
     
             $stmt = $this->conn->prepare("CALL CriarPedido(?, ?, ?, ?, ?, ?)");
@@ -71,15 +96,35 @@ class Pedido {
             $stmt->bindParam(5, $frete,);
             $stmt->bindParam(6, $meioDePagamento,);
             $stmt->execute();
-    
-            $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return ($result['Body']);
+
         } catch (PDOException $e) {
             echo "Erro ao criar o pedido: " . $e->getMessage();
             throw new Exception("Erro ao criar o pedido: " . $e->getMessage());
         }
     }
-    
 
+    public function salvarItensPedido($itensCarrinho, $id) {
+
+        try {
+            foreach ($itensCarrinho as $item) {
+                echo '<script>console.log("ID do item: ' . $item['id'] . ', Quantidade: ' . $item['qntd'] . '")</script>';
+    
+                $stmt = $this->conn->prepare("CALL SalvarItensPedido(?, ?, ?)");
+                $stmt->bindParam(1, $id, PDO::PARAM_INT);
+                $stmt->bindParam(2, $item['id'], PDO::PARAM_INT);
+                $stmt->bindParam(3, $item['qntd'], PDO::PARAM_INT); 
+                $stmt->execute();
+                $stmt->closeCursor();
+            }
+        } catch (PDOException $e) {
+            echo "Erro ao salvar os itens do pedido: " . $e->getMessage();
+            throw new Exception("Erro ao salvar itens do pedido: " . $e->getMessage());
+        }
+    }
+    
     public function listarPedidos() {
         try {
             $stmt = $this->conn->prepare("CALL ListarPedidos()");
@@ -219,7 +264,7 @@ class Pedido {
         echo "Frete retornado: " . $data;
         return $data;
     }
-    
+
     
 }
 ?>
