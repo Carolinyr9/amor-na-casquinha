@@ -22,8 +22,8 @@ if(isset($_POST['submitBtn'])) {
     $forn->inserirForn($nome, $email, $telefone, $cnpj, $rua, $numero, $bairro, $complemento, $cep, $cidade, $estado);
 }
 
-if(isset($_GET['exclFunc'])) {
-    $forn->deletarFunc($_GET['exclFunc']);
+if(isset($_GET['exclForn'])) {
+    $forn->deletarForn($_GET['exclForn']);
 }
 ?>
 <!DOCTYPE html>
@@ -93,8 +93,8 @@ if(isset($_GET['exclFunc'])) {
                                         </div>        
                                     </div>
                                     <div class="botao text-center d-flex justify-content-evenly mt-3">
-                                        <button id="excl"><a href="'.$redirectToEditar.'">Editar</a></button>        
-                                        <button id="edit"><a href="'.$redirectToExcluir.'">Excluir</a></button>        
+                                        <button id="edit"><a href="'.$redirectToEditar.'">Editar</a></button>        
+                                        <button id="excl"><a href="'.$redirectToExcluir.'">Excluir</a></button>        
                                     </div>
                                 </div>';
                         }

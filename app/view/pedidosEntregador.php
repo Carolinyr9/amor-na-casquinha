@@ -42,7 +42,7 @@ require_once '../config/blockURLAccess.php';
                     <div class="conteiner0">
                         <div class="conteiner1">
                             <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h3>
-                            <p>Realizado em: <?= htmlspecialchars($pedido['dtPedido']); ?></p>
+                            <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido['dtPedido']))->format('d/m/Y \à\s H:i')); ?></p>
                             <p>Total: R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
                             <p><?= ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
                             <p>Status: <?= htmlspecialchars($pedido['statusPedido']); ?></p>

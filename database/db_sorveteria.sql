@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 08/12/2024 às 18:29
+-- Tempo de geração: 09/01/2025 às 14:45
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -173,17 +173,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarEstoqueProdutoPorId` (IN `
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFornecedorPorId` (IN `idFornecedorIN` INT)   BEGIN
-    IF NOT EXISTS (SELECT idFornecedor FROM fornecedores WHERE idFornecedor like idFornecedorIN AND desativado != 1)
-    THEN
-        SELECT '403' AS 'Status', 'ERROR_FORNECEDOR_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
-    ELSE
-        UPDATE fornecedores SET desativado = 1 WHERE idFornecedor = idFornecedorIN;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFornecedorPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT email FROM fornecedores WHERE email like emailIN AND desativado != 1)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_FUNCIONARIO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+        UPDATE fornecedores SET
+			desativado = 1
+			WHERE email like emailIN;
         SELECT
-            '204' AS 'Status',
-            '' AS 'Error',
-            'SUCCESS_DELETED' AS 'Message';
-    END IF;
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_DELETED' AS 'Message';
+	END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFuncionarioPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
@@ -486,7 +488,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFornecedor` (IN `nomeIN` VAR
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFuncionario` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `telefoneIN` VARCHAR(255), IN `senhaIN` VARCHAR(25), IN `admIN` TINYINT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFuncionario` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `telefoneIN` VARCHAR(255), IN `senhaIN` VARCHAR(255), IN `admIN` TINYINT)   BEGIN
 	IF EXISTS (SELECT email from funcionarios where email like emailIN)
 	THEN
 		SELECT '403' AS 'Status', 'ERROR_EMAIL_CADASTRADO' AS 'Error', '' AS 'Message';
@@ -676,7 +678,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedores` ()   BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedorPorEmail` (IN `emailIN` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedorPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
     IF NOT EXISTS (SELECT * FROM fornecedores WHERE email = emailIN) THEN
 
         SELECT '403' AS Status, 'ERROR_FORNECEDOR_NAO_ENCONTRADO' AS Error, '' AS Message;
@@ -725,6 +727,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFuncionarios` ()   BEGIN
             '' AS 'Error',
             'SUCCESS_CREATED' AS 'Message';
     END IF;
+END$$
+
+CREATE DEFINER=`` PROCEDURE `ListarInformacoesPedido` (IN `p_idPedido` INT)   BEGIN
+    SELECT 
+        ip.idPedido,
+        ip.quantidade,
+        vp.idVariacao,
+        vp.nomeVariacao AS NomeProduto,
+        vp.precoVariacao AS Preco,
+        vp.fotoVariacao AS Foto,
+        vp.desativado AS ProdutoDesativado
+    FROM 
+        itens_pedido ip
+    INNER JOIN 
+        variacaoproduto vp
+    ON 
+        ip.idProduto = vp.idVariacao
+    WHERE 
+        ip.idPedido = p_idPedido;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorCliente` (IN `emailIN` VARCHAR(255))   BEGIN
@@ -883,6 +904,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Login` (IN `emailIN` VARCHAR(255)) 
     END IF;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SalvarItensPedido` (IN `idPedido` INT, IN `idProduto` INT, IN `quantidade` INT)   BEGIN
+ 
+    -- Inserir os itens do pedido na tabela 'itens_pedido'
+    INSERT INTO itens_pedido(idPedido, idProduto, quantidade)
+    VALUES (idPedido, idProduto, quantidade);
+
+    -- Retornar resposta de sucesso
+    SELECT '201' AS 'Status', 'SUCCESS' AS 'Message', 'Item do pedido salvo com sucesso' AS 'Body';
+END$$
+
 --
 -- Funções
 --
@@ -925,8 +956,9 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
-(1, 0, 'joao lucas binario', 'jo@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 1),
-(2, 0, 'Caroliny Rocha Sampaio', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5);
+(1, 0, 'joao lucas binario', 'jo@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2135', 'CLIE', 1),
+(2, 0, 'Caroliny Rocha Sampaio', 'carol@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5),
+(3, 0, 'Joelita Rocha', 'joelita@email.com', '$2y$10$hMHoDvGNbpdT9285sSbvVOUD49txnbVnFGdr0aE6pKrYlHnKiFkNW', '(11) 99898-4901', 'CLIE', 6);
 
 -- --------------------------------------------------------
 
@@ -969,7 +1001,8 @@ INSERT INTO `enderecos` (`idEndereco`, `cep`, `rua`, `numero`, `complemento`, `b
 (2, '08110520', 'Rua Edson de Carvalho Guimarães', 19, NULL, 'Vila Alabama', 'São Paulo', 'SP'),
 (3, '08110492', 'Rua Moisés José Pereira', 50, '', 'Vila Alabama', 'São Paulo', 'SP'),
 (4, '08110640', 'Rua Raimundo Mendes Figueiredo', 152, '', 'Vila Alabama', 'São Paulo', 'SP'),
-(5, '08110210', 'Rua Enseada das Garoupas', 401, '', 'Vila Silva Teles', 'São Paulo', 'SP');
+(5, '08110210', 'Rua Enseada das Garoupas', 401, '', 'Vila Silva Teles', 'São Paulo', 'SP'),
+(6, '08110600', 'Rua São Sebastião do Tocantins', 123, 'Casa', 'Vila Imac.', 'São Paulo', 'SP');
 
 -- --------------------------------------------------------
 
@@ -1051,11 +1084,11 @@ CREATE TABLE `fornecedores` (
 --
 
 INSERT INTO `fornecedores` (`idFornecedor`, `nome`, `telefone`, `email`, `cnpj`, `desativado`, `idEndereco`) VALUES
-(1, 'Sorvetes do Sul', '51987654321', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 0, 1),
+(1, 'Sorvetes do Sul', '51987654325', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 0, 1),
 (2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 0, 2),
 (3, 'Doces e Sorvetes Ltda', NULL, 'info@docesesorvetes.com.br', '56.789.012/0001-55', 1, 3),
-(4, 'IceDream Sorvetes', '31987654321', NULL, '23.456.789/0001-77', 0, 4),
-(5, 'Delícias Geladas', NULL, NULL, '34.567.890/0001-88', 1, 5);
+(4, 'IceDream Sorvetes', '31987654321', 'icecream@email.com', '23.456.789/0001-77', 0, 4),
+(5, 'Delícias Geladas', NULL, 'delicias_geladas@email.com', '34.567.890/0001-88', 0, 5);
 
 -- --------------------------------------------------------
 
@@ -1081,7 +1114,34 @@ CREATE TABLE `funcionarios` (
 
 INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
 (1, 0, 1, 'FUNC', 'Jessica', '96309-85895', 'je@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', 1),
-(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9999', 'ca@email.com', '$2y$10$IPldOGA.Hs0g9trA98', NULL);
+(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9998', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', NULL),
+(4, 1, 1, 'FUNC', 'Antonio', '(11) 99999-9998', 'an@email.com', NULL, NULL),
+(7, 0, NULL, 'FUNC', 'Juliana', '11998984901', 'ju@email.com', '$2y$10$6OMwNydIdQ0bzq...6E1fOzxf7xQexcCIQLvTyET86aExXaGbyJMC', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `itens_pedido`
+--
+
+CREATE TABLE `itens_pedido` (
+  `idPedido` int(11) DEFAULT NULL,
+  `idProduto` int(11) DEFAULT NULL,
+  `quantidade` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `itens_pedido`
+--
+
+INSERT INTO `itens_pedido` (`idPedido`, `idProduto`, `quantidade`) VALUES
+(187, 1, 1),
+(187, 9, 3),
+(187, 12, 2),
+(188, 4, 1),
+(188, 17, 1),
+(189, 12, 1),
+(190, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1111,17 +1171,10 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipoFrete`, `idEndereco`, `valorTotal`, `qtdItems`, `dtCancelamento`, `motivoCancelamento`, `statusPedido`, `idEntregador`, `frete`, `meioPagamento`) VALUES
-(69, 2, '2024-11-30 18:06:37', NULL, 1, 5, 36.77, 0, NULL, NULL, 'A Caminho', 1, 10.78, 'Dinheiro'),
-(71, 2, '2024-11-30 18:10:00', NULL, 0, 5, 46.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(72, 2, '2024-11-30 18:10:54', NULL, 0, 5, 46.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(73, 2, '2024-11-30 18:12:42', NULL, 0, 5, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(74, 2, '2024-11-30 18:13:04', NULL, 0, 5, 16.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(75, 2, '2024-11-30 18:13:31', NULL, 0, 5, 7.98, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro'),
-(76, 2, '2024-11-30 18:13:46', NULL, 0, 5, 7.98, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro'),
-(77, 2, '2024-11-30 18:14:37', NULL, 0, 5, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, ''),
-(78, 2, '2024-11-30 18:15:15', NULL, 0, 5, 34.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito'),
-(79, 2, '2024-11-30 18:15:18', NULL, 0, 5, 34.50, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito'),
-(80, 1, '2024-12-08 13:26:16', NULL, 0, 1, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro');
+(187, 1, '2025-01-04 23:01:35', NULL, 0, 1, 80.94, 0, NULL, NULL, 'Cancelado', NULL, 0, 'Cartão de Débito'),
+(188, 1, '2025-01-09 13:21:32', NULL, 1, 1, 73.21, 0, NULL, NULL, 'Aguardando Envio', 2, 22.72, 'Cartão de Crédito'),
+(189, 1, '0000-00-00 00:00:00', NULL, 0, 1, 16.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Débito'),
+(190, 1, '2025-01-09 09:57:36', NULL, 0, 1, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito');
 
 -- --------------------------------------------------------
 
@@ -1144,7 +1197,7 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`idProduto`, `idFornecedor`, `nome`, `marca`, `descricao`, `desativado`, `foto`) VALUES
-(1, 1, 'Pote', 'Kibon', 'Potes de sorvete', 0, 'poteLogo.png'),
+(1, 1, 'Pote', 'Kibon', 'Potes de sorvete', 0, '98fb6a95c11ab1b4270121f66ced7c98.png'),
 (2, 2, 'Picolé', 'Marca', 'Picolé', 0, 'picoleLogo.png'),
 (3, 2, 'ChupChup', 'Garoto', 'ChupChup', 0, 'chupLogo.png'),
 (4, 2, 'Sundae', 'Nestle', 'Sundae', 0, 'sundaeLogo.png'),
@@ -1178,7 +1231,7 @@ INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `prec
 (6, 1, 'Chup Chup - Morango', 3.99, 'morangoChup.png', 3),
 (7, 0, 'ChupChup - Maracujá', 3.99, 'maracujaChup.png', 3),
 (8, 0, 'Picolé - Mousse de Doce de Leite', 7.98, 'mousse-doce-leitePicole.png', 2),
-(9, 0, ' Picolé - Coraçãozinho', 6.99, 'coracaozinhoPicole.png', 2),
+(9, 0, ' Picolé - Coraçãozinho', 6.99, '71724a9521477340ecde4400800ba580.png', 2),
 (10, 0, 'Picolé - Açaí', 7.99, 'acaiPicole.png', 2),
 (11, 0, 'Picolé - Flocos', 7.99, 'flocosPicole.png', 2),
 (12, 0, 'Sundae - Morango', 16.99, 'morangoSundae.png', 4),
@@ -1244,6 +1297,13 @@ ALTER TABLE `funcionarios`
   ADD KEY `fk_funcionario_endereco` (`idEndereco`);
 
 --
+-- Índices de tabela `itens_pedido`
+--
+ALTER TABLE `itens_pedido`
+  ADD KEY `idPedido` (`idPedido`),
+  ADD KEY `idProduto` (`idProduto`);
+
+--
 -- Índices de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
@@ -1274,7 +1334,7 @@ ALTER TABLE `variacaoproduto`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
@@ -1286,7 +1346,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `entregador`
@@ -1310,13 +1370,13 @@ ALTER TABLE `fornecedores`
 -- AUTO_INCREMENT de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -1363,6 +1423,13 @@ ALTER TABLE `fornecedores`
 --
 ALTER TABLE `funcionarios`
   ADD CONSTRAINT `fk_funcionario_endereco` FOREIGN KEY (`idEndereco`) REFERENCES `enderecos` (`idEndereco`);
+
+--
+-- Restrições para tabelas `itens_pedido`
+--
+ALTER TABLE `itens_pedido`
+  ADD CONSTRAINT `itens_pedido_ibfk_1` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`),
+  ADD CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`idProduto`) REFERENCES `variacaoproduto` (`idVariacao`);
 
 --
 -- Restrições para tabelas `pedidos`
