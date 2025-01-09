@@ -6,7 +6,9 @@ require_once '../controller/fornecedorController.php';
 $forn = new FornecedorController();
 
 if(isset($_GET['fornEmail'])) {
+    
     $emailForn = $_GET['fornEmail'];
+    echo $emailForn;
     $dadosForn = $forn->listarFornecedorEmail($emailForn);
 }
 
