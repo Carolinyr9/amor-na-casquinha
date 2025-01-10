@@ -58,6 +58,14 @@ class PedidoController {
         }
     }
 
+    public function listarInformacoesPedido($pedidoId) {
+        try {
+            return $this->pedidoModel->listarInformacoesPedido($pedidoId);
+        } catch (Exception $e) {
+            return ["error" => $e->getMessage()];
+        }
+    }
+
     public function atribuirEntregador($idPedido, $idEntregador) {
         try {
             $this->pedidoModel->atribuirEntregador($idPedido, $idEntregador);
