@@ -37,6 +37,8 @@ Essas funcionalidades combinadas oferecem uma solução abrangente para a gestã
 
 ![MySQL](https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white)
 
+![JQuery](https://custom-icon-badges.demolab.com/badge/-JQuery-E4B204?style=for-the-badge&logo=jquery&logoColor=white)
+
 ![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
 
 
