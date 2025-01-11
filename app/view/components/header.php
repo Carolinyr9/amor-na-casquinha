@@ -16,11 +16,13 @@
                     case "FUNC":
                         echo "<a href='editarProdutos.php'>Produtos</a><span> | </span>";
                         echo "<a href='pedidos.php'>Pedidos</a><span> | </span>";
+                        echo "<a href='telaEstoque.php'>Estoque</a><span> | </span>";
                         echo "<a href='pessoas.php'>Pessoas</a><span> | </span>";
                         break;
                     case "FADM":
                         echo "<a href='pedidos.php'>Pedidos</a><span> | </span>";
                         echo "<a href='editarProdutos.php'>Produtos</a><span> | </span>";
+                        echo "<a href='telaEstoque.php'>Estoque</a><span> | </span>";
                         echo "<a href='pessoas.php'>Pessoas</a><span> | </span>";
                         break;
                     case "ENTR":
