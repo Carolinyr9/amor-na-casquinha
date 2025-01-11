@@ -38,6 +38,38 @@ class PedidoController {
         try {
             return $this->pedidoModel->listarPedidos();
         } catch (Exception $e) {
+            echo "error" . $e->getMessage();
+        }
+    }
+
+    public function listarInformacoesPedido($pedidoId) {
+        try {
+            return $this->pedidoModel->listarInformacoesPedido($pedidoId);
+        } catch (Exception $e) {
+            echo "error" . $e->getMessage();
+        }
+    }
+
+    public function listarTodosItensPedidos(){
+        try {
+            return $this->pedidoModel->listarTodosItensPedidos();
+        } catch (Exception $e) {
+            echo "error" . $e->getMessage();
+        }
+    }
+
+    public function listarInformacoesPedido($pedidoId) {
+        try {
+            return $this->pedidoModel->listarInformacoesPedido($pedidoId);
+        } catch (Exception $e) {
+            return ["error" => $e->getMessage()];
+        }
+    }
+
+    public function listarInformacoesPedido($pedidoId) {
+        try {
+            return $this->pedidoModel->listarInformacoesPedido($pedidoId);
+        } catch (Exception $e) {
             return ["error" => $e->getMessage()];
         }
     }

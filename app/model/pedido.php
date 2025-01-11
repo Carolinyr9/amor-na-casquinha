@@ -58,8 +58,33 @@ class Pedido {
         }
     }
 
+    public function listarInformacoesPedido($idPedido) {
+        if (isset($idPedido)) {
+            try {
+                $stmt = $this->conn->prepare("CALL ListarInformacoesPedido(?)");
+                $stmt->bindParam(1, $idPedido, PDO::PARAM_INT);
+                $stmt->execute();
+    
+                $produtos = [];
+                
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $produtos[] = $row;
+                }
+
+                return $produtos;
+            } catch (PDOException $e) {
+                echo $e;
+                throw new Exception("Erro ao listar pedido: " . $e->getMessage());
+            }
+        } else {
+            throw new Exception("ID do pedido não fornecido!");
+        }
+    }
+    
+
     public function criarPedido($email, $tipoFrete, $valorTotal, $frete, $meioDePagamento) {
         try {
+            date_default_timezone_set('America/Sao_Paulo');
             $dataPedido = date('Y-m-d H:i:s');
     
             $stmt = $this->conn->prepare("CALL CriarPedido(?, ?, ?, ?, ?, ?)");
@@ -73,7 +98,6 @@ class Pedido {
             $stmt->execute();
 
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            echo 'id é: ' . $result['Body'];
             return ($result['Body']);
 
         } catch (PDOException $e) {
@@ -146,6 +170,53 @@ class Pedido {
             throw new Exception("Erro ao atualizar status do pedido: " . $e->getMessage());
         }
     }
+
+    public function listarTodosItensPedidos() {
+        try {
+            $stmt = $this->conn->prepare("CALL ListarProdutosPedido()");
+            $stmt->execute();
+    
+            $itensPedidos = [];
+            if ($stmt->rowCount() > 0) {
+                $itensPedidos = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+            }
+    
+            $result = [];
+    
+            foreach ($itensPedidos as $row) {
+                $idVariacao = $row['idVariacao'];
+                $quantidade = $row['quantidade'];
+                $nomeProduto = $row['NomeProduto'];
+                $preco = $row['Preco'];
+                $foto = $row['Foto'];
+                $produtoDesativado = $row['ProdutoDesativado'];
+    
+                if (isset($result[$idVariacao])) {
+                    $result[$idVariacao]['quantidade'] += $quantidade;
+                } else {
+                    $result[$idVariacao] = [
+                        'idVariacao' => $idVariacao,
+                        'quantidade' => $quantidade,
+                        'NomeProduto' => $nomeProduto,
+                        'Preco' => $preco,
+                        'Foto' => $foto,
+                        'ProdutoDesativado' => $produtoDesativado,
+                    ];
+                }
+            }
+    
+            // Ordena os produtos pela quantidade em ordem decrescente
+            usort($result, function ($a, $b) {
+                return $b['quantidade'] <=> $a['quantidade'];
+            });
+    
+            return $result;
+    
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao recuperar os itens do pedido: " . $e->getMessage());
+        }
+    }
+    
 
     private function determinarNovoStatusPorUsuario($usuario, $pedido) {
         switch($usuario) {

@@ -24,13 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: sobre.php");
         
     }
-    if (isset($_POST['mudarStatus'])) {
-        $pedidoId = $_POST['idPedido'] ?? null;
-        $usuario = $_SESSION['userPerfil'] ?? null;
-        $pedidoController->mudarStatus($pedidoId, $usuario);
-        header("Location: sobre.php");
-        exit();
-    }
 
     if (isset($_POST["btnAlterarCliente"])) {
         $clienteController->editarCliente(
@@ -163,34 +156,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (empty($pedidos)): ?>
             <p>Nenhum pedido encontrado.</p>
         <?php else: ?>
-            <?php foreach ($pedidos as $pedido): ?>
+            <?php foreach ($pedidos as $pedido): 
+                $redirectToInformacao = 'informacoesPedidoCliente.php?idPedido=' . $pedido['idPedido'];?>
                 <div class="conteiner-pedidos rounded-4 text-center d-flex align-items-center flex-column w-75 p-4 my-3">
                     <h5 class="titulo">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h5>
-                    <p><strong>Data do Pedido:</strong> <?= htmlspecialchars($pedido['dtPedido']); ?></p>
+                    <p><strong>Data do Pedido:</strong> <?= htmlspecialchars((new DateTime($pedido['dtPedido']))->format('d/m/Y \à\s H:i')); ?></p>
                     <p><strong>Total:</strong> R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
                     <p><strong>Tipo de Frete:</strong> <?= ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
                     <p><strong>Pagamento:</strong> <?= htmlspecialchars($pedido['meioPagamento']); ?></p>
                     <p><strong>Status:</strong> <?= htmlspecialchars($pedido['statusPedido']); ?></p>
                     
-                    <?php 
-                    $statusPermitidos = ['Aguardando Pagamento', 'Aguardando Envio'];
-                    $resul = in_array($pedido['statusPedido'], $statusPermitidos) ? "deu" : "não deu";
-                    
-                    if ($pedido['statusPedido'] == 'A Caminho'): ?>
-                        <form method="POST" action="">
-                            <input type="hidden" name="mudarStatus" value="1">
-                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
-                            <button type="submit" class="btnMudarStatus border-0 rounded-4 h-auto px-2">Mudar para: Entregue</button>
-                        </form>
-                    <?php endif; ?>
-                    
-                    <?php if (in_array($pedido['statusPedido'], $statusPermitidos)): ?>
-                        <form method="POST" action="">
-                            <input type="hidden" name="mudarStatus" value="1">
-                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
-                            <button type="submit" class="btnCancelaPedido rounded-4 border-0 fw-bold">Cancelar Pedido</button>
-                        </form>
-                    <?php endif; ?>
+                    <button class="btnVerInfos mt-3"><a href="<?= $redirectToInformacao; ?>">Ver Informações</a></button>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
