@@ -75,6 +75,19 @@ class ProdutoVariacao {
         }
     }
 
+    public function selecionarProdutoPorID($idProduto) {
+        try {
+            $stmt = $this->conn->prepare("CALL ListarVariacaoPorID(?)");
+            $stmt->bindParam(1, $idProduto, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $produtos = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $produtos;
+        } catch (PDOException $e) {
+            return "Erro ao selecionar produto por ID: " . $e->getMessage();
+        }
+    }
+
     public function editarProduto($idVariacao, $idProduto, $nomeProduto, $preco, $imagemProduto) {
         try {
             $stmt = $this->conn->prepare("CALL EditarVariacaoPorID(?, ?, ?, ?, ?)");

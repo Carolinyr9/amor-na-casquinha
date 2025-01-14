@@ -67,6 +67,25 @@ class Produto {
         return $produto;
     }
 
+    public function selecionarProdutoPorID($id) {
+        try {
+            $recordsLimit = 100;
+            $recordsOffset = 0;
+            
+            $stmt = $this->conn->prepare("CALL ListarProdutoPorId(?, ?, ?)");
+            $stmt->bindParam(1, $id, PDO::PARAM_INT);
+            $stmt->bindParam(2, $recordsLimit, PDO::PARAM_INT);
+            $stmt->bindParam(3, $recordsOffset, PDO::PARAM_INT); 
+            $stmt->execute();
+
+            $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $produto;
+        } catch (PDOException $e) {
+            die("Erro ao selecionar produtos por ID: " . $e->getMessage());
+        }
+        return $produto;
+    }
+
     public function adicionarProduto($nomeProduto, $marca, $descricao, $idFornecedor, $imagemProduto) {
         try {
             $desativado = 0;
