@@ -3,8 +3,11 @@ session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../controller/estoqueController.php';
 require_once '../controller/produtoController.php';
-// require_once '../controller/variacaoController.php';
+require_once '../controller/produtoVariacaoController.php';
+require_once '../controller/produtoController.php';
 
+$produto = new ProdutoController();
+$variacao = new ProdutoVariacaoController();
 $estoque = new EstoqueController();
 $dados = $estoque->listarEstoque();
 ?>
@@ -17,61 +20,78 @@ $dados = $estoque->listarEstoque();
     <title>Meus Pedidos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
-    <link rel="stylesheet" href="style/pedidosS.css">
+    <link rel="stylesheet" href="style/estoque-style.css">
     <title>Estoque</title>
 </head>
 <body>
 <?php include_once 'components/header.php'; ?>
 
 <main>
-<table>
-    <thead>
-        <tr>
-            <th>Produto</th>
-            <th>Variação</th>
-            <th>Data de Entrada</th>
-            <th>Quantidade</th>
-            <th>Data de Fabricação</th>
-            <th>Data de Vencimento</th>
-            <th>Lote</th>
-            <th>Preço de compra</th>
-            <th>Quantidade Mínima</th>
-            <th>Quantidade Vendida</th>
-            <th>Ocorrencia</th>
-            <th>Quantidade Ocorrida</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php 
-        if($dados){
-            foreach($dados as $row){
-                echo '<tr>
-                        <td>'.$row['idProduto'].'</td>
-                        <td>'.$row['idVariacao'].'</td>
-                        <td>'.$row['dtEntrada'].'</td>
-                        <td>'.$row['quantidade'].'</td>
-                        <td>'.$row['dtFabricacao'].'</td>
-                        <td>'.$row['dtVencimento'].'</td>
-                        <td>'.$row['lote'].'</td>
-                        <td>'.$row['precoCompra'].'</td>
-                        <td>'.$row['qtdMinima'].'</td>
-                        <td>'.$row['qtdVendida'].'</td>
-                        <td>'.$row['ocorrencia'].'</td>
-                        <td>'.$row['qtdOcorrencia'].'</td>
-                        <td><a href="editarEstoque.php?id='.$row['idEstoque'].'">Editar</a></td>
-                        <td><a href="../controller/estoqueController.php?acao=excluir&id='.$row['idEstoque'].'">Excluir</a></td>
+    <a href="" id="editarProdutoEstoque">Editar</a>
+    <
+    <div class="lista m-auto p-3">
+        <table class="table table-striped table-hover text-nowrap">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Produto</th>
+                    <th scope="col">Variação</th>
+                    <th scope="col">Data de Entrada</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col">Data de Fabricação</th>
+                    <th scope="col">Data de Vencimento</th>
+                    <th scope="col">Lote</th>
+                    <th scope="col">Preço de compra</th>
+                    <th scope="col">Quantidade Mínima</th>
+                    <th scope="col">Quantidade Vendida</th>
+                    <th scope="col">Ocorrencia</th>
+                    <th scope="col">Quantidade Ocorrida</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                if($dados){
+                    foreach($dados as $row){
+                        $dadosVariacao = $variacao->selecionarProdutoPorID(intval($row['idVariacao']));
+                        if ($dadosVariacao) {
+                            $dadosProdutos = $produto->selecionarProdutoPorID(intval($dadosVariacao['idProduto']));
+                        } else {
+                            $dadosProdutos = false;
+                        }
 
-                    </tr>';
-            }
-        }
-        ?>
-    </tbody>
-</table>
+                        echo '<tr>
+                                <td scope="row"><input type="checkbox" class="produtoCheck" name="produtoCheck" id="'.$row['idEstoque'].'"></td>
+                                <td>'.($dadosProdutos ? $dadosProdutos['nome'] : 'Produto não encontrado').'</td>
+                                <td>'.($dadosVariacao ? $dadosVariacao['nomeVariacao'] : 'Variação não encontrada').'</td>
+                                <td>'.$row['dtEntrada'].'</td>
+                                <td>'.$row['quantidade'].'</td>
+                                <td>'.$row['dtFabricacao'].'</td>
+                                <td>'.$row['dtVencimento'].'</td>
+                                <td>'.$row['lote'].'</td>
+                                <td>'.$row['precoCompra'].'</td>
+                                <td>'.$row['qtdMinima'].'</td>
+                                <td>'.$row['qtdVendida'].'</td>
+                                <td>'.$row['ocorrencia'].'</td>
+                                <td>'.$row['qtdOcorrencia'].'</td>
+                                <td><a class="table-linkEditar text-decoration-none text-black px-3 rounded-4" href="editarEstoque.php?id='.$row['idEstoque'].'">Editar</a></td>
+                                <td><a class="table-linkExcluir text-decoration-none text-black px-3 rounded-4" href="../controller/estoqueController.php?acao=excluir&id='.$row['idEstoque'].'">Excluir</a></td>
+                            </tr>';
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 </main>
     
 <?php include_once 'components/footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
+  <script src="script/telaEstoqueScript.js"></script>
 </body>
 </html>
