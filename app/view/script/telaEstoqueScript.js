@@ -1,10 +1,24 @@
 let idsArray = [];
 
+$('#editarProdutoEstoque').hide();
+$('#excluirProdutoEstoque').hide();
+
 $('input[name="produtoCheck"]').on('change', function () {
+    const checkboxId = $(this).attr('id');
+
     if ($(this).is(':checked')) {
-        console.log("Checkbox ID: " + $(this).attr('id') + " está selecionado.");
-        idsArray.push($(this).attr('id'));
+        idsArray.push(checkboxId);
     } else {
-        console.log("Checkbox ID: " + $(this).attr('id') + " foi desmarcado.");
+        idsArray = idsArray.filter(id => id !== checkboxId);
     }
+
+    if (idsArray.length > 0) {
+        $('#editarProdutoEstoque').show();
+        $('#excluirProdutoEstoque').show();
+    } else {
+        $('#editarProdutoEstoque').hide();
+        $('#excluirProdutoEstoque').hide();
+    }
+
+    $('#editarProdutoEstoque').attr('href', 'editarEstoque.php?idsArray=' + idsArray.join(','));
 });

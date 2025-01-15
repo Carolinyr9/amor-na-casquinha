@@ -17,7 +17,6 @@ $dados = $estoque->listarEstoque();
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meus Pedidos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/estoque-style.css">
@@ -28,7 +27,7 @@ $dados = $estoque->listarEstoque();
 
 <main>
     <a href="" id="editarProdutoEstoque">Editar</a>
-    <
+    <a href="" id="excluirProdutoEstoque">Excluir</a>
     <div class="lista m-auto p-3">
         <table class="table table-striped table-hover text-nowrap">
             <thead>
