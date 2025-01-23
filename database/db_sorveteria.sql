@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 11/01/2025 às 14:38
+-- Tempo de geração: 10/01/2025 às 15:50
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -56,6 +56,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AtualizarCliente` (IN `emailIN` VAR
 			'' AS 'Error',
 			'SUCCESS_UPDATED' AS 'Message';
 	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarEstoqueProdutoPorId` (IN `idEstoqueIN` INT, IN `idVariacaoIN` INT)   BEGIN
+	IF NOT EXISTS (SELECT idProduto FROM estoque WHERE idEstoque = idEstoqueIN)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_PRODUTO_INEXISTENTE' AS 'Error', '' AS 'Message';
+    ELSE
+        UPDATE estoque SET desativado = 1 WHERE idEstoque = idEstoqueIN;
+        UPDATE variacaoproduto SET desativado = 1 WHERE idVariacao = idVariacaoIN;
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CancelarPedido` (`idPedidoIN` INT, `DtCancelamentoIN` DATETIME, `motivoCancelamentoIN` VARCHAR(255))   BEGIN
@@ -173,17 +183,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarEstoqueProdutoPorId` (IN `
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFornecedorPorId` (IN `idFornecedorIN` INT)   BEGIN
-    IF NOT EXISTS (SELECT idFornecedor FROM fornecedores WHERE idFornecedor like idFornecedorIN AND desativado != 1)
-    THEN
-        SELECT '403' AS 'Status', 'ERROR_FORNECEDOR_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
-    ELSE
-        UPDATE fornecedores SET desativado = 1 WHERE idFornecedor = idFornecedorIN;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFornecedorPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
+	IF NOT EXISTS (SELECT email FROM fornecedores WHERE email like emailIN AND desativado != 1)
+	THEN
+		SELECT '403' AS 'Status', 'ERROR_FUNCIONARIO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
+	ELSE
+        UPDATE fornecedores SET
+			desativado = 1
+			WHERE email like emailIN;
         SELECT
-            '204' AS 'Status',
-            '' AS 'Error',
-            'SUCCESS_DELETED' AS 'Message';
-    END IF;
+			'204' AS 'Status',
+			'' AS 'Error',
+			'SUCCESS_DELETED' AS 'Message';
+	END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFuncionarioPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
@@ -356,6 +368,35 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarPedidoStatus` (`idPedidoIN` I
 		'SUCCESS_UPDATED' AS 'Message';
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoEstoque` (IN `idEstoqueIN` INT, IN `dtEntradaIN` DATE, IN `quantidadeIN` INT, IN `dtFabricacaoIN` DATE, IN `dtVencimentoIN` DATE, IN `precoCompraIN` DECIMAL(15,2), IN `qtdMinimaIN` INT, IN `qtdOcorrenciaIN` INT, IN `ocorrenciaIN` TEXT)   BEGIN
+    -- Verifica se o ID do estoque existe
+    IF NOT EXISTS (SELECT 1 FROM estoque WHERE idEstoque = idEstoqueIN) THEN
+        SELECT 
+            '403' AS 'Status', 
+            'ERROR_PRODUTO_INEXISTENTE' AS 'Error', 
+            'O ID fornecido não corresponde a nenhum produto no estoque.' AS 'Message';
+    ELSE
+        -- Atualiza o registro no estoque
+        UPDATE estoque 
+        SET 
+            dtEntrada = dtEntradaIN, 
+            quantidade = quantidadeIN, 
+            dtFabricacao = dtFabricacaoIN, 
+            dtVencimento = dtVencimentoIN, 
+            precoCompra = precoCompraIN, 
+            qtdMinima = qtdMinimaIN, 
+            qtdOcorrencia = qtdOcorrenciaIN, 
+            ocorrencia = ocorrenciaIN
+        WHERE idEstoque = idEstoqueIN;
+        
+        -- Retorna uma mensagem de sucesso
+        SELECT 
+            '200' AS 'Status', 
+            '' AS 'Error', 
+            'SUCCESS_UPDATED' AS 'Message';
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoPorId` (IN `idProdutoIN` INT, IN `nomeIN` VARCHAR(255), IN `marcaIN` VARCHAR(255), IN `descricaoIN` VARCHAR(255), IN `fotoIN` VARCHAR(50))   BEGIN
     IF NOT EXISTS (SELECT * FROM produtos WHERE idProduto = idProdutoIN) THEN
         SELECT '403' AS 'Status', 'ERROR_PRODUTO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
@@ -486,7 +527,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFornecedor` (IN `nomeIN` VAR
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFuncionario` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `telefoneIN` VARCHAR(255), IN `senhaIN` VARCHAR(25), IN `admIN` TINYINT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirFuncionario` (IN `nomeIN` VARCHAR(255), IN `emailIN` VARCHAR(255), IN `telefoneIN` VARCHAR(255), IN `senhaIN` VARCHAR(255), IN `admIN` TINYINT)   BEGIN
 	IF EXISTS (SELECT email from funcionarios where email like emailIN)
 	THEN
 		SELECT '403' AS 'Status', 'ERROR_EMAIL_CADASTRADO' AS 'Error', '' AS 'Message';
@@ -676,7 +717,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedores` ()   BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedorPorEmail` (IN `emailIN` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFornecedorPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
     IF NOT EXISTS (SELECT * FROM fornecedores WHERE email = emailIN) THEN
 
         SELECT '403' AS Status, 'ERROR_FORNECEDOR_NAO_ENCONTRADO' AS Error, '' AS Message;
@@ -725,6 +766,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFuncionarios` ()   BEGIN
             '' AS 'Error',
             'SUCCESS_CREATED' AS 'Message';
     END IF;
+END$$
+
+CREATE DEFINER=`` PROCEDURE `ListarInformacoesPedido` (IN `p_idPedido` INT)   BEGIN
+    SELECT 
+        ip.idPedido,
+        ip.quantidade,
+        vp.idVariacao,
+        vp.nomeVariacao AS NomeProduto,
+        vp.precoVariacao AS Preco,
+        vp.fotoVariacao AS Foto,
+        vp.desativado AS ProdutoDesativado
+    FROM 
+        itens_pedido ip
+    INNER JOIN 
+        variacaoproduto vp
+    ON 
+        ip.idProduto = vp.idVariacao
+    WHERE 
+        ip.idPedido = p_idPedido;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarPedidoPorCliente` (IN `emailIN` VARCHAR(255))   BEGIN
@@ -829,6 +889,22 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutos` (`limitF` INT, `offsetF` INT)   BEGIN
 	SELECT * FROM produtos WHERE desativado = 0  LIMIT limitF OFFSET offsetF;
+END$$
+
+CREATE DEFINER=`` PROCEDURE `ListarProdutosPedido` ()   BEGIN
+    SELECT 
+        ip.quantidade,
+        vp.idVariacao,
+        vp.nomeVariacao AS NomeProduto,
+        vp.precoVariacao AS Preco,
+        vp.fotoVariacao AS Foto,
+        vp.desativado AS ProdutoDesativado
+    FROM 
+        itens_pedido ip
+    INNER JOIN 
+        variacaoproduto vp
+    ON 
+        ip.idProduto = vp.idVariacao;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacao` (`limitF` INT, `offsetF` INT)   BEGIN
@@ -936,7 +1012,8 @@ CREATE TABLE `clientes` (
 
 INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
 (1, 0, 'joao lucas binario', 'jo@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2135', 'CLIE', 1),
-(2, 0, 'Caroliny Rocha Sampaio', 'carol@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5);
+(2, 0, 'Caroliny Rocha Sampaio', 'carol@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5),
+(3, 0, 'Joelita Rocha', 'joelita@email.com', '$2y$10$hMHoDvGNbpdT9285sSbvVOUD49txnbVnFGdr0aE6pKrYlHnKiFkNW', '(11) 99898-4901', 'CLIE', 6);
 
 -- --------------------------------------------------------
 
@@ -979,7 +1056,8 @@ INSERT INTO `enderecos` (`idEndereco`, `cep`, `rua`, `numero`, `complemento`, `b
 (2, '08110520', 'Rua Edson de Carvalho Guimarães', 19, NULL, 'Vila Alabama', 'São Paulo', 'SP'),
 (3, '08110492', 'Rua Moisés José Pereira', 50, '', 'Vila Alabama', 'São Paulo', 'SP'),
 (4, '08110640', 'Rua Raimundo Mendes Figueiredo', 152, '', 'Vila Alabama', 'São Paulo', 'SP'),
-(5, '08110210', 'Rua Enseada das Garoupas', 401, '', 'Vila Silva Teles', 'São Paulo', 'SP');
+(5, '08110210', 'Rua Enseada das Garoupas', 401, '', 'Vila Silva Teles', 'São Paulo', 'SP'),
+(6, '08110600', 'Rua São Sebastião do Tocantins', 123, 'Casa', 'Vila Imac.', 'São Paulo', 'SP');
 
 -- --------------------------------------------------------
 
@@ -1037,12 +1115,12 @@ CREATE TABLE `estoque` (
 --
 
 INSERT INTO `estoque` (`idEstoque`, `idProduto`, `idVariacao`, `lote`, `dtEntrada`, `quantidade`, `dtFabricacao`, `dtVencimento`, `precoCompra`, `qtdMinima`, `qtdVendida`, `qtdOcorrencia`, `ocorrencia`, `desativado`) VALUES
-(1, 1, 1, 1, '2025-01-08', 25, '2024-11-15', '2025-01-12', 25.99, 10, NULL, NULL, NULL, 0),
-(2, 1, 2, 1, '2025-01-08', 68, '2024-09-18', '2025-04-09', 22.50, 10, NULL, NULL, NULL, 0),
+(1, 1, 1, 1, '2025-01-01', 11, '2025-01-01', '2025-12-31', 99.99, 5, NULL, 0, ' ', 1),
+(2, 1, 2, 1, '2025-01-08', 11, '2024-09-18', '2025-04-09', 15.50, 10, NULL, 0, ' ', 1),
 (3, 1, 3, 1, '2025-01-08', 63, '2024-06-06', '2025-01-24', 34.50, 10, NULL, NULL, NULL, 0),
 (4, 3, 4, 1, '2025-01-08', 68, '2024-12-08', '2025-03-23', 3.99, 10, NULL, NULL, NULL, 0),
 (5, 3, 5, 1, '2025-01-08', 82, '2024-03-19', '2025-04-30', 3.97, 10, NULL, NULL, NULL, 0),
-(6, 3, 6, 1, '2025-01-08', 69, '2024-06-13', '2025-06-01', 3.99, 10, NULL, NULL, NULL, 0),
+(6, 3, 6, 1, '2025-01-08', 69, '2024-06-13', '2025-06-01', 3.99, 10, NULL, NULL, NULL, 1),
 (7, 3, 7, 1, '2025-01-08', 30, '2024-12-09', '2025-04-12', 3.99, 10, NULL, NULL, NULL, 0),
 (8, 2, 8, 1, '2025-01-08', 37, '2024-10-12', '2025-01-31', 7.98, 10, NULL, NULL, NULL, 0),
 (9, 2, 9, 1, '2025-01-08', 92, '2024-11-08', '2025-01-27', 6.99, 10, NULL, NULL, NULL, 0),
@@ -1082,8 +1160,8 @@ INSERT INTO `fornecedores` (`idFornecedor`, `nome`, `telefone`, `email`, `cnpj`,
 (1, 'Sorvetes do Sul', '51987654325', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 0, 1),
 (2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 0, 2),
 (3, 'Doces e Sorvetes Ltda', NULL, 'info@docesesorvetes.com.br', '56.789.012/0001-55', 1, 3),
-(4, 'IceDream Sorvetes', '31987654321', NULL, '23.456.789/0001-77', 0, 4),
-(5, 'Delícias Geladas', NULL, NULL, '34.567.890/0001-88', 1, 5);
+(4, 'IceDream Sorvetes', '31987654321', 'icecream@email.com', '23.456.789/0001-77', 0, 4),
+(5, 'Delícias Geladas', NULL, 'delicias_geladas@email.com', '34.567.890/0001-88', 0, 5);
 
 -- --------------------------------------------------------
 
@@ -1109,7 +1187,9 @@ CREATE TABLE `funcionarios` (
 
 INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
 (1, 0, 1, 'FUNC', 'Jessica', '96309-85895', 'je@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', 1),
-(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9998', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', NULL);
+(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9998', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', NULL),
+(4, 1, 1, 'FUNC', 'Antonio', '(11) 99999-9998', 'an@email.com', NULL, NULL),
+(7, 0, NULL, 'FUNC', 'Juliana', '11998984901', 'ju@email.com', '$2y$10$6OMwNydIdQ0bzq...6E1fOzxf7xQexcCIQLvTyET86aExXaGbyJMC', NULL);
 
 -- --------------------------------------------------------
 
@@ -1130,7 +1210,11 @@ CREATE TABLE `itens_pedido` (
 INSERT INTO `itens_pedido` (`idPedido`, `idProduto`, `quantidade`) VALUES
 (187, 1, 1),
 (187, 9, 3),
-(187, 12, 2);
+(187, 12, 2),
+(188, 4, 1),
+(188, 17, 1),
+(189, 12, 1),
+(190, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1160,7 +1244,10 @@ CREATE TABLE `pedidos` (
 --
 
 INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipoFrete`, `idEndereco`, `valorTotal`, `qtdItems`, `dtCancelamento`, `motivoCancelamento`, `statusPedido`, `idEntregador`, `frete`, `meioPagamento`) VALUES
-(187, 1, '2025-01-04 23:01:35', NULL, 0, 1, 80.94, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Débito');
+(187, 1, '2025-01-04 23:01:35', NULL, 0, 1, 80.94, 0, NULL, NULL, 'Cancelado', NULL, 0, 'Cartão de Débito'),
+(188, 1, '2025-01-09 13:21:32', NULL, 1, 1, 73.21, 0, NULL, NULL, 'Aguardando Envio', 2, 22.72, 'Cartão de Crédito'),
+(189, 1, '0000-00-00 00:00:00', NULL, 0, 1, 16.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Débito'),
+(190, 1, '2025-01-09 09:57:36', NULL, 0, 1, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito');
 
 -- --------------------------------------------------------
 
@@ -1321,7 +1408,7 @@ ALTER TABLE `variacaoproduto`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
@@ -1333,7 +1420,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `entregador`
@@ -1357,13 +1444,13 @@ ALTER TABLE `fornecedores`
 -- AUTO_INCREMENT de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
