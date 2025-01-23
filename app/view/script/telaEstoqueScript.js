@@ -21,4 +21,5 @@ $('input[name="produtoCheck"]').on('change', function () {
     }
 
     $('#editarProdutoEstoque').attr('href', 'editarEstoque.php?idsArray=' + idsArray.join(','));
+    $('#excluirProdutoEstoque').attr('href', 'excluirEstoque.php?idsArray=' + idsArray.join(','));
 });

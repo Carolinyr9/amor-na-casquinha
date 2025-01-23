@@ -48,8 +48,6 @@ class Estoque{
 
     public function editarProdutoEstoque($produto){
         try{
-            echo "foi8;";
-            print_r($produto['idEstoque']);
             $cmd = $this->conn->prepare("CALL EditarProdutoEstoque(?,?,?,?,?,?,?,?,?)");
             $cmd->bindParam(1, $produto["idEstoque"]);
             $cmd->bindParam(2, $produto["dataEntrada"]);
@@ -64,8 +62,23 @@ class Estoque{
                 $errorInfo = $cmd->errorInfo();
                 echo "Erro ao executar procedimento: " . $errorInfo[2];
             }
-            
-            echo "foi9;";
+        } catch (PDOException $e){
+            echo "Erro no banco de dados: " . $e->getMessage();
+        }
+    }
+
+    function excluirProdutoEstoque($idEstoque, $idVariacao){
+        try{
+            $cmd = $this->conn->prepare("CALL DesativarEstoqueProdutoPorId(?, ?)");
+            $cmd->bindParam(1, $idEstoque);
+            $cmd->bindParam(2, $idVariacao);
+            // $cmd->execute();
+            if (!$cmd->execute()) {
+                $errorInfo = $cmd->errorInfo();
+                echo "Erro ao executar procedimento: " . $errorInfo[2];
+            } else {
+                echo "<script>alert('Produto excluído com sucesso!');</script>";
+            }
         } catch (PDOException $e){
             echo "Erro no banco de dados: " . $e->getMessage();
         }
