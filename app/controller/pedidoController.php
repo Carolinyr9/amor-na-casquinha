@@ -42,9 +42,9 @@ class PedidoController {
         }
     }
 
-    public function listarInformacoesPedido($pedidoId) {
+    public function listarResumo() {
         try {
-            return $this->pedidoModel->listarInformacoesPedido($pedidoId);
+            return $this->pedidoModel->listarResumo();
         } catch (Exception $e) {
             echo "error" . $e->getMessage();
         }
@@ -55,14 +55,6 @@ class PedidoController {
             return $this->pedidoModel->listarTodosItensPedidos();
         } catch (Exception $e) {
             echo "error" . $e->getMessage();
-        }
-    }
-
-    public function listarInformacoesPedido($pedidoId) {
-        try {
-            return $this->pedidoModel->listarInformacoesPedido($pedidoId);
-        } catch (Exception $e) {
-            return ["error" => $e->getMessage()];
         }
     }
 

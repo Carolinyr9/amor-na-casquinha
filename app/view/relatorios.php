@@ -4,6 +4,19 @@ require_once '../config/blockURLAccess.php';
 require_once '../controller/pedidoController.php';
 
 $pedidoController = new PedidoController();
+
+$vendas = [];
+$itens = [];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data-inicio'], $_POST['data-fim'])) {
+    $dataInicio = $_POST['data-inicio'];
+    $dataFim = $_POST['data-fim'];
+
+    if (!empty($dataInicio) && !empty($dataFim)) {
+        $vendas = $pedidoController->listarResumo();
+        $itens = $pedidoController->listarTodosItensPedidos();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -19,92 +32,66 @@ $pedidoController = new PedidoController();
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
+
     <main class="container my-5 text-center flex flex-column justify-content-center">
         <h1 class="mb-4">Relatórios</h1>
-        
-        <?php
-        $itens = $pedidoController->listarTodosItensPedidos(); 
-        
-        if (!empty($itens)) {
-        ?>
-        <h2>Sabores mais vendidos</h2>
-        <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Vendidos</th>
-                        <th>Preço Unitário</th>
-                        <th>Foi desativado?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($itens as $item) {
-                        if($item['quantidade'] > 1){ ?>
+
+        <h3>Selecionar Período</h3>
+        <form method="POST" class="mb-4">
+            <input type="date" name="data-inicio" id="data-inicio" required>
+            <input type="date" name="data-fim" id="data-fim" required>
+            <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+        </form>
+
+        <?php if (!empty($vendas)) { ?>
+            <h2>Resumo</h2>
+            <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Valor Total Vendido</th>
+                            <th>Total de Pedidos Realizados</th>
+                            <th>Clientes Diferentes</th>
+                            <th>Total de Produtos Vendidos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>R$ <?= number_format($vendas['totalVendas'], 2, ',', '.') ?></td>
+                            <td><?= htmlspecialchars($vendas['pedidosFeitos']) ?></td>
+                            <td><?= htmlspecialchars($vendas['totalPedidosClientes']) ?></td>
+                            <td><?= htmlspecialchars($vendas['totalProdutos']) ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        <?php } ?>
+
+        <?php if (!empty($itens)) { ?>
+            <h2>Sabores Mais Vendidos</h2>
+            <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Vendidos</th>
+                            <th>Preço Unitário</th>
+                            <th>Foi Desativado?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($itens as $item) { ?>
                             <tr>
                                 <td><?= htmlspecialchars($item['NomeProduto']) ?></td>
                                 <td><?= htmlspecialchars($item['quantidade']) ?></td>
                                 <td>R$ <?= number_format($item['Preco'], 2, ',', '.') ?></td>
                                 <td><?= $item['ProdutoDesativado'] ? 'Sim' : 'Não' ?></td>
                             </tr>
-                    <?php }} ?>
-                </tbody>
-            </table>
-        <?php
-        } else {
-        ?>
-            <div class="alert alert-warning">Nenhum pedido encontrado.</div>
-        <?php
-        }
-        ?>
-        </div>
-
-
-        <?php
-        if (!empty($itens)) {
-        ?>
-        <h2>Sabores menos vendidos</h2>
-        <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Vendidos</th>
-                        <th>Preço Unitário</th>
-                        <th>Foi desativado?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($itens as $item) {
-                        if($item['quantidade'] <= 1){ ?>
-                            <tr>
-                                <td><?= htmlspecialchars($item['NomeProduto']) ?></td>
-                                <td><?= htmlspecialchars($item['quantidade']) ?></td>
-                                <td>R$ <?= number_format($item['Preco'], 2, ',', '.') ?></td>
-                                <td><?= $item['ProdutoDesativado'] ? 'Sim' : 'Não' ?></td>
-                            </tr>
-                    <?php }} ?>
-                </tbody>
-            </table>
-        <?php
-        } else {
-        ?>
-            <div class="alert alert-warning">Nenhum pedido encontrado.</div>
-        <?php
-        }
-        ?>
-        </div>
-
-        <!-- relatorio contabil por data (enviar uma data no padrão mes/ano)
-        
-        vendas totais
-        produto mais vendido
-        gastos em produtos
-        lucro total no periodo
-        Ticket médio(Valor médio gasto por cliente no período, Fórmula: Vendas Totais / Número de Pedidos.)
-        numero de pedidos cancelados
-
-        !-->
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php } ?>
     </main>
 
     <?php include_once 'components/footer.php'; ?>

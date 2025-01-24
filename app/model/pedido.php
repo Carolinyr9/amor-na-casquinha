@@ -217,6 +217,58 @@ class Pedido {
         }
     }
     
+    public function listarResumo() {
+        try {
+            $stmt = $this->conn->prepare("CALL ListarResumoVendas()");
+            $stmt->execute();
+            
+            $resultPedidos = [];
+            $resultItensPedido = [];
+            
+            if ($stmt->rowCount() > 0) {
+                $resultPedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            
+            if ($stmt->nextRowset() && $stmt->rowCount() > 0) {
+                $resultItensPedido = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            
+            $auxClientes = [];
+            $auxProdutos = [];
+            $result = [
+                'totalVendas' => 0,
+                'totalPedidosClientes' => 0,
+                'totalProdutos' => 0,
+                'pedidosFeitos' => 0
+            ];
+            
+            foreach ($resultPedidos as $pedido) {
+                $idCliente = $pedido['idCliente'];
+                $result['totalVendas'] += $pedido['valorTotal']; 
+                $result['pedidosFeitos'] += 1;
+                
+                if (!isset($auxClientes[$idCliente])) {
+                    $auxClientes[$idCliente] = true;
+                    $result['totalPedidosClientes'] += 1; 
+                }
+            }
+            
+            foreach ($resultItensPedido as $item) {
+                $idProduto = $item['idProduto'];
+                
+                if (!isset($auxProdutos[$idProduto])) {
+                    $auxProdutos[$idProduto] = true;
+                    $result['totalProdutos'] += 1;
+                }
+            }
+            
+            return $result;
+            
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao recuperar o resumo das vendas: " . $e->getMessage());
+        }
+    }
+    
 
     private function determinarNovoStatusPorUsuario($usuario, $pedido) {
         switch($usuario) {
