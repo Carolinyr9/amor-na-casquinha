@@ -1,5 +1,6 @@
 <?php 
 require_once '../model/produtoVariacao.php';
+require_once 'fotoController.php';
 
 class ProdutoVariacaoController {
     private $produtoVariacao;
@@ -12,8 +13,20 @@ class ProdutoVariacaoController {
         return $this->produtoVariacao->selecionarVariacaoProdutos($idProduto);
     }
 
-    public function adicionarProduto($idProduto, $nomeProduto, $preco, $foto) {
-        return $this->produtoVariacao->adicionarProduto($idProduto, $nomeProduto, $preco, $foto);
+    public function adicionarVariacaoProduto($idProduto, $nomeProduto, $preco, $lote, $valor, $quantidade, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $imagem) {
+        $pictureController = new Picture($imagem);
+        echo "foi3";
+        $name_image = $pictureController->validatePicture();
+        echo "fo14";
+        if ($name_image) {
+            echo "foi5";
+            $this->produtoVariacao->adicionarVariacaoProduto($idProduto, $nomeProduto, $preco, $lote, $valor, $quantidade, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $name_image);
+            echo "foi6";
+            // header("Location: editarSabores.php?produto=$idProduto");
+        } else {
+            $errors = $pictureController->countErrors();
+            echo '<script>alert("' . $errors . '")</script>';
+        }
     }
 
     public function selecionarProdutosPorID($idProduto) {

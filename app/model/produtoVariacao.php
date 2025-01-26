@@ -37,16 +37,24 @@ class ProdutoVariacao {
         }
     }
 
-    public function adicionarProduto($idProduto, $nomeProduto, $preco, $foto) {
+    public function adicionarVariacaoProduto($idProduto, $nomeProduto, $preco, $lote, $valor, $quantidade, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $imagem) {
         try {
-            $stmt = $this->conn->prepare("CALL InserirVariacao(?, ?, ?, ?)");
+            echo "foi7";
+            $stmt = $this->conn->prepare("CALL InserirVariacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bindParam(1, $nomeProduto);    
             $stmt->bindParam(2, $preco);           
-            $stmt->bindParam(3, $foto);     
-            $stmt->bindParam(4, $idProduto);    
+            $stmt->bindParam(3, $lote);     
+            $stmt->bindParam(4, $valor);
+            $stmt->bindParam(5, $quantidade); 
+            $stmt->bindParam(6, $dataEntrada);
+            $stmt->bindParam(7, $dataFabricacao);
+            $stmt->bindParam(8, $dataVencimento);
+            $stmt->bindParam(9, $quantidadeMinima);
+            $stmt->bindParam(10, $imagem);
+            $stmt->bindParam(11, $idProduto);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+            echo "foi8";
             if ($result !== false && isset($result['Status'])) {
                 return $result['Status'] == '201' ? "Produto criado com sucesso!" : "Erro: " . $result['Error'];
             } else {

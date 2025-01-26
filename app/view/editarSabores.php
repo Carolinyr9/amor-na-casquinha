@@ -9,6 +9,10 @@ require_once '../config/blockURLAccess.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Sabores</title>
+    <script
+  src="https://code.jquery.com/jquery-3.7.1.js"
+  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+  crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/editarSaboresS.css">
@@ -19,17 +23,27 @@ require_once '../config/blockURLAccess.php';
     <?php
     include_once 'components/header.php';
     require_once '../controller/produtoVariacaoController.php';
+
     $produtoVariacaoController = new ProdutoVariacaoController();
     $variacoes = $produtoVariacaoController->selecionarVariacaoProdutos($_GET["produto"]);
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $idProduto = $_GET["produto"];
-        $nomeProduto = isset($_POST['nomeSabAdd']) ? $_POST['nomeSabAdd'] : '';
-        $preco = isset($_POST['precoSabAdd']) ? $_POST['precoSabAdd'] : '';
-        $foto = isset($_POST['nomeImagemSabAdd']) ? $_POST['nomeImagemSabAdd'] : '';
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST['inserirSaborSubmit'])) {
+        echo "foi";
+        $idProduto = $_POST["idProduto"];
+        $nomeProduto = $_POST['nomeSabAdd'];
+        $preco = $_POST['precoSabAdd'];
+        $lote = $_POST['lote'];
+        $valor = $_POST['valor'];
+        $quantidade = $_POST['quantidade'];
+        $dataEntrada = $_POST['dataEntrada'];
+        $dataFabricacao = $_POST['dataFabricacao'];
+        $dataVencimento = $_POST['dataVencimento'];
+        $quantidadeMinima = $_POST['quantidadeMinima'];
+        $imagem = $_FILES['foto'];
+        echo "foi2";
+        $produtoVariacaoController->adicionarVariacaoProduto($idProduto, $nomeProduto, $preco, $lote, $valor, $quantidade, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $imagem);
 
-        $produtoVariacaoController->adicionarProduto($idProduto, $nomeProduto, $preco, $foto);
-        header("Location: editarSabores.php?produto=$idProduto");
+        
     }
     ?>
 
@@ -43,16 +57,51 @@ require_once '../config/blockURLAccess.php';
             $_SESSION['var'] = NULL;
             ?>
             <button class="add fs-5 fw-bold rounded-4 border-0 my-3">Adicionar Sabor</button>
-            <div>
-                <form action="" method="POST" id="addFormulario">
-                    <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nomeSabAdd" placeholder="Nome do produto">
-                    <label for="preco">Preço:</label>
-                    <input type="text" id="preco" name="precoSabAdd" placeholder="Preço do produto">
-                    <label for="nomeImagem">Nome do arquivo de imagem:</label>
-                    <input type="text" id="nomeImagem" name="nomeImagemSabAdd" placeholder="imagem.png">
-                    
-                    <button name="bntCreatSab" type="submit">Salvar</button>
+            <div class="m-4">
+                <form action="" method="POST" enctype="multipart/form-data" id="addFormulario" class="flex-row justify-content-between flex-wrap gap-4 w-50 m-auto">
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" class="form-control"  id="nome" name="nomeSabAdd" placeholder="Picolé de..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="preco">Preço:</label>
+                        <input type="number" class="form-control"  id="preco" name="precoSabAdd" placeholder="00,00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lote">Lote</label>
+                        <input type="text" class="form-control" id="lote" name="lote" placeholder="000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="valor">Valor da compra</label>
+                        <input type="number" class="form-control" id="valor" name="valor" placeholder="00,00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidade">Quantidade</label>
+                        <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="000" required>
+                    </div>
+                    <div class="form-group">
+       s                 <label for="dataFabricacao">Entrada</label>
+                        <input type="date" class="form-control" id="dataEntrada" name="dataEntrada" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataFabricacao">Fabricação</label>
+                        <input type="date" class="form-control" id="dataFabricacao" name="dataFabricacao" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataVencimento">Vencimento</label>
+                        <input type="date" class="form-control" id="dataVencimento" name="dataVencimento" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidadeMinima">Quantidade Mínima</label>
+                        <input type="number" class="form-control" id="quantidadeMinima" name="quantidadeMinima" placeholder="000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="imagem">Imagem</label>
+                        <input class="form-control" id="imagemInput" type="file" name="foto">
+                        <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto mt-3" style="max-width: 150px; display: none;">
+                    </div>
+                    <input type="hidden" name="idProduto" value="<?= $_GET["produto"]; ?>">
+                    <input name="inserirSaborSubmit" type="submit" value="Inserir" class="mx-4 w-25" />
                 </form>
             </div>
 
@@ -97,5 +146,6 @@ require_once '../config/blockURLAccess.php';
     
     <script src="script/header.js"></script>
     <script src="script/adicionar.js"></script>    
+    <script src="script/exibirArquivoImagem.js"></script>
 </body>
 </html>

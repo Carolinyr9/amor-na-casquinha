@@ -75,7 +75,7 @@ $dados = $estoque->listarEstoque();
                                 <td>'.$row['ocorrencia'].'</td>
                                 <td>'.$row['qtdOcorrencia'].'</td>
                                 <td><a class="table-linkEditar text-decoration-none text-black px-3 rounded-4" href="editarEstoque.php?idsArray='.$row['idEstoque'].'">Editar</a></td>
-                                <td><a class="table-linkExcluir text-decoration-none text-black px-3 rounded-4" href="../controller/estoqueController.php?acao=excluir&id='.$row['idEstoque'].'">Excluir</a></td>
+                                <td><a class="table-linkExcluir text-decoration-none text-black px-3 rounded-4" href="excluirEstoque.php?idsArray='.$row['idEstoque'].'">Excluir</a></td>
                             </tr>';
                     }
                 }
