@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10/01/2025 às 15:50
+-- Tempo de geração: 26/01/2025 às 21:59
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.0.30
+-- Versão do PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,7 +65,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarEstoqueProdutoPorId` (IN `
     ELSE
         UPDATE estoque SET desativado = 1 WHERE idEstoque = idEstoqueIN;
         UPDATE variacaoproduto SET desativado = 1 WHERE idVariacao = idVariacaoIN;
-    END IF;
+	END IF; 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CancelarPedido` (`idPedidoIN` INT, `DtCancelamentoIN` DATETIME, `motivoCancelamentoIN` VARCHAR(255))   BEGIN
@@ -172,30 +172,29 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarCliente` (`emailIN` VARCHA
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarEstoqueProdutoPorId` (IN `idEstoqueIN` INT, IN `idProdutoIN` INT)   BEGIN
-	IF NOT EXISTS (SELECT codigoProduto from estoque where idEstoque like idEstoqueIN)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarEstoqueProdutoPorId` (IN `idEstoqueIN` INT, IN `idVariacaoIN` INT)   BEGIN
+	IF NOT EXISTS (SELECT idProduto FROM estoque WHERE idEstoque = idEstoqueIN)
 	THEN
 		SELECT '403' AS 'Status', 'ERROR_PRODUTO_INEXISTENTE' AS 'Error', '' AS 'Message';
     ELSE
         UPDATE estoque SET desativado = 1 WHERE idEstoque = idEstoqueIN;
-        UPDATE produtos SET desativado = 1 WHERE idProduto = idProdutoIN;
-        UPDATE variacaoProduto SET desativado = 1 WHERE idProduto = idProdutoIN;
+        UPDATE variacaoproduto SET desativado = 1 WHERE idVariacao = idVariacaoIN;
     END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFornecedorPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
 	IF NOT EXISTS (SELECT email FROM fornecedores WHERE email like emailIN AND desativado != 1)
-	THEN
+    THEN
 		SELECT '403' AS 'Status', 'ERROR_FUNCIONARIO_NAO_ENCONTRADO' AS 'Error', '' AS 'Message';
-	ELSE
+    ELSE
         UPDATE fornecedores SET
 			desativado = 1
 			WHERE email like emailIN;
         SELECT
-			'204' AS 'Status',
-			'' AS 'Error',
-			'SUCCESS_DELETED' AS 'Message';
-	END IF;
+            '204' AS 'Status',
+            '' AS 'Error',
+            'SUCCESS_DELETED' AS 'Message';
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarFuncionarioPorEmail` (IN `emailIN` VARCHAR(255))   BEGIN
@@ -302,21 +301,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarEmpresa` (IN `cnpjIN` VARCHAR
 			'' AS 'Error',
 			'SUCCESS_UPDATED' AS 'Message';
 	END IF; 
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarEstoque` (`idEstoqueIN` INT, `dtEntradaIN` DATE, `quantidadeIN` INT, `dtFabricacaoIN` DATE, `dtVencimentoIN` DATE, `precoCompraIN` DECIMAL(15,2), `qtdMinimaIN` INT, `qtdVendidaIN` INT)   BEGIN
-    IF NOT EXISTS (SELECT idEstoque from estoque where idEstoque like idEstoqueIN)
-    THEN
-        SELECT '403' AS 'Status', 'ERROR_PRODUTO_INEXISTENTE' AS 'Error', '' AS 'Message';
-    ELSE
-        UPDATE estoque SET dtEntrada = dtEntradaIN, quantidade = quantidadeIN, dtFabricacao = dtFabricacaoIN, 
-        dtVencimento = dtVencimentoIN, precoCompra = precoCompraIN, qtdMinima = qtdMinimaIN, qtdVendida = qtdVendidaIN
-        WHERE idEstoque = idEstoqueIN;
-        SELECT
-            '201' AS 'Status',
-            '' AS 'Error',
-            'SUCCESS_CREATED' AS 'Message';
-    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarFornecedorPorEmail` (IN `emailIN` VARCHAR(255), IN `emailNovoIN` VARCHAR(255), IN `nomeIN` VARCHAR(255), IN `telefoneIN` VARCHAR(25))   BEGIN
@@ -611,21 +595,31 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirProduto` (IN `nome` VARCHAR(
             'SUCCESS_CREATED' AS 'Message';
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirVariacao` (IN `nomeVariacaoIN` VARCHAR(255), IN `precoVariacaoIN` DECIMAL(10,2), IN `fotoVaricaoIN` VARCHAR(255), IN `idProdutoIN` INT)   BEGIN
-    IF EXISTS (SELECT nomeVariacao FROM variacaoProduto WHERE nomeVariacao LIKE nomeVariacaoIN) THEN
-        SELECT '403' AS 'Status', 'ERROR_VARIACAO_CADASTRADA' AS 'Error', '' AS 'Message';
-    ELSEIF NOT EXISTS (SELECT * FROM produtos WHERE idProduto = idProdutoIN) THEN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `InserirVariacao` (IN `nomeVariacaoIN` VARCHAR(255), IN `precoVariacaoIN` DECIMAL(10,2), IN `loteIN` VARCHAR(255), IN `precoCompraIN` DECIMAL(10,2), IN `quantidadeIN` INT, IN `dataEntradaIN` DATE, IN `dataFabricacaoIN` DATE, IN `dataVencimentoIN` DATE, IN `quantidadeMinimaIN` INT, IN `imagemIN` VARCHAR(100), IN `idProdutoIN` INT)   BEGIN
+    -- Verifica se o produto existe
+    IF NOT EXISTS (SELECT * FROM produtos WHERE idProduto = idProdutoIN) THEN
         SELECT '403' AS 'Status', 'ERROR_PRODUTO_NAO_CADASTRADO' AS 'Error', '' AS 'Message';
+    -- Verifica se a variação já está cadastrada
+    ELSEIF EXISTS (SELECT nomeVariacao FROM variacaoProduto WHERE nomeVariacao = nomeVariacaoIN) THEN
+        SELECT '403' AS 'Status', 'ERROR_VARIACAO_CADASTRADA' AS 'Error', '' AS 'Message';
     ELSE
+        -- Insere na tabela variacaoProduto
         INSERT INTO variacaoProduto(`nomeVariacao`, `precoVariacao`, `fotoVariacao`, `idProduto`, `desativado`) 
-        VALUES (nomeVariacaoIN, precoVariacaoIN, fotoVaricaoIN, idProdutoIN, 0);
+        VALUES (nomeVariacaoIN, precoVariacaoIN, imagemIN, idProdutoIN, 0);
         
+        -- Recupera o ID da última inserção
+        SET @last_id_in_variacaoProduto = LAST_INSERT_ID();
+        
+        -- Insere na tabela estoque
+        INSERT INTO estoque(`idProduto`, `idVariacao`, `lote`, `dtEntrada`, `quantidade`, `dtFabricacao`, `dtVencimento`, `precoCompra`, `qtdMinima`) 
+        VALUES (idProdutoIN, @last_id_in_variacaoProduto, loteIN, dataEntradaIN, quantidadeIN, dataFabricacaoIN, dataVencimentoIN, precoCompraIN, quantidadeMinimaIN);
+        
+        -- Retorna o status de sucesso
         SELECT 
             '201' AS 'Status',
             '' AS 'Error',
             'SUCCESS_CREATED' AS 'Message';
-    END IF; 
-
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarCep` (IN `idEndereco` INT)   BEGIN
@@ -918,8 +912,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacaoAtivaPorId` (IN `id` 
     AND idVariacao = id;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacaoPorID` (`idVaricaoIN` INT)   BEGIN
-	SELECT * FROM variacaoProduto WHERE desativado != 1 AND idVariacao = idVaricaoIN;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacaoPorID` (IN `idVaricaoIN` INT)   BEGIN
+	SELECT * FROM variacaoproduto WHERE desativado != 1 AND idVariacao = idVaricaoIN;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacaoPorTipo` (IN `id` INT)   BEGIN
@@ -967,6 +961,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SalvarItensPedido` (IN `idPedido` I
 
     -- Retornar resposta de sucesso
     SELECT '201' AS 'Status', 'SUCCESS' AS 'Message', 'Item do pedido salvo com sucesso' AS 'Body';
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SelecionarProdutoEstoquePorID` (IN `id` INT)   BEGIN
+	SELECT * FROM estoque WHERE idEstoque = id;
 END$$
 
 --
@@ -1432,7 +1430,7 @@ ALTER TABLE `entregador`
 -- AUTO_INCREMENT de tabela `estoque`
 --
 ALTER TABLE `estoque`
-  MODIFY `idEstoque` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idEstoque` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedores`
