@@ -171,9 +171,11 @@ class Pedido {
         }
     }
 
-    public function listarTodosItensPedidos() {
+    public function listarTodosItensPedidos($dataInicio, $dataFim) {
         try {
-            $stmt = $this->conn->prepare("CALL ListarProdutosPedido()");
+            $stmt = $this->conn->prepare("CALL ListarProdutosPedido(?, ?)");
+            $stmt->bindParam(1, $dataInicio);
+            $stmt->bindParam(2, $dataFim);
             $stmt->execute();
     
             $itensPedidos = [];
@@ -205,7 +207,6 @@ class Pedido {
                 }
             }
     
-            // Ordena os produtos pela quantidade em ordem decrescente
             usort($result, function ($a, $b) {
                 return $b['quantidade'] <=> $a['quantidade'];
             });
@@ -217,24 +218,16 @@ class Pedido {
         }
     }
     
-    public function listarResumo() {
+    public function listarResumo($dataInicio, $dataFim) {
         try {
-            $stmt = $this->conn->prepare("CALL ListarResumoVendas()");
+            $stmt = $this->conn->prepare("CALL ListarResumoVendas(?, ?)");
+            $stmt->bindParam(1, $dataInicio);
+            $stmt->bindParam(2, $dataFim);
             $stmt->execute();
-            
-            $resultPedidos = [];
-            $resultItensPedido = [];
-            
-            if ($stmt->rowCount() > 0) {
-                $resultPedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
-            
-            if ($stmt->nextRowset() && $stmt->rowCount() > 0) {
-                $resultItensPedido = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
             
             $auxClientes = [];
             $auxProdutos = [];
+            $auxPedidos = [];
             $result = [
                 'totalVendas' => 0,
                 'totalPedidosClientes' => 0,
@@ -242,23 +235,29 @@ class Pedido {
                 'pedidosFeitos' => 0
             ];
             
-            foreach ($resultPedidos as $pedido) {
-                $idCliente = $pedido['idCliente'];
-                $result['totalVendas'] += $pedido['valorTotal']; 
-                $result['pedidosFeitos'] += 1;
+            if ($stmt->rowCount() > 0) {
+                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 
-                if (!isset($auxClientes[$idCliente])) {
-                    $auxClientes[$idCliente] = true;
-                    $result['totalPedidosClientes'] += 1; 
-                }
-            }
-            
-            foreach ($resultItensPedido as $item) {
-                $idProduto = $item['idProduto'];
-                
-                if (!isset($auxProdutos[$idProduto])) {
-                    $auxProdutos[$idProduto] = true;
-                    $result['totalProdutos'] += 1;
+                foreach ($rows as $row) {
+                    $idCliente = $row['idCliente'];
+                    $idProduto = $row['idProduto'];
+                    $idPedido = $row['pedidoId'];
+    
+                    if (!isset($auxPedidos[$idPedido])) {
+                        $auxPedidos[$idPedido] = true;
+                        $result['totalVendas'] += $row['valorTotal'];
+                        $result['pedidosFeitos'] += 1;
+                    }
+                    
+                    if (!isset($auxClientes[$idCliente])) {
+                        $auxClientes[$idCliente] = true;
+                        $result['totalPedidosClientes'] += 1; 
+                    }
+                    
+                    if (!isset($auxProdutos[$idProduto])) {
+                        $auxProdutos[$idProduto] = true;
+                        $result['totalProdutos'] += 1;
+                    }
                 }
             }
             
@@ -267,8 +266,7 @@ class Pedido {
         } catch (PDOException $e) {
             throw new Exception("Erro ao recuperar o resumo das vendas: " . $e->getMessage());
         }
-    }
-    
+    }    
 
     private function determinarNovoStatusPorUsuario($usuario, $pedido) {
         switch($usuario) {
