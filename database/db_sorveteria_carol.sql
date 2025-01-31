@@ -1219,18 +1219,8 @@ INSERT INTO `itens_pedido` (`idPedido`, `idProduto`, `quantidade`) VALUES
 (192, 1, 1),
 (193, 1, 1),
 (193, 2, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
 (194, 1, 1),
 (194, 2, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
 (195, 1, 1),
 (195, 2, 1);
 
