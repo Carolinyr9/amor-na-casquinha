@@ -31,8 +31,7 @@ class PedidoController {
         } catch (Exception $e) {
             return ["error" => $e->getMessage()];
         }
-    }
-    
+    }  
 
     public function listarPedidos() {
         try {
@@ -42,17 +41,17 @@ class PedidoController {
         }
     }
 
-    public function listarResumo() {
+    public function listarResumo($dataInicio, $dataFim) {
         try {
-            return $this->pedidoModel->listarResumo();
+            return $this->pedidoModel->listarResumo($dataInicio, $dataFim);
         } catch (Exception $e) {
             echo "error" . $e->getMessage();
         }
     }
 
-    public function listarTodosItensPedidos(){
+    public function listarTodosItensPedidos($dataInicio, $dataFim){
         try {
-            return $this->pedidoModel->listarTodosItensPedidos();
+            return $this->pedidoModel->listarTodosItensPedidos($dataInicio, $dataFim);
         } catch (Exception $e) {
             echo "error" . $e->getMessage();
         }

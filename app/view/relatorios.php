@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data-inicio'], $_POST
     $dataFim = $_POST['data-fim'];
 
     if (!empty($dataInicio) && !empty($dataFim)) {
-        $vendas = $pedidoController->listarResumo();
-        $itens = $pedidoController->listarTodosItensPedidos();
+        $vendas = $pedidoController->listarResumo($dataInicio, $dataFim);
+        $itens = $pedidoController->listarTodosItensPedidos($dataInicio, $dataFim);
     }
 }
 ?>
@@ -80,7 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data-inicio'], $_POST
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($itens as $item) { ?>
+                        <?php 
+                        $itensLimitados = array_slice($itens, 0, 3);
+                        foreach ($itensLimitados as $item) { ?>
                             <tr>
                                 <td><?= htmlspecialchars($item['NomeProduto']) ?></td>
                                 <td><?= htmlspecialchars($item['quantidade']) ?></td>
