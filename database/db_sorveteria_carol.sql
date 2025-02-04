@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26/01/2025 às 21:59
+-- Tempo de geração: 04/02/2025 às 23:47
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -55,16 +55,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AtualizarCliente` (IN `emailIN` VAR
 			'204' AS 'Status',
 			'' AS 'Error',
 			'SUCCESS_UPDATED' AS 'Message';
-	END IF; 
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `DesativarEstoqueProdutoPorId` (IN `idEstoqueIN` INT, IN `idVariacaoIN` INT)   BEGIN
-	IF NOT EXISTS (SELECT idProduto FROM estoque WHERE idEstoque = idEstoqueIN)
-	THEN
-		SELECT '403' AS 'Status', 'ERROR_PRODUTO_INEXISTENTE' AS 'Error', '' AS 'Message';
-    ELSE
-        UPDATE estoque SET desativado = 1 WHERE idEstoque = idEstoqueIN;
-        UPDATE variacaoproduto SET desativado = 1 WHERE idVariacao = idVariacaoIN;
 	END IF; 
 END$$
 
@@ -337,19 +327,27 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarFuncionarioPorEmail` (IN `ema
 	END IF; 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarPedidoStatus` (`idPedidoIN` INT, `statusPedidoIN` VARCHAR(20))   BEGIN
-	SET @total_do_pedido := (SELECT sum(subtotal) FROM pedidoProduto WHERE idPedido = idProdutoIN);
-	UPDATE pedidos SET
-		dataPedido = dataIN,
-        totalPedido = @total_do_pedido,
-		statusPedido = statusP,
-		funcionarios_idFuncionario = funcionario,
-		enderecos_idEndereco = endereco
-		WHERE idPedido = idP;
-	SELECT 
-		'204' AS 'Status',
-		'' AS 'Error',
-		'SUCCESS_UPDATED' AS 'Message';
+CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarPedidoStatus` (IN `idPedidoIN` INT, IN `statusPedidoIN` VARCHAR(20), IN `motivoCancelamentoIN` TEXT)   BEGIN
+    -- Atualiza apenas o status do pedido
+    UPDATE pedidos 
+    SET statusPedido = statusPedidoIN
+    WHERE idPedido = idPedidoIN;
+
+    -- Caso haja um motivo de cancelamento, adiciona à tabela de pedidos
+    IF motivoCancelamentoIN IS NOT NULL AND motivoCancelamentoIN <> '' THEN
+    UPDATE pedidos 
+    SET 
+        motivoCancelamento = motivoCancelamentoIN,
+        dtCancelamento = NOW()
+    WHERE idPedido = idPedidoIN;
+END IF;
+
+
+    -- Retorna a resposta de sucesso
+    SELECT 
+        '204' AS 'Status',
+        '' AS 'Error',
+        'SUCCESS_UPDATED' AS 'Message';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarProdutoEstoque` (IN `idEstoqueIN` INT, IN `dtEntradaIN` DATE, IN `quantidadeIN` INT, IN `dtFabricacaoIN` DATE, IN `dtVencimentoIN` DATE, IN `precoCompraIN` DECIMAL(15,2), IN `qtdMinimaIN` INT, IN `qtdOcorrenciaIN` INT, IN `ocorrenciaIN` TEXT)   BEGIN
@@ -423,17 +421,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarSenha` (`emailIN` VARCHAR(255
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarStatusPedido` (IN `p_idPedido` INT, IN `p_novoStatus` ENUM('Aguardando Pagamento','Aguardando Envio','A Caminho','Entregue','Cancelado','Concluído','Entrega Falhou'))   BEGIN
-    IF EXISTS (SELECT 1 FROM pedidos WHERE idPedido = p_idPedido) THEN
-        UPDATE pedidos
-        SET statusPedido = p_novoStatus
-        WHERE idPedido = p_idPedido;
-    ELSE
-        SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Pedido não encontrado';
-    END IF;
-END$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarVariacaoPorID` (IN `idVariacaoIN` INT, IN `nomeVariacaoIN` VARCHAR(255), IN `precoVariacaoIN` DECIMAL(10,2), IN `fotoVariacaoIN` VARCHAR(255), IN `idProdutoIN` INT)   BEGIN
     -- Tente atualizar diretamente e depois verifique se houve alguma linha afetada
     UPDATE variacaoProduto 
@@ -451,6 +438,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EditarVariacaoPorID` (IN `idVariaca
             '204' AS 'Status',
             '' AS 'Error',
             'SUCCESS_UPDATED' AS 'Message';
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `FN_GetClienteId` (IN `email` VARCHAR(60), OUT `clienteId` INT)   BEGIN
+    -- Inicializa a variável
+    SET clienteId = NULL;
+
+    -- Busca o idCliente pelo e-mail
+    SELECT idCliente INTO clienteId
+    FROM clientes
+    WHERE clientes.email LIKE email
+    LIMIT 1;
+
+    -- Se o cliente não for encontrado, o valor será NULL (já definido inicialmente)
+    IF clienteId IS NULL THEN
+        SET clienteId = NULL;
     END IF;
 END$$
 
@@ -762,7 +765,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarFuncionarios` ()   BEGIN
     END IF;
 END$$
 
-CREATE DEFINER=`` PROCEDURE `ListarInformacoesPedido` (IN `p_idPedido` INT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarInformacoesPedido` (IN `p_idPedido` INT)   BEGIN
     SELECT 
         ip.idPedido,
         ip.quantidade,
@@ -885,7 +888,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutos` (`limitF` INT, `off
 	SELECT * FROM produtos WHERE desativado = 0  LIMIT limitF OFFSET offsetF;
 END$$
 
-CREATE DEFINER=`` PROCEDURE `ListarProdutosPedido` ()   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarProdutosPedido` (IN `dataInicio` DATE, IN `dataFim` DATE)   BEGIN
     SELECT 
         ip.quantidade,
         vp.idVariacao,
@@ -893,12 +896,24 @@ CREATE DEFINER=`` PROCEDURE `ListarProdutosPedido` ()   BEGIN
         vp.precoVariacao AS Preco,
         vp.fotoVariacao AS Foto,
         vp.desativado AS ProdutoDesativado
-    FROM 
-        itens_pedido ip
-    INNER JOIN 
-        variacaoproduto vp
-    ON 
-        ip.idProduto = vp.idVariacao;
+    FROM itens_pedido ip
+    INNER JOIN variacaoproduto vp 
+        ON ip.idProduto = vp.idVariacao
+    INNER JOIN pedidos p 
+        ON ip.idPedido = p.idPedido
+    WHERE DATE(p.dtPedido) BETWEEN dataInicio AND dataFim;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarResumoVendas` (IN `dataInicio` DATE, IN `dataFim` DATE)   BEGIN
+    SELECT 
+        pedidos.valorTotal,        
+        pedidos.idCliente,         
+        pedidos.idPedido AS pedidoId, 
+        itens_pedido.idProduto     
+    FROM pedidos
+    JOIN itens_pedido 
+        ON pedidos.idPedido = itens_pedido.idPedido 
+    WHERE DATE(pedidos.dtPedido) BETWEEN dataInicio AND dataFim;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVariacao` (`limitF` INT, `offsetF` INT)   BEGIN
@@ -967,24 +982,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SelecionarProdutoEstoquePorID` (IN 
 	SELECT * FROM estoque WHERE idEstoque = id;
 END$$
 
---
--- Funções
---
-CREATE DEFINER=`root`@`localhost` FUNCTION `FN_GetClienteId` (`email` VARCHAR(60)) RETURNS INT(11) DETERMINISTIC BEGIN
-    DECLARE clienteId INT;
-
-    SELECT idCliente INTO clienteId
-    FROM clientes
-    WHERE clientes.email LIKE email
-    LIMIT 1;
-
-    IF clienteId IS NOT NULL THEN
-        RETURN clienteId;
-    ELSE
-        RETURN NULL;
-    END IF;
-END$$
-
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -1009,6 +1006,7 @@ CREATE TABLE `clientes` (
 --
 
 INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
+(0, 0, 'Cliente Desconhecido', 'desconhecido', '1234', NULL, 'CLIE', 1),
 (1, 0, 'joao lucas binario', 'jo@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2135', 'CLIE', 1),
 (2, 0, 'Caroliny Rocha Sampaio', 'carol@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5),
 (3, 0, 'Joelita Rocha', 'joelita@email.com', '$2y$10$hMHoDvGNbpdT9285sSbvVOUD49txnbVnFGdr0aE6pKrYlHnKiFkNW', '(11) 99898-4901', 'CLIE', 6);
@@ -1050,6 +1048,7 @@ CREATE TABLE `enderecos` (
 --
 
 INSERT INTO `enderecos` (`idEndereco`, `cep`, `rua`, `numero`, `complemento`, `bairro`, `cidade`, `estado`) VALUES
+(0, '00000-000', 'Rua Exemplo', NULL, NULL, NULL, NULL, NULL),
 (1, '90570020', 'Rua Tobias da Silva', 120, '', 'Moinhos de Vento', 'Porto Alegre', 'Rio Grande do Sul'),
 (2, '08110520', 'Rua Edson de Carvalho Guimarães', 19, NULL, 'Vila Alabama', 'São Paulo', 'SP'),
 (3, '08110492', 'Rua Moisés José Pereira', 50, '', 'Vila Alabama', 'São Paulo', 'SP'),
@@ -1201,19 +1200,6 @@ CREATE TABLE `itens_pedido` (
   `quantidade` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `itens_pedido`
---
-
-INSERT INTO `itens_pedido` (`idPedido`, `idProduto`, `quantidade`) VALUES
-(187, 1, 1),
-(187, 9, 3),
-(187, 12, 2),
-(188, 4, 1),
-(188, 17, 1),
-(189, 12, 1),
-(190, 1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -1236,16 +1222,6 @@ CREATE TABLE `pedidos` (
   `frete` double DEFAULT NULL,
   `meioPagamento` enum('Cartão de Débito','Cartão de Crédito','Dinheiro') NOT NULL DEFAULT 'Dinheiro'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `pedidos`
---
-
-INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipoFrete`, `idEndereco`, `valorTotal`, `qtdItems`, `dtCancelamento`, `motivoCancelamento`, `statusPedido`, `idEntregador`, `frete`, `meioPagamento`) VALUES
-(187, 1, '2025-01-04 23:01:35', NULL, 0, 1, 80.94, 0, NULL, NULL, 'Cancelado', NULL, 0, 'Cartão de Débito'),
-(188, 1, '2025-01-09 13:21:32', NULL, 1, 1, 73.21, 0, NULL, NULL, 'Aguardando Envio', 2, 22.72, 'Cartão de Crédito'),
-(189, 1, '0000-00-00 00:00:00', NULL, 0, 1, 16.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Débito'),
-(190, 1, '2025-01-09 09:57:36', NULL, 0, 1, 25.99, 0, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito');
 
 -- --------------------------------------------------------
 
@@ -1406,7 +1382,7 @@ ALTER TABLE `variacaoproduto`
 -- AUTO_INCREMENT de tabela `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `empresa`
@@ -1418,7 +1394,7 @@ ALTER TABLE `empresa`
 -- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `entregador`
@@ -1448,7 +1424,7 @@ ALTER TABLE `funcionarios`
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=191;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
