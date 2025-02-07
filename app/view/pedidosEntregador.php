@@ -26,7 +26,7 @@ require_once '../config/blockURLAccess.php';
     if (isset($_POST['mudarStatus']) && isset($_POST['idPedido'])) {
         $pedidoId = $_POST['idPedido']; 
 
-        $pedidoController->mudarStatus($pedidoId, $usuario);
+        $pedidoController->mudarStatus($pedidoId, $usuario, NULL);
         header("Location: pedidosEntregador.php"); 
         exit();
     }

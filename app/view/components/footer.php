@@ -8,6 +8,29 @@
         <div class="text-center">
             <p>&copy; 2023 Amor de Casquinha Todos os direitos reservados</p>
         </div>
+        <?php
+            if(isset($_SESSION["userEmail"])){
+                switch($_SESSION["userPerfil"]){                        
+                    case "FUNC":
+                        echo "<a href='faqFunc.php'>FAQ</a>";
+                        break;
+                        
+                    case "FADM":
+                        echo "<a href='faqFunc.php'>FAQ</a>";
+                        break;
+                        
+                    case "ENTR":
+                        echo "<a href='faqFunc.php'>FAQ</a>";
+                        break;
+
+                    default:
+                        echo "<a href='faqCliente.php'>FAQ</a>";
+                        break;
+                }
+            } else {
+                echo "<a href='faqCliente.php'>FAQ</a>";
+            }
+            ?>
     </div>
 </footer>
 

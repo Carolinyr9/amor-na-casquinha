@@ -23,9 +23,10 @@ $pedidoController = new PedidoController();
     include_once 'components/header.php';
     $pedidoId = $_GET['idPedido'] ?? null;
     $usuario = $_SESSION['userPerfil'] ?? null;
-
+    var_dump($_POST);
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mudarStatus'])) {
-        $pedidoController->mudarStatus($pedidoId, $usuario);
+        $motivoCancelamento = isset($_POST['motivoCancelamento']) ? $_POST['motivoCancelamento'] : NULL;
+        $pedidoController->mudarStatus($pedidoId, $usuario, $motivoCancelamento);
         header("Location: informacoesPedidoCliente.php?idPedido=$pedidoId");
         exit();
     }
@@ -78,7 +79,7 @@ $pedidoController = new PedidoController();
                 <?php endif; ?>
 
                 <?php 
-                $statusPermitidos = ['Aguardando Pagamento', 'Aguardando Envio'];
+                $statusPermitidos = ['Aguardando Confirmação', 'Aguardando Envio'];
                 
                 if ($pedido['statusPedido'] == 'A Caminho'): ?>
                     <form method="POST" action="">
@@ -89,14 +90,35 @@ $pedidoController = new PedidoController();
                 <?php endif; ?>
                 
                 <?php if (in_array($pedido['statusPedido'], $statusPermitidos)): ?>
-                    <form method="POST" action="">
-                        <input type="hidden" name="mudarStatus" value="1">
-                        <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
-                        <button type="submit" class="btnCancelaPedido rounded-4 border-0 fw-bold">Cancelar Pedido</button>
-                    </form>
+                    <button type="button" class="btnCancelaPedido rounded-4 border-0 fw-bold" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancelar Pedido</button>
                 <?php endif; ?>
                 <button class="btn-yellow rounded-4 mt-5"><a href="sobre.php">Voltar</a></button>
             <?php endif; ?>
+        </div>
+
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cancelModalLabel">Motivo do Cancelamento</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="">
+                            <input type="hidden" name="mudarStatus" value="1">
+                            <input type="hidden" name="idPedido" value="<?= $pedido['idPedido']; ?>">
+                            <div class="mb-3">
+                                <label for="motivoCancelamento" class="form-label">Informe o motivo do cancelamento:</label>
+                                <textarea class="form-control" id="motivoCancelamento" name="motivoCancelamento" rows="3" required maxlength="100"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-danger">Confirmar Cancelamento</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
     <?php include_once 'components/footer.php'; ?>
