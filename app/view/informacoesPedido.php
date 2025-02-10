@@ -26,7 +26,7 @@ $pedidoController = new PedidoController();
     $usuario = $_SESSION['userPerfil'] ?? null;
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mudarStatus'])) {
-        $pedidoController->mudarStatus($pedidoId, $usuario);
+        $pedidoController->mudarStatus($pedidoId, $usuario, NULL);
         header("Location: informacoesPedido.php?idPedido=$pedidoId");
         exit();
     }
@@ -69,7 +69,7 @@ $pedidoController = new PedidoController();
                     <?php endif; ?>
                     
                     <?php 
-                    $statusPermitidos = ['Aguardando Confirmação', 'Aguardando Envio'];
+                    $statusPermitidos = ['Aguardando Confirmação', 'Preparando pedido', 'Aguardando Envio', 'Aguardando Retirada'];
                     if (in_array($pedido['statusPedido'], $statusPermitidos) || ($pedido['tipoFrete'] == 0 && $pedido['statusPedido'] == 'Entregue')): 
                     ?>
                         <form method="POST" action="">
