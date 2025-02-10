@@ -111,7 +111,6 @@ if (isset($_POST['addPedido'])) {
 
         <?php
         $pedidos = $pedidoController->listarPedidos();
-
         if (!empty($pedidos)) {
             foreach ($pedidos as $pedido) {
                 $redirectToInformacao = 'informacoesPedido.php?idPedido=' . $pedido['idPedido'];
