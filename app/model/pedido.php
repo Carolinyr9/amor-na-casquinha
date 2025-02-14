@@ -82,12 +82,12 @@ class Pedido {
     }
     
 
-    public function criarPedido($email, $tipoFrete, $valorTotal, $frete, $meioDePagamento) {
+    public function criarPedido($email, $tipoFrete, $valorTotal, $frete, $meioDePagamento, $trocoPara) {
         try {
             date_default_timezone_set('America/Sao_Paulo');
             $dataPedido = date('Y-m-d H:i:s');
     
-            $stmt = $this->conn->prepare("CALL CriarPedido(?, ?, ?, ?, ?, ?)");
+            $stmt = $this->conn->prepare("CALL CriarPedido(?, ?, ?, ?, ?, ?, ?)");
             
             $stmt->bindParam(1, $email);
             $stmt->bindParam(2, $dataPedido);
@@ -95,6 +95,7 @@ class Pedido {
             $stmt->bindParam(4, $valorTotal);
             $stmt->bindParam(5, $frete,);
             $stmt->bindParam(6, $meioDePagamento,);
+            $stmt->bindParam(7, $trocoPara,);
             $stmt->execute();
 
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -110,7 +111,6 @@ class Pedido {
 
         try {
             foreach ($itensCarrinho as $item) {
-                echo '<script>console.log("ID do item: ' . $item['id'] . ', Quantidade: ' . $item['qntd'] . '")</script>';
     
                 $stmt = $this->conn->prepare("CALL SalvarItensPedido(?, ?, ?)");
                 $stmt->bindParam(1, $id, PDO::PARAM_INT);
@@ -129,16 +129,36 @@ class Pedido {
         try {
             $stmt = $this->conn->prepare("CALL ListarPedidos()");
             $stmt->execute(); 
-
+    
             $pedidos = [];
             if ($stmt->rowCount() > 0) {
                 $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC); 
             }
+    
+            usort($pedidos, function($a, $b) {
+                $prioridades = [
+                    'Aguardando Confirmação' => 1,
+                    'Preparando pedido' => 2,
+                    'Aguardando Retirada' => 3,
+                    'Aguardando Envio' => 4,
+                    'A Caminho' => 5,
+                    'Entregue' => 6,
+                    'Concluído' => 7,
+                    'Cancelado' => 8,
+                    'Entrega Falhou' => 9
+                ];
+    
+                $prioridadeA = $prioridades[$a['statusPedido']] ?? 999;
+                $prioridadeB = $prioridades[$b['statusPedido']] ?? 999;
+                return $prioridadeA - $prioridadeB;
+            });
+    
             return $pedidos; 
         } catch (PDOException $e) {
             throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
         }
     }
+    
 
     public function listarPedidosEntregador($emailEntregador) {
         try {
@@ -150,20 +170,40 @@ class Pedido {
             if ($stmt->rowCount() > 0) {
                 $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC); 
             }
+
+            usort($pedidos, function($a, $b) {
+                $prioridades = [
+                    'A Caminho' => 1,
+                    'Aguardando Confirmação' => 2,
+                    'Preparando pedido' => 3,
+                    'Aguardando Retirada' => 4,
+                    'Aguardando Envio' => 5,
+                    'Entregue' => 6,
+                    'Concluído' => 7,
+                    'Cancelado' => 8,
+                    'Entrega Falhou' => 9
+                ];
+    
+                $prioridadeA = $prioridades[$a['statusPedido']] ?? 999;
+                $prioridadeB = $prioridades[$b['statusPedido']] ?? 999;
+                return $prioridadeA - $prioridadeB;
+            });
             return $pedidos; 
         } catch (PDOException $e) {
             throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
         }
     }
-    public function mudarStatus($idPedido, $usuario) {
+
+    public function mudarStatus($idPedido, $usuario, $motivoCancelamento) {
         try {
             $pedido = $this->listarPedidoPorId($idPedido);
     
             $novoStatus = $this->determinarNovoStatusPorUsuario($usuario, $pedido);
     
-            $stmt = $this->conn->prepare("CALL EditarStatusPedido(?, ?)");
+            $stmt = $this->conn->prepare("CALL EditarPedidoStatus(?, ?, ?)");
             $stmt->bindParam(1, $idPedido, PDO::PARAM_INT);
             $stmt->bindParam(2, $novoStatus, PDO::PARAM_STR);
+            $stmt->bindParam(3, $motivoCancelamento, PDO::PARAM_STR);
             $stmt->execute();
     
         } catch (Exception $e) {
@@ -171,9 +211,28 @@ class Pedido {
         }
     }
 
-    public function listarTodosItensPedidos() {
+    public function mudarStatusEntregador($idPedido, $status) {
         try {
-            $stmt = $this->conn->prepare("CALL ListarProdutosPedido()");
+            $stmt = $this->conn->prepare("CALL EditarPedidoStatus(?, ?, ?)");
+    
+            $stmt->bindParam(1, $idPedido);
+            $stmt->bindParam(2, $status);
+            $stmt->bindValue(3, NULL, PDO::PARAM_NULL);
+    
+            $stmt->execute();
+    
+        } catch (Exception $e) {
+            throw new Exception("Erro ao atualizar status do pedido: " . $e->getMessage());
+        }
+    }
+    
+
+
+    public function listarTodosItensPedidos($dataInicio, $dataFim) {
+        try {
+            $stmt = $this->conn->prepare("CALL ListarProdutosPedido(?, ?)");
+            $stmt->bindParam(1, $dataInicio);
+            $stmt->bindParam(2, $dataFim);
             $stmt->execute();
     
             $itensPedidos = [];
@@ -205,7 +264,6 @@ class Pedido {
                 }
             }
     
-            // Ordena os produtos pela quantidade em ordem decrescente
             usort($result, function ($a, $b) {
                 return $b['quantidade'] <=> $a['quantidade'];
             });
@@ -217,24 +275,16 @@ class Pedido {
         }
     }
     
-    public function listarResumo() {
+    public function listarResumo($dataInicio, $dataFim) {
         try {
-            $stmt = $this->conn->prepare("CALL ListarResumoVendas()");
+            $stmt = $this->conn->prepare("CALL ListarResumoVendas(?, ?)");
+            $stmt->bindParam(1, $dataInicio);
+            $stmt->bindParam(2, $dataFim);
             $stmt->execute();
-            
-            $resultPedidos = [];
-            $resultItensPedido = [];
-            
-            if ($stmt->rowCount() > 0) {
-                $resultPedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
-            
-            if ($stmt->nextRowset() && $stmt->rowCount() > 0) {
-                $resultItensPedido = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
             
             $auxClientes = [];
             $auxProdutos = [];
+            $auxPedidos = [];
             $result = [
                 'totalVendas' => 0,
                 'totalPedidosClientes' => 0,
@@ -242,23 +292,29 @@ class Pedido {
                 'pedidosFeitos' => 0
             ];
             
-            foreach ($resultPedidos as $pedido) {
-                $idCliente = $pedido['idCliente'];
-                $result['totalVendas'] += $pedido['valorTotal']; 
-                $result['pedidosFeitos'] += 1;
+            if ($stmt->rowCount() > 0) {
+                $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 
-                if (!isset($auxClientes[$idCliente])) {
-                    $auxClientes[$idCliente] = true;
-                    $result['totalPedidosClientes'] += 1; 
-                }
-            }
-            
-            foreach ($resultItensPedido as $item) {
-                $idProduto = $item['idProduto'];
-                
-                if (!isset($auxProdutos[$idProduto])) {
-                    $auxProdutos[$idProduto] = true;
-                    $result['totalProdutos'] += 1;
+                foreach ($rows as $row) {
+                    $idCliente = $row['idCliente'];
+                    $idProduto = $row['idProduto'];
+                    $idPedido = $row['pedidoId'];
+    
+                    if (!isset($auxPedidos[$idPedido])) {
+                        $auxPedidos[$idPedido] = true;
+                        $result['totalVendas'] += $row['valorTotal'];
+                        $result['pedidosFeitos'] += 1;
+                    }
+                    
+                    if (!isset($auxClientes[$idCliente])) {
+                        $auxClientes[$idCliente] = true;
+                        $result['totalPedidosClientes'] += 1; 
+                    }
+                    
+                    if (!isset($auxProdutos[$idProduto])) {
+                        $auxProdutos[$idProduto] = true;
+                        $result['totalProdutos'] += 1;
+                    }
                 }
             }
             
@@ -267,14 +323,10 @@ class Pedido {
         } catch (PDOException $e) {
             throw new Exception("Erro ao recuperar o resumo das vendas: " . $e->getMessage());
         }
-    }
-    
+    }    
 
     private function determinarNovoStatusPorUsuario($usuario, $pedido) {
-        switch($usuario) {
-            case 'ENTR':
-                return $this->determinarNovoStatusEntregador($pedido);
-    
+        switch($usuario) {    
             case 'CLIE':
                 return $this->determinarNovoStatusCliente($pedido);
     
@@ -288,26 +340,23 @@ class Pedido {
 
     private function determinarNovoStatusFuncionario($pedido) {
         return $this->determinarNovoStatus($pedido['statusPedido'], [
-            'Aguardando Confirmação' => 'Aguardando Envio',
+            'Aguardando Confirmação' => 'Preparando pedido',
+            'Preparando pedido' => $pedido['tipoFrete'] == 0 ? 'Aguardando Retirada' : 'Aguardando Envio',
+            'Aguardando Retirada' => 'Concluído',
             'Aguardando Envio' => 'A Caminho',
-            'Entregue' => $pedido['tipoFrete'] == 0 ? 'Concluído' : 'Entregue'
+            'Entregue' => 'Entregue'
         ]);
     }
     
     private function determinarNovoStatusCliente($pedido) {
         return $this->determinarNovoStatus($pedido['statusPedido'], [
-            'A Caminho' => 'Entregue',
+            'Entregue' => 'Concluído',
             'Aguardando Confirmação' => 'Cancelado',
+            'Preparando pedido' => 'Cancelado',
             'Aguardando Envio' => 'Cancelado'
         ]);
     }
     
-    private function determinarNovoStatusEntregador($pedido) {
-        return $this->determinarNovoStatus($pedido['statusPedido'], [
-            'A Caminho' => 'Entrega Falhou',
-            'Entregue' => 'Concluído'
-        ]);
-    }
     
     private function determinarNovoStatus($statusAtual, $mudancas) {
         return $mudancas[$statusAtual] ?? $statusAtual;
@@ -358,9 +407,12 @@ class Pedido {
             return 'Erro ao calcular o frete.';
         }
     
+        if ($data == 1) {
+            return 'Estamos muito distantes do seu endereço para fazer uma entrega!';
+        }
+
         curl_close($ch);
     
-        echo "Frete retornado: " . $data;
         return $data;
     }
 

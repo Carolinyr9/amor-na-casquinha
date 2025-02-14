@@ -145,6 +145,10 @@ select{
     color: black;
 }
 
+.addPedidoForm {
+    display: none;
+}
+
 @media (min-width: 768px) {
     .imagem{
         width: 107px;

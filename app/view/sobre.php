@@ -16,13 +16,23 @@ $itensCarrinho = $carrinho->listarCarrinho();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["btnSubmit"])) {
-        
-        $pedidoController->criarPedido($_SESSION["userEmail"], isset($_POST["ckbIsDelivery"]) ? 1 : 0, $_POST["totalComFrete"], isset($_POST["frete"]) ? $_POST["frete"] : NULL, isset($_POST["meioDePagamento"]) ? $_POST["meioDePagamento"] : NULL, $itensCarrinho);
+        $frete = isset($_POST["frete"]) && is_numeric($_POST["frete"]) ? $_POST["frete"] : NULL;
+        $isDelivery = (is_null($frete) || !is_numeric($frete)) ? 0 : (isset($_POST["ckbIsDelivery"]) ? 1 : 0);
+        $trocoPara = isset($_POST["trocoPara"]) && is_numeric($_POST["trocoPara"]) ? (float) $_POST["trocoPara"] : NULL;
+
+        $pedidoController->criarPedido(
+            $_SESSION["userEmail"],
+            $isDelivery,
+            $_POST["totalComFrete"],
+            $frete,
+            isset($_POST["meioDePagamento"]) ? $_POST["meioDePagamento"] : NULL,
+            $trocoPara,
+            $itensCarrinho
+        );
         unset($_POST);
-        
+
         $carrinho->limparCarrinho();
-        header("Location: sobre.php");
-        
+        header("Location: sobre.php");       
     }
 
     if (isset($_POST["btnAlterarCliente"])) {
