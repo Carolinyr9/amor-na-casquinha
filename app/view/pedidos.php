@@ -17,6 +17,8 @@ if (isset($_POST['addPedido'])) {
         ];
     }
 
+    echo 'user: "' . $_POST["userEmail"] . '"';
+
     $pedidoController->criarPedido(
         !empty($_POST["userEmail"]) ? $_POST["userEmail"] : 'desconhecido',
         isset($_POST["ckbIsDelivery"]) ? 1 : 0,
