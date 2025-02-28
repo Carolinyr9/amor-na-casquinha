@@ -88,7 +88,7 @@ if((isset($_POST) || !empty($_POST)) && isset($_POST["editarsubmit"])){
             <textarea class="form-control" name="produtos[<?= $produto[0]["idEstoque"]?>][ocorrencia]" id="ocorrencia_<?= $produto[0]["idEstoque"]?>" value="<?= $produto[0]["ocorrencia"] ?>"></textarea>
         </div>
         <?php }?>
-        <input type="submit" value="Editar" name="editarsubmit">
+        <input type="submit" value="Editar" name="editarsubmit" class="editarProduto rounded-3 px-4 text-decoration-none border-0">
     </form>
 </main>
 

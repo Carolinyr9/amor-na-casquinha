@@ -21,3 +21,17 @@ h2{
 .formulario{
     background-color: var(--amarelo-bebe);
 }
+
+.editarProduto{
+    font-family: var(--Agbalumo);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    background-color: var(--rosa-bebe);
+}
+
+
+
+.editarProduto:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
+}

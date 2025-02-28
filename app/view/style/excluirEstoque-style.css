@@ -10,44 +10,37 @@
     --verde-bebe: #E2FFC7;
 }
 
-.lista{
-    overflow: auto;
-    width: 80%;
+body{
+    font-family: var(--Nunito);
 }
 
-table{
-    width: auto;
+h1{
+    font-family: var(--Agbalumo);
 }
 
-table .table-linkEditar{
+.dashboard{
     background-color: var(--amarelo-bebe);
 }
 
-table .table-linkExcluir{
-    background-color: var(--rosa-bebe);
-}
-
-#excluirProdutoEstoque, #editarProdutoEstoque{
-    font-family: var(--Agbalumo);
+.input-excluir{
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
-}
-
-#excluirProdutoEstoque{
     background-color: var(--rosa-bebe);
 }
 
-#editarProdutoEstoque{
-    background-color: var(--amarelo-bebe);
-}
 
-#excluirProdutoEstoque:hover {
+.input-excluir:hover {
     background-color: #f58cd4;
     transform: scale(1.1);
 }
 
-#editarProdutoEstoque:hover {
-    background-color: #f7ee93 !important;
-    transform: scale(1.1);
+.b-voltar{
+    background-color: var(--azul-bebe);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
 }
 
+.b-voltar:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
+}

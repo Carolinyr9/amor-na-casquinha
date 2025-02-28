@@ -38,7 +38,7 @@ if((isset($_POST) || !empty($_POST)) && isset($_POST["excluirSubmit"])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
-    <link rel="stylesheet" href="style/editarEstoque-style.css">
+    <link rel="stylesheet" href="style/excluirEstoque-style.css">
     <title>Edição de Estoque</title>
 </head>
 <body>
@@ -46,10 +46,10 @@ if((isset($_POST) || !empty($_POST)) && isset($_POST["excluirSubmit"])){
 
 <main class="d-flex flex-column justify-content-center align-items-center">
         <h1 class="m-auto text-center pt-4 pb-4">Excluir produto do estoque</h1>
-            <h4 class="text-center text-wrap w-50">Tem certeza que deseja excluir esse produto? Ele também será excluido de seu produtos em visualização na compra dos cliente</h4>
-                <div class="c1 mx-auto my-4 p-2 rounded-4 d-flex align-items-center flex-column justify-content-center">
+            <p class="text-center text-wrap w-50">Tem certeza que deseja excluir esse produto? Ele também será excluido de seu produtos em visualização na compra dos cliente</p>
+                <div class="dashboard w-25 mx-auto my-4 p-4 rounded-4 d-flex align-items-center flex-column justify-content-center">
                     <?php if ($dados): ?>
-                        <form action="" method="POST" id="formulario" class="formulario">
+                        <form action="" method="POST" id="formulario" class="d-flex justify-content-center flex-column">
                         <?php foreach($dados as $row){
                             $dadosVariacao = $variacao->selecionarProdutoPorID(intval($row['idVariacao']));
                             if ($dadosVariacao) {
@@ -63,13 +63,13 @@ if((isset($_POST) || !empty($_POST)) && isset($_POST["excluirSubmit"])){
                                 <p>Lote: <?=  $row['lote']?></p>
                             </div>
                         <?php } ?>
-                            <input type="submit" name="excluirSubmit" class="btnExcluir border-0 rounded-4 px-3 fw-bold" value="Excluir"/>
+                            <input type="submit" name="excluirSubmit" class="input-excluir border-0 rounded-4 px-3 fw-bold mx-auto" value="Excluir"/>
                         </form>
                     <?php else: ?>
                         <p>Produto não encontrado.</p>
                     <?php endif; ?>
                 </div>
-            <button class="voltar m-auto border-0 rounded-4 fw-bold"><a class="text-decoration-none color-black" href="editarProdutos.php">Voltar</a></button>
+            <button class="b-voltar m-auto border-0 rounded-4 fw-bold px-3"><a class="text-decoration-none color-black" href="editarProdutos.php">Voltar</a></button>
     </main>
 
 <?php include_once 'components/footer.php'; ?>

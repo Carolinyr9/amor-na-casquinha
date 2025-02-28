@@ -26,8 +26,10 @@ $dados = $estoque->listarEstoque();
 <?php include_once 'components/header.php'; ?>
 
 <main>
-    <a href="" id="editarProdutoEstoque">Editar</a>
-    <a href="" id="excluirProdutoEstoque">Excluir</a>
+    <div class="d-flex justify-content-between m-auto w-25">
+        <a href="" id="editarProdutoEstoque" class="rounded-3 px-3 pb-1 text-decoration-none text-black">Editar</a>
+        <a href="" id="excluirProdutoEstoque" class="rounded-3 px-3 pb-1 text-decoration-none text-black">Excluir</a>
+    </div>
     <div class="lista m-auto p-3">
         <table class="table table-striped table-hover text-nowrap">
             <thead>
