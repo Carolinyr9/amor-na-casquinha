@@ -1,5 +1,5 @@
 <?php
-class Picture {
+class FotoController {
     private $tamanho = 2048000;
     private $error = array();
     private $nome_imagem;
