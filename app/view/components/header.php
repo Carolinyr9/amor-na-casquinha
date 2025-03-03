@@ -1,3 +1,5 @@
+<?php 
+require_once '../../vendor/autoload.php'; ?>
 <header>
     <div class="conteiner-fluid d-flex justify-content-around cabecalho align-items-center">
         <div class="logo">
