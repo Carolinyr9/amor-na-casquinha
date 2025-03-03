@@ -1,6 +1,8 @@
 <?php
+namespace app\view;
+use app\controller\ProdutoVariacaoController;
+
 session_start();
-require_once '../config/blockURLAccess.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -17,8 +19,7 @@ require_once '../config/blockURLAccess.php';
 <body>
     <?php
         include_once 'components/header.php';
-        require_once '../controller/produtoVariacaoController.php';
-        $produtoVariacaoController = new produtoVariacaoController();
+        $produtoVariacaoController = new ProdutoVariacaoController();
     ?>
    <main>
         <h1 class="m-auto text-center pt-4 pb-4">Variações</h1>

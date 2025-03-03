@@ -1,6 +1,8 @@
 <?php
+namespace app\view;
+use app\controller\ProdutoController;
+
 session_start();
-require_once '../config/blockURLAccess.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -17,7 +19,6 @@ require_once '../config/blockURLAccess.php';
 <body>
     <?php
         include_once 'components/header.php';
-        require_once '../controller/produtoController.php';
         $produtoController = new produtoController();
         $produtos = $produtoController->listarProdutos();
     ?>

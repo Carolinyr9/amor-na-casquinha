@@ -1,6 +1,8 @@
 <?php 
-require_once '../model/produtoVariacao.php';
-require_once 'fotoController.php';
+namespace app\controller;
+
+use app\model\ProdutoVariacao;
+use app\controller\FotoController;
 
 class ProdutoVariacaoController {
     private $produtoVariacao;
@@ -14,9 +16,9 @@ class ProdutoVariacaoController {
     }
 
     public function adicionarVariacaoProduto($idProduto, $nomeProduto, $preco, $lote, $valor, $quantidade, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $imagem) {
-        $pictureController = new Picture($imagem);
+        $fotoController = new FotoController($imagem);
         echo "foi3";
-        $name_image = $pictureController->validatePicture();
+        $name_image = $fotoController->validatePicture();
         echo "fo14";
         if ($name_image) {
             echo "foi5";
@@ -24,7 +26,7 @@ class ProdutoVariacaoController {
             echo "foi6";
             // header("Location: editarSabores.php?produto=$idProduto");
         } else {
-            $errors = $pictureController->countErrors();
+            $errors = $fotoController->countErrors();
             echo '<script>alert("' . $errors . '")</script>';
         }
     }
