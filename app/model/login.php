@@ -1,5 +1,5 @@
 <?php
-require_once '../config/database.php';
+require_once '../config/DataBase.php';
 require_once 'cliente.php';
 
 class Login {

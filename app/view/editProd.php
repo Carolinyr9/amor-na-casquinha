@@ -17,13 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnEditar'])) {
 
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
         $image = $_FILES['foto'];
-        $pictureController = new Picture($image);
-        $name_image = $pictureController->validatePicture();
+        $fotoController = new FotoController($image);
+        $name_image = $fotoController->validatePicture();
 
         if ($name_image) {
             $produtoController->editarProduto($id, $nomeProduto, $marca, $descricao, $name_image);
         } else {
-            $errors = $pictureController->countErrors();
+            $errors = $fotoController->countErrors();
             echo '<script>alert("' . $errors . '")</script>';
         }
     } else {
