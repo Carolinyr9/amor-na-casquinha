@@ -1,8 +1,8 @@
 <?php 
     require_once '../config/DataBase.php';
 
-    class OrderProduct{
-        private $idPedidoProduto;
+    class ProdutoPedido{
+        private $idProdutoPedido;
         private $idProduto;
         private $idPedido;
         private $variacao;
