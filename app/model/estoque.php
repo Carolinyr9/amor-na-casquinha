@@ -88,6 +88,22 @@ class Estoque{
         }
     }
 
+    function verificarQuantidadeMinima() {
+        try{
+            $cmd = $this->conn->prepare("CALL VerificarQuantidadeMinima()");
+            $cmd->execute();
+            $resultado = $cmd->fetchAll(PDO::FETCH_ASSOC);
+            
+            if(count($resultado) > 0){
+                return $resultado;
+            }else{
+                return NULL;
+            }
+        } catch (PDOException $e){
+            echo "Erro ao executar o procedimento: " . $e->getMessage();
+        }
+    }
+
 } 
 
 ?>

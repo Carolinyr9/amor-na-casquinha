@@ -10,6 +10,7 @@ $produto = new ProdutoController();
 $variacao = new ProdutoVariacaoController();
 $estoque = new EstoqueController();
 $dados = $estoque->listarEstoque();
+$estoque->verificarQuantidadeMinima();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -20,16 +21,19 @@ $dados = $estoque->listarEstoque();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/estoque-style.css">
+    <link rel="stylesheet" href="style/alertas-style.css">
     <title>Estoque</title>
 </head>
 <body>
 <?php include_once 'components/header.php'; ?>
+
 
 <main>
     <div class="d-flex justify-content-between m-auto w-25">
         <a href="" id="editarProdutoEstoque" class="rounded-3 px-3 pb-1 text-decoration-none text-black">Editar</a>
         <a href="" id="excluirProdutoEstoque" class="rounded-3 px-3 pb-1 text-decoration-none text-black">Excluir</a>
     </div>
+
     <div class="lista m-auto p-3">
         <table class="table table-striped table-hover text-nowrap">
             <thead>
@@ -94,5 +98,6 @@ $dados = $estoque->listarEstoque();
   integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
   crossorigin="anonymous"></script>
   <script src="script/telaEstoqueScript.js"></script>
+  <script src="script/alertas-script.js"></script>
 </body>
 </html>
