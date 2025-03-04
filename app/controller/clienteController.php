@@ -1,5 +1,7 @@
 <?php
-require_once '../model/Cliente.php';
+namespace app\controller;
+
+use app\model\Cliente;
 
 class ClienteController {
     private $cliente;

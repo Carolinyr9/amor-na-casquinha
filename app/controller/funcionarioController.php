@@ -1,38 +1,40 @@
 <?php 
-    require '../model/funcionarios.php';
+namespace app\controller;
 
-    class FuncionarioController{
-        private $funcionario;
+use app\model\Funcionario;
 
-        public function __construct(){
-            $this->funcionario = new Funcionarios();
-        }
+class FuncionarioController{
+    private $funcionario;
 
-        public function listarFunc(){
-            $listaFuncionarios = $this->funcionario->listarFunc();
+    public function __construct(){
+        $this->funcionario = new Funcionarios();
+    }
 
-            if($listaFuncionarios == null || count($listaFuncionarios) == 0){
-                return "Nenhum funcionário encontrado.";
-            }else{ 
-                return $listaFuncionarios;
-            }
-        }
+    public function listarFunc(){
+        $listaFuncionarios = $this->funcionario->listarFunc();
 
-        public function listarFuncionarioEmail($email){
-            $funDados = $this->funcionario->listarFuncionarioEmail($email);
-            return $funDados;
-        }
-
-        public function inserirFunc($nome, $email, $telefone, $senha, $adm){
-            $this->funcionario->inserirFunc($nome, $email, $telefone, $senha, $adm);
-        }
-
-        public function atualizarFunc($emailAntigo, $nome, $email, $telefone){
-            $this->funcionario->atualizarFunc($emailAntigo, $nome, $email, $telefone);
-        }
-
-        public function deletarFunc($email){
-            $this->funcionario->deletarFunc($email);
+        if($listaFuncionarios == null || count($listaFuncionarios) == 0){
+            return "Nenhum funcionário encontrado.";
+        }else{ 
+            return $listaFuncionarios;
         }
     }
+
+    public function listarFuncionarioEmail($email){
+        $funDados = $this->funcionario->listarFuncionarioEmail($email);
+        return $funDados;
+    }
+
+    public function inserirFunc($nome, $email, $telefone, $senha, $adm){
+        $this->funcionario->inserirFunc($nome, $email, $telefone, $senha, $adm);
+    }
+
+    public function atualizarFunc($emailAntigo, $nome, $email, $telefone){
+        $this->funcionario->atualizarFunc($emailAntigo, $nome, $email, $telefone);
+    }
+
+    public function deletarFunc($email){
+        $this->funcionario->deletarFunc($email);
+    }
+}
 ?>

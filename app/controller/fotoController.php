@@ -1,4 +1,6 @@
 <?php
+namespace app\controller;
+
 class FotoController {
     private $tamanho = 2048000;
     private $error = array();

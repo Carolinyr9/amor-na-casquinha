@@ -1,5 +1,9 @@
 <?php 
-require_once '../config/DataBase.php';
+namespace app\model;
+
+use app\config\DataBase;
+use PDO;
+use PDOException;
 
 class Carrinho {
     private $id;

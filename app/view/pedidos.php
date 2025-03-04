@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/pedidoController.php';
+use app\controller\PedidoController;
 
 $pedidoController = new PedidoController();
 

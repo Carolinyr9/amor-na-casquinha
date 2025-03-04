@@ -1,5 +1,7 @@
 <?php
-require_once '../model/Entregador.php';
+namespace app\controller;
+
+use app\model\Entregador;
 
 class EntregadorController {
     private $entregadorModel;

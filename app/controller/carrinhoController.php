@@ -1,5 +1,7 @@
 <?php
-require_once '../model/Carrinho.php';
+namespace app\controller;
+
+use app\model\Carrinho;
 
 class CarrinhoController {
     private $carrinho;

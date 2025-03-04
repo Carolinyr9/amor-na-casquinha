@@ -1,8 +1,8 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/produtoVariacaoController.php';
-require_once '../controller/fotoController.php';
+use app\controller\produtoVariacaoController;
+use app\controller\FotoController;
 
 $produtoVariacaoController = new produtoVariacaoController();
 $produtoVariacaoId = $_GET['idVariacao'] ?? null;

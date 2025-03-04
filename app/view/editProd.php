@@ -1,8 +1,8 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/produtoController.php';
-require_once '../controller/fotoController.php';
+use app\controller\ProdutoController;
+use app\controller\FotoController;
 
 $produtoController = new ProdutoController();
 $produtoId = $_GET['produto'] ?? null;

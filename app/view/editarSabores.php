@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
+use app\controller\ProdutoVariacaoController;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
