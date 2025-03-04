@@ -67,9 +67,9 @@ $produtos = $produtoController->listarProdutos();
                                     <img src="../images/' . htmlspecialchars($row["foto"]) . '" alt="' . htmlspecialchars($row["nome"]) . '">
                                 </picture>
                                 <div class="botao text-center d-flex justify-content-evenly mt-3">
-                                    <button id="vari"><a class="text-decoration-none" href="' . htmlspecialchars($redirectToVariacao) . '">Ver Sabores</a></button>        
-                                    <button id="edit"><a class="text-decoration-none" href="' . htmlspecialchars($redirectToEditar) . '">Editar</a></button>        
-                                    <button id="excl"><a class="text-decoration-none" href="' . htmlspecialchars($redirectToExcluir) . '">Excluir</a></button>        
+                                    <a class="botao__link--verSabores text-decoration-none border-0 rounded-3 m-1 text-black" href="' . htmlspecialchars($redirectToVariacao) . '">Ver Sabores</a>     
+                                    <a class="botao__link--editar text-decoration-none border-0 rounded-3 m-1 text-black" href="' . htmlspecialchars($redirectToEditar) . '">Editar</a>      
+                                    <a class="botao__link--excluir text-decoration-none border-0 rounded-3 m-1 text-black" href="' . htmlspecialchars($redirectToExcluir) . '">Excluir</a>      
                                 </div>
                             </div>
                         </div>';

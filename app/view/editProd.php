@@ -67,26 +67,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnEditar'])) {
                     echo '
                     <form enctype="multipart/form-data" action="' . htmlspecialchars($_SERVER["PHP_SELF"] . '?produto=' . $idProduto) . '" method="POST" id="formulario" class="formulario m-auto d-flex flex-column justify-content-center">
                         <input type="hidden" name="produto" value="' . $idProduto . '">
-                        <label for="nome2">Nome:</label>
-                        <input class="rounded-3 border-0 pl-3" type="text" id="nome2" name="nomeProdEdt" placeholder="Nome" value="' . $nome . '">
-
-                        <label for="marca2">Marca</label>
-                        <input class="rounded-3 border-0 pl-3" type="text" id="marca2" name="marcaProdEdt" placeholder="Marca" value="' . $marca . '">
-                        <label for="descricao2">Descrição</label>
-                        <input class="rounded-3 border-0 pl-3" type="text" id="descricao2" name="descricaoProdEdt" placeholder="Descrição" value="' . $descricao . '">
-                        
-                        <label for="imagemInput">Foto:</label>
-                        <input type="file" id="imagemInput" name="foto" class="w-100">
                         <input class="rounded-3 border-0 pl-4" type="hidden" name="imagemProdEdt" value="' . $foto . '">
-                        <img id="preview" src="' . $foto . '" class="mx-auto mt-3" style="max-width: 150px; display: none;">
-                        <input type="submit" name="btnEditar" class="btnEditar mt-3 mx-auto border-0 rounded-4" value="Editar" />
+                            
+                        <div class="mb-3">
+                            <label for="produto" class="form-label">Produto</label>
+                            <input type="text" class="form-control" name="nomeProdEdt" id="produto" value="' . $nome . '">
+                        </div>
+                            
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Marca</label>
+                            <input type="text" class="form-control" name="marcaProdEdt" id="marca" value="' . $marca . '">
+                        </div>
+                            
+                        <div class="mb-3">
+                            <label for="descricao" class="form-label">Descrição</label>
+                            <input type="text" class="form-control" name="descricaoProdEdt" id="descricao" value="' . $descricao . '">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="imagem" class="form-label">Foto</label>
+                            <input class="form-control" type="file" id="imagem" name="foto">
+                        </div>
+
+                        
+                            
+                            <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto mt-3" style="max-width: 150px; display: none;">
+                        <input type="submit" name="btnEditar" class="btnEditar mt-3 mx-auto border-0 rounded-3 px-4" value="Editar" />
                     </form>';
                 } else {
                     echo '<p>Produto não encontrado.</p>';
                 }
                 ?>
             </div>
-            <button class="voltar border-0 rounded-4 fw-bold"><a class="text-decoration-none color-black" href="editarProdutos.php">Voltar</a></button>
+            <button class="voltar border-0 rounded-3 fw-bold"><a class="text-decoration-none color-black" href="editarProdutos.php">Voltar</a></button>
         </div>
     </main>
     <?php include_once 'components/footer.php'; ?>

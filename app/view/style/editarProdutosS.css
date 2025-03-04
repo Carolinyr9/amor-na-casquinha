@@ -62,62 +62,54 @@ picture img{
     align-items: center;
 }
 
-.botao #excl, #edit, #vari{
-    border: none;
-    border-radius: 7px;
+.botao .botao__link--excluir, .botao__link--editar, .botao__link--verSabores{
     font-family: var(--Agbalumo);
     min-width: 100px;
     max-width: 130px;
     min-height: 30px;
-    margin: 5px 0;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
 }
 
-.botao #excl{
-    background-color: var(--rosa-bebe);
+.botao .botao__link--excluir{
+    background-color: var(--amarelo-bebe);
 }
 
-#excl:hover {
-    background-color: #f58cd4;
+.botao__link--excluir:hover {
+    background-color: #f7ee93;
     transform: scale(1.1);
 }
 
-.botao #edit{
+.botao .botao__link--editar{
     background-color: var(--azul-bebe);
 }
 
-#edit:hover {
+.botao__link--editar:hover {
     background-color: #6ccad6;
     transform: scale(1.1);
 }
 
-.botao #vari{
-    background-color: var(--amarelo-bebe);
+.botao__link--verSabores{
+    background-color: var(--rosa-bebe);
     width: 100px !important;
 }
 
-#vari:hover {
-    background-color: #f7ee93 !important;
+.botao__link--verSabores:hover {
+    background-color: #f58cd4 !important;
     transform: scale(1.1);
-}
-
-.botao #vari a, a:visited, a:active{
-    color: black;
-}
-
-.botao #excl a, a:visited, a:active{
-    color: black;
-}
-
-.botao #edit a, a:visited, a:active{
-    color: black;
 }
 
 .add{
     background-color: var(--azul-bebe);
     font-family: var(--Nunito);
     height: 29px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+
+.add:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
 }
 
 .c1 form{
@@ -170,14 +162,14 @@ form{
     h1{
         padding-top: 20px !important;
     }
-    .botao #excl, #edit, #vari{
+    .botao .botao__link--excluir, .botao__link--editar, .botao__link--verSabores{
         font-size: 20px;
     }
-    .botao #vari{
+    /* .botao .botao__link--verSabores{
         background-color: var(--amarelo-bebe);
         width: 100px !important;
         height: auto;
-    }
+    } */
     
     
 }

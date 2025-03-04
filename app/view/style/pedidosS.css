@@ -22,18 +22,9 @@ h1{
     margin: 20px auto;
 }
 
-.conteiner0{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.conteiner1{
-    background-color: var(--azul-bebe);
-    padding: 20px 15px;
-    border-radius: 20px;
-    margin-top: 30px;
+.card{
+    background-color: var(--verde-bebe);
+    box-shadow: 10px 10px 10px #9c9c9c29;
 }
 
 .c1{
@@ -85,21 +76,25 @@ h1{
     transform: scale(1.1);
 }
 
-.btnVerInfos{
-    background-color: var(--amarelo-bebe);
+.card__btn--VerInfos, .card__btn--Entregador{
+    background-color: var(--azul-bebe);
     border: none;
     border-radius: 7px;
     font-family: var(--Agbalumo);
     padding: 1px 10px;
     height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
 }
+
+.card__btn--VerInfos:hover, .card__btn--Entregador:hover {
+    background-color: #6ccad6;
+    transform: scale(1.03);
+}
+
+
 
 .btnAtribuir a, a:visited, a:active{
-    text-decoration: none;
-    color: black;
-}
-
-.btnVerInfos a, a:visited, a:active{
     text-decoration: none;
     color: black;
 }
@@ -154,12 +149,6 @@ select{
         width: 107px;
         height: 113px;
         border-radius: 23px;
-    }
-    .conteiner1{
-        width: 60%;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
     }
     .c1{
         width: 700px !important;

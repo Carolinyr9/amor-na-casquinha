@@ -52,23 +52,23 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedidos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/pedidosS.css">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
     
-    <main class="container my-5 text-center d-flex flex-column justify-content-center">
+    <main class="containerz flex-column my-5 text-center d-flex  justify-content-center">
         <h1 class="mb-4">Pedidos</h1>
 
-        <div class="d-flex flex-column align-items-center justify-content-center">
+        <div class="container d-flex flex-column align-items-center justify-content-center">
             <button id="toggleFormButton" class="btn btn-primary border-0 rounded-4 my-3 fw-bold fs-5 px-3">
                 Adicionar Pedido
             </button>
             
             <div id="addPedidoForm">
-                <form action="" method="POST">
+                <form action="" method="POST" class="d-flex flex-row flex-wrap gap-4 w-75">
                     <input type="hidden" name="addPedido" value="1">
 
                     <div class="mb-3">
@@ -122,17 +122,18 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
             </div>
         </div>
 
+        <div class="container d-flex flex-row flex-wrap gap-5 justify-content-center mt-5">
         <?php if (!empty($pedidosPagina)): ?>
             <?php foreach ($pedidosPagina as $pedido): ?>
-                <div class="container0">
-                    <div class="container1">
+                <div>
+                    <div class="card border-0 p-3">
                         <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h3>
                         <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido['dtPedido']))->format('d/m/Y \à\s H:i')); ?></p>
                         <p>Total: R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
                         <p>Status: <?= htmlspecialchars($pedido['statusPedido']); ?></p>
-                        <button class="btnVerInfos mt-3"><a href="informacoesPedido.php?idPedido=<?= $pedido['idPedido']; ?>">Ver Informações</a></button>
+                        <a class="card__btn--VerInfos mt-3 text-decoration-none text-black" href="informacoesPedido.php?idPedido=<?= $pedido['idPedido']; ?>">Ver Informações</a>
                         <?php if ($pedido['tipoFrete'] == 1 && $pedido['idEntregador'] == NULL): ?>
-                            <button class="btnVerInfos mt-3"><a href="atribuirEntregador.php?idPedido=<?= $pedido['idPedido']; ?>">Atribuir Entregador ao Pedido</a></button>
+                            <a class="card__btn--Entregador mt-3 text-decoration-none text-black" href="atribuirEntregador.php?idPedido=<?= $pedido['idPedido']; ?>">Atribuir Entregador ao Pedido</a>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -140,6 +141,7 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
         <?php else: ?>
             <div class="alert alert-warning">Nenhum pedido encontrado.</div>
         <?php endif; ?>
+        </div>
 
         <nav aria-label="Navegação de página">
             <ul class="pagination justify-content-center mt-4">

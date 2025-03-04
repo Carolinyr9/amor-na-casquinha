@@ -31,19 +31,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data-inicio'], $_POST
     <title>Relatórios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
-    <link rel="stylesheet" href="style/pedidosS.css">
+    <link rel="stylesheet" href="style/relatorios-style.css">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
 
     <main class="container my-5 text-center flex flex-column justify-content-center">
-        <h1 class="mb-4">Relatórios</h1>
+        <h1 class="mb-4 my-4 text-center">Relatórios</h1>
 
         <h3>Selecionar Período</h3>
         <form method="POST" class="mb-4">
             <input type="date" name="data-inicio" id="data-inicio" required>
             <input type="date" name="data-fim" id="data-fim" required>
-            <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+            <button type="submit" class="form__btn text-decoration-none border-0 rounded-3 m-1 text-black px-3">Gerar Relatório</button>
         </form>
 
         <?php if (!empty($vendas)) { ?>

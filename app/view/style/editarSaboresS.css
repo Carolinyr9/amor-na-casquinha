@@ -124,10 +124,17 @@ form input{
     border-radius: 10px;
 }
 
-form button[type=submit]{
-    border: none !important;
-    border-radius: 20px;
-    margin: 10px;
+.form__submit{
+    background-color: var(--azul-bebe);
+    font-family: var(--Nunito);
+    height: 29px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+
+.form__submit:hover{
+    background-color: #6ccad6;
+    transform: scale(1.1);
 }
 
 form{

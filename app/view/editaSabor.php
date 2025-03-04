@@ -68,24 +68,33 @@ if (isset($_POST['btnEditar'])) {
                         <form enctype="multipart/form-data" action="' . htmlspecialchars($_SERVER["PHP_SELF"] . '?idVariacao=' . $idVariacao) . '" method="POST" id="formulario" class="formulario m-auto d-flex flex-column justify-content-center">
                             <input type="hidden" name="produto" value="' . $idProduto . '">
                             <input type="hidden" name="idVariacao" value="' . $idVariacao . '">
-                            <label for="nome2">Nome:</label>
-                            <input class="rounded-3 border-0 pl-3" type="text" id="nome2" name="nomeProdEdt" placeholder="Nome" value="' . $nomeVariacao . '">
-
-                            <label for="preco2">Preço</label>
-                            <input class="rounded-3 border-0 pl-3" type="text" id="preco2" name="precoSabEdt" placeholder="Preço" value="' . $precoVariacao . '">
-                            
-                            <label for="imagemInput">Foto:</label>
-                            <input type="file" id="imagemInput" name="foto" class="w-100">
                             <input class="rounded-3 border-0 pl-4" type="hidden" name="imagemSabEdt" value="' . $fotoVariacao . '">
+                            
+                            <div class="mb-3">
+                                <label for="produto" class="form-label">Produto</label>
+                                <input type="text" class="form-control" name="nomeProdEdt" id="produto" value="' . $nomeVariacao . '">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="preco" class="form-label">Produto</label>
+                                <input type="text" class="form-control" name="precoSabEdt" id="preco" value="' . $precoVariacao . '">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="imagem" class="form-label">Foto</label>
+                                <input class="form-control" type="file" id="imagem" name="foto">
+                            </div>
+                            
                             <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto mt-3" style="max-width: 150px; display: none;">
-                            <input type="submit" name="btnEditar" class="btnEditar mt-3 mx-auto border-0 rounded-4" value="Editar" />
+
+                            <input type="submit" name="btnEditar" class="btnEditar mt-3 mx-auto border-0 rounded-3 px-4" value="Editar" />
                         </form>';
                     } else {
                         echo '<p>Produto não encontrado.</p>';
                     }
                     ?>
             </div>
-        <button class="voltar border-0 rounded-4 fw-bold"><a class="text-decoration-none color-black" href="editarSabores.php?produto=<?php echo $idProduto;?>">Voltar</a></button>
+        <button class="voltar border-0 rounded-3 fw-bold"><a class="text-decoration-none color-black" href="editarSabores.php?produto=<?php echo $idProduto;?>">Voltar</a></button>
     </div>
 </main>
 <?php

@@ -28,7 +28,7 @@
                         break;
                 }
             } else {
-                echo "<a href='faqCliente.php'>FAQ</a>";
+                echo "<a href='faqCliente.php' class='text-black text-decoration-none mb-3'>FAQ</a>";
             }
             ?>
     </div>

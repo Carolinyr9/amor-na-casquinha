@@ -20,8 +20,13 @@ h2{
 
 .btnEditar{
     background-color: var(--azul-bebe);
-    width: 100px;
-    padding: 0 !important;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+
+.btnEditar:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
 }
 
 .conteiner-form{
@@ -33,7 +38,7 @@ main .aviso{
 }
 
 .voltar{
-    background-color: var(--azul-bebe);
+    background-color: var(--amarelo-bebe);
     font-family: var(--Nunito);
     width: 110px;
     height: 26px;
@@ -42,7 +47,7 @@ main .aviso{
 }
   
 .voltar:hover {
-    background-color: #6ccad6;
+    background-color: #f7ee93;
     transform: scale(1.1);
 }
 
