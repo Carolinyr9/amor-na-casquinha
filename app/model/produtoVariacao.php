@@ -17,7 +17,7 @@ class ProdutoVariacao {
         $this->conn = $database->getConnection();  
     }
 
-    public function selecionarVariacaoProdutos($idProduto) {
+    public function ListarVariacaoPorTipo($idProduto) {
         $variacoes = [];
         try {
             if (isset($idProduto)) {
