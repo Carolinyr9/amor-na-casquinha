@@ -12,7 +12,7 @@ class ProdutoVariacaoController {
     }
 
     public function selecionarVariacaoProdutos($idProduto) {
-        return $this->produtoVariacao->selecionarVariacaoProdutos($idProduto);
+        return $this->produtoVariacao->ListarVariacaoPorTipo($idProduto);
     }
 
     public function adicionarVariacaoProduto($idProduto, $nomeProduto, $preco, $lote, $valor, $quantidade, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $imagem) {
