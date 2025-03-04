@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
+require_once '../../vendor/autoload.php';
 use app\controller\ProdutoController;
 ?>
 
@@ -20,7 +21,6 @@ use app\controller\ProdutoController;
 <body>
     <?php
     include_once 'components/header.php';
-    require_once '../controller/produtoController.php';
 
     $produtoController = new ProdutoController();
     $produtoId = $_GET['produto'] ?? null;

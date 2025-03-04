@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../../vendor/autoload.php';
 require_once '../config/blockURLAccess.php';
 use app\controller\ProdutoVariacaoController;
 ?>
@@ -23,7 +24,6 @@ use app\controller\ProdutoVariacaoController;
 
     <?php
     include_once 'components/header.php';
-    require_once '../controller/produtoVariacaoController.php';
 
     $produtoVariacaoController = new ProdutoVariacaoController();
     $variacoes = $produtoVariacaoController->selecionarVariacaoProdutos($_GET["produto"]);
@@ -102,7 +102,7 @@ use app\controller\ProdutoVariacaoController;
                         <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto mt-3" style="max-width: 150px; display: none;">
                     </div>
                     <input type="hidden" name="idProduto" value="<?= $_GET["produto"]; ?>">
-                    <input name="inserirSaborSubmit" type="submit" value="Inserir" class="mx-4 w-25" />
+                    <input name="inserirSaborSubmit" type="submit" value="Inserir" class="form__submit px-3 border-0 rounded-3 m-1 text-black" />
                 </form>
             </div>
 

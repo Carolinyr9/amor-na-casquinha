@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
+require_once '../../vendor/autoload.php';
 use app\controller\ProdutoVariacaoController;
 ?>
 
@@ -20,7 +21,7 @@ use app\controller\ProdutoVariacaoController;
     
     <?php
         include_once 'components/header.php';
-        require_once '../controller/produtoVariacaoController.php';
+
         $produtoVariacaoController = new produtoVariacaoController();
         $produtoVariacaoId = $_GET['idVariacao'] ?? null;
         $produtoVariacao = $produtoVariacaoId ? $produtoVariacaoController->selecionarProdutosPorID($produtoVariacaoId) : null;
