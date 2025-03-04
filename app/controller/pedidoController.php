@@ -1,5 +1,7 @@
 <?php
-require_once '../model/pedido.php';
+namespace app\controller;
+
+use app\model\Pedido;
 
 class PedidoController {
     private $pedidoModel;

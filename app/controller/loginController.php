@@ -1,5 +1,7 @@
 <?php 
-require '../model/login.php';
+namespace app\controller;
+
+use app\model\Login;
 
 class LoginController{
     public function __construct(){

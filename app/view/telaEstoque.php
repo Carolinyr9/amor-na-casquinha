@@ -1,10 +1,10 @@
 <?php
 session_start();
+require_once '../../vendor/autoload.php';
+use app\controller\EstoqueController;
+use app\controller\ProdutoController;
+use app\controller\ProdutoVariacaoController;
 require_once '../config/blockURLAccess.php';
-require_once '../controller/estoqueController.php';
-require_once '../controller/produtoController.php';
-require_once '../controller/produtoVariacaoController.php';
-require_once '../controller/produtoController.php';
 
 $produto = new ProdutoController();
 $variacao = new ProdutoVariacaoController();

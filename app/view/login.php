@@ -1,7 +1,9 @@
 <?php
+use app\controller\LoginController;
+
 session_start();
+require_once '../../vendor/autoload.php';
 require_once '../config/blockURLAccess.php';
-require_once '../controller/loginController.php';
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $loginCtl = new LoginController();

@@ -1,6 +1,10 @@
 <?php
-require_once '../config/DataBase.php';
-require_once 'cliente.php';
+namespace app\model;
+
+use app\config\DataBase;
+use Cliente;
+use PDO;
+use PDOException;
 
 class Login {
     private $conn;
