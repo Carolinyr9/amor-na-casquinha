@@ -48,7 +48,7 @@ class Login {
 
     public function login($email, $senha) {
         if ($this->estaLogado()) {
-            $this->redirecionarPara('../sobre.php');
+            $this->redirecionarPara('../view/sobre.php');
         }
 
         if (!isset($_POST["email"]) || !isset($_POST["senha"])) {
@@ -85,7 +85,7 @@ class Login {
     private function redirecionarPorPerfil($perfil) {
         switch ($perfil) {
             case 'FUNC':
-                $this->redirecionarPara('../view/editarProdutos.php');
+                $this->redirecionarPara('../view/relatorios.php');
                 break;
             case 'CLIE':
                 $this->redirecionarPara('../view/sobre.php');
