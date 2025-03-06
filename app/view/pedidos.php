@@ -55,20 +55,21 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/pedidosS.css">
+    
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
     
-    <main class="containerz flex-column my-5 text-center d-flex  justify-content-center">
+    <main class="pedido container flex-column my-5 text-center d-flex justify-content-center">
         <h1 class="mb-4">Pedidos</h1>
 
-        <div class="container d-flex flex-column align-items-center justify-content-center">
-            <button id="toggleFormButton" class="btn btn-primary border-0 rounded-4 my-3 fw-bold fs-5 px-3">
+        <div class="pedido__formulario container d-flex flex-column align-items-center justify-content-center">
+            <button id="toggleFormButton" class="formulario_btn--addPedido my-4 border-0 rounded-3 px-3">
                 Adicionar Pedido
             </button>
             
-            <div id="addPedidoForm">
-                <form action="" method="POST" class="d-flex flex-row flex-wrap gap-4 w-75">
+            <div id="addPedidoForm" class="d-flex justify-content-center">
+                <form action="" method="POST" class="d-flex flex-row flex-wrap justify-content-center gap-4 w-75 p-4 border rounded-4">
                     <input type="hidden" name="addPedido" value="1">
 
                     <div class="mb-3">
@@ -86,8 +87,8 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
                         <input type="text" id="quantidadeProdutosPedidos" name="quantidadeProdutosPedidos" class="form-control" placeholder="Ex.: 1;2;3;4;5" required>
                     </div>
 
-                    <div class="mb-3 form-check">
-                        <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" class="form-check-input">
+                    <div class="mb-3 form-check d-flex">
+                        <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" class="form-check-input flex-grow-1">
                         <label for="ckbIsDelivery" class="form-check-label">O pedido é para entrega!</label>
                     </div>
 
@@ -117,7 +118,7 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
                         <input type="text" id="valorTotal" name="valorTotal" class="form-control" placeholder="Ex.: 150.00" required>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Salvar Pedido</button>
+                    <button type="submit" class="btn--salvar border-0 rounded-3 px-3 m-auto">Salvar Pedido</button>
                 </form>
             </div>
         </div>
@@ -163,6 +164,6 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
     <?php include_once 'components/footer.php'; ?>
     
     <script src="script/exibirFormulario.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>

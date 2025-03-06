@@ -32,60 +32,58 @@ $pedidoController = new PedidoController();
         exit();
     }
     ?>
-    <main class="container my-5 text-center flex flex-column justify-content-center">
-        <h1 class="text-center mb-4">Informações do Pedido</h1>
-        <div class="container text-center">
+    <main class="pedido container my-5 text-center">
+        <h1 class="pedido__titulo text-center mb-4">Informações do Pedido</h1>
+        <div class="pedido_container container d-flex flex-column justify-content-center gap-4 text-center">
             <?php if ($pedidoId): ?>
                 <?php 
                 $pedido = $pedidoController->listarPedidoPorId($pedidoId);
                 $produtos = $pedidoController->listarInformacoesPedido($pedidoId); 
                 ?>
-                <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
+                <div class="pedido__informacoes container w-50 rounded-4 p-4">
                     <?php if ($pedido): ?>
-                        <h3>Número do Pedido: <?= htmlspecialchars($pedido['idPedido']) ?></h3>
+                        <h3 class="border-bottom border-dark w-75 pb-2 mb-4 mx-auto">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']) ?></h3>
                         <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido['dtPedido']))->format('d/m/Y \à\s H:i')); ?></p>
                         <p>Total: R$ <?= number_format($pedido['valorTotal'], 2, ',', '.') ?></p>
                         <p><?= $pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!' ?></p>
                         <p>Status: <?= htmlspecialchars($pedido['statusPedido']) ?></p>
                         <p>Meio de Pagamento: <?= htmlspecialchars($pedido['meioPagamento']) ?></p>
-                    </div>
+                </div>
                     
-                    
-                    <?php if ($pedido['tipoFrete'] == 1): ?>
-                        <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
+                <?php if ($pedido['tipoFrete'] == 1): ?>
+                    <div>
                         <?php $entregador = $entregadorController->getEntregadorPorId($pedido['idEntregador']); ?>
                         <?php if ($entregador): ?>
-                            <div class="card blue border-0 d-flex align-items-center mt-4">
+                            <div class="pedido__entregador container w-50 rounded-4 p-4">
                                 <div class="d-flex align-items-center flex-column c2">
-                                    <h3 class="titulo px-3"><?= htmlspecialchars($entregador[0]["nome"] ?? '') ?></h3>
+                                    <h3>Entregador</h3>
                                     <div class="px-3">
+                                        <p><?= htmlspecialchars($entregador[0]["nome"] ?? '') ?></p>
                                         <p>Email: <?= htmlspecialchars($entregador[0]["email"] ?? '') ?></p>
                                         <p>Celular: <?= htmlspecialchars($entregador[0]["telefone"] ?? '') ?></p>
                                         <p>CNH: <?= htmlspecialchars($entregador[0]["cnh"] ?? '') ?></p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <?php endif; ?>
+                    </div>
                     <?php endif; ?>
+                <?php endif; ?>
                     
-                    <?php 
-                    $statusPermitidos = ['Aguardando Confirmação', 'Preparando pedido', 'Aguardando Envio', 'Aguardando Retirada'];
-                    if (in_array($pedido['statusPedido'], $statusPermitidos) || ($pedido['tipoFrete'] == 0 && $pedido['statusPedido'] == 'Entregue')): 
-                    ?>
+                    <?php $statusPermitidos = ['Aguardando Confirmação', 'Preparando pedido', 'Aguardando Envio', 'Aguardando Retirada'];
+                    if (in_array($pedido['statusPedido'], $statusPermitidos) || ($pedido['tipoFrete'] == 0 && $pedido['statusPedido'] == 'Entregue')): ?>
                         <form method="POST" action="">
                             <input type="hidden" name="mudarStatus" value="1">
                             <button type="submit" class="btnStatus px-3">Mudar Status</button>
                         </form>
                     <?php endif; ?>
-                <?php else: ?>
-                    <div class="alert alert-danger">Pedido não encontrado.</div>
-                <?php endif; ?>
+                    <?php else: ?>
+                        <div class="alert alert-danger">Pedido não encontrado.</div>
+                    <?php endif; ?>
 
-                <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
+                <div class="pedido__itens container w-50 rounded-4 p-4">
                     <?php if ($produtos): ?>
-                        <h3>Itens do Pedido</h3>
-                        <table class="table table-bordered">
+                        <h3 class="mb-3">Itens do Pedido</h3>
+                        <table class="table table-bordered table-striped rounded-4">
                             <thead>
                                 <tr>
                                     <th>Item</th>
@@ -110,7 +108,7 @@ $pedidoController = new PedidoController();
             <?php else: ?>
                 <div class="alert alert-warning">ID do pedido não fornecido.</div>
             <?php endif; ?>
-            <button class="btn-yellow rounded-4 mt-5"><a href="pedidos.php">Voltar</a></button>
+            <a class="pedido__btn--voltar rounded-3 mt-5 mx-auto text-decoration-none text-black" href="pedidos.php">Voltar</a>
         </div>
     </main>
     <?php include_once 'components/footer.php'; ?>

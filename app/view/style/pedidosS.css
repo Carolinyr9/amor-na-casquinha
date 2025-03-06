@@ -12,6 +12,7 @@
 
 main{
     min-height: calc(100vh - 170px);
+    font-family: var(--Nunito);
 }
 
 h1{
@@ -22,58 +23,42 @@ h1{
     margin: 20px auto;
 }
 
-.card{
-    background-color: var(--verde-bebe);
-    box-shadow: 10px 10px 10px #9c9c9c29;
-}
-
-.c1{
-    margin: 20px 0;
-    padding: 8px 0;
-}
-
-.c2 img{
-    border-radius: 20px;
-}
-
-.c3{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.c3 h3{
-    font-size: 1.50rem;
-}
-
-.c3 picture img{
-    width: 120px;
-}
-
-.botao #excl{
-        background-color: var(--rosa-bebe);
-        border: none;
-        border-radius: 7px;
-        font-family: var(--Agbalumo);
-        padding: 1px 10px;
-        height: 30px;
-}
-
-.btnAtribuir{
+.formulario_btn--addPedido{
     background-color: var(--rosa-bebe);
-    border: none;
-    border-radius: 7px;
-    font-family: var(--Agbalumo);
-    padding: 1px 10px;
-    height: 30px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
-    background-color: var(--amarelo-bebe);
 }
 
-.btnAtribuir:hover {
-    background-color: #f7ee93;
-    transform: scale(1.1);
+.formulario_btn--addPedido:hover {
+    background-color: #f58cd4;
+    transform: scale(1.03);
+}
+
+.btn--salvar{
+    background-color: var(--azul-bebe);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+
+.btn--salvar:hover {
+    background-color: #6ccad6;
+    transform: scale(1.03);
+}
+
+.card{
+    background-color: var(--roxo-bebe);
+    box-shadow: 10px 10px 10px #9c9c9c1b;
+}
+
+.pagination .page-link {
+    background-color: var(--roxo-bebe);
+    border-color: #9282c6;
+}
+
+.page-link:hover{
+    color: #5733cb;
 }
 
 .card__btn--VerInfos, .card__btn--Entregador{
@@ -83,6 +68,7 @@ h1{
     font-family: var(--Agbalumo);
     padding: 1px 10px;
     height: 30px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
 }
@@ -92,87 +78,6 @@ h1{
     transform: scale(1.03);
 }
 
-
-
-.btnAtribuir a, a:visited, a:active{
-    text-decoration: none;
-    color: black;
-}
-
-.botao p{
-    background-color: var(--rosa-bebe);
-    height: 30px;
-    padding: 1px 10px;
-    border-radius: 7px;
-    font-family: var(--Agbalumo);
-}
-
-select{
-    width: 80px;
-    margin-left: 35px;
-    border: none;
-}
-
-.conc{
-    width: 130px;
-    font-family: var(--Agbalumo);
-    font-size: 1.40rem;
-    height: 40px;
-    background-color: white;
-    border-radius: 15px;
-    border: none;
-}
-
-.voltar{
-    background-color: var(--azul-bebe);
-    border: none;
-    border-radius: 20px;
-    font-family: var(--Nunito);
-    font-weight: bolder;
-    font-size: 1.60rem;
-    width: 190px;
-    height: 40px;
-    margin-top: 30px;
-}
-
-.voltar a, a:visited, a:active{
-    text-decoration: none;
-    color: black;
-}
-
 .addPedidoForm {
     display: none;
-}
-
-@media (min-width: 768px) {
-    .imagem{
-        width: 107px;
-        height: 113px;
-        border-radius: 23px;
-    }
-    .c1{
-        width: 700px !important;
-    }
-    .c2{
-        max-width: 100% !important;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-    }
-    .c3{
-        max-width: 60% !important;
-    }
-    .botao .excl{
-        padding-right: 0 !important;
-        max-width: 20%;
-    }
-    .preco{
-        padding-left: 0 !important;
-    }
-    .titulo{
-        display: flex;
-        justify-content: center;
-        margin-left: 0 !important;
-    }
 }
