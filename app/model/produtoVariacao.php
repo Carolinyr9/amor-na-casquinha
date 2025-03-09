@@ -43,7 +43,6 @@ class ProdutoVariacao {
 
     public function adicionarVariacaoProduto($idProduto, $nomeProduto, $preco, $lote, $valor, $quantidade, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $imagem) {
         try {
-            echo "foi7";
             $stmt = $this->conn->prepare("CALL InserirVariacao(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bindParam(1, $nomeProduto);    
             $stmt->bindParam(2, $preco);           
@@ -82,19 +81,6 @@ class ProdutoVariacao {
                 }
             } while ($stmt->nextRowset());
             return $produtos; // Retornar os produtos
-        } catch (PDOException $e) {
-            return "Erro ao selecionar produto por ID: " . $e->getMessage();
-        }
-    }
-
-    public function selecionarProdutoPorID($idProduto) {
-        try {
-            $stmt = $this->conn->prepare("CALL ListarVariacaoPorID(?)");
-            $stmt->bindParam(1, $idProduto, PDO::PARAM_INT);
-            $stmt->execute();
-
-            $produtos = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $produtos;
         } catch (PDOException $e) {
             return "Erro ao selecionar produto por ID: " . $e->getMessage();
         }

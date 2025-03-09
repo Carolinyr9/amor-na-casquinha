@@ -32,12 +32,8 @@ class ProdutoVariacaoController {
     }
 
     public function selecionarProdutosPorID($idProduto) {
-        return $this->produtoVariacao->selecionarProdutosPorID($idProduto);
-    }
-
-    public function selecionarProdutoPorID($idProduto) {
         try {
-            return $this->produtoVariacao->selecionarProdutoPorID($idProduto);
+            return $this->produtoVariacao->selecionarProdutosPorID($idProduto);
         } catch (Exception $e) {
             echo "Erro ao obter produto: " . $e->getMessage();
         }

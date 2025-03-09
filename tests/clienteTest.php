@@ -8,6 +8,14 @@ use app\model\Cliente;
 
 class clienteTest extends TestCase {
 
+    protected Cliente $cliente;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->cliente = new Cliente();
+    }
+
     public function testEditarCliente() {
         $email = "jo@email.com";
         $idEndereco = 1;
@@ -21,9 +29,8 @@ class clienteTest extends TestCase {
         $estado = "SP";
         $complemento = "";
     
-        $cliente = new Cliente();
-        $cliente->editarCliente($email, $idEndereco, $nome, $telefone, $rua, $cep, $numero, $bairro, $cidade, $estado, $complemento);
-        $clienteAtualizado = $cliente->getCliente($email);
+        $this->cliente->editarCliente($email, $idEndereco, $nome, $telefone, $rua, $cep, $numero, $bairro, $cidade, $estado, $complemento);
+        $clienteAtualizado = $this->cliente->getCliente($email);
         
         $conteudoEsperado = [
             "nome" => "joao Lucas",
@@ -40,12 +47,12 @@ class clienteTest extends TestCase {
                 "cep" => "08110520"
             ]
         ];
+        
         $this->assertEquals($conteudoEsperado, $clienteAtualizado);
     }
 
     public function testExibirCliente() {
-        $cliente = new Cliente();
-        $conteudoRecebido = $cliente->getCliente("jo@email.com");
+        $conteudoRecebido = $this->cliente->getCliente("jo@email.com");
     
         $conteudoEsperado = [
             "nome" => "joao Lucas",
@@ -65,12 +72,10 @@ class clienteTest extends TestCase {
     
         $this->assertEquals($conteudoEsperado, $conteudoRecebido);
     }
-    
 
-    public function testExibirEndereco(){
-        $cliente = new Cliente();
+    public function testExibirEndereco() {
         $idEndereco = 1;
-        $conteudoRecebido = $cliente->listarEndereco($idEndereco);
+        $conteudoRecebido = $this->cliente->listarEndereco($idEndereco);
 
         $conteudoEsperado = [
             "rua" => "Rua Edson de Carvalho",
@@ -87,8 +92,7 @@ class clienteTest extends TestCase {
     }
 
     public function testExibirCep() {
-        $cliente = new Cliente();
-        $conteudoRecebido = $cliente->getCep(1);
+        $conteudoRecebido = $this->cliente->getCep(1);
     
         $conteudoEsperado = '08110520';
     

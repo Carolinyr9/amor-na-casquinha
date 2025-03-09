@@ -1,0 +1,85 @@
+<?php
+// Para rodar, coloque no caminho: C:\xampp\htdocs\amor-na-casquinha
+// Para rodar os testes, use o comando: .\vendor\bin\phpunit
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use PHPUnit\Framework\TestCase;
+use app\model\ProdutoVariacao;
+
+class ProdutoVariacaoTest extends TestCase
+{
+    private $produtoVariacao;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->produtoVariacao = new ProdutoVariacao();
+    }
+
+    public function testAdicionarProduto()
+    {
+        $resultadoRecebido = $this->produtoVariacao->adicionarVariacaoProduto(
+            3,
+            "ChupChup - Banana",
+            3.99,
+            100,
+            2.99,
+            10,
+            "2024-03-09",
+            "2024-02-09",
+            "2024-07-09",
+            5,
+            "123.png"
+        );
+
+        $resultadoEsperado = "Produto criado com sucesso!";
+
+        $this->assertEquals($resultadoEsperado, $resultadoRecebido);
+    }
+
+    public function testSelecionarProdutosPorId()
+    {
+        $resultadoRecebido = $this->produtoVariacao->selecionarProdutosPorID(3);
+
+        $chavesEsperadas = [
+            'idVariacao',
+            'desativado',
+            'nomeVariacao',
+            'preco',
+            'fotoVariacao',
+            'idProduto'
+        ];
+
+        foreach ($chavesEsperadas as $chave) {
+            $this->assertArrayHasKey($chave, $resultadoRecebido);
+        }
+
+        $this->assertNotEmpty($resultadoRecebido);
+    }
+
+    public function testEditarProduto()
+    {
+        $resultadoRecebido = $this->produtoVariacao->editarProduto(
+            3,
+            1,
+            "Milho Verde - Pote 2L",
+            34.99,
+            "milho-verdePote.png"
+        );
+
+        $resultadoEsperado = "Produto editado com sucesso!";
+
+        $this->assertEquals($resultadoEsperado, $resultadoRecebido);
+    }
+
+    public function testRemoverProduto()
+    {
+        $resultadoRecebido = $this->produtoVariacao->removerProduto(1);
+
+        $resultadoEsperado = "Produto excluído com sucesso!";
+
+        $this->assertEquals($resultadoEsperado, $resultadoRecebido);
+    }
+}
+?>

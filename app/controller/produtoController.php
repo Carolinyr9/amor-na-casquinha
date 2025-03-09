@@ -26,15 +26,7 @@ class ProdutoController {
             echo "Erro ao obter produto: " . $e->getMessage();
         }
     }
-
-    public function selecionarProdutoPorID($idProduto) {
-        try {
-            return $this->produtoModel->selecionarProdutoPorID($idProduto);
-        } catch (Exception $e) {
-            echo "Erro ao obter produto: " . $e->getMessage();
-        }
-    }
-
+    
     public function adicionarProduto($nomeProduto, $marca, $descricao, $idFornecedor, $imagemProduto) {
         try {
             return $this->produtoModel->adicionarProduto($nomeProduto, $marca, $descricao, $idFornecedor, $imagemProduto);
