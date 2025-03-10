@@ -1,19 +1,31 @@
 <?php 
 // para rodar tem que estar no caminho: C:\xampp\htdocs\amor-na-casquinha
 // para rodar os testes use o comando: .\vendor\bin\phpunit
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 use app\model\Cliente;
+use app\config\DataBase;
 
-class clienteTest extends TestCase {
+class ClienteTest extends TestCase {
 
     protected Cliente $cliente;
+    protected $database;
+    protected $connection;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
         $this->cliente = new Cliente();
+        $this->database = new DataBase();
+        $this->connection = $this->database->getConnection();
+        $this->connection->beginTransaction();
+    }
+
+    protected function tearDown(): void {
+        // Reverte todas as mudanças feitas no banco de dados
+        $this->connection->rollBack();
+        parent::tearDown();
     }
 
     public function testEditarCliente() {

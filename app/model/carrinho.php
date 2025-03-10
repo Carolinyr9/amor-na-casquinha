@@ -114,7 +114,6 @@ class Carrinho {
 
     public function atualizarQtdd($id, $quantidade) {
         if (isset($_SESSION["cartArray"][$id])) {
-
             $_SESSION["cartArray"][$id]["qntd"] = $quantidade;
         }
     }
