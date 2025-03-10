@@ -65,12 +65,12 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
         <h1 class="mb-4">Pedidos</h1>
 
         <div class="pedido__formulario container d-flex flex-column align-items-center justify-content-center">
-            <button id="toggleFormButton" class="formulario_btn--addPedido my-4 border-0 rounded-3 px-3">
+            <button id="toggleFormButton" class="formulario_btn--addPedido border-0 rounded-4 my-3 fw-bold fs-5 px-3">
                 Adicionar Pedido
             </button>
             
-            <div id="addPedidoForm" class="d-flex justify-content-center">
-                <form action="" method="POST" class="d-flex flex-row flex-wrap justify-content-center gap-4 w-75 p-4 border rounded-4">
+            <div id="addPedidoForm" class="addPedidoForm container mx-auto justify-content-center">
+                <form action="" method="POST" class="container mx-auto d-flex flex-row flex-wrap justify-content-center gap-4 w-75 p-4 border rounded-4">
                     <input type="hidden" name="addPedido" value="1">
 
                     <div class="mb-3">

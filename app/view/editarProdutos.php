@@ -29,7 +29,7 @@ $produtos = $produtoController->listarProdutos();
         $marca = $_POST['marcaProAdd'] ?? '';
         $descricao = $_POST['descricaoProAdd'] ?? '';
         $idFornecedor = $_POST['fornecedor'] ?? '';
-        $imagemProduto = $_POST['imagemProAdd'] ?? '';
+        $imagemProduto = $_POST['imagem'] ?? '';
 
         $produtoController->adicionarProduto($nomeProduto, $marca, $descricao, $idFornecedor, $imagemProduto);
         header("Location: editarProdutos.php");
@@ -37,24 +37,41 @@ $produtos = $produtoController->listarProdutos();
     
     <main>
         <h1>Produtos</h1>
-        <div class="d-flex flex-column align-items-center justify-content-center">
-            <button class="add border-0 rounded-4 my-3 fw-bold fs-5 px-3">Adicionar Produto</button>
-            <div>
-                <form action="" method="POST" id="addFormulario">
-                    <label for="nome1">Nome:</label>
-                    <input type="text" id="nomeProduto" name="nomeProAdd" placeholder="Nome do produto">
-                    <label for="marca">Marca:</label>
-                    <input type="text" id="marcaProAdd" name="marcaProAdd" placeholder="Marca do produto">
-                    <label for="descricaoProduto">Descrição:</label>
-                    <input type="text" id="descricaoProduto" name="descricaoProAdd" placeholder="Descrição do produto">
-                    <label for="fornecedor">ID do fornecedor:</label>
-                    <input type="text" id="fornecedor" name="fornecedor" placeholder="1234">
-                    <label for="nomeImagem">Nome do arquivo de imagem:</label>
-                    <input type="text" id="imagemProduto" name="imagemProAdd" placeholder="imagem.png">
-                    <button type="submit">Salvar</button>
+        <div class="produtos d-flex flex-column align-items-center justify-content-center">
+            <button class="produtos__btn--add border-0 rounded-4 my-3 fw-bold fs-5 px-3">Adicionar Produto</button>
+            <div class="formulario container my-5 border w-75 rounded-4 py-3">
+                <form enctype="multipart/form-data" action="" method="POST" class="mx-auto d-flex flex-row flex-wrap gap-5 m-auto w-75">
+                    <div class="mb-3">
+                        <label for="produto" class="form-label">Produto</label>
+                        <input type="text" id="produto" name="nomeProAdd" class="form-control"/>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="marca" class="form-label">Marca</label>
+                        <input type="text" id="marca" name="marcaProAdd" class="form-control"/>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="descricaoProduto" class="form-label">Descrição</label>
+                        <input type="text" id="descricaoProduto" name="descricaoProAdd" class="form-control"/>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="fornecedor" class="form-label">ID do fornecedor</label>
+                        <input type="text" id="fornecedor" name="fornecedor" class="form-control"/>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="imagem" class="form-label">Imagem</label>
+                        <input type="file" id="imagem" name="imagem" class="form-control"/>
+                    </div>
+
+                    <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto mt-3" style="max-width: 150px; display: none;">
+
+                    <button type="submit" class="formumario__btn--submit m-auto px-4 border-0 rounded-3">Salvar</button>
                 </form>
             </div>
-            <div class="conteiner1 d-flex flex-wrap gap-3 justify-content-center align-items-center">
+            <div class="conteiner d-flex flex-row flex-wrap gap-3 justify-content-center align-items-center">
                 <?php
                 if ($produtos) {
                     foreach ($produtos as $row) {
@@ -62,12 +79,12 @@ $produtos = $produtoController->listarProdutos();
                         $redirectToEditar = 'editProd.php?produto=' . $row['idProduto'];
                         $redirectToExcluir = 'excluirProd.php?produto=' . $row['idProduto'];
                         echo '
-                        <div class="c1 p-2 rounded-4 my-3 d-flex justify-content-center">
-                            <div class="card categ d-flex justify-content-center align-items-center flex-column">
-                                <picture>
+                        <div class="produto p-2 rounded-4 my-3 d-flex justify-content-center w-25">
+                            <div class="produto__card container d-flex flex-row justify-content-between align-items-center">
+                                <picture class="w-50">
                                     <img src="../images/' . htmlspecialchars($row["foto"]) . '" alt="' . htmlspecialchars($row["nome"]) . '">
                                 </picture>
-                                <div class="botao text-center d-flex justify-content-evenly mt-3">
+                                <div class="card__botao text-center d-flex flex-column justify-content-evenly mt-3">
                                     <a class="botao__link--verSabores text-decoration-none border-0 rounded-3 m-1 text-black" href="' . htmlspecialchars($redirectToVariacao) . '">Ver Sabores</a>     
                                     <a class="botao__link--editar text-decoration-none border-0 rounded-3 m-1 text-black" href="' . htmlspecialchars($redirectToEditar) . '">Editar</a>      
                                     <a class="botao__link--excluir text-decoration-none border-0 rounded-3 m-1 text-black" href="' . htmlspecialchars($redirectToExcluir) . '">Excluir</a>      

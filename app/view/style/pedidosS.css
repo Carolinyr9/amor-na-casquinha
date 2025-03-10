@@ -23,9 +23,13 @@ h1{
     margin: 20px auto;
 }
 
+.addPedidoForm{
+    display: none;
+}
+
 .formulario_btn--addPedido{
     background-color: var(--rosa-bebe);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
 }

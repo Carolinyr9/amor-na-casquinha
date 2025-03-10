@@ -10,6 +10,13 @@
     --verde-bebe: #E2FFC7;
 }
 
+main{
+    min-height: calc(100vh - 170px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: var(--Nunito);
+}
 
 h1{
     font-family: var(--Agbalumo);
@@ -19,29 +26,10 @@ h1{
     margin: 20px auto;
 }
 
-main{
-    min-height: calc(100vh - 170px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-
-.conteiner1{
-    display: flex;
-    flex-direction: column;
-}
-
-.c1{
+.produto{
+    height: 190px;
     background-color: var(--verde-bebe);
-    width: 55%;
-}
-
-.categ{
-    display: flex;
-    flex-direction: row;
-    background-color: var(--verde-bebe);
-    border: none;
+    /* box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1); */
 }
 
 picture{
@@ -62,31 +50,29 @@ picture img{
     align-items: center;
 }
 
-.botao .botao__link--excluir, .botao__link--editar, .botao__link--verSabores{
+.card__botao .botao__link--excluir, .botao__link--editar, .botao__link--verSabores{
     font-family: var(--Agbalumo);
-    min-width: 100px;
-    max-width: 130px;
-    min-height: 30px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
 }
 
-.botao .botao__link--excluir{
+.card__botao .botao__link--excluir{
     background-color: var(--amarelo-bebe);
 }
 
 .botao__link--excluir:hover {
     background-color: #f7ee93;
-    transform: scale(1.1);
+    transform: scale(1.03);
 }
 
-.botao .botao__link--editar{
+.card__botao .botao__link--editar{
     background-color: var(--azul-bebe);
 }
 
 .botao__link--editar:hover {
     background-color: #6ccad6;
-    transform: scale(1.1);
+    transform: scale(1.03);
 }
 
 .botao__link--verSabores{
@@ -96,45 +82,36 @@ picture img{
 
 .botao__link--verSabores:hover {
     background-color: #f58cd4 !important;
-    transform: scale(1.1);
+    transform: scale(1.03);
 }
 
-.add{
+.produtos__btn--add{
     background-color: var(--azul-bebe);
-    font-family: var(--Nunito);
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
     height: 29px;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
 }
 
-.add:hover {
+.produtos__btn--add:hover {
     background-color: #6ccad6;
-    transform: scale(1.1);
+    transform: scale(1.03);
 }
 
-.c1 form{
+.formulario{
     display: none;
-    padding-left: 10px;
 }
 
-.exibir{
-    display: flex !important;
-    flex-direction: column;
-}
-form input{
-    padding-left: 4px;
-    border-radius: 10px;
-    border: 2px solid rgb(167, 167, 167);
+.formumario__btn--submit{
+    background-color: var(--rosa-bebe);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
 }
 
-form button[type=submit]{
-    border: none !important;
-    border-radius: 20px;
-    margin: 10px;
-}
-
-form{
-    display: none;
+.formumario__btn--submit:hover {
+    background-color: #f58cd4 !important;
+    transform: scale(1.03);
 }
 
 @media (min-width: 768px) {
@@ -162,14 +139,9 @@ form{
     h1{
         padding-top: 20px !important;
     }
-    .botao .botao__link--excluir, .botao__link--editar, .botao__link--verSabores{
+    .card__botao .botao__link--excluir, .botao__link--editar, .botao__link--verSabores{
         font-size: 20px;
     }
-    /* .botao .botao__link--verSabores{
-        background-color: var(--amarelo-bebe);
-        width: 100px !important;
-        height: auto;
-    } */
     
     
 }
