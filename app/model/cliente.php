@@ -18,7 +18,7 @@ class Cliente {
     public function __construct(){
         try {
             $database = new DataBase();
-            $this->conn = $database->getConnection(); // Garante que a conexão PDO seja criada
+            $this->conn = $database->getConnection(); 
         } catch (PDOException $e) {
             echo "Erro de conexão com o banco de dados: " . $e->getMessage();
         }

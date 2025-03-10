@@ -6,19 +6,28 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 use app\model\ProdutoVariacao;
+use app\config\DataBase;
 
-class ProdutoVariacaoTest extends TestCase
-{
+class ProdutoVariacaoTest extends TestCase {
     private $produtoVariacao;
+    private $database;
+    private $connection;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
         $this->produtoVariacao = new ProdutoVariacao();
+        $this->database = new DataBase();
+        $this->connection = $this->database->getConnection();
+        $this->connection->beginTransaction();
     }
 
-    public function testAdicionarProduto()
-    {
+    protected function tearDown(): void {
+        // Reverte todas as mudanças feitas no banco de dados
+        $this->connection->rollBack();
+        parent::tearDown();
+    }
+
+    public function testAdicionarProduto() {
         $resultadoRecebido = $this->produtoVariacao->adicionarVariacaoProduto(
             3,
             "ChupChup - Banana",
@@ -38,8 +47,7 @@ class ProdutoVariacaoTest extends TestCase
         $this->assertEquals($resultadoEsperado, $resultadoRecebido);
     }
 
-    public function testSelecionarProdutosPorId()
-    {
+    public function testSelecionarProdutosPorId() {
         $resultadoRecebido = $this->produtoVariacao->selecionarProdutosPorID(3);
 
         $chavesEsperadas = [
@@ -58,8 +66,7 @@ class ProdutoVariacaoTest extends TestCase
         $this->assertNotEmpty($resultadoRecebido);
     }
 
-    public function testEditarProduto()
-    {
+    public function testEditarProduto() {
         $resultadoRecebido = $this->produtoVariacao->editarProduto(
             3,
             1,
@@ -73,8 +80,7 @@ class ProdutoVariacaoTest extends TestCase
         $this->assertEquals($resultadoEsperado, $resultadoRecebido);
     }
 
-    public function testRemoverProduto()
-    {
+    public function testRemoverProduto() {
         $resultadoRecebido = $this->produtoVariacao->removerProduto(1);
 
         $resultadoEsperado = "Produto excluído com sucesso!";
