@@ -83,7 +83,7 @@ $produtos = $produtoController->listarProdutos();
         </div>
     </main>
     <?php include_once 'components/footer.php'; ?>
-    <script src="script/adicionar.js"></script>
-    <script src="script/editar.js"></script>
+    <script src="script/exibirFormulario.js"></script>
+    <script src="script/exibirArquivoImagem.js"></script>
 </body>
 </html>
