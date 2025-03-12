@@ -63,8 +63,8 @@ use PDOException;
                 echo "Erro no banco de dados: " . $e->getMessage();
             } 
             
-            echo '<script>window.location.href = "../view/sessaoFornecedores.php";</script>';
-            exit;
+            //echo '<script>window.location.href = "../view/sessaoFornecedores.php";</script>';
+            //exit;
         }
 
         public function atualizarForn($emailAntigo, $nome, $email, $telefone){
@@ -76,8 +76,8 @@ use PDOException;
                 $cmd->bindParam(4, $telefone);
                 $cmd->execute();
 
-                echo '<script>window.location.href = "../view/sessaoFornecedores.php";</script>';
-                exit;
+                //echo '<script>window.location.href = "../view/sessaoFornecedores.php";</script>';
+                //exit;
             } catch (PDOException $e) {
                 echo "Erro no banco de dados: " . $e->getMessage();
             }
@@ -89,8 +89,8 @@ use PDOException;
                 $cmd->bindParam(1, $email);
                 $cmd->execute();
 
-                echo '<script>window.location.href = "../view/sessaoFornecedores.php";</script>';
-                exit;
+                //echo '<script>window.location.href = "../view/sessaoFornecedores.php";</script>';
+                //exit;
             } catch (PDOException $e) {
                 echo "Erro no banco de dados: " . $e->getMessage();
             }
