@@ -6,19 +6,28 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 use app\model\Produto;
+use app\config\DataBase;
 
-class ProdutoTest extends TestCase
-{
+class ProdutoTest extends TestCase {
     private $produto;
+    private $database;
+    private $connection;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
         $this->produto = new Produto();
+        $this->database = new DataBase();
+        $this->connection = $this->database->getConnection();
+        $this->connection->beginTransaction();
     }
 
-    public function testAdicionarProduto()
-    {
+    protected function tearDown(): void {
+        // Reverte todas as mudanças feitas no banco de dados
+        $this->connection->rollBack();
+        parent::tearDown();
+    }
+
+    public function testAdicionarProduto() {
         $resultadoRecebido = $this->produto->adicionarProduto(
             "Bombom de sorvete",
             "Nestlé",
@@ -32,8 +41,7 @@ class ProdutoTest extends TestCase
         $this->assertEquals($resultadoEsperado, $resultadoRecebido);
     }
 
-    public function testSelecionarProdutos()
-    {
+    public function testSelecionarProdutos() {
         $resultadoRecebido = $this->produto->selecionarProdutos();
 
         $chavesEsperadas = [
@@ -53,8 +61,7 @@ class ProdutoTest extends TestCase
         $this->assertNotEmpty($resultadoRecebido);
     }
 
-    public function testEditarProduto()
-    {
+    public function testEditarProduto() {
         $resultadoRecebido = $this->produto->editarProduto(
             1,
             "Pote",
@@ -68,8 +75,7 @@ class ProdutoTest extends TestCase
         $this->assertEquals($resultadoEsperado, $resultadoRecebido);
     }
 
-    public function testSelecionarProdutosPorId()
-    {
+    public function testSelecionarProdutosPorId() {
         $resultadoRecebido = $this->produto->selecionarProdutosPorID(3);
         $chavesEsperadas = [
             'idProduto',
@@ -88,8 +94,7 @@ class ProdutoTest extends TestCase
         $this->assertCount(7, $resultadoRecebido); // ja que sao 7 parametros que ele retorna
     }
 
-    public function testRemoverProduto()
-    {
+    public function testRemoverProduto() {
         $resultadoRecebido = $this->produto->removerProduto(1);
         
         $resultadoEsperado = "Produto excluído com sucesso";

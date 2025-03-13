@@ -1,6 +1,6 @@
 <?php 
 namespace app\model;
-
+// isso aqui caberia melhor num composer ou na front controller, depois refatorar e mudar
 class Alertas{
 
     public function alertarQuantidadeMinimaEstoque($produtos){
