@@ -19,7 +19,7 @@ use PDOException;
             $this->conn = $database->getConnection();
         }
 
-        public function listarFunc(){
+        public function listarFunc(){ // renomear
             try{
                 $cmd = $this->conn->prepare("CALL ListarFuncionarios()");
                 $cmd->execute();
@@ -58,8 +58,9 @@ use PDOException;
                 echo "Erro no banco de dados: " . $e->getMessage();
             } 
             
-            echo '<script>window.location.href = "../view/sessaoFuncionarios.php";</script>';
-            exit;
+            // MUDAR ISSO: NO TESTE NAO DÁ CERTO E PODE DAR RUIM NO SISTEMA
+            //echo '<script>window.location.href = "../view/sessaoFuncionarios.php";</script>';
+            //exit; 
         }
 
         public function atualizarFunc($emailAntigo, $nome, $email, $telefone){
@@ -71,8 +72,9 @@ use PDOException;
                 $cmd->bindParam(4, $telefone);
                 $cmd->execute();
 
-                echo '<script>window.location.href = "../view/sessaoFuncionarios.php";</script>';
-                exit;
+                // MUDAR ISSO: NO TESTE NAO DÁ CERTO E PODE DAR RUIM NO SISTEMA
+                //echo '<script>window.location.href = "../view/sessaoFuncionarios.php";</script>';
+                //exit;
             } catch (PDOException $e) {
                 echo "Erro no banco de dados: " . $e->getMessage();
             }
@@ -84,8 +86,8 @@ use PDOException;
                 $cmd->bindParam(1, $email);
                 $cmd->execute();
 
-                echo '<script>window.location.href = "../view/sessaoFuncionarios.php";</script>';
-                exit;
+                //echo '<script>window.location.href = "../view/sessaoFuncionarios.php";</script>';
+                //exit;
             } catch (PDOException $e) {
                 echo "Erro no banco de dados: " . $e->getMessage();
             }
