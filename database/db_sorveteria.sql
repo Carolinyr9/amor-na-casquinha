@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 12/03/2025 às 22:23
+-- Tempo de geração: 17/03/2025 às 01:09
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -979,7 +979,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SalvarItensPedido` (IN `idPedido` I
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelecionarProdutoEstoquePorID` (IN `id` INT)   BEGIN
-	SELECT * FROM estoque WHERE idEstoque = id;
+	SELECT * FROM estoque WHERE idEstoque = id AND desativado = 0;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SelecionarProdutoPorID` (IN `idProdutoIN` INT)   BEGIN
+    SELECT * FROM produtos WHERE idProduto = idProdutoIN AND desativado = 0;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `VerificarQuantidadeMinima` ()   BEGIN
+	SELECT idProduto,
+    	idVariacao,
+        quantidade
+        FROM estoque 
+        WHERE quantidade <= qtdMinima;
 END$$
 
 DELIMITER ;
@@ -1112,8 +1124,8 @@ CREATE TABLE `estoque` (
 --
 
 INSERT INTO `estoque` (`idEstoque`, `idProduto`, `idVariacao`, `lote`, `dtEntrada`, `quantidade`, `dtFabricacao`, `dtVencimento`, `precoCompra`, `qtdMinima`, `qtdVendida`, `qtdOcorrencia`, `ocorrencia`, `desativado`) VALUES
-(1, 1, 1, 1, '2025-01-01', 11, '2025-01-01', '2025-12-31', 99.99, 5, NULL, 0, ' ', 1),
-(2, 1, 2, 1, '2025-01-08', 11, '2024-09-18', '2025-04-09', 15.50, 10, NULL, 0, ' ', 1),
+(1, 1, 1, 1, '2025-01-01', 11, '2025-01-01', '2025-12-31', 99.99, 5, NULL, 0, ' ', 0),
+(2, 1, 2, 1, '2025-01-08', 11, '2024-09-18', '2025-04-09', 15.50, 10, NULL, 0, ' ', 0),
 (3, 1, 3, 1, '2025-01-08', 63, '2024-06-06', '2025-01-24', 34.50, 10, NULL, NULL, NULL, 0),
 (4, 3, 4, 1, '2025-01-08', 68, '2024-12-08', '2025-03-23', 3.99, 10, NULL, NULL, NULL, 0),
 (5, 3, 5, 1, '2025-01-08', 82, '2024-03-19', '2025-04-30', 3.97, 10, NULL, NULL, NULL, 0),
@@ -1155,7 +1167,7 @@ CREATE TABLE `fornecedores` (
 
 INSERT INTO `fornecedores` (`idFornecedor`, `nome`, `telefone`, `email`, `cnpj`, `desativado`, `idEndereco`) VALUES
 (1, 'Sorvetes do Sull', '11 998986754', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 1, 1),
-(2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 0, 2),
+(2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 1, 2),
 (3, 'Doces e Sorvetes Ltda', NULL, 'info@docesesorvetes.com.br', '56.789.012/0001-55', 1, 3),
 (4, 'IceDream Sorvetes', '31987654321', 'icecream@email.com', '23.456.789/0001-77', 0, 4),
 (5, 'Delícias Geladas', NULL, 'delicias_geladas@email.com', '34.567.890/0001-88', 0, 5);
@@ -1341,82 +1353,11 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`idProduto`, `idFornecedor`, `nome`, `marca`, `descricao`, `desativado`, `foto`) VALUES
-(1, 1, 'Pote', 'Nestlé', 'Potes de Sorvete', 1, '98fb6a95c11ab1b4270121f66ced7c98.png'),
+(1, 1, 'Pote', 'Nestlé', 'Potes de Sorvete', 0, '98fb6a95c11ab1b4270121f66ced7c98.png'),
 (2, 2, 'Picolé', 'Marca', 'Picolé', 0, 'picoleLogo.png'),
 (3, 2, 'ChupChup', 'Garoto', 'ChupChup', 0, 'chupLogo.png'),
 (4, 2, 'Sundae', 'Nestle', 'Sundae', 0, 'sundaeLogo.png'),
-(5, 1, 'Açaí', 'AcaiGalaxy', 'Açai', 0, 'acaiLogo.png'),
-(10, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(11, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(12, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(13, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(14, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(15, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(16, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(17, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(18, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(19, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(20, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(21, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(22, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(23, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(24, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(25, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(26, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(27, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(28, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(29, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(30, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(31, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(32, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(33, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(34, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(35, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(36, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(37, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(38, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(39, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(40, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(41, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(42, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(43, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(44, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(45, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(46, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(47, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(48, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(49, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(50, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(51, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(52, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(53, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(54, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(55, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(56, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(57, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(58, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(59, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(60, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(61, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(62, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(63, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(64, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(65, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(66, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(67, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(68, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(69, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(70, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(71, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(72, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(73, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(74, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(75, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(76, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(77, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(78, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(79, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(80, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png');
+(5, 1, 'Açaí', 'AcaiGalaxy', 'Açai', 0, 'acaiLogo.png');
 
 -- --------------------------------------------------------
 
@@ -1438,12 +1379,12 @@ CREATE TABLE `variacaoproduto` (
 --
 
 INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `precoVariacao`, `fotoVariacao`, `idProduto`) VALUES
-(1, 1, 'Havaiano', 25.99, 'havaianoPote.png', 1),
-(2, 1, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1),
-(3, 1, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1),
+(1, 0, 'Havaiano', 25.99, 'havaianoPote.png', 1),
+(2, 0, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1),
+(3, 0, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1),
 (4, 0, 'ChupChup - Unicórnio', 3.99, 'unicornioChup.png', 3),
 (5, 0, 'Chup Chup - Coco', 3.97, 'cocoChup.png', 3),
-(6, 1, 'Chup Chup - Morango', 3.99, 'morangoChup.png', 3),
+(6, 0, 'Chup Chup - Morango', 3.99, 'morangoChup.png', 3),
 (7, 0, 'ChupChup - Maracujá', 3.99, 'maracujaChup.png', 3),
 (8, 0, 'Picolé - Mousse de Doce de Leite', 7.98, 'mousse-doce-leitePicole.png', 2),
 (9, 0, ' Picolé - Coraçãozinho', 6.99, '71724a9521477340ecde4400800ba580.png', 2),
@@ -1451,7 +1392,7 @@ INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `prec
 (11, 0, 'Picolé - Flocos', 7.99, 'flocosPicole.png', 2),
 (12, 0, 'Sundae - Morango', 16.99, 'morangoSundae.png', 4),
 (13, 0, 'Sundae - Baunilha', 16.99, 'baunilhaSundae.png', 4),
-(14, 1, 'Napolitano - Pote 2L', 36.50, 'napolitanoPote.png', 1),
+(14, 0, 'Napolitano - Pote 2L', 36.50, 'napolitanoPote.png', 1),
 (15, 0, 'Açai com banana', 46.50, 'acai-bananaAcai.png', 5),
 (16, 0, 'Açai com morango', 46.50, 'acai-morangoAcai.png', 5),
 (17, 0, 'Açai com leite', 46.50, 'acai-leitinhoAcai.png', 5),
