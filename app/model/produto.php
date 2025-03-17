@@ -72,6 +72,20 @@ class Produto {
         return $produto;
     }
 
+    public function selecionarProdutoPorID($id) {
+        $produto = null;
+        try {
+            $stmt = $this->conn->prepare("CALL SelecionarProdutoPorID(?)");
+            $stmt->bindParam(1, $id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Erro ao selecionar produtos por ID: " . $e->getMessage());
+        }
+        return $produto;
+    }
+
     public function adicionarProduto($nomeProduto, $marca, $descricao, $idFornecedor, $imagemProduto) {
         try {
             $desativado = 0;

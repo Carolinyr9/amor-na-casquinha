@@ -59,7 +59,7 @@ $estoque->verificarQuantidadeMinima();
                 <?php 
                 if($dados){
                     foreach($dados as $row){
-                        $dadosVariacao = $variacao->selecionarProdutoPorID(intval($row['idVariacao']));
+                        $dadosVariacao = $variacao->obterVariacaoProdutoPorID(intval($row['idVariacao']));
                         if ($dadosVariacao) {
                             $dadosProdutos = $produto->selecionarProdutoPorID(intval($dadosVariacao['idProduto']));
                         } else {

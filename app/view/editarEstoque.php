@@ -1,8 +1,9 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/estoqueController.php';
-require_once '../controller/produtoVariacaoController.php';
+require_once '../../vendor/autoload.php';
+use app\controller\EstoqueController;
+use app\controller\ProdutoVariacaoController;
 
 $estoque = new EstoqueController();
 $variacao = new ProdutoVariacaoController();
@@ -48,7 +49,7 @@ if((isset($_POST) || !empty($_POST)) && isset($_POST["editarsubmit"])){
     <h2 class="text-center mb-3">Edição</h2>
     <form action="editarEstoque.php" method="post" class="formulario w-50 m-auto p-3 rounded-4 d-flex flex-row flex-wrap gap-4 justify-content-center">
         <?php foreach ($produtos as $produto) {  
-            $vari = $variacao->selecionarProdutoPorID($produto[0]["idVariacao"]); ?>
+            $vari = $variacao->obterVariacaoProdutoPorID($produto[0]["idVariacao"]); ?>
         <h3 class="w-100 text-center mt-4"><?= $vari['nomeVariacao'] ?></h3> 
         <input type="hidden" name="produtos[<?= $produto[0]["idEstoque"]?>][idEstoque]" value="<?= $produto[0]["idEstoque"]?>">
         <div class="form-group w-25">

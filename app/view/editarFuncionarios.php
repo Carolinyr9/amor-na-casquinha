@@ -1,7 +1,8 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/funcionarioController.php';
+require_once '../../vendor/autoload.php';
+use app\controller\FuncionarioController;
 
 $func = new FuncionarioController();
 

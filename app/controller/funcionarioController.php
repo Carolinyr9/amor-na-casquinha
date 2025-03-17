@@ -1,7 +1,7 @@
 <?php 
 namespace app\controller;
 
-use app\model\Funcionario;
+use app\model\Funcionarios;
 
 class FuncionarioController{
     private $funcionario;

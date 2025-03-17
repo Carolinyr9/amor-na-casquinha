@@ -1,9 +1,10 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/estoqueController.php';
-require_once '../controller/produtoVariacaoController.php';
-require_once '../controller/produtoController.php';
+require_once '../../vendor/autoload.php';
+use app\controller\EstoqueController;
+use app\controller\ProdutoVariacaoController;
+use app\controller\ProdutoController;
 
 $estoque = new EstoqueController();
 $variacao = new ProdutoVariacaoController();
@@ -51,7 +52,7 @@ if((isset($_POST) || !empty($_POST)) && isset($_POST["excluirSubmit"])){
                     <?php if ($dados): ?>
                         <form action="" method="POST" id="formulario" class="d-flex justify-content-center flex-column">
                         <?php foreach($dados as $row){
-                            $dadosVariacao = $variacao->selecionarProdutoPorID(intval($row['idVariacao']));
+                            $dadosVariacao = $variacao->obterVariacaoProdutoPorID(intval($row['idVariacao']));
                             if ($dadosVariacao) {
                                 $dadosProdutos = $produto->selecionarProdutoPorID(intval($dadosVariacao['idProduto']));
                             } else {

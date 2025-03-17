@@ -39,6 +39,14 @@ class ProdutoVariacaoController {
         }
     }
 
+    public function obterVariacaoProdutoPorID($idVaricaoProduto) {
+        try {
+            return $this->produtoVariacao->obterVariacaoProdutoPorID($idVaricaoProduto);
+        } catch (Exception $e) {
+            echo "Erro ao obter produto: " . $e->getMessage();
+        }
+    }
+
     public function editarProduto($idVariacao, $idProduto, $nomeProduto, $preco, $imagemProduto) {
         return $this->produtoVariacao->editarProduto($idVariacao, $idProduto, $nomeProduto, $preco, $imagemProduto);
     }

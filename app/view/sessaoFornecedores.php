@@ -1,7 +1,8 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-use app\controller\ProdutoVariacaoController;
+require_once '../../vendor/autoload.php';
+use app\controller\FornecedorController;
 
 $forn = new FornecedorController();
 

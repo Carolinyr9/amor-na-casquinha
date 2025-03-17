@@ -1,7 +1,7 @@
 <?php 
 namespace app\controller;
 
-use app\model\Fornecedor;
+use app\model\Fornecedores;
 
 class FornecedorController{
     private $fornecedor;

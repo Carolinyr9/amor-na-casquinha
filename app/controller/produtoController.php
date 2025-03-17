@@ -19,9 +19,18 @@ class ProdutoController {
         }
     }
 
+    //Onde é usada essa função?
     public function obterProdutoPorID($idProduto) {
         try {
             return $this->produtoModel->selecionarProdutosPorID($idProduto);
+        } catch (Exception $e) {
+            echo "Erro ao obter produto: " . $e->getMessage();
+        }
+    }
+
+    public function selecionarProdutoPorID($idProduto) {
+        try {
+            return $this->produtoModel->selecionarProdutoPorID($idProduto);
         } catch (Exception $e) {
             echo "Erro ao obter produto: " . $e->getMessage();
         }

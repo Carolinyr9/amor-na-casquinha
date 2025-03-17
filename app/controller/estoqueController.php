@@ -66,7 +66,7 @@ class EstoqueController{
             $variacaoController = new ProdutoVariacaoController();
             
             foreach ($resultado as $estoque) {
-                $variacao = $variacaoController->selecionarProdutoPorID($estoque["idVariacao"]); 
+                $variacao = $variacaoController->selecionarProdutosPorID($estoque["idVariacao"]); 
 
                 if ($variacao) {
                     $variacoes[] = [
@@ -77,7 +77,7 @@ class EstoqueController{
             }
             if (!empty($variacoes)) {
                 $alerta = new Alertas();
-                $alerta->alertarQuantidadeMinimaEstoque($variacoes); 
+                // $alerta->alertarQuantidadeMinimaEstoque($variacoes); 
             }
         }      
     }
