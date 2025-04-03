@@ -3,7 +3,6 @@ namespace app\controller;
 
 use app\model\Produto; 
 
-
 class ProdutoController {
     private $produtoModel;
 

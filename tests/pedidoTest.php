@@ -13,16 +13,38 @@ class PedidoTest extends TestCase {
 
     protected function setUp(): void {
         parent::setUp();
-        $this->pedido = new Pedido();
-        $this->database = new DataBase();
-        $this->connection = $this->database->getConnection();
+    
+        // Conexão com o banco de dados principal (por enquanto)
+        $this->connection = (new DataBase())->getConnection();
+    
+        // Criar banco de dados de teste
+        $this->connection->exec("CREATE DATABASE IF NOT EXISTS db_test");
+        $this->connection->exec("USE db_test");
+    
+        // Criar tabelas e dados necessários para o teste
+        // Você pode criar as tabelas aqui ou usar migrações do seu banco
+    
+        // Iniciar transação para isolar as alterações
         $this->connection->beginTransaction();
+    
+        // Inicializar os objetos necessários para os testes
+        $this->pedido = new Pedido();
     }
-
+    
     public function tearDown(): void {
-        $this->connection->rollBack();
+        // Finalizar qualquer transação e fazer rollback
+        if ($this->connection) {
+            $this->connection->rollBack();
+        }
+    
+        // Excluir o banco de dados temporário
+        $this->connection->exec("DROP DATABASE IF EXISTS db_test");
+    
+        // Fechar a conexão
+        (new DataBase())->closeConnection();
+    
         parent::tearDown();
-    }
+    }    
 
     public function testListarPedidoPorCliente(){
         $resultadoRecebido = $this->pedido->listarPedidoPorCliente('jo@email.com');
