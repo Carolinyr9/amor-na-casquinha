@@ -11,7 +11,7 @@ class Estoque{
     private $idVariacao;
     private $dtEntrada;
     private $quantidade;
-    private $dtFabricação;
+    private $dtFabricacao;
     private $dtVencimento;
     private $lote;
     private $precoCompra;
@@ -66,12 +66,13 @@ class Estoque{
                 $errorInfo = $cmd->errorInfo();
                 echo "Erro ao executar procedimento: " . $errorInfo[2];
             }
+            
         } catch (PDOException $e){
             echo "Erro no banco de dados: " . $e->getMessage();
         }
     }
 
-    function excluirProdutoEstoque($idEstoque, $idVariacao){
+    function excluirProdutoEstoque($idEstoque, $idVariacao){ // qual a privacidade???
         try{
             $cmd = $this->conn->prepare("CALL DesativarEstoqueProdutoPorId(?, ?)");
             $cmd->bindParam(1, $idEstoque);
@@ -81,14 +82,14 @@ class Estoque{
                 $errorInfo = $cmd->errorInfo();
                 echo "Erro ao executar procedimento: " . $errorInfo[2];
             } else {
-                echo "<script>alert('Produto excluído com sucesso!');</script>";
+                echo "<script>alert('Produto excluído com sucesso!');</script>"; // vamos mudar isso, agora o retorno n vai mais ser assim ok?
             }
         } catch (PDOException $e){
             echo "Erro no banco de dados: " . $e->getMessage();
         }
     }
 
-    function verificarQuantidadeMinima() {
+    function verificarQuantidadeMinima() { // privacidadeeee?????
         try{
             $cmd = $this->conn->prepare("CALL VerificarQuantidadeMinima()");
             $cmd->execute();

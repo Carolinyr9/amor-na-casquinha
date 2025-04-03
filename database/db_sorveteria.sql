@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17/03/2025 às 01:09
+-- Tempo de geração: 19/03/2025 às 00:17
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -979,7 +979,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SalvarItensPedido` (IN `idPedido` I
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelecionarProdutoEstoquePorID` (IN `id` INT)   BEGIN
-	SELECT * FROM estoque WHERE idEstoque = id AND desativado = 0;
+	SELECT * FROM estoque WHERE idEstoque = id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SelecionarProdutoPorID` (IN `idProdutoIN` INT)   BEGIN
@@ -1124,7 +1124,7 @@ CREATE TABLE `estoque` (
 --
 
 INSERT INTO `estoque` (`idEstoque`, `idProduto`, `idVariacao`, `lote`, `dtEntrada`, `quantidade`, `dtFabricacao`, `dtVencimento`, `precoCompra`, `qtdMinima`, `qtdVendida`, `qtdOcorrencia`, `ocorrencia`, `desativado`) VALUES
-(1, 1, 1, 1, '2025-01-01', 11, '2025-01-01', '2025-12-31', 99.99, 5, NULL, 0, ' ', 0),
+(1, 1, 1, 1, '2025-01-01', 11, '2025-01-01', '2025-12-31', 99.98, 5, NULL, NULL, '0', 1),
 (2, 1, 2, 1, '2025-01-08', 11, '2024-09-18', '2025-04-09', 15.50, 10, NULL, 0, ' ', 0),
 (3, 1, 3, 1, '2025-01-08', 63, '2024-06-06', '2025-01-24', 34.50, 10, NULL, NULL, NULL, 0),
 (4, 3, 4, 1, '2025-01-08', 68, '2024-12-08', '2025-03-23', 3.99, 10, NULL, NULL, NULL, 0),
@@ -1223,7 +1223,23 @@ INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nom
 (29, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
 (30, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
 (31, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(32, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL);
+(32, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(33, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(34, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(35, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(36, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(37, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(38, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(39, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(40, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(41, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(42, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(43, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(44, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(45, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(46, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(47, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
+(48, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1266,7 +1282,39 @@ INSERT INTO `itens_pedido` (`idPedido`, `idProduto`, `quantidade`) VALUES
 (200, 17, 1),
 (200, 1, 1),
 (200, 3, 1),
-(201, 13, 1);
+(201, 13, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1),
+(189, 1, 2),
+(189, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -1299,8 +1347,8 @@ INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipo
 (187, 1, '2025-01-04 23:01:35', NULL, 0, 1, 80.94, '2025-02-05 19:01:55', 'oiwe', 'Cancelado', NULL, 0, 'Cartão de Débito', NULL),
 (188, 1, '2025-01-09 13:21:32', NULL, 1, 1, 73.21, '2025-02-05 19:02:38', 'sla', 'Cancelado', 2, 22.72, 'Cartão de Crédito', NULL),
 (189, 1, '0000-00-00 00:00:00', NULL, 0, 1, 16.99, NULL, NULL, 'Concluído', NULL, 0, 'Cartão de Débito', NULL),
-(190, 1, '2025-01-09 09:57:36', NULL, 0, 1, 25.99, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito', NULL),
-(191, 1, '2025-01-29 18:43:18', NULL, 0, 1, 25.99, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Débito', NULL),
+(190, 1, '2025-01-09 09:57:36', NULL, 0, 1, 25.99, '2025-03-18 20:12:02', 'Não tenho como retirar o produto', 'Cancelado', NULL, 0, 'Cartão de Crédito', NULL),
+(191, 1, '2025-01-29 18:43:18', NULL, 0, 1, 25.99, NULL, NULL, 'Preparando pedido', NULL, 0, 'Cartão de Débito', NULL),
 (192, 2, '2025-01-31 17:53:03', NULL, 0, 5, 25.99, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro', NULL),
 (193, 1, '2025-01-31 17:54:50', NULL, 0, 1, 20.00, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito', NULL),
 (194, 1, '2025-01-31 18:09:27', NULL, 0, 1, 20.00, NULL, NULL, 'Aguardando Confirmação', NULL, 13, 'Cartão de Crédito', NULL),
@@ -1310,7 +1358,23 @@ INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipo
 (198, 1, '2025-02-07 18:28:58', NULL, 1, 1, 6.99, NULL, NULL, 'Aguardando Confirmação', 3, 0, 'Dinheiro', NULL),
 (199, 1, '2025-02-07 18:34:30', NULL, 1, 1, 3.99, NULL, NULL, 'Entregue', 1, 0, 'Dinheiro', 5),
 (200, 1, '2025-02-07 18:38:32', NULL, 0, 1, 123.98, NULL, NULL, 'Preparando pedido', NULL, 0, 'Dinheiro', 200),
-(201, 2, '2025-02-10 15:37:25', NULL, 1, 5, 27.77, NULL, NULL, 'Concluído', 1, 10.78, 'Cartão de Crédito', NULL);
+(201, 2, '2025-02-10 15:37:25', NULL, 1, 5, 27.77, NULL, NULL, 'Concluído', 1, 10.78, 'Cartão de Crédito', NULL),
+(202, 1, '2025-03-18 19:41:03', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(203, 1, '2025-03-18 19:41:15', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(204, 1, '2025-03-18 19:41:42', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(205, 1, '2025-03-18 19:42:25', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(206, 1, '2025-03-18 19:42:46', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(207, 1, '2025-03-18 19:43:35', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(208, 1, '2025-03-18 19:44:40', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(209, 1, '2025-03-18 19:46:32', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(210, 1, '2025-03-18 19:46:49', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(211, 1, '2025-03-18 19:48:04', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(212, 1, '2025-03-18 20:05:02', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(213, 1, '2025-03-18 20:05:21', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(214, 1, '2025-03-18 20:06:21', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(215, 1, '2025-03-18 20:06:35', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(216, 1, '2025-03-18 20:08:57', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
+(217, 1, '2025-03-18 20:12:02', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50);
 
 --
 -- Acionadores `pedidos`
@@ -1353,11 +1417,27 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`idProduto`, `idFornecedor`, `nome`, `marca`, `descricao`, `desativado`, `foto`) VALUES
-(1, 1, 'Pote', 'Nestlé', 'Potes de Sorvete', 0, '98fb6a95c11ab1b4270121f66ced7c98.png'),
+(1, 1, 'Pote', 'Nestlé', 'Potes de Sorvete', 1, '98fb6a95c11ab1b4270121f66ced7c98.png'),
 (2, 2, 'Picolé', 'Marca', 'Picolé', 0, 'picoleLogo.png'),
 (3, 2, 'ChupChup', 'Garoto', 'ChupChup', 0, 'chupLogo.png'),
 (4, 2, 'Sundae', 'Nestle', 'Sundae', 0, 'sundaeLogo.png'),
-(5, 1, 'Açaí', 'AcaiGalaxy', 'Açai', 0, 'acaiLogo.png');
+(5, 1, 'Açaí', 'AcaiGalaxy', 'Açai', 0, 'acaiLogo.png'),
+(81, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(82, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(83, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(84, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(85, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(86, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(87, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(88, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(89, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(90, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(91, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(92, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(93, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(94, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(95, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
+(96, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png');
 
 -- --------------------------------------------------------
 
@@ -1379,9 +1459,9 @@ CREATE TABLE `variacaoproduto` (
 --
 
 INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `precoVariacao`, `fotoVariacao`, `idProduto`) VALUES
-(1, 0, 'Havaiano', 25.99, 'havaianoPote.png', 1),
-(2, 0, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1),
-(3, 0, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1),
+(1, 1, 'Havaiano', 25.99, 'havaianoPote.png', 1),
+(2, 1, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1),
+(3, 1, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1),
 (4, 0, 'ChupChup - Unicórnio', 3.99, 'unicornioChup.png', 3),
 (5, 0, 'Chup Chup - Coco', 3.97, 'cocoChup.png', 3),
 (6, 0, 'Chup Chup - Morango', 3.99, 'morangoChup.png', 3),
@@ -1392,7 +1472,7 @@ INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `prec
 (11, 0, 'Picolé - Flocos', 7.99, 'flocosPicole.png', 2),
 (12, 0, 'Sundae - Morango', 16.99, 'morangoSundae.png', 4),
 (13, 0, 'Sundae - Baunilha', 16.99, 'baunilhaSundae.png', 4),
-(14, 0, 'Napolitano - Pote 2L', 36.50, 'napolitanoPote.png', 1),
+(14, 1, 'Napolitano - Pote 2L', 36.50, 'napolitanoPote.png', 1),
 (15, 0, 'Açai com banana', 46.50, 'acai-bananaAcai.png', 5),
 (16, 0, 'Açai com morango', 46.50, 'acai-morangoAcai.png', 5),
 (17, 0, 'Açai com leite', 46.50, 'acai-leitinhoAcai.png', 5),
@@ -1527,19 +1607,19 @@ ALTER TABLE `fornecedores`
 -- AUTO_INCREMENT de tabela `funcionarios`
 --
 ALTER TABLE `funcionarios`
-  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de tabela `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=202;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT de tabela `variacaoproduto`
