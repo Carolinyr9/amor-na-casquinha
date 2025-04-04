@@ -57,7 +57,7 @@ class ProdutoVariacao {
             $stmt->bindParam(11, $idProduto);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            echo "foi8";
+            
             if ($result !== false && isset($result['Status'])) {
                 return $result['Status'] == '201' ? "Produto criado com sucesso!" : "Erro: " . $result['Error'];
             } else {

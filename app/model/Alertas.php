@@ -1,8 +1,7 @@
 <?php 
 namespace app\model;
-// isso aqui caberia melhor num composer ou na front controller, depois refatorar e mudar
+// isso aqui caberia melhor num component ou na front controller, depois refatorar e mudar
 class Alertas{
-
     public function alertarQuantidadeMinimaEstoque($produtos){
         echo "  <div class='alerta-qtdMinimaEstoque'>
                     <div class='header'>

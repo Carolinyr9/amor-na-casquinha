@@ -16,15 +16,33 @@ class CarrinhoTest extends TestCase {
     protected function setUp(): void {
         parent::setUp();
         $this->carrinho = new Carrinho();
-        $this->database = new DataBase();
-        $this->connection = $this->database->getConnection();
-        $this->connection->beginTransaction();
+        $this->connection = (new DataBase())->getConnection();
+    
+        // Inicia a transação explicitamente apenas se não estiver em uma transação já iniciada
+        if (!$this->transactionStarted) {
+            $this->connection->beginTransaction();
+            $this->transactionStarted = true;
+        }
+    
+        // Desabilita o autocommit para garantir controle total sobre o commit
+        $this->connection->exec("SET autocommit=0;");
+        
+        // Desabilita as chaves estrangeiras temporariamente, se necessário
+        $this->connection->exec("SET FOREIGN_KEY_CHECKS=0;");
     }
-
-    protected function tearDown(): void {
-        $this->connection->rollback();
+    
+    public function tearDown(): void {
+        // Reverte qualquer alteração no banco
+        if ($this->transactionStarted) {
+            $this->connection->rollBack();
+        }
+    
+        // Reabilita as chaves estrangeiras
+        $this->connection->exec("SET FOREIGN_KEY_CHECKS=1;");
+        
         parent::tearDown();
     }
+    
 
     public function testListarCarrinho(){
         $resultadoRecebido = $this->carrinho->listarCarrinho();
