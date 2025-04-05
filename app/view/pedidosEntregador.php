@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
+require_once '../../vendor/autoload.php';
+use app\controller\PedidoController;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -11,12 +13,12 @@ require_once '../config/blockURLAccess.php';
     <title>Pedidos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
-    <link rel="stylesheet" href="style/pedidosS.css">
+    <link rel="stylesheet" href="style/entregador-pedidos-style.css">
 </head>
 <body>
     <?php
     include_once 'components/header.php';
-    require_once '../controller/PedidoController.php';
+    
     $pedidoController = new PedidoController();
     $usuario = $_SESSION['userPerfil'] ?? null;
     $pedidos = $pedidoController->listarPedidosEntregador($_SESSION['userEmail']);
@@ -30,32 +32,30 @@ require_once '../config/blockURLAccess.php';
     }
     ?>
     
-    <main class="container my-5 text-center flex flex-column justify-content-center">
+    <main class="pedidos container my-5 text-center d-flex flex-column justify-content-center gap-5">
         <h1 class="mb-4">Pedidos</h1>
         <?php if (!empty($pedidos)) : ?>
             <?php foreach ($pedidos as $pedido) : ?>
                 <?php if ($pedido['statusPedido'] !== "Concluído" && $pedido['statusPedido'] !== "Cancelado") : ?>
-                    <div class="conteiner0">
-                        <div class="conteiner1">
+                    <div class="card d-flex flex-column justify-content-center p-3 w-25">
                             <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h3>
                             <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido['dtPedido']))->format('d/m/Y \à\s H:i')); ?></p>
                             <p>Total: R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
                             <p><?= $pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'; ?></p>
                             <p>Status: <?= htmlspecialchars($pedido['statusPedido']); ?></p>
-                            <button class="btnVerInfos mt-3"><a href="rotasEntregador.php?idEndereco=<?= $pedido['idEndereco']; ?>">Ver Rotas</a></button>
-                            <?php if ($pedido['statusPedido'] === 'A Caminho') : ?>
+                            <a  class="btn__rotas mt-3 rounded-3 w-50 m-auto mb-3" href="rotasEntregador.php?idEndereco=<?= $pedido['idEndereco']; ?>">Ver Rotas</a>
+                            <?php if ($pedido['statusPedido'] === 'Entregue') : ?>
                                 <form method="POST" action="">
                                     <input type="hidden" name="idPedido" value="<?= htmlspecialchars($pedido['idPedido']); ?>">
                                     <input type="hidden" name="mudarStatus" value="Entrega Falhou">
-                                    <button type="submit" class="btn btn-danger">Entrega Falhou</button>
+                                    <button type="submit" class="btn__pedido--falha bg-none rounded-3 px-3">Entrega Falhou</button>
                                 </form>
                                 <form method="POST" action="" class="mt-2">
                                     <input type="hidden" name="idPedido" value="<?= htmlspecialchars($pedido['idPedido']); ?>">
                                     <input type="hidden" name="mudarStatus" value="Entregue">
-                                    <button type="submit" class="btn btn-success">Entregue</button>
+                                    <button type="submit" class="btn__pedido--concluido border-0 rounded-3 px-3">Entregue</button>
                                 </form>
                             <?php endif; ?>
-                        </div>
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
