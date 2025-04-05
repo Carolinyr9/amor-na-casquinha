@@ -11,7 +11,7 @@ class Estoque{
     private $idVariacao;
     private $dtEntrada;
     private $quantidade;
-    private $dtFabricação;
+    private $dtFabricacao;
     private $dtVencimento;
     private $lote;
     private $precoCompra;

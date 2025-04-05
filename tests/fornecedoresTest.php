@@ -13,15 +13,27 @@ class FornecedoresTest extends TestCase {
     protected $connection;
 
     protected function setUp(): void {
-        parent::setUp();
-        $this->fornecedores = new Fornecedores();
+        parent::setUp();$this->fornecedores = new Fornecedores();
         $this->database = new DataBase();
         $this->connection = $this->database->getConnection();
+
+        // Iniciar a transação
         $this->connection->beginTransaction();
+        
+        // Desabilitar o autocommit (garante que os commits não aconteçam automaticamente)
+        $this->connection->exec("SET autocommit=0;");
+        
+        // Desabilitar as chaves estrangeiras temporariamente, se necessário
+        $this->connection->exec("SET FOREIGN_KEY_CHECKS=0;");
     }
 
-    protected function tearDown(): void {
+    public function tearDown(): void {
+        // Reverter qualquer alteração no banco
         $this->connection->rollBack();
+        
+        // Reabilitar as chaves estrangeiras
+        $this->connection->exec("SET FOREIGN_KEY_CHECKS=1;");
+        
         parent::tearDown();
     }
 
