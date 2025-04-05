@@ -1,6 +1,8 @@
 <?php 
 session_start();
 require_once '../config/blockURLAccess.php';
+require_once '../../vendor/autoload.php';
+use app\controller\ClienteController;
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -17,7 +19,7 @@ require_once '../config/blockURLAccess.php';
 <body>
     <?php
         include_once 'components/header.php';
-        require_once '../controller/ClienteController.php';
+        
         $clienteController = new ClienteController();
         
         $endereco = $clienteController->listarEndereco($_GET['idEndereco']);

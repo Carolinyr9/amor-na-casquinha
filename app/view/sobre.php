@@ -2,9 +2,10 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../config/config.php';
-require_once '../controller/clienteController.php';
-require_once '../controller/pedidoController.php';
-require_once '../controller/carrinhoController.php';
+require_once '../../vendor/autoload.php';
+use app\controller\ClienteController;
+use app\controller\PedidoController;
+use app\model\Carrinho;
 
 $pedidoController = new PedidoController();
 $clienteController = new ClienteController();

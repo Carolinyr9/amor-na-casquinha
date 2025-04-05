@@ -1,8 +1,9 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/EntregadorController.php';
-require_once '../controller/PedidoController.php';
+require_once '../../vendor/autoload.php';
+use app\controller\EntregadorController;
+use app\controller\PedidoController;
 
 $pedidoController = new PedidoController();
 ?>

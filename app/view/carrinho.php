@@ -1,7 +1,8 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/carrinhoController.php';
+require_once '../../vendor/autoload.php';
+use app\controller\CarrinhoController;
 
 $carrinhoController = new CarrinhoController();
 
