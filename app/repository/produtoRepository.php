@@ -24,7 +24,7 @@ class ProdutoRepository {
     public function buscarProdutosAtivos($limit = 100, $offset = 0) {
         $produtos = [];
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM produtos WHERE ativo = 1 LIMIT :limit OFFSET :offset");
+            $stmt = $this->conn->prepare("SELECT * FROM produtos WHERE desativado = 1 LIMIT :limit OFFSET :offset");
             $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
             $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
             $stmt->execute();
