@@ -3,6 +3,7 @@ namespace app\controller2;
 
 use app\repository\FornecedorRepository;
 use app\model2\Fornecedor;
+use app\utils\Logger;
 use Exception;
 
 class FornecedorController {
@@ -35,7 +36,7 @@ class FornecedorController {
     
             return $fornecedores;
         } catch (Exception $e) {
-            throw new Exception("Erro ao listar fornecedores: " . $e->getMessage());
+            Logger::logError("Erro ao listar fornecedores: " . $e->getMessage());
         }
     }
 
@@ -43,32 +44,32 @@ class FornecedorController {
         try {
             return $this->repository->buscarFornecedorPorEmail($email);
         } catch (Exception $e) {
-            throw new Exception("Erro ao buscar fornecedor por ID: " . $e->getMessage());
+            Logger::logError("Erro ao buscar fornecedor por ID: " . $e->getMessage());
         }
     }
 
     // RELACAO ENTRE FORNECEDOR E ENDERECO, PERGUNTAR P JESSICA TB
-    public function criarFornecedor($nome, $email, $telefone, $cnpj){
-        $idFornecedor = $this->repository->criarFornecedor($nome, $email, $telefone, $cnpj);
+    public function criarFornecedor($dados){
+        $idFornecedor = $this->repository->criarFornecedor($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnpj']);
     
         if ($idFornecedor) {
             $desativado = 0;
             $endereco = null; // verificar depois relação entre fornecedor e endereco
-            $fornecedor = new Fornecedor($idFornecedor, $nome, $telefone, $email, $cnpj, $desativado, $endereco);
+            $fornecedor = new Fornecedor($idFornecedor, $dados['nome'], $dados['telefone'], $dados['email'], $dados['cnpj'], $desativado, $endereco);
             return $fornecedor;
         } else {
-            throw new Exception("Erro ao criar fornecedor");
+            Logger::logError("Erro ao criar fornecedor: " . $e->getMessage());
         }
     }
 
-    public function editarFornecedor($emailAntigo, $nome, $email, $telefone){
+    public function editarFornecedor($dados){
         try {
-            $fornecedor = $this->repository->buscarFornecedorPorEmail($emailAntigo);
+            $fornecedor = $this->repository->buscarFornecedorPorEmail($dados['emailAntigo']);
             
             if ($fornecedor) {
-                $fornecedor->editarFornecedor($nome, $email, $telefone);
+                $fornecedor->editarFornecedor($dados['nome'], $dados['email'], $dados['telefone']);
                 
-                $resultado = $this->repository->editarFornecedor($emailAntigo, $nome, $email, $telefone);
+                $resultado = $this->repository->editarFornecedor($dados['emailAntigo'], $dados['nome'], $dados['email'], $dados['telefone']);
                 
                 if ($resultado) {
                     return true;
@@ -76,10 +77,10 @@ class FornecedorController {
                     throw new Exception("Erro ao editar fornecedor");
                 }
             } else {
-                throw new Exception("Fornecedor não encontrado");
+                Logger::logError("Fornecedor não encontrado: " . $e->getMessage());
             }
         } catch (Exception $e) {
-            return "Erro ao editar fornecedor: " . $e->getMessage();
+            Logger::logError("Fornecedor não encontrado: " . $e->getMessage());
         }
     }
 
@@ -94,13 +95,13 @@ class FornecedorController {
                 if ($resultado) {
                     return true;
                 } else {
-                    throw new Exception("Erro ao desativar fornecedor");
+                    Logger::logError("Erro ao desativar fornecedor");
                 }
             } else {
-                throw new Exception("Fornecedor não encontrado");
+                Logger::logError("Fornecedor não encontrado: " . $e->getMessage());
             }
         } catch (Exception $e) {
-            throw new Exception("Erro ao desativar fornecedor: " . $e->getMessage());
+            Logger::logError("Erro ao desativar fornecedor: " . $e->getMessage());
         }
     }
 }

@@ -80,9 +80,9 @@ class CarrinhoController {
         }
     }
 
-    public function atualizarQuantidade($id, $quantidade) {
+    public function atualizarQuantidade($dados) {
         try {
-            $this->carrinho->atualizarQuantidade($id, $quantidade);
+            $this->carrinho->atualizarQuantidade($dados['id'], $dados['quantidade']);
         } catch (Exception $e) {
             Logger::logError("Erro ao atualizar quantidades no carrinho: " . $e->getMessage());
         }
