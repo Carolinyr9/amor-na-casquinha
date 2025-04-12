@@ -6,6 +6,7 @@ use app\model2\Produto;
 use app\utils\Logger;
 use Exception;
 
+// MUDAR NOME DA TABELA
 class ProdutoController {
     private ProdutoRepository $repository;
 
@@ -13,39 +14,28 @@ class ProdutoController {
         $this->repository = $repository;
     }
 
-    public function listarProdutos() {
+    public function selecionarProdutosAtivos($idCategoria) {
         try {
-            $dados = $this->repository->buscarProdutosAtivos();
-            $produtos = [];
+            $produtosBanco = $this->repository->selecionarProdutosAtivos($idCategoria);
+            $produtosModel = [];
 
-            foreach ($dados as $produto) {
+            foreach ($produtosBanco as $produto) {
                 if (!$produto instanceof Produto) {
                     $produto = new Produto(
-                        $produto['id'],
-                        $produto['fornecedor'],
-                        $produto['nome'],
-                        $produto['marca'],
-                        $produto['descricao'],
+                        $produto['idProduto'],
                         $produto['desativado'],
+                        $produto['nome'],
+                        $produto['preco'],
                         $produto['foto'],
-                        $produto['produtosVariacao'] ?? []
+                        $produto['categoria']
                     );
                 }
-                $produtos[] = $produto;
+                $produtosModel[] = $produto;
             }
 
-            return $produtos;
+            return $produtosModel;
         } catch (Exception $e) {
             Logger::logError("Erro ao listar produtos: " . $e->getMessage());
-            return false;
-        }
-    }
-
-    public function buscarProdutoPorID($id) {
-        try {
-            return $this->repository->buscarProdutoPorID($id);
-        } catch (Exception $e) {
-            Logger::logError("Erro ao buscar produto por ID: " . $e->getMessage());
             return false;
         }
     }
@@ -53,23 +43,20 @@ class ProdutoController {
     public function criarProduto($dados) {
         try {
             $idProduto = $this->repository->criarProduto(
+                $dados['categoria'],
                 $dados['nome'],
-                $dados['marca'],
-                $dados['descricao'],
-                $dados['fornecedor'],
+                $dados['preco'],
                 $dados['foto']
             );
 
             if ($idProduto) {
                 new Produto(
                     $idProduto,
-                    $dados['fornecedor'],
-                    $dados['nome'],
-                    $dados['marca'],
-                    $dados['descricao'],
                     0,
+                    $dados['nome'],
+                    $dados['preco'],
                     $dados['foto'],
-                    null
+                    $dados['categoria']
                 );
                 return true;
             } else {
@@ -82,23 +69,32 @@ class ProdutoController {
         }
     }
 
+    public function selecionarProdutoPorID($id) {
+        try {
+            return $this->repository->selecionarProdutoPorID($id);
+        } catch (Exception $e) {
+            Logger::logError("Erro ao selecionar produto por ID: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function editarProduto($dados) {
         try {
-            $produto = $this->repository->buscarProdutoPorID($dados['idProduto']);
+            $produto = $this->repository->selecionarProdutoPorID($dados['idProduto']);
 
             if ($produto) {
-                $produto->editarProduto(
+                $produto->editar(
+                    $dados['categoria'],
                     $dados['nome'],
-                    $dados['marca'],
-                    $dados['descricao'],
+                    $dados['preco'],
                     $dados['foto']
                 );
 
                 $resultado = $this->repository->editarProduto(
                     $dados['idProduto'],
+                    $dados['categoria'],
                     $dados['nome'],
-                    $dados['marca'],
-                    $dados['descricao'],
+                    $dados['preco'],
                     $dados['foto']
                 );
 
@@ -118,13 +114,12 @@ class ProdutoController {
         }
     }
 
-    public function removerProduto($idProduto) {
+    public function desativarProduto($idProduto) {
         try {
-            $produto = $this->repository->buscarProdutoPorID($idProduto);
+            $produto = $this->repository->selecionarProdutoPorID($idProduto);
 
             if ($produto) {
                 $produto->setDesativado(1);
-
                 $resultado = $this->repository->desativarProduto($idProduto);
 
                 if ($resultado) {
