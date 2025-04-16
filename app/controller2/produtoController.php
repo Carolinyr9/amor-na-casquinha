@@ -6,17 +6,16 @@ use app\model2\Produto;
 use app\utils\Logger;
 use Exception;
 
-// MUDAR NOME DA TABELA
 class ProdutoController {
     private ProdutoRepository $repository;
 
-    public function __construct(ProdutoRepository $repository) {
-        $this->repository = $repository;
+    public function __construct(ProdutoRepository $repository = null) {
+        $this->repository = $repository ?? new ProdutoRepository();
     }
 
     public function selecionarProdutosAtivos($idCategoria) {
         try {
-            $produtosBanco = $this->repository->selecionarProdutosAtivos($idCategoria);
+            $produtosBanco = $this->repository->selecionarProdutosAtivosPorCategoria($idCategoria);
             $produtosModel = [];
 
             foreach ($produtosBanco as $produto) {

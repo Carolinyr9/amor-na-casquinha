@@ -2,7 +2,7 @@
 namespace app\repository;
 
 use app\config\DataBase;
-use app\models\Produto;
+use app\model2\Produto;
 use PDO;
 use PDOException;
 use Exception;
@@ -23,10 +23,9 @@ class ProdutoRepository {
         }
     }
 
-    // RENOMEAR TABELA
     public function selecionarProdutosAtivosPorCategoria($idCategoria) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM produto WHERE desativado = 0 AND idCategoria = :idCategoria");
+            $stmt = $this->conn->prepare("SELECT * FROM produto WHERE desativado = 0 AND categoria = :idCategoria");
             $stmt->bindParam(":idCategoria", $idCategoria, PDO::PARAM_INT);
             $stmt->execute();
             $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -35,7 +34,7 @@ class ProdutoRepository {
     
             foreach ($dados as $produto) {
                 $produtos[] = new Produto(
-                    $produto['idProduto'],
+                    $produto['id'],
                     $produto['desativado'],
                     $produto['nome'],
                     $produto['preco'],
