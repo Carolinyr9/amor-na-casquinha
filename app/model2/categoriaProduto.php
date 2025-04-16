@@ -5,7 +5,6 @@ use app\config\DataBase;
 use PDO;
 use PDOException;
 
-// MUDAR NOME DA TABELAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 class CategoriaProduto {
     private $id;
     private $fornecedor;

@@ -5,7 +5,6 @@ use app\config\DataBase;
 use PDO;
 use PDOException;
 
-// MUDAR NOME DA TABELAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 class CategoriaProdutoRepository {
     private $conn;  
 
@@ -25,21 +24,20 @@ class CategoriaProdutoRepository {
     public function buscarCategoriasAtivas($limit = 100, $offset = 0) {
         $produtos = [];
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM categoriaProduto WHERE desativado = 1 LIMIT :limit OFFSET :offset");
+            $stmt = $this->conn->prepare("SELECT * FROM categoriaProduto WHERE desativado = 0 LIMIT :limit OFFSET :offset");
             $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
             $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
             $stmt->execute();
     
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $produtos[] = [
-                    'id' => $row['idProduto'],  
+                    'id' => $row['id'],  
                     'fornecedor' => $row['idFornecedor'],  
                     'nome' => $row['nome'],  
                     'marca' => $row['marca'],  
                     'descricao' => $row['descricao'],  
                     'desativado' => $row['desativado'] == 0, 
-                    'foto' => $row['foto'],  
-                    'produtosVariacao' => [] 
+                    'foto' => $row['foto']
                 ];
             }
         } catch (PDOException $e) {
@@ -64,8 +62,7 @@ class CategoriaProdutoRepository {
                 $dados['descricao'],
                 $dados['desativado'],
                 $dados['foto'],
-                $dados['preco'],
-                $dados['produtosVariacao'] ?? []
+                $dados['preco']
             ) : null;
         } catch (PDOException $e) {
             throw new Exception("Erro ao buscar produto por ID: " . $e->getMessage());

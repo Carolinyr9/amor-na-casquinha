@@ -1,116 +1,144 @@
-<?php 
-namespace app\repository;
+<?php
+namespace app\controller2;
 
-use app\config\DataBase;
-use PDO;
-use PDOException;
+use app\repository\CategoriaProdutoRepository;
+use app\model2\CategoriaProduto;
+use app\utils\Logger;
 use Exception;
 
-// MUDAR NOME DA TABELAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+class CategoriaProdutoController {
+    private CategoriaProdutoRepository $repository;
 
-class CategoriaProdutoRepository {
-    private $conn;  
-
-    public function __construct() {
-        $this->getConnectionDataBase();
+    public function __construct(CategoriaProdutoRepository $repository = null) {
+        $this->repository = $repository ?? new CategoriaProdutoRepository();
     }
 
-    private function getConnectionDataBase() {
+    public function listarCategorias() {
         try {
-            $database = new DataBase();
-            $this->conn = $database->getConnection();  
-        } catch (PDOException $e) {
-            die("Erro ao conectar com o banco de dados: " . $e->getMessage());
-        }
-    }
+            $dados = $this->repository->buscarCategoriasAtivas();
+            $categorias = [];
 
-    public function buscarCategoriasAtivas($limit = 100, $offset = 0) {
-        $produtos = [];
-        try {
-            $stmt = $this->conn->prepare("SELECT * FROM categoriaProduto WHERE desativado = 1 LIMIT :limit OFFSET :offset");
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
-            $stmt->execute();
-    
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $produtos[] = [
-                    'id' => $row['idProduto'],  
-                    'fornecedor' => $row['idFornecedor'],  
-                    'nome' => $row['nome'],  
-                    'marca' => $row['marca'],  
-                    'descricao' => $row['descricao'],  
-                    'desativado' => $row['desativado'] == 0, 
-                    'foto' => $row['foto'],  
-                    'produtosVariacao' => [] 
-                ];
+            foreach ($dados as $categoria) {
+                if (!$categoria instanceof CategoriaProduto) {
+                    $categoria = new CategoriaProduto(
+                        $categoria['id'],
+                        $categoria['fornecedor'],
+                        $categoria['nome'],
+                        $categoria['marca'],
+                        $categoria['descricao'],
+                        0,
+                        $categoria['foto']
+                    );
+                }
+                $categorias[] = $categoria;
             }
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar produtos: " . $e->getMessage());
+
+            return $categorias;
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar categorias: " . $e->getMessage());
+            return false;
         }
-        return $produtos;
     }
-    
 
     public function buscarCategoriaPorID($id) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM categoriaProduto WHERE id = :id AND desativado = 0 LIMIT 1");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            return $dados ? new CategoriaProduto(  
-                $dados['id'],
-                $dados['fornecedor'],
-                $dados['nome'],
-                $dados['marca'],
-                $dados['descricao'],
-                $dados['desativado'],
-                $dados['foto'],
-                $dados['preco'],
-                $dados['produtosVariacao'] ?? []
-            ) : null;
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar produto por ID: " . $e->getMessage());
-        }
-    }
-    
-    public function criarCategoria($nome, $marca, $descricao, $fornecedor, $foto) {
-        try {
-            $stmt = $this->conn->prepare("INSERT INTO categoriaProduto (nome, marca, descricao, idFornecedor, foto, desativado) VALUES (:nome, :marca, :descricao, :fornecedor, :foto, 0)");
-            $stmt->bindParam(':nome', $nome);
-            $stmt->bindParam(':marca', $marca);
-            $stmt->bindParam(':descricao', $descricao);
-            $stmt->bindParam(':fornecedor', $fornecedor);
-            $stmt->bindParam(':foto', $foto);
-            $stmt->execute();
-    
-            return $this->conn->lastInsertId();
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao inserir o produto: " . $e->getMessage());
-        }
-    }
-    
-    public function editarCategoria($idProduto, $nomeProduto, $marca, $descricao, $foto) {
-        try {
-            $stmt = $this->conn->prepare("UPDATE categoriaProduto SET nome = :nome, marca = :marca, descricao = :descricao, foto = :foto WHERE id = :idProduto");
-            $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
-            $stmt->bindParam(':nome', $nomeProduto);
-            $stmt->bindParam(':marca', $marca);
-            $stmt->bindParam(':descricao', $descricao);
-            $stmt->bindParam(':foto', $foto);
-            return $stmt->execute() ? true : false;
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao editar o produto: " . $e->getMessage());
+            return $this->repository->buscarCategoriaPorID($id);
+        } catch (Exception $e) {
+            Logger::logError("Erro ao buscar categoria por ID: " . $e->getMessage());
+            return false;
         }
     }
 
-    public function desativarCategoria($idProduto) {
+    public function criarCategoria($dados) {
         try {
-            $stmt = $this->conn->prepare("UPDATE categoriaProduto SET desativado = 1 WHERE id = :idProduto");
-            $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
-            return $stmt->execute() ? true : false;
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao desativar o produto: " . $e->getMessage());
+            $idCategoria = $this->repository->criarCategoria(
+                $dados['nome'],
+                $dados['marca'],
+                $dados['descricao'],
+                $dados['fornecedor'],
+                $dados['foto']
+            );
+
+            if ($idCategoria) {
+                new CategoriaProduto(
+                    $idCategoria,
+                    $dados['fornecedor'],
+                    $dados['nome'],
+                    $dados['marca'],
+                    $dados['descricao'],
+                    0,
+                    $dados['foto'],
+                    null,
+                    []
+                );
+                return true;
+            } else {
+                Logger::logError("Erro ao criar categoria");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao criar categoria: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function editarCategoria($dados) {
+        try {
+            $categoria = $this->repository->buscarCategoriaPorID($dados['idCategoria']);
+
+            if ($categoria) {
+                $categoria->editarCategoria(
+                    $dados['nome'],
+                    $dados['marca'],
+                    $dados['descricao'],
+                    $dados['foto']
+                );
+
+                $resultado = $this->repository->editarCategoria(
+                    $dados['idCategoria'],
+                    $dados['nome'],
+                    $dados['marca'],
+                    $dados['descricao'],
+                    $dados['foto']
+                );
+
+                if ($resultado) {
+                    return true;
+                } else {
+                    Logger::logError("Erro ao editar categoria");
+                    return false;
+                }
+            } else {
+                Logger::logError("Categoria não encontrada");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao editar categoria: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function removerCategoria($idCategoria) {
+        try {
+            $categoria = $this->repository->buscarCategoriaPorID($idCategoria);
+
+            if ($categoria) {
+                $categoria->setDesativado(1);
+                $resultado = $this->repository->desativarCategoria($idCategoria);
+
+                if ($resultado) {
+                    return true;
+                } else {
+                    Logger::logError("Erro ao desativar categoria");
+                    return false;
+                }
+            } else {
+                Logger::logError("Categoria não encontrada");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao remover categoria: " . $e->getMessage());
+            return false;
         }
     }
 }
