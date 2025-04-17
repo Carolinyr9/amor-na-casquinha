@@ -65,18 +65,18 @@ class ProdutoRepository {
 
     public function selecionarProdutoPorID($id) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM produto WHERE idProduto = :id");
+            $stmt = $this->conn->prepare("SELECT * FROM produto WHERE id = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
             $dados = $stmt->fetch(PDO::FETCH_ASSOC);
             
             return $dados ? new Produto(
-                $dados['idProduto'],
+                $dados['id'],
                 $dados['desativado'],
-                $dados['nomeProduto'],
-                $dados['precoProduto'],
-                $dados['fotoProduto'],
-                $dados['idCategoria']
+                $dados['nome'],
+                $dados['preco'],
+                $dados['foto'],
+                $dados['categoria']
             ) : null;
         } catch (PDOException $e) {
             throw new Exception("Erro ao buscar produto por ID: " . $e->getMessage());

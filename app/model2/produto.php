@@ -1,7 +1,6 @@
 <?php 
 namespace app\model2;
 
-// MUDAR NOME DA TABELA
 class Produto {
     private $id;
     private $desativado;

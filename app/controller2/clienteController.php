@@ -1,7 +1,7 @@
 <?php
-namespace app\controller;
+namespace app\controller2;
 
-use app\model\Cliente;
+use app\model2\Cliente;
 use app\repository\ClienteRepository;
 
 class ClienteController {

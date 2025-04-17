@@ -4,6 +4,7 @@ namespace app\model2;
 use app\config\DataBase;
 use PDO;
 use PDOException;
+use app\utils\Logger;
 
 class Carrinho {
     private $total;
@@ -45,20 +46,41 @@ class Carrinho {
 
     public function adicionarProduto($produto) {
         try {
-            if ($produto && isset($produto['nome'], $produto['preco'], $produto['foto'])) {
-                $this->produtos[] = [
-                    "nome" => $produto['nome'],
-                    "preco" => $produto['preco'],
-                    "foto"  => $produto['foto'],
-                    "qntd"  => 1
-                ];
-                return true;
+            if (!isset($_SESSION["cartArray"])) {
+                $_SESSION["cartArray"] = [];
             }
+    
+            if (
+                $produto && 
+                method_exists($produto, 'getId') &&
+                method_exists($produto, 'getNome') &&
+                method_exists($produto, 'getPreco') &&
+                method_exists($produto, 'getFoto')
+            ) {
+                $id = $produto->getId();
+    
+                if (isset($_SESSION["cartArray"][$id])) {
+                    $_SESSION["cartArray"][$id]["qntd"] += 1;
+                } else {
+                    $_SESSION["cartArray"][$id] = [
+                        "nome" => $produto->getNome(),
+                        "preco" => $produto->getPreco(),
+                        "foto"  => $produto->getFoto(),
+                        "qntd"  => 1
+                    ];
+                }             
+                return true;
+            } else {
+                Logger::logError("Erro ao adicionar produto ao carrinho: produto inválido ou não existente ");
+            }
+    
             return false;
         } catch (\Throwable $e) {
+            Logger::logError("Erro ao adicionar produto ao carrinho: " . $e->getMessage());
             return false;
         }
     }
+    
 
     public function listarCarrinho() {
         try {
