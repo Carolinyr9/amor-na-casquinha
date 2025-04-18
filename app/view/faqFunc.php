@@ -2,28 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 include_once 'components/header.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST['inputField'])) {
-        $message = htmlspecialchars($_POST['inputField']);
-
-        $to = "carolinyr9@gmail.com"; 
-        $subject = "Novas dúvidas";
-        
-        $headers = "From: no-reply@amor-de-casquinha.com\r\n";
-        $headers .= "Reply-To: carolinyr9@gmail.com\r\n";
-        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-        if (mail($to, $subject, $message, $headers)) {
-            echo "✅ E-mail enviado com sucesso!";
-        } else {
-            $error = error_get_last();
-            echo "❌ Erro ao enviar o e-mail: " . $error;
-        }
-    } else {
-        echo "❌ O campo de entrada está vazio!";
-    }
-}
+require_once '../utils/faqHandler.php';
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +27,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="d-flex align-items-center flex-column text-center p-3">
                             <h4>Como para ver meus pedidos atribuidos?</h4>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a convallis risus, at accumsan urna. Aliquam sodales porttitor rutrum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut lorem lacus, auctor quis fringilla sed, consectetur sagittis lorem. Sed in nunc at nibh fermentum cursus in a velit.
+                                Se você é funcionário, poderá ver todos os pedidos realizados, quem os fez, o endereço de entrega e também atribuir entregadores a cada pedido.
+                            </p>
+                            <p>
+                                Se você é entregador, verá apenas os pedidos atribuídos a você, com os detalhes do cliente, endereço e um link direto para o Google Maps com a rota da entrega.
                             </p>
                         </div>
                     </div>
@@ -56,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="d-flex align-items-center flex-column text-center p-3">
                             <h4>Como faço para fazer o gerenciamento dos produtos?</h4>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a convallis risus, at accumsan urna. Aliquam sodales porttitor rutrum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut lorem lacus, auctor quis fringilla sed, consectetur sagittis lorem. Sed in nunc at nibh fermentum cursus in a velit.
+                            Na página inicial do painel de funcionários, você verá o gerenciamento de categorias. Clicando em cada categoria, é possível: acessar os produtos relacionados, editar, excluir ou visualizar detalhes de cada item e cadastrar novos produtos ou criar novas categorias.
                             </p>
                         </div>
                     </div>
@@ -64,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="d-flex align-items-center flex-column text-center p-3">
                             <h4>Como acompanho meus pedidos?</h4>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a convallis risus, at accumsan urna. Aliquam sodales porttitor rutrum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut lorem lacus, auctor quis fringilla sed, consectetur sagittis lorem. Sed in nunc at nibh fermentum cursus in a velit.
+                                Na aba “Pedidos”, você tem uma visão geral de todos os pedidos já realizados. Para mais detalhes, clique em “Ver mais informações” em cada pedido. Assim, você poderá acompanhar os dados completos e tomar as ações necessárias.
                             </p>
                         </div>
                     </div>
@@ -72,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="d-flex align-items-center flex-column text-center p-3">
                             <h4>Como mudo o status de um pedido?</h4>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a convallis risus, at accumsan urna. Aliquam sodales porttitor rutrum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut lorem lacus, auctor quis fringilla sed, consectetur sagittis lorem. Sed in nunc at nibh fermentum cursus in a velit.
+                                Ainda na aba “Pedidos”, ao clicar em “Ver mais informações”, você terá acesso às opções de atualização de status do pedido (ex: Em preparação, A caminho, Entregue).
                             </p>
                         </div>
                     </div>
@@ -80,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="d-flex align-items-center flex-column text-center p-3">
                             <h4>Como posso fazer a gestão do estoque?</h4>
                             <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a convallis risus, at accumsan urna. Aliquam sodales porttitor rutrum. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut lorem lacus, auctor quis fringilla sed, consectetur sagittis lorem. Sed in nunc at nibh fermentum cursus in a velit.
+                                Na aba “Estoque”, você pode: ver todas as categorias e os produtos disponíveis, editar, excluir ou adicionar novos estoques de produtos e criar novas categorias conforme necessário
                             </p>
                         </div>
                     </div>
@@ -88,8 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 Mais dúvidas? 
                 Envie uma mensagem diretamente:
-                <form action="" method="post">
-                    <textarea id="inputField" name="inputField" cols="30" required></textarea>
+                <form action="../utils/faqHandler.php" method="post">
+                    <input type="email" name="emailField" required placeholder="Email para contato">
+                    <textarea id="inputField" name="inputField" cols="30" required placeholder="Sua dúvida"></textarea>
                     <input type="submit" value="Enviar">
                 </form>
 
