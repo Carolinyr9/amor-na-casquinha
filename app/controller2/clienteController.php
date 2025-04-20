@@ -18,13 +18,7 @@ class ClienteController {
 
         $dados = $this->repositorio->listarClientePorEmail($email);
         
-        if($dados) {
-            $cliente = new Cliente($dados['idCliente'], $dados['nome'], $dados['email'], $dados['telefone'], $dados['senha'], $dados['idEndereco']);
-
-            return $cliente;
-        } else {
-            return ["error" => "Cliente não encontrado!"];
-        }
+        return $dados ?: ["error" => "Cliente não encontrado!"];
     }
 
     public function editarCliente($dados) {
@@ -41,11 +35,8 @@ class ClienteController {
             $cliente = new Cliente(0, $dados['nome'], $dados['email'], $dados['telefone'], $dados['senha'], $dados['idEndereco']);
 
             $answer = $this->repositorio->editarCliente($cliente);
-            if($answer) {
-                return ["success" => "Cliente editado com sucesso!"];
-            } else {
-                return ["error" => "Erro ao editar o cliente!"];
-            }
+            
+            return $answer ?: ["error" => "Erro ao editar cliente!"];
         }
 
     }

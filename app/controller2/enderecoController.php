@@ -19,12 +19,7 @@ class EnderecoController {
 
         $dados = $this->repositorio->listarEnderecoPorId($idEndereco);
         
-        if($dados) {
-            $endereco = new Endereco($dados['idEndereco'], $dados['rua'], $dados['numero'], $dados['cep'], $dados['bairro'], $dados['cidade'], $dados['estado'], $dados['complemento']);
-            return $endereco;
-        } else {
-            return ["error" => "Endereço não encontrado!"];
-        }
+        return $dados ?: ["error" => "Endereço não encontrado!"];
     }
 
     function editarEndereco($dados) {
@@ -41,11 +36,7 @@ class EnderecoController {
             $endereco = new Endereco(0, $dados['rua'], $dados['numero'], $dados['cep'], $dados['bairro'], $dados['cidade'], $dados['estado'], $dados['complemento']);
             $answer = $this->repositorio->editarEndereco($endereco);
 
-            if($answer) {
-                return ["success" => "Endereço editado com sucesso!"];
-            } else {
-                return ["error" => "Erro ao editar o endereço!"];
-            }
+            return $answer ? ["sucess" => "Endereço editado com sucesso!"] : ["error" => "Erro ao editar endereço!"];
 
         }
     }

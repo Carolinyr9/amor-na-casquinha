@@ -27,11 +27,7 @@ class ClienteRepository {
             $stmt->bindParam(1, $email);
             $stmt->execute();
 
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            } else {
-                return false;
-            }
+            return $stmt->fetch(PDO::FETCH_ASSOC) ?: false;
         } catch (PDOException $e) {
             throw new Exception("Erro ao listar o cliente: " . $e->getMessage());
         }
