@@ -1,9 +1,10 @@
 <?php
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/carrinhoController.php';
-require_once '../controller/clienteController.php';
-require_once '../controller/PedidoController.php';
+require_once '../../vendor/autoload.php';
+use app\controller2\CarrinhoController;
+use app\controller2\PedidoController;
+use app\controller2\ClienteController;
 
 $carrinhoController = new CarrinhoController();
 $clienteController = new ClienteController();

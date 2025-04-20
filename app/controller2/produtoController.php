@@ -3,105 +3,137 @@ namespace app\controller2;
 
 use app\repository\ProdutoRepository;
 use app\model2\Produto;
+use app\utils\Logger;
 use Exception;
 
 class ProdutoController {
-    private $repository;
+    private ProdutoRepository $repository;
 
-    public function __construct(ProdutoRepository $repository) {
-        $this->repository = $repository;
+    public function __construct(ProdutoRepository $repository = null) {
+        $this->repository = $repository ?? new ProdutoRepository();
     }
 
-    public function listarProdutos() {
+    public function selecionarProdutosAtivos($idCategoria) {
         try {
-            $dados = $this->repository->buscarProdutosAtivos();
-            $produtos = [];
-    
-            foreach ($dados as $produto) {
+            $produtosBanco = $this->repository->selecionarProdutosAtivosPorCategoria($idCategoria);
+            $produtosModel = [];
+
+            foreach ($produtosBanco as $produto) {
                 if (!$produto instanceof Produto) {
-                    
                     $produto = new Produto(
-                        $produto['id'],
-                        $produto['fornecedor'],
-                        $produto['nome'],
-                        $produto['marca'],
-                        $produto['descricao'],
+                        $produto['idProduto'],
                         $produto['desativado'],
+                        $produto['nome'],
+                        $produto['preco'],
                         $produto['foto'],
-                        $produto['produtosVariacao'] ?? []
+                        $produto['categoria']
                     );
                 }
-                $produtos[] = $produto;
+                $produtosModel[] = $produto;
             }
-    
-            return $produtos;
-        } catch (Exception $e) {
-            throw new Exception("Erro ao listar produtos: " . $e->getMessage());
-        }
-    }
-    
 
-    public function buscarProdutoPorID($id) {
-        try {
-            return $this->repository->buscarProdutoPorID($id);
+            return $produtosModel;
         } catch (Exception $e) {
-            throw new Exception("Erro ao buscar produto por ID: " . $e->getMessage());
+            Logger::logError("Erro ao listar produtos: " . $e->getMessage());
+            return false;
         }
     }
 
-    public function criarProduto($fornecedor, $nome, $marca, $descricao, $foto, $preco, $produtosVariacao){
-        $idProduto = $this->repository->criarProduto($nome, $marca, $descricao, $fornecedor, $foto);
-    
-        if ($idProduto) {
-            $produto = new Produto($idProduto, $fornecedor, $nome, $marca, $descricao, 0, $foto, $preco, $produtosVariacao);
-            return $produto;
-        } else {
-            throw new Exception("Erro ao criar produto");
+    public function criarProduto($dados) {
+        try {
+            $idProduto = $this->repository->criarProduto(
+                $dados['categoria'],
+                $dados['nome'],
+                $dados['preco'],
+                $dados['foto']
+            );
+
+            if ($idProduto) {
+                new Produto(
+                    $idProduto,
+                    0,
+                    $dados['nome'],
+                    $dados['preco'],
+                    $dados['foto'],
+                    $dados['categoria']
+                );
+                return true;
+            } else {
+                Logger::logError("Erro ao criar produto");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao criar produto: " . $e->getMessage());
+            return false;
         }
     }
-    
-    public function editarProduto($idProduto, $nome, $marca, $descricao, $foto) {
+
+    public function selecionarProdutoPorID($id) {
         try {
-            $produto = $this->repository->buscarProdutoPorID($idProduto);
-            
+            return $this->repository->selecionarProdutoPorID($id);
+        } catch (Exception $e) {
+            Logger::logError("Erro ao selecionar produto por ID: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function editarProduto($dados) {
+        try {
+            $produto = $this->repository->selecionarProdutoPorID($dados['idProduto']);
+
             if ($produto) {
-                $produto->editarProduto($nome, $marca, $descricao, $foto);
-                
-                $resultado = $this->repository->editarProduto($idProduto, $nome, $marca, $descricao, $foto);
-                
+                $produto->editar(
+                    $dados['categoria'],
+                    $dados['nome'],
+                    $dados['preco'],
+                    $dados['foto']
+                );
+
+                $resultado = $this->repository->editarProduto(
+                    $dados['idProduto'],
+                    $dados['categoria'],
+                    $dados['nome'],
+                    $dados['preco'],
+                    $dados['foto']
+                );
+
                 if ($resultado) {
                     return true;
                 } else {
-                    throw new Exception("Erro ao editar produto");
+                    Logger::logError("Erro ao editar produto");
+                    return false;
                 }
             } else {
-                throw new Exception("Produto não encontrado");
+                Logger::logError("Produto não encontrado");
+                return false;
             }
         } catch (Exception $e) {
-            return "Erro ao editar produto: " . $e->getMessage();
+            Logger::logError("Erro ao editar produto: " . $e->getMessage());
+            return false;
         }
     }
 
-    public function removerProduto($idProduto) {
+    public function desativarProduto($idProduto) {
         try {
-            $produto = $this->repository->buscarProdutoPorID($idProduto);
-            
+            $produto = $this->repository->selecionarProdutoPorID($idProduto);
+
             if ($produto) {
                 $produto->setDesativado(1);
-                
                 $resultado = $this->repository->desativarProduto($idProduto);
-                
+
                 if ($resultado) {
                     return true;
                 } else {
-                    throw new Exception("Erro ao desativar produto");
+                    Logger::logError("Erro ao desativar produto");
+                    return false;
                 }
             } else {
-                throw new Exception("Produto não encontrado");
+                Logger::logError("Produto não encontrado");
+                return false;
             }
         } catch (Exception $e) {
-            echo "Erro ao remover produto: " . $e->getMessage();
+            Logger::logError("Erro ao remover produto: " . $e->getMessage());
+            return false;
         }
     }
-    
 }

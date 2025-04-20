@@ -2,32 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 include_once 'components/header.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verifica se o campo de entrada não está vazio
-    if (!empty($_POST['inputField'])) {
-        $message = htmlspecialchars($_POST['inputField']); // Evita ataques XSS
-
-        // Configurações do e-mail
-        $to = "carolinyr9@gmail.com";  // Substitua pelo seu e-mail
-        $subject = "Novas dúvidas";
-        
-        // Cabeçalhos do e-mail
-        $headers = "From: no-reply@amor-de-casquinha.com\r\n";
-        $headers .= "Reply-To: carolinyr9@gmail.com\r\n";
-        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
-
-        // Tenta enviar o e-mail
-        if (mail($to, $subject, $message, $headers)) {
-            echo "✅ E-mail enviado com sucesso!";
-        } else {
-            $error = error_get_last();
-            echo "❌ Erro ao enviar o e-mail: " . $error;
-        }
-    } else {
-        echo "❌ O campo de entrada está vazio!";
-    }
-}
+require_once '../utils/faqHandler.php';
 ?>
 
 <!DOCTYPE html>
@@ -92,8 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 Mais dúvidas? 
                 Envie uma mensagem diretamente:
-                <form action="" method="post">
-                    <textarea id="inputField" name="inputField" cols="30" required></textarea>
+                <form action="../utils/faqHandler.php" method="post">
+                    <input type="email" name="emailField" required placeholder="Email para contato">
+                    <textarea id="inputField" name="inputField" cols="30" required placeholder="Sua dúvida"></textarea>
                     <input type="submit" value="Enviar">
                 </form>
 

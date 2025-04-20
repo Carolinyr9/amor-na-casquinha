@@ -1,0 +1,5 @@
+[2025-04-16 17:25:28] ERROR: Erro ao listar produtos: Erro ao buscar produtos: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idCategoria' in 'where clause'
+[2025-04-17 15:03:25] ERROR: Erro ao selecionar produto por ID: Erro ao buscar produto por ID: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idProduto' in 'where clause'
+[2025-04-17 15:03:29] ERROR: Erro ao selecionar produto por ID: Erro ao buscar produto por ID: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idProduto' in 'where clause'
+[2025-04-17 15:08:52] ERROR: Erro ao adicionar produto ao carrinho: Cannot use object of type app\model2\Produto as array
+[2025-04-17 15:08:56] ERROR: Erro ao adicionar produto ao carrinho: Cannot use object of type app\model2\Produto as array

@@ -2,8 +2,10 @@
 namespace app\repository;
 
 use app\config\DataBase;
+use app\model2\Produto;
 use PDO;
 use PDOException;
+use Exception;
 
 class ProdutoRepository {
     private $conn;  
@@ -21,81 +23,76 @@ class ProdutoRepository {
         }
     }
 
-    public function buscarProdutosAtivos($limit = 100, $offset = 0) {
-        $produtos = [];
+    public function selecionarProdutosAtivosPorCategoria($idCategoria) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM produtos WHERE ativo = 1 LIMIT :limit OFFSET :offset");
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+            $stmt = $this->conn->prepare("SELECT * FROM produto WHERE desativado = 0 AND categoria = :idCategoria");
+            $stmt->bindParam(":idCategoria", $idCategoria, PDO::PARAM_INT);
             $stmt->execute();
+            $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $produtos = [];
     
-            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $produtos[] = [
-                    'id' => $row['idProduto'],  
-                    'fornecedor' => $row['idFornecedor'],  
-                    'nome' => $row['nome'],  
-                    'marca' => $row['marca'],  
-                    'descricao' => $row['descricao'],  
-                    'desativado' => $row['desativado'] == 0, 
-                    'foto' => $row['foto'],  
-                    'produtosVariacao' => [] 
-                ];
+            foreach ($dados as $produto) {
+                $produtos[] = new Produto(
+                    $produto['id'],
+                    $produto['desativado'],
+                    $produto['nome'],
+                    $produto['preco'],
+                    $produto['foto'],
+                    $produto['categoria']
+                );
             }
+    
+            return $produtos; 
         } catch (PDOException $e) {
             throw new Exception("Erro ao buscar produtos: " . $e->getMessage());
         }
-        return $produtos;
     }
-    
 
-    public function buscarProdutoPorID($id) {
+    public function criarProduto($categoria, $nomeProduto, $preco, $imagem) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM produtos WHERE id = :id AND desativado = 0 LIMIT 1");
+            $stmt = $this->conn->prepare("INSERT INTO produto (nomeProduto, precoProduto, fotoProduto, idCategoria, desativado) VALUES (:nomeProduto, :precoProduto, :fotoProduto, :categoria, 0)");
+            $stmt->bindParam(":nomeProduto", $nomeProduto);
+            $stmt->bindParam(":precoProduto", $preco);
+            $stmt->bindParam(":fotoProduto", $imagem);
+            $stmt->bindParam(":idCategoria", $categoria, PDO::PARAM_INT);
+            
+            return $stmt->execute() ? $this->conn->lastInsertId() : false;
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao inserir o produto: " . $e->getMessage());
+        }
+    }
+
+    public function selecionarProdutoPorID($id) {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM produto WHERE id = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
             $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+            
             return $dados ? new Produto(
                 $dados['id'],
-                $dados['fornecedor'],
-                $dados['nome'],
-                $dados['marca'],
-                $dados['descricao'],
                 $dados['desativado'],
-                $dados['foto'],
+                $dados['nome'],
                 $dados['preco'],
-                $dados['produtosVariacao'] ?? []
+                $dados['foto'],
+                $dados['categoria']
             ) : null;
         } catch (PDOException $e) {
             throw new Exception("Erro ao buscar produto por ID: " . $e->getMessage());
         }
     }
-    
-    public function criarProduto($nome, $marca, $descricao, $fornecedor, $foto) {
+
+    public function editarProduto($idProduto, $idCategoria, $nomeProduto, $preco, $imagemProduto) {
         try {
-            $stmt = $this->conn->prepare("INSERT INTO produtos (nome, marca, descricao, idFornecedor, foto, desativado) VALUES (:nome, :marca, :descricao, :fornecedor, :foto, 0)");
-            $stmt->bindParam(':nome', $nome);
-            $stmt->bindParam(':marca', $marca);
-            $stmt->bindParam(':descricao', $descricao);
-            $stmt->bindParam(':fornecedor', $fornecedor);
-            $stmt->bindParam(':foto', $foto);
-            $stmt->execute();
-    
-            return $this->conn->lastInsertId();
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao inserir o produto: " . $e->getMessage());
-        }
-    }
-    
-    public function editarProduto($idProduto, $nomeProduto, $marca, $descricao, $foto) {
-        try {
-            $stmt = $this->conn->prepare("UPDATE produtos SET nome = :nome, marca = :marca, descricao = :descricao, foto = :foto WHERE id = :idProduto");
-            $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
-            $stmt->bindParam(':nome', $nomeProduto);
-            $stmt->bindParam(':marca', $marca);
-            $stmt->bindParam(':descricao', $descricao);
-            $stmt->bindParam(':foto', $foto);
-            return $stmt->execute() ? true : false;
+            $stmt = $this->conn->prepare("UPDATE produto SET nomeProduto = :nomeProduto, precoProduto = :precoProduto, fotoProduto = :fotoProduto, idCategoria = :idCategoria WHERE idProduto = :idProduto AND desativado != 1");
+            $stmt->bindParam(":nomeProduto", $nomeProduto);
+            $stmt->bindParam(":precoProduto", $preco);
+            $stmt->bindParam(":fotoProduto", $imagemProduto);
+            $stmt->bindParam(":idCategoria", $idCategoria, PDO::PARAM_INT);
+            $stmt->bindParam(":idProduto", $idProduto, PDO::PARAM_INT);
+            
+            return $stmt->execute();
         } catch (PDOException $e) {
             throw new Exception("Erro ao editar o produto: " . $e->getMessage());
         }
@@ -103,12 +100,12 @@ class ProdutoRepository {
 
     public function desativarProduto($idProduto) {
         try {
-            $stmt = $this->conn->prepare("UPDATE produtos SET desativado = 1 WHERE id = :idProduto");
-            $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
-            return $stmt->execute() ? true : false;
+            $stmt = $this->conn->prepare("UPDATE produto SET desativado = 1 WHERE idProduto = :idProduto");
+            $stmt->bindParam(":idProduto", $idProduto, PDO::PARAM_INT);
+            
+            return $stmt->execute();
         } catch (PDOException $e) {
             throw new Exception("Erro ao desativar o produto: " . $e->getMessage());
         }
     }
-    
 }

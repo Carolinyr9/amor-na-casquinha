@@ -3,6 +3,7 @@ namespace app\controller2;
 
 use app\repository\EstoqueRepository;
 use app\model2\Estoque;
+use app\utils\Logger;
 use Exception;
 
 class EstoqueController {
@@ -12,17 +13,27 @@ class EstoqueController {
         $this->repository = $repository;
     }
 
-    public function criarProdutoEstoque($idProduto, $idVariacao, $lote, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $quantidade, $precoCompra) {
+    public function criarProdutoEstoque($dados) {
         try {
-            $resultado = $this->repository->criarProdutoEstoque($idProduto, $idVariacao, $lote, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $quantidade, $precoCompra);
-            
+            $resultado = $this->repository->criarProdutoEstoque(
+                $dados['idProduto'] ?? null,
+                $dados['idVariacao'] ?? null,
+                $dados['lote'] ?? '',
+                $dados['dtEntrada'] ?? '',
+                $dados['dtFabricacao'] ?? '',
+                $dados['dtVencimento'] ?? '',
+                $dados['qtdMinima'] ?? 0,
+                $dados['quantidade'] ?? 0,
+                $dados['precoCompra'] ?? 0.0
+            );
+
             if ($resultado) {
-                return new Estoque($idProduto, $idVariacao, $lote, $dataEntrada, $quantidade, $dataFabricacao, $dataVencimento, $precoCompra, $quantidadeMinima, 0, 0, "", 0);
+                return true;
             } else {
-                throw new Exception("Erro ao criar produto no estoque.");
+                Logger::logError("Erro ao criar produto no estoque.");
             }
         } catch (Exception $e) {
-            throw new Exception("Erro ao criar produto: " . $e->getMessage());
+            Logger::logError("Erro ao criar produto: " . $e->getMessage());
         }
     }
 
@@ -30,7 +41,7 @@ class EstoqueController {
         try {
             $dados = $this->repository->listarEstoque();
             $estoque = [];
-    
+
             foreach ($dados as $produto) {
                 if (!$produto instanceof Estoque) {
                     $produto = new Estoque(
@@ -51,54 +62,64 @@ class EstoqueController {
                 }
                 $estoque[] = $produto;
             }
-    
+
             return $estoque;
         } catch (Exception $e) {
-            throw new Exception("Erro ao listar estoque: " . $e->getMessage());
+            Logger::logError("Erro ao listar estoque: " . $e->getMessage());
         }
     }
-    
-    public function selecionarProdutoEstoquePorID(int $idEstoque) {
+
+    public function selecionarProdutoEstoquePorID($idEstoque) {
         try {
             return $this->repository->selecionarProdutoEstoquePorID($idEstoque);
         } catch (Exception $e) {
-            throw new Exception("Erro ao buscar produto por ID: " . $e->getMessage());
+            Logger::logError("Erro ao buscar produto por ID: " . $e->getMessage());
         }
     }
 
-    public function editarProdutoEstoque(Estoque $produto) {
+    public function editarProdutoEstoque($dados) {
         try {
-            $estoqueProduto = $this->repository->selecionarProdutoEstoquePorID($produto->idEstoque);
+            $estoqueProduto = $this->repository->selecionarProdutoEstoquePorID($dados['idEstoque']);
 
             if ($estoqueProduto) {
                 $estoqueProduto->editarProdutoEstoque(
-                    $estoqueProduto->getIdEstoque(),
-                    $estoqueProduto->getDtEntrada(),
-                    $estoqueProduto->getQuantidade(),
-                    $estoqueProduto->getDtFabricacao(),
-                    $estoqueProduto->getDtVencimento(),
-                    $estoqueProduto->getPrecoCompra(),
-                    $estoqueProduto->getQtdMinima(),
-                    $estoqueProduto->getQtdOcorrencia(),
-                    $estoqueProduto->getOcorrencia()
+                    $dados['idEstoque'],
+                    $dados['dtEntrada'],
+                    $dados['quantidade'],
+                    $dados['dtFabricacao'],
+                    $dados['dtVencimento'],
+                    $dados['precoCompra'],
+                    $dados['qtdMinima'],
+                    $dados['qtdOcorrencia'],
+                    $dados['ocorrencia']
                 );
 
-                $resultado = $this->repository->editarProdutoEstoque($produto);
+                $resultado = $this->repository->editarProdutoEstoque(
+                    $dados['idEstoque'],
+                    $dados['dtEntrada'],
+                    $dados['quantidade'],
+                    $dados['dtFabricacao'],
+                    $dados['dtVencimento'],
+                    $dados['precoCompra'],
+                    $dados['qtdMinima'],
+                    $dados['qtdOcorrencia'],
+                    $dados['ocorrencia']
+                );
 
                 if ($resultado) {
                     return true;
                 } else {
-                    throw new Exception("Erro ao editar produto.");
+                    Logger::logError("Erro ao editar produto.");
                 }
             } else {
-                throw new Exception("Produto não encontrado.");
+                Logger::logError("Produto não encontrado.");
             }
         } catch (Exception $e) {
-            throw new Exception("Erro ao editar produto: " . $e->getMessage());
+            Logger::logError("Erro ao editar produto: " . $e->getMessage());
         }
     }
 
-    public function desativarProdutoEstoque(int $idEstoque) {
+    public function desativarProdutoEstoque($idEstoque) {
         try {
             $produto = $this->repository->selecionarProdutoEstoquePorID($idEstoque);
 
@@ -110,13 +131,13 @@ class EstoqueController {
                 if ($resultado) {
                     return true;
                 } else {
-                    throw new Exception("Erro ao desativar produto.");
+                    Logger::logError("Erro ao desativar produto.");
                 }
             } else {
-                throw new Exception("Produto não encontrado.");
+                Logger::logError("Produto não encontrado.");
             }
         } catch (Exception $e) {
-            throw new Exception("Erro ao remover produto: " . $e->getMessage());
+            Logger::logError("Erro ao remover produto: " . $e->getMessage());
         }
     }
 
@@ -124,7 +145,7 @@ class EstoqueController {
         try {
             return $this->repository->verificarQuantidadeMinima();
         } catch (Exception $e) {
-            throw new Exception("Erro ao verificar quantidade mínima: " . $e->getMessage());
+            Logger::logError("Erro ao verificar quantidade mínima: " . $e->getMessage());
         }
     }
 }

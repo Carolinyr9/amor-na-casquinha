@@ -3,8 +3,8 @@ namespace app\controller2;
 
 use app\repository\ProdutoVariacaoRepository;
 use app\model2\ProdutoVariacao;
+use app\utils\Logger;
 use Exception;
-use PDOException;
 
 class ProdutoVariacaoController {
     private ProdutoVariacaoRepository $repository;
@@ -17,82 +17,123 @@ class ProdutoVariacaoController {
         try {
             $variacoesBanco = $this->repository->selecionarVariacaoAtiva($idProduto);
             $variacoesModel = [];
-    
+
             foreach ($variacoesBanco as $variacao) {
                 if (!$variacao instanceof ProdutoVariacao) {
-                    
                     $variacao = new ProdutoVariacao(
-                        $dados['idVariacao'],
-                        $dados['desativado'],
-                        $dados['nomeVariacao'],
-                        $dados['precoVariacao'],
-                        $dados['fotoVariacao'],
-                        $dados['idProduto']
+                        $variacao['idVariacao'],
+                        $variacao['desativado'],
+                        $variacao['nomeVariacao'],
+                        $variacao['precoVariacao'],
+                        $variacao['fotoVariacao'],
+                        $variacao['idProduto']
                     );
                 }
                 $variacoesModel[] = $variacao;
             }
-    
+
             return $variacoesModel;
         } catch (Exception $e) {
-            throw new Exception("Erro ao listar variações: " . $e->getMessage());
+            Logger::logError("Erro ao listar variações: " . $e->getMessage());
+            return false;
         }
     }
-    
 
-    public function criarVariacao($idProduto, $nomeProduto, $preco, $imagem) {
-        $idVariacao = $this->repository->criarVariacao($idProduto, $nomeProduto, $preco, $imagem);
-    
-        if ($idVariacao) {
-            return new ProdutoVariacao($idVariacao, $idProduto, $nomeProduto, $preco, $imagem);
-        } else {
-            throw new Exception("Erro ao criar variação");
+    public function criarVariacao($dados) {
+        try {
+            $idVariacao = $this->repository->criarVariacao(
+                $dados['idProduto'],
+                $dados['nomeVariacao'],
+                $dados['precoVariacao'],
+                $dados['fotoVariacao']
+            );
+
+            if ($idVariacao) {
+                new ProdutoVariacao(
+                    $idVariacao,
+                    $dados['desativado'],
+                    $dados['nomeVariacao'],
+                    $dados['precoVariacao'],
+                    $dados['fotoVariacao'],
+                    $dados['idProduto']
+                );
+                return true;
+            } else {
+                Logger::logError("Erro ao criar variação");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao criar variação: " . $e->getMessage());
+            return false;
         }
     }
 
     public function selecionarVariacaoPorID($id) {
-        return $this->repository->selecionarVariacaoPorID($id);
+        try {
+            return $this->repository->selecionarVariacaoPorID($id);
+        } catch (Exception $e) {
+            Logger::logError("Erro ao selecionar variação por ID: " . $e->getMessage());
+            return false;
+        }
     }
 
-    public function editarVariacao($idVariacao, $idProduto, $nomeProduto, $preco, $imagemProduto) {
+    public function editarVariacao($dados) {
         try {
-            $variacao = $this->repository->selecionarVariacaoPorID($idVariacao);
-            
+            $variacao = $this->repository->selecionarVariacaoPorID($dados['idVariacao']);
+
             if ($variacao) {
-                $variacao->editarVariacao($idProduto, $nomeProduto, $preco, $imagemProduto);
-                $resultado = $this->repository->editarVariacao($idVariacao, $idProduto, $nomeProduto, $preco, $imagemProduto);
-                
+                $variacao->editarVariacao(
+                    $dados['idProduto'],
+                    $dados['nomeVariacao'],
+                    $dados['precoVariacao'],
+                    $dados['fotoVariacao']
+                );
+
+                $resultado = $this->repository->editarVariacao(
+                    $dados['idVariacao'],
+                    $dados['idProduto'],
+                    $dados['nomeVariacao'],
+                    $dados['precoVariacao'],
+                    $dados['fotoVariacao']
+                );
+
                 if ($resultado) {
                     return true;
                 } else {
-                    throw new Exception("Erro ao editar variação");
+                    Logger::logError("Erro ao editar variação");
+                    return false;
                 }
             } else {
-                throw new Exception("Variação de produto não encontrada");
+                Logger::logError("Variação de produto não encontrada");
+                return false;
             }
         } catch (Exception $e) {
-            return "Erro ao editar a variação: " . $e->getMessage();
+            Logger::logError("Erro ao editar a variação: " . $e->getMessage());
+            return false;
         }
     }
 
     public function desativarVariacao($idVariacao) {
         try {
             $variacao = $this->repository->selecionarVariacaoPorID($idVariacao);
-            
+
             if ($variacao) {
-                $variacao->setDesativado(0);
+                $variacao->setDesativado(1);
                 $resultado = $this->repository->desativarVariacao($idVariacao);
-                
+
                 if ($resultado) {
                     return true;
                 } else {
-                    throw new Exception("Erro ao desativar variação");
+                    Logger::logError("Erro ao desativar variação");
+                    return false;
                 }
             } else {
-                throw new Exception("Variação de produto não encontrada");
+                Logger::logError("Variação de produto não encontrada");
+                return false;
             }
         } catch (Exception $e) {
-            echo "Erro ao remover a variação: " . $e->getMessage();
+            Logger::logError("Erro ao remover a variação: " . $e->getMessage());
+            return false;
         }
     }
 }
