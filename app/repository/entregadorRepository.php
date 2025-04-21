@@ -13,7 +13,7 @@ class EntregadorRepository{
         $this->getConnectionDataBase();
     }
 
-    private function getConnectionDataBase() {
+    public function getConnectionDataBase() {
         try {
             $database = new DataBase();
             $this->conn = $database->getConnection();  
@@ -22,35 +22,38 @@ class EntregadorRepository{
         }
     }
 
-    private function listarEntregadores() {
+    public function listarEntregadores() {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM entregador");
             $stmt->execute();
 
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            } else {
-                return false;
-            }
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
         } catch (PDOException $e) {
-            echo "Erro ao listar os entregadores: " . $e->getMessage();
+            throw new Exception("Erro ao listar entregadores: " . $e->getMessage());
         }
     }
 
-    private function listarEntregadorPorId($idEntregador) {
+    public function listarEntregadorPorId($idEntregador) {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE id = ?");
             $stmt->bindParam(1, $idEntregador);
             $stmt->execute();
 
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            } else {
-                return false;
-            }
-
+            return $stmt->fetch(PDO::FETCH_ASSOC) ?: false;
         } catch (PDOException $e) {
-            echo "Erro ao listar entregador: " . $e->getMessage();
+            throw new Exception("Erro ao listar entregador: " . $e->getMessage());
+        }
+    }
+
+    public function listarEntregadorPorEmail($email) {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE email = ?");
+            $stmt->bindParam(1, $email);
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC) ?: false;
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao listar entregador: " . $e->getMessage());
         }
     }
 }

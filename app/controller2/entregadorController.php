@@ -32,13 +32,13 @@ class EntregadorController {
 
             return $entregadores;
         } else {
-            return ['erro' => 'Nenhum entregador encontrado.'];
+            return Logger::logError("Erro ao listar entregadores: Nenhum entregador encontrado.");
         }
     }
 
     public function listarEntregadorPorId($idEntregador) {
         if (!is_numeric($idEntregador)) {
-            return ['erro' => 'ID inválido.'];
+            return Logger::logError("Erro ao listar entregador: ID inválido.");
         }
 
         $dados = $this->repositorio->listarEntregadorPor($idEntregador);
@@ -56,7 +56,31 @@ class EntregadorController {
 
             return $entregador;
         } else {
-            return ['erro' => 'Entregador não encontrado.'];
+            return Logger::logError("Erro ao listar entregador: Entregador não encontrado.");
+        }
+    }
+
+    public function listarEntregadorPorEmail($email) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return Logger::logError("Erro ao listar entregador: Email inválido.");
+        }
+
+        $dados = $this->repositorio->listarEntregadorPorEmail($email);
+        if($dados) {
+            $entregador = new Entregador(
+                $dados['id'],
+                $dados['desativado'],
+                $dados['perfil'],
+                $dados['nome'],
+                $dados['email'],
+                $dados['telefone'],
+                $dados['senha'],
+                $dados['cnh']
+            );
+
+            return $entregador;
+        } else {
+            return Logger::logError("Erro ao listar entregador: Entregador não encontrado.");
         }
     }
 }
