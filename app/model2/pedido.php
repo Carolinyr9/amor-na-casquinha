@@ -17,8 +17,26 @@ class Pedido {
     private $frete;
     private $meioPagamento;
     private $trocoPara;
-    
 
+    public function __construct($idPedido, $idCliente, $idProduto, $dtPedido, $dtPagamento, $tipoFrete, $idEndereco, $valorTotal, $dataCancelamento, $motivoCancelamento, $statusPedido, $idEntregador, $frete, $meioPagamento, $trocoPara)
+    {
+        $this->idPedido = $idPedido;
+        $this->idCliente = $idCliente;
+        $this->idProduto = $idProduto;
+        $this->dtPedido = $dtPedido;
+        $this->dtPagamento = $dtPagamento;
+        $this->tipoFrete = $tipoFrete;
+        $this->idEndereco = $idEndereco;
+        $this->valorTotal = $valorTotal;
+        $this->dataCancelamento = $dataCancelamento;
+        $this->motivoCancelamento = $motivoCancelamento;
+        $this->statusPedido = $statusPedido;
+        $this->idEntregador = $idEntregador;
+        $this->frete = $frete;
+        $this->meioPagamento = $meioPagamento;
+        $this->trocoPara = $trocoPara;
+    }
+    
     public function getIdPedido()
     {
         return $this->idPedido;
