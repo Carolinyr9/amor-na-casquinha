@@ -111,6 +111,8 @@ class Pedido {
         }
     }
 
+    
+    //Médoto p/ itensPedidoController
     public function salvarItensPedido($itensCarrinho, $id) {
 
         try {
@@ -230,8 +232,7 @@ class Pedido {
         }
     }
     
-
-
+    //Médoto p/ itensPedidoController
     public function listarTodosItensPedidos($dataInicio, $dataFim) {
         try {
             $stmt = $this->conn->prepare("CALL ListarProdutosPedido(?, ?)");
