@@ -4,6 +4,7 @@ namespace app\comtroller2;
 use app\repository\PedidoRepository;
 use app\repository\ClienteController;
 use app\model\Pedido;
+use app\config\Logger;
 
 class PedidoController {
     private $repositorio;
@@ -11,36 +12,66 @@ class PedidoController {
     public function __construct() {
         $this->repostorio = new PedidoRepository();
     }
+    
+    private function logAndReturnFalse($mensagem) {
+        Logger::logError($mensagem);
+        return false;
+    }  
 
     public function listarPedidoPorEmailCliente($email) {
-        $clienteController = new ClienteController();
-        $dados = $clienteController->listarClientePorEmail($email);
-        if(isset($dados['error'])) {
-            return $dados['error'];
-        } else {
+        try{
+            $clienteController = new ClienteController();
+            $dados = $clienteController->listarClientePorEmail($email);
+
+            if(!$dados) {
+                return logAndReturnFalse("Erro ao listar pedido: Cliente não encontrado!");
+            }
+            
             $pedidos = $this->repositorio->listarPedidoPorIdCliente($id);
-            return $pedidos ?: Logger::logError("Erro ao listar pedido: Nenhum pedido encontrado!");
+                
+            if(!$pedidos) {
+                return logAndReturnFalse("Erro ao listar pedido: Nenhum pedido encontrado!");
+            }
+
+            return $pedidos;
+        } catch(Exception $e) {
+            Logger::logError("Erro ao listar pedido: " . $e->getMessage());
+            return false;
         }
     }
     
     public function listarPedidoPorId($idPedido) {
-        if(!isset($idPedido) || empty($idPedido)) {
-            return Logger::logError("Erro ao listar pedido: ID do pedido não fornecido!");
-        }
+        try {
+            if(!isset($idPedido) || empty($idPedido)) {
+                return logAndReturnFalse("Erro ao listar pedido: ID do pedido não fornecido!");
+            }
+    
+            $pedido = $this->repositorio->listarPedidoPorId($idPedido);
+            
+            if(!$pedido) {
+                return logAndReturnFalse("Erro ao listar pedido: Nenhum pedido encontrado!");
+            }
 
-        $pedido = $this->repositorio->listarPedidoPorId($idPedido);
-        return $pedido ?: Logger::logError("Erro ao listar pedido: Nenhum pedido encontrado!");
+            return $pedido;
+        } catch(Exception $e) {
+            Logger::logError("Erro ao listar pedido: " . $e->getMessage());
+            return false;
+        }
     }
 
     public function listarInformacoesPedido($idPedido) {
         try {
             if(!isset($idPedido) || empty($idPedido)) {
-                return Logger::logError("Erro ao listar informações do pedido: ID do pedido não fornecido!");
+                return $this->logAndReturnFalse("Erro ao listar informações do pedido: ID do pedido não fornecido!");
             }
     
             $pedido = $this->repositorio->listarInformacoesPedido($idPedido);
 
-            return $pedido ?: Logger::logError("Erro ao listar informações do pedido: Nenhum item encontrado para o pedido!");
+            if(!$pedido) {
+                return $this->logAndReturnFalse("Erro ao listar informações do pedido: Nenhum pedido encontrado!");
+            }
+
+            return $pedido;
         } catch (Exception $e) {
             return Logger::logError("Erro ao listar informações do pedido: " . $e->getMessage());
         }
@@ -48,51 +79,74 @@ class PedidoController {
 
     public function criarPedido($emailCliente, $dadosPedido) {
         try {
-            if(isset($_POST)) {
-                $clienteController = new ClienteController();
-                $dados = $clienteController->listarClientePorEmail($emailCliente);
+            $clienteController = new ClienteController();
+            $cliente = $clienteController->listarClientePorEmail($emailCliente);
     
-                if(isset($dados['error'])) {
-                    return $dados['error'];
-                } else {
-                    $idCliente = $dados['idCliente'];
-                }
-                
-                if(!isset($dadosPedido['tipoFrete']) || empty($dadosPedido['tipoFrete'])) {
-                    Logger::logError("Erro ao criar pedido: Tipo de frete não fornecido!");
-                    return false;
-                }
-        
-                if(!isset($dadosPedido['valorTotal']) || empty($dadosPedido['valorTotal'])) {
-                    Logger::logError("Erro ao criar pedido: Valor total não fornecido!");
-                    return false;
-                }
-        
-                if(!isset($dadosPedido['frete']) || empty($dadosPedido['frete'])) {
-                    Logger::logError("Erro ao criar pedido: Frete não fornecido!");
-                    return false;
-                }
-                
-                if(!isset($dadosPedido['meioDePagamento']) || empty($dadosPedido['meioDePagamento'])) {
-                    Logger::logError("Erro ao criar pedido: Meio de pagamento não fornecido!");
-                    return false;
-                }
-
-                if($dados['meioDePagamento'] == 'Dinheiro' && (!isset($dadosPedido['trocoPara']) || empty($dadosPedido['trocoPara']))) {
-                    Logger::logError("Erro ao criar pedido: Troco para não fornecido!");
-                    return false;
-                }
-                
-                $pedido = new Pedido(0, $idCliente, 0, date('Y-m-d H:i:s'), null, $dadosPedido['tipoFrete'], $dados['idEndereco'], $dadosPedido['valorTotal'], null, null, 'Aguardando Confirmação', 0, $dadosPedido['frete'], $dadosPedido['meioDePagamento'], $dadosPedido['trocoPara']);
-                
-                $resumoado = $this->repositorio->criarPedido($pedido->getIdCliente(), $pedido->getDtPedido(), $pedido->getTipoFrete(), $pedido->getIdEndereco(), $pedido->getValorTotal(), $pedido->getStatusPedido(), $pedido->getFrete(), $pedido->getMeioPagamento(), $pedido->getTrocoPara());
-
-                return $resutado ? Logger::logInfo("Pedido criado com sucesso!") : Logger::logError("Erro ao criar pedido: Nenhum pedido encontrado!");
+            if (!$cliente) {
+                return $this->logAndReturnFalse("Erro ao criar pedido: Cliente não encontrado!");
             }
-        } catch(Exception $e) {
-            return Logger::logError("Erro ao criar pedido: " . $e->getMessage());
+    
+            $idCliente = $cliente['idCliente'];
+            $idEndereco = $cliente['idEndereco'];
+    
+            $camposObrigatorios = ['tipoFrete', 'valorTotal', 'frete', 'meioDePagamento'];
+    
+            foreach ($camposObrigatorios as $campo) {
+                if (empty($dadosPedido[$campo])) {
+                    return $this->logAndReturnFalse("Erro ao criar pedido: Campo obrigatório '$campo' não fornecido!");
+                }
+            }
+    
+            if (
+                $dadosPedido['meioDePagamento'] === 'Dinheiro' &&
+                (empty($dadosPedido['trocoPara']) || !isset($dadosPedido['trocoPara']))
+            ) {
+                return $this->logAndReturnFalse("Erro ao criar pedido: Troco para não fornecido!");
+            }
+    
+            $trocoPara = $dadosPedido['meioDePagamento'] === 'Dinheiro' ? $dadosPedido['trocoPara'] : null;
+    
+            $pedido = new Pedido(
+                0,
+                $idCliente,
+                0,
+                date('Y-m-d H:i:s'),
+                null,
+                $dadosPedido['tipoFrete'],
+                $idEndereco,
+                $dadosPedido['valorTotal'],
+                null,
+                null,
+                'Aguardando Confirmação',
+                0,
+                $dadosPedido['frete'],
+                $dadosPedido['meioDePagamento'],
+                $trocoPara
+            );
+    
+            $resultado = $this->repositorio->criarPedido(
+                $pedido->getIdCliente(),
+                $pedido->getDtPedido(),
+                $pedido->getTipoFrete(),
+                $pedido->getIdEndereco(),
+                $pedido->getValorTotal(),
+                $pedido->getStatusPedido(),
+                $pedido->getFrete(),
+                $pedido->getMeioPagamento(),
+                $pedido->getTrocoPara()
+            );
+    
+            if (!$resultado) {
+                return $this->logAndReturnFalse("Erro ao criar pedido: Falha ao persistir pedido.");
+            }
+    
+            Logger::logInfo("Pedido criado com sucesso! ID do pedido: " . $resultado);
+            return true;
+    
+        } catch (Exception $e) {
+            return $this->logAndReturnFalse("Erro ao criar pedido: " . $e->getMessage());
         }
-    }
+    }  
 
     public function listarPedidos() {
         try{
@@ -116,7 +170,11 @@ class PedidoController {
                 return $prioridadeA - $prioridadeB;
             });
 
-            return $pedidos ?: Logger::logError("Erro ao listar pedidos: Nenhum pedido encontrado!");
+            if(!$pedidos) {
+                return logAndReturnFalse("Erro ao listar pedidos: Nenhum pedido encontrado!");
+            }
+
+            return $pedidos;
         } catch(Exception $e) {
             return Logger::logError("Erro ao listar pedidos: " . $e->getMessage());
         }
@@ -125,37 +183,41 @@ class PedidoController {
     public function listarPedidosEntregador($emailEntregador) {
         try{
             if(!isset($emailEntregador) || empty($emailEntregador)) {
-                return Logger::logError("Erro ao listar pedidos: Email do entregador não fornecido!");
+                return logAndReturnFalse("Erro ao listar pedidos: Email do entregador não fornecido!");
             }
 
             $entregadorController = new EntregadorController();
             $dadosEntregador = $entregadorController->listarEntregadorPorEmail($emailEntregador); 
 
-            if(isset($dadosEntregador['error'])) {
-                return Logger::logError("Erro ao listar pedidos: " . $dadosEntregador['error']);
-            } else {
-                $pedidos = $this->repositorio->listarPedidosEntregador($dadosEntregador['idEntregador']);
-    
-                usort($pedidos, function($a, $b) {
-                    $prioridades = [
-                        'A Caminho' => 1,
-                        'Aguardando Confirmação' => 2,
-                        'Preparando pedido' => 3,
-                        'Aguardando Retirada' => 4,
-                        'Aguardando Envio' => 5,
-                        'Entregue' => 6,
-                        'Concluído' => 7,
-                        'Cancelado' => 8,
-                        'Entrega Falhou' => 9
-                    ];
-        
-                    $prioridadeA = $prioridades[$a['statusPedido']] ?? 999;
-                    $prioridadeB = $prioridades[$b['statusPedido']] ?? 999;
-                    return $prioridadeA - $prioridadeB;
-                });
-
-                return $pedidos ?: Logger::logError("Erro ao listar pedidos: Nenhum pedido encontrado!");
+            if(!$dadosEntregador) {
+                return logAndReturnFalse("Erro ao listar pedidos: Entregador não encontrado!");
             }
+            
+            $pedidos = $this->repositorio->listarPedidosEntregador($dadosEntregador['idEntregador']);
+    
+            usort($pedidos, function($a, $b) {
+                $prioridades = [
+                    'A Caminho' => 1,
+                    'Aguardando Confirmação' => 2,
+                    'Preparando pedido' => 3,
+                    'Aguardando Retirada' => 4,
+                    'Aguardando Envio' => 5,
+                    'Entregue' => 6,
+                    'Concluído' => 7,
+                    'Cancelado' => 8,
+                    'Entrega Falhou' => 9
+                ];
+    
+                $prioridadeA = $prioridades[$a['statusPedido']] ?? 999;
+                $prioridadeB = $prioridades[$b['statusPedido']] ?? 999;
+                return $prioridadeA - $prioridadeB;
+            });
+
+            if(!$pedidos) {
+                return logAndReturnFalse("Erro ao listar pedidos: Nenhum pedido encontrado!");
+            }
+
+            return $pedidos;
         } catch(Exception $e) {
             return Logger::logError("Erro ao listar pedidos: " . $e->getMessage());
         }
@@ -200,12 +262,12 @@ class PedidoController {
 
     public function mudarStatus($dados) {
         try{
-            if(!isset($dados['idPedido']) || empty($dados['idPedido'])) {
-                return Logger::logError("Erro ao mudar status do pedido: ID do pedido não fornecido!");
-            }
-
-            if(!isset($dados['$usuario']) || empty($dados['$usuario'])) {
-                return Logger::logError("Erro ao mudar status do pedido: Usuário não fornecido!");
+            $camposObrigatorios = ['idPedido', 'frete'];
+            
+            foreach($camposObrigatorios as $campo) {
+                if (empty($dados[$campo])) {
+                    return Logger::logError("Erro ao mudar status do pedido: Campo obrigatório '$campo' não fornecido!");
+                }
             }
 
             $pedido = $this->listarPedidoPorId($dados['idPedido']);
@@ -218,7 +280,12 @@ class PedidoController {
                 $resposta = $this->repositorio->mudarStatusCancelamento($idPedido, $novoStatus, $motivoCancelamento);
             }
 
-            return $resposta ? Logger::logInfo("Status do pedido alterado com sucesso!") : Logger::logError("Erro ao mudar status do pedido: Nenhum pedido encontrado!");
+            if(!$resposta) {
+                return Logger::logError("Erro ao mudar status do pedido: Nenhum pedido encontrado!");
+            }
+
+            Logger::logInfo("Status do pedido alterado com sucesso!");
+            return true;
         } catch(Exception $e) {
             return Logger::logError("Erro ao mudar status do pedido: " . $e->getMessage());
         }
@@ -227,11 +294,11 @@ class PedidoController {
     public function listarResumoVendas($dataInicio, $dataFim) {
         try {
             if(!isset($dataInicio) || empty($dataInicio)) {
-                return Logger::logError("Erro ao listar o resumo das vendas: Data de início não fornecida!");
+                return logAndReturnFalse("Erro ao listar o resumo das vendas: Data de início não fornecida!");
             }
 
             if(!isset($dataFim) || empty($dataFim)) {
-                return Logger::logError("Erro ao listar o resumo das vendas: Data de fim não fornecida!");
+                return logAndReturnFalse("Erro ao listar o resumo das vendas: Data de fim não fornecida!");
             }
             
             $resposta = $this->repositorio->listarResumoVendas($dataInicio, $dataFim);
@@ -270,7 +337,8 @@ class PedidoController {
                 }
             }
 
-            return $resumo ?: Logger::logError("Erro ao resumir vendas");
+            Logger::logInfo("Resumo das vendas listado com sucesso!");
+            return $resumo;
         } catch(Exception $e) {
             return Logger::logError("Erro ao listar o resumo das vendas: " . $e->getMessage());
         }
@@ -278,19 +346,53 @@ class PedidoController {
 
     public function atribuirEntregadorPedido($dados) {
         try {
-            if(!isset($dados['idPedido']) || empty($dados['idPedido'])) {
-                return Logger::logError("Erro ao atribuir entregador ao pedido: ID do pedido não fornecido!");
-            }
+            $camposObrigatorios = ['idPedido', 'idEntregador'];
 
-            if(!isset($dados['idEntregador']) || empty($dados['idEntregador'])) {
-                return Logger::logError("Erro ao atribuir entregador ao pedido: Entregador não fornecido!");
+            foreach($camposObrigatorios as $campo) {
+                if (empty($dados[$campo])) {
+                    return logAndReturnFalse("Erro ao atribuir entregador ao pedido: Campo obrigatório '$campo' não fornecido!");
+                }
             }
 
             $resposta = $this->repositorio->atribuirEntregadorPedido($dados['idPedido'], $dados['idEntegador']);
 
-            return $resposta ? Logger::logInfo("Entregador atribuído ao pedido com sucesso!") : Logger::logError("Erro ao atribuir entregador ao pedido");
+            if(!$resposta) {
+                return logAndReturnFalse("Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!");
+            }
+
+            Logger::logInfo("Entregador atribuído ao pedido com sucesso!");
+            return true;
         } catch(Exception $e) {
             return Logger::logError("Erro ao atribuir entregador ao pedido: " . $e->getMessage());
+        }
+    }
+
+    public function calcularFrete($cep) {
+        try {
+            $url = "http://localhost:8080/sorveteria/frete?cep=" . urlencode($cep);
+            $ch = curl_init();
+            $timeout = 5;
+
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+
+            $data = curl_exec($ch);
+
+            if (curl_errno($ch)) {
+                echo 'Error:' . curl_error($ch);
+                return Logger::logError("Erro ao calcular o frete.");
+            }
+
+            if ($data == 1) {
+                return Logger::logError("Estamos muito distantes do seu endereço para fazer uma entrega!");
+            }
+
+            curl_close($ch);
+
+            return $data;
+        } catch(Exception $e) {
+            return Logger::logError("Erro ao calcular o frete: " . $e->getMessage());
         }
     }
 }
