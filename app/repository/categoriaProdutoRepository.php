@@ -48,7 +48,6 @@ class CategoriaProdutoRepository {
         return $produtos;
     }
     
-
     public function buscarCategoriaPorID($id) {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM categoriaProduto WHERE id = :id AND desativado = 0 LIMIT 1");
@@ -58,13 +57,12 @@ class CategoriaProdutoRepository {
     
             return $dados ? new CategoriaProduto(
                 $dados['id'],
-                $dados['fornecedor'],
+                $dados['idFornecedor'],
                 $dados['nome'],
                 $dados['marca'],
                 $dados['descricao'],
                 $dados['desativado'],
-                $dados['foto'],
-                $dados['preco']
+                $dados['foto']
             ) : null;
         } catch (PDOException $e) {
             Logger::logError("Erro ao buscar produto por ID: " . $e->getMessage());

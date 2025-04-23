@@ -12,7 +12,7 @@ $paginaAtual = basename($_SERVER['SCRIPT_NAME']);
                 <?php
                     $id = $categoria->getId();
                     $redirectToVariacao = 'editarSabores.php?categoria=' . urlencode($id);
-                    $redirectToEditar = 'editProd.php?categoria=' . urlencode($id);
+                    $redirectToEditar = 'editarCategoria.php?categoria=' . urlencode($id);
                     $redirectToExcluir = 'excluirCategorias.php?categoria=' . urlencode($id);
                 ?>
                 <a class="botao__link--verSabores text-decoration-none border-0 rounded-3 m-1 text-black" href="<?= htmlspecialchars($redirectToVariacao) ?>">Ver Sabores</a>     

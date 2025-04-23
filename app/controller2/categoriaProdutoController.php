@@ -84,7 +84,7 @@ class CategoriaProdutoController {
 
     public function editarCategoria($dados) {
         try {
-            $categoria = $this->repository->buscarCategoriaPorID($dados['idCategoria']);
+            $categoria = $this->repository->buscarCategoriaPorID($dados['id']);
 
             if ($categoria) {
                 $categoria->editarCategoria(
@@ -95,7 +95,7 @@ class CategoriaProdutoController {
                 );
 
                 $resultado = $this->repository->editarCategoria(
-                    $dados['idCategoria'],
+                    $dados['id'],
                     $dados['nome'],
                     $dados['marca'],
                     $dados['descricao'],

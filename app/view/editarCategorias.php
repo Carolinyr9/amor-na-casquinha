@@ -7,6 +7,7 @@ require_once '../utils/adicionarCategorias.php';
 use app\controller2\CategoriaProdutoController;
 $categoriasController = new CategoriaProdutoController();
 $categorias = $categoriasController->listarCategorias();
+
 ?>
 
 <!DOCTYPE html>
