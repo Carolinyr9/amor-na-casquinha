@@ -17,7 +17,7 @@ require_once '../../vendor/autoload.php'; ?>
                         break;
                     case "FUNC":
                         echo "<a href='relatorios.php'>Relatórios</a><span> | </span>";
-                        echo "<a href='editarProdutos.php'>Produtos</a><span> | </span>";
+                        echo "<a href='editarCategorias.php'>Produtos</a><span> | </span>";
                         echo "<a href='pedidos.php'>Pedidos</a><span> | </span>";
                         echo "<a href='telaEstoque.php'>Estoque</a><span> | </span>";
                         echo "<a href='pessoas.php'>Pessoas</a><span> | </span>";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19/03/2025 às 00:17
+-- Tempo de geração: 16/04/2025 às 17:12
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -999,6 +999,34 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `categoriaproduto`
+--
+
+CREATE TABLE categoriaProduto (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    marca VARCHAR(255),
+    descricao TEXT,
+    idFornecedor INT(11),
+    foto VARCHAR(50),
+    desativado INT(1) DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+--
+-- Despejando dados para a tabela `categoriaproduto`
+--
+
+INSERT INTO `categoriaproduto` (`id`, `idFornecedor`, `nome`, `marca`, `descricao`, `desativado`, `foto`) VALUES
+(1, 1, 'Pote', 'Nestlé', 'Potes de Sorvete', 1, '98fb6a95c11ab1b4270121f66ced7c98.png'),
+(2, 2, 'Picolé', 'Marca', 'Picolé', 0, 'picoleLogo.png'),
+(3, 2, 'ChupChup', 'Garoto', 'ChupChup', 0, 'chupLogo.png'),
+(4, 2, 'Sundae', 'Nestle', 'Sundae', 0, 'sundaeLogo.png'),
+(5, 1, 'Açaí', 'AcaiGalaxy', 'Açai', 0, 'acaiLogo.png');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `clientes`
 --
 
@@ -1399,66 +1427,23 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos`
+-- Estrutura para tabela `produto`
 --
 
-CREATE TABLE `produtos` (
-  `idProduto` int(11) NOT NULL,
-  `idFornecedor` int(11) NOT NULL,
-  `nome` varchar(255) NOT NULL,
-  `marca` varchar(255) NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `desativado` int(11) DEFAULT NULL,
-  `foto` varchar(50) DEFAULT NULL
+CREATE TABLE `produto` (
+  `id` int(11) NOT NULL,
+  `desativado` tinyint(4) DEFAULT NULL,
+  `nome` varchar(255) DEFAULT NULL,
+  `preco` decimal(10,2) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
+  `categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `produtos`
+-- Despejando dados para a tabela `produto`
 --
 
-INSERT INTO `produtos` (`idProduto`, `idFornecedor`, `nome`, `marca`, `descricao`, `desativado`, `foto`) VALUES
-(1, 1, 'Pote', 'Nestlé', 'Potes de Sorvete', 1, '98fb6a95c11ab1b4270121f66ced7c98.png'),
-(2, 2, 'Picolé', 'Marca', 'Picolé', 0, 'picoleLogo.png'),
-(3, 2, 'ChupChup', 'Garoto', 'ChupChup', 0, 'chupLogo.png'),
-(4, 2, 'Sundae', 'Nestle', 'Sundae', 0, 'sundaeLogo.png'),
-(5, 1, 'Açaí', 'AcaiGalaxy', 'Açai', 0, 'acaiLogo.png'),
-(81, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(82, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(83, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(84, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(85, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(86, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(87, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(88, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(89, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(90, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(91, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(92, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(93, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(94, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(95, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(96, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `variacaoproduto`
---
-
-CREATE TABLE `variacaoproduto` (
-  `idVariacao` int(11) NOT NULL,
-  `desativado` tinyint(4) DEFAULT 0,
-  `nomeVariacao` varchar(255) NOT NULL,
-  `precoVariacao` decimal(10,2) NOT NULL,
-  `fotoVariacao` varchar(255) NOT NULL,
-  `idProduto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `variacaoproduto`
---
-
-INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `precoVariacao`, `fotoVariacao`, `idProduto`) VALUES
+INSERT INTO `produto` (`id`, `desativado`, `nome`, `preco`, `foto`, `categoria`) VALUES
 (1, 1, 'Havaiano', 25.99, 'havaianoPote.png', 1),
 (2, 1, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1),
 (3, 1, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1),
@@ -1483,6 +1468,13 @@ INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `prec
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `categoriaproduto`
+--
+ALTER TABLE `categoriaproduto`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_produto_fornecedor` (`idFornecedor`);
 
 --
 -- Índices de tabela `clientes`
@@ -1550,18 +1542,11 @@ ALTER TABLE `pedidos`
   ADD KEY `fk_entregador` (`idEntregador`);
 
 --
--- Índices de tabela `produtos`
+-- Índices de tabela `produto`
 --
-ALTER TABLE `produtos`
-  ADD PRIMARY KEY (`idProduto`),
-  ADD KEY `fk_produto_fornecedor` (`idFornecedor`);
-
---
--- Índices de tabela `variacaoproduto`
---
-ALTER TABLE `variacaoproduto`
-  ADD PRIMARY KEY (`idVariacao`),
-  ADD KEY `fk_variacaoproduto_produto` (`idProduto`);
+ALTER TABLE `produto`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_variacaoproduto_produto` (`categoria`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -1616,20 +1601,14 @@ ALTER TABLE `pedidos`
   MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 
 --
--- AUTO_INCREMENT de tabela `produtos`
---
-ALTER TABLE `produtos`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
-
---
--- AUTO_INCREMENT de tabela `variacaoproduto`
---
-ALTER TABLE `variacaoproduto`
-  MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
---
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `categoriaproduto`
+--
+ALTER TABLE `categoriaproduto`
+  ADD CONSTRAINT `fk_produto_fornecedor` FOREIGN KEY (`idFornecedor`) REFERENCES `fornecedores` (`idFornecedor`);
 
 --
 -- Restrições para tabelas `clientes`
@@ -1647,8 +1626,8 @@ ALTER TABLE `empresa`
 -- Restrições para tabelas `estoque`
 --
 ALTER TABLE `estoque`
-  ADD CONSTRAINT `FK_IdVariacao` FOREIGN KEY (`idVariacao`) REFERENCES `variacaoproduto` (`idVariacao`),
-  ADD CONSTRAINT `fk_estoque_produto` FOREIGN KEY (`idProduto`) REFERENCES `produtos` (`idProduto`);
+  ADD CONSTRAINT `FK_IdVariacao` FOREIGN KEY (`idVariacao`) REFERENCES `produto` (`id`),
+  ADD CONSTRAINT `fk_estoque_produto` FOREIGN KEY (`idProduto`) REFERENCES `categoriaproduto` (`id`);
 
 --
 -- Restrições para tabelas `fornecedores`
@@ -1667,7 +1646,7 @@ ALTER TABLE `funcionarios`
 --
 ALTER TABLE `itens_pedido`
   ADD CONSTRAINT `itens_pedido_ibfk_1` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`),
-  ADD CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`idProduto`) REFERENCES `variacaoproduto` (`idVariacao`);
+  ADD CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`idProduto`) REFERENCES `produto` (`id`);
 
 --
 -- Restrições para tabelas `pedidos`
@@ -1678,16 +1657,10 @@ ALTER TABLE `pedidos`
   ADD CONSTRAINT `fk_pedido_endereco` FOREIGN KEY (`idEndereco`) REFERENCES `enderecos` (`idEndereco`);
 
 --
--- Restrições para tabelas `produtos`
+-- Restrições para tabelas `produto`
 --
-ALTER TABLE `produtos`
-  ADD CONSTRAINT `fk_produto_fornecedor` FOREIGN KEY (`idFornecedor`) REFERENCES `fornecedores` (`idFornecedor`);
-
---
--- Restrições para tabelas `variacaoproduto`
---
-ALTER TABLE `variacaoproduto`
-  ADD CONSTRAINT `fk_variacaoproduto_produto` FOREIGN KEY (`idProduto`) REFERENCES `produtos` (`idProduto`);
+ALTER TABLE `produto`
+  ADD CONSTRAINT `fk_variacaoproduto_produto` FOREIGN KEY (`categoria`) REFERENCES `categoriaproduto` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
