@@ -32,34 +32,28 @@ $categoria = $categoriaController->buscarCategoriaPorID($idCategoria);
             <h2 class="text-center pt-4 pb-4">Editar Produto</h2>
 
             <div class="conteiner-form p-3 rounded-4 my-3 w-75">
-                <?php if ($categoria): 
-                    $id = htmlspecialchars($categoria->getId());
-                    $nome = htmlspecialchars($categoria->getNome());
-                    $marca = htmlspecialchars($categoria->getMarca());
-                    $descricao = htmlspecialchars($categoria->getDescricao());
-                    $foto = htmlspecialchars($categoria->getFoto());
-                ?>
+                <?php if ($categoria): ?>
                     <form enctype="multipart/form-data" 
-                          action="<?= htmlspecialchars($_SERVER['PHP_SELF']) . '?categoria=' . $id ?>" 
+                          action="<?= htmlspecialchars($_SERVER['PHP_SELF']) . '?categoria=' . htmlspecialchars($categoria->getId()) ?>" 
                           method="POST" 
                           class="formulario d-flex flex-column">
 
-                        <input type="hidden" name="categoria" value="<?= $id ?>">
-                        <input type="hidden" name="imagemProdEdt" value="<?= $foto ?>">
+                        <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria->getId()) ?>">
+                        <input type="hidden" name="imagemProdEdt" value="<?= htmlspecialchars($categoria->getFoto()) ?>">
 
                         <div class="mb-3">
                             <label for="produto" class="form-label">Produto</label>
-                            <input type="text" class="form-control" id="produto" name="nomeProdEdt" value="<?= $nome ?>">
+                            <input type="text" class="form-control" id="produto" name="nomeProdEdt" value="<?= htmlspecialchars($categoria->getNome()) ?>">
                         </div>
 
                         <div class="mb-3">
                             <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control" id="marca" name="marcaProdEdt" value="<?= $marca ?>">
+                            <input type="text" class="form-control" id="marca" name="marcaProdEdt" value="<?= htmlspecialchars($categoria->getMarca()) ?>">
                         </div>
 
                         <div class="mb-3">
                             <label for="descricao" class="form-label">Descrição</label>
-                            <input type="text" class="form-control" id="descricao" name="descricaoProdEdt" value="<?= $descricao ?>">
+                            <input type="text" class="form-control" id="descricao" name="descricaoProdEdt" value="<?= htmlspecialchars($categoria->getDescricao()) ?>">
                         </div>
 
                         <div class="mb-3">
@@ -76,7 +70,7 @@ $categoria = $categoriaController->buscarCategoriaPorID($idCategoria);
                 <?php endif; ?>
             </div>
 
-            <a href="editarCategorias.php" class="btn voltar border-0 rounded-3 fw-bold">Voltar</a>
+            <a href="gerenciarCategorias.php" class="btn voltar border-0 rounded-3 fw-bold">Voltar</a>
         </div>
     </main>
 

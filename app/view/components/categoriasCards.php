@@ -8,10 +8,10 @@ $paginaAtual = basename($_SERVER['SCRIPT_NAME']);
             <img src="../images/<?= htmlspecialchars($categoria->getFoto()) ?>" alt="<?= htmlspecialchars($categoria->getNome()) ?>">
         </picture>
         <div class="card__botao text-center d-flex flex-column justify-content-evenly mt-3">
-            <?php if ($paginaAtual === 'editarCategorias.php'): ?>
+            <?php if ($paginaAtual === 'gerenciarCategorias.php'): ?>
                 <?php
                     $id = $categoria->getId();
-                    $redirectToVariacao = 'editarSabores.php?categoria=' . urlencode($id);
+                    $redirectToVariacao = 'gerenciarProdutos.php?categoria=' . urlencode($id);
                     $redirectToEditar = 'editarCategoria.php?categoria=' . urlencode($id);
                     $redirectToExcluir = 'excluirCategorias.php?categoria=' . urlencode($id);
                 ?>

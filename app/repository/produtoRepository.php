@@ -3,6 +3,7 @@ namespace app\repository;
 
 use app\config\DataBase;
 use app\model2\Produto;
+use app\utils\Logger;
 use PDO;
 use PDOException;
 use Exception;
@@ -51,17 +52,21 @@ class ProdutoRepository {
 
     public function criarProduto($categoria, $nomeProduto, $preco, $imagem) {
         try {
-            $stmt = $this->conn->prepare("INSERT INTO produto (nomeProduto, precoProduto, fotoProduto, idCategoria, desativado) VALUES (:nomeProduto, :precoProduto, :fotoProduto, :categoria, 0)");
+            $stmt = $this->conn->prepare("
+                INSERT INTO produto (nome, preco, foto, categoria, desativado) 
+                VALUES (:nomeProduto, :precoProduto, :fotoProduto, :categoria, 0)
+            ");
             $stmt->bindParam(":nomeProduto", $nomeProduto);
             $stmt->bindParam(":precoProduto", $preco);
             $stmt->bindParam(":fotoProduto", $imagem);
-            $stmt->bindParam(":idCategoria", $categoria, PDO::PARAM_INT);
-            
-            return $stmt->execute() ? $this->conn->lastInsertId() : false;
+            $stmt->bindParam(":categoria", $categoria, PDO::PARAM_INT);
+    
+            $stmt->execute();
+            return $this->conn->lastInsertId();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao inserir o produto: " . $e->getMessage());
+            Logger::logError("Erro ao criar produto: " . $e->getMessage());
         }
-    }
+    }    
 
     public function selecionarProdutoPorID($id) {
         try {
@@ -83,13 +88,12 @@ class ProdutoRepository {
         }
     }
 
-    public function editarProduto($idProduto, $idCategoria, $nomeProduto, $preco, $imagemProduto) {
+    public function editarProduto($idProduto, $nomeProduto, $preco, $imagemProduto) {
         try {
-            $stmt = $this->conn->prepare("UPDATE produto SET nomeProduto = :nomeProduto, precoProduto = :precoProduto, fotoProduto = :fotoProduto, idCategoria = :idCategoria WHERE idProduto = :idProduto AND desativado != 1");
+            $stmt = $this->conn->prepare("UPDATE produto SET nome = :nomeProduto, preco = :precoProduto, foto = :fotoProduto WHERE id = :idProduto AND desativado != 1");
             $stmt->bindParam(":nomeProduto", $nomeProduto);
             $stmt->bindParam(":precoProduto", $preco);
             $stmt->bindParam(":fotoProduto", $imagemProduto);
-            $stmt->bindParam(":idCategoria", $idCategoria, PDO::PARAM_INT);
             $stmt->bindParam(":idProduto", $idProduto, PDO::PARAM_INT);
             
             return $stmt->execute();

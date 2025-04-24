@@ -9,15 +9,15 @@ use Exception;
 class EstoqueController {
     private $repository;
 
-    public function __construct(EstoqueRepository $repository) {
-        $this->repository = $repository;
+    public function __construct(EstoqueRepository $repository = null) {
+        $this->repository = $repository ?? new EstoqueRepository();
     }
 
     public function criarProdutoEstoque($dados) {
         try {
             $resultado = $this->repository->criarProdutoEstoque(
+                $dados['idCategoria'] ?? null,
                 $dados['idProduto'] ?? null,
-                $dados['idVariacao'] ?? null,
                 $dados['lote'] ?? '',
                 $dados['dtEntrada'] ?? '',
                 $dados['dtFabricacao'] ?? '',

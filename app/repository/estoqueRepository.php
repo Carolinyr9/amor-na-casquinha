@@ -4,6 +4,7 @@ namespace app\repository;
 
 use app\config\DataBase;
 use app\model\Estoque;
+use app\utils\Logger;
 use PDO;
 use PDOException;
 use Exception;
@@ -33,7 +34,7 @@ class EstoqueRepository {
                 return (int) $this->conn->lastInsertId();
             }
         } catch (PDOException $e) {
-            throw new Exception("Erro ao criar o produto no estoque: " . $e->getMessage());
+            Logger::logError("Erro ao criar produto no estoque: " . $e->getMessage());
         }
     }
     

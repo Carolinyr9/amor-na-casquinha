@@ -1131,7 +1131,7 @@ INSERT INTO `entregador` (`idEntregador`, `desativado`, `perfil`, `nome`, `telef
 --
 
 CREATE TABLE `estoque` (
-  `idEstoque` int(11) NOT NULL,
+  `idEstoque` int(11) NOT NULL AUTO_INCREMENT,
   `idProduto` int(11) DEFAULT NULL,
   `idVariacao` int(11) DEFAULT NULL,
   `lote` int(11) NOT NULL,
@@ -1144,7 +1144,8 @@ CREATE TABLE `estoque` (
   `qtdVendida` int(11) DEFAULT NULL,
   `qtdOcorrencia` int(11) DEFAULT NULL,
   `ocorrencia` varchar(1024) DEFAULT NULL,
-  `desativado` int(11) NOT NULL
+  `desativado` int(11) NOT NULL,
+  PRIMARY KEY (`idEstoque`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1431,12 +1432,13 @@ DELIMITER ;
 --
 
 CREATE TABLE `produto` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `desativado` tinyint(4) DEFAULT NULL,
   `nome` varchar(255) DEFAULT NULL,
   `preco` decimal(10,2) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
-  `categoria` int(11) DEFAULT NULL
+  `categoria` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1575,12 +1577,6 @@ ALTER TABLE `enderecos`
 --
 ALTER TABLE `entregador`
   MODIFY `idEntregador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `estoque`
---
-ALTER TABLE `estoque`
-  MODIFY `idEstoque` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedores`
