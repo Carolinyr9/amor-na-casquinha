@@ -154,11 +154,9 @@ class Estoque {
         $this->desativado = $desativado;
     }
 
-    public function editarProdutoEstoque(
-        $idEstoque, $dtEntrada, $quantidade, $dtFabricacao, $dtVencimento, 
-        $precoCompra, $qtdMinima, $qtdOcorrencia, $ocorrencia
+    public function editarProdutoEstoque($lote, $dtEntrada, $quantidade, $dtFabricacao, $dtVencimento, $precoCompra, $qtdMinima, $qtdOcorrencia, $ocorrencia
     ) {
-        $this->setIdEstoque($idEstoque);
+        $this->setLote($lote);
         $this->setDtEntrada($dtEntrada);
         $this->setQuantidade($quantidade);
         $this->setDtFabricacao($dtFabricacao);

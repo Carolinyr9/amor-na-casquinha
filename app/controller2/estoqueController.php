@@ -80,7 +80,7 @@ class EstoqueController {
 
             if ($estoqueProduto) {
                 $estoqueProduto->editarProdutoEstoque(
-                    $dados['idEstoque'],
+                    $dados['lote'],
                     $dados['dtEntrada'],
                     $dados['quantidade'],
                     $dados['dtFabricacao'],
@@ -93,6 +93,7 @@ class EstoqueController {
 
                 $resultado = $this->repository->editarProdutoEstoque(
                     $dados['idEstoque'],
+                    $dados['lote'],
                     $dados['dtEntrada'],
                     $dados['quantidade'],
                     $dados['dtFabricacao'],
@@ -109,7 +110,7 @@ class EstoqueController {
                     Logger::logError("Erro ao editar produto.");
                 }
             } else {
-                Logger::logError("Produto não encontrado.");
+                Logger::logError("Produto não encontrado no estoque.");
             }
         } catch (Exception $e) {
             Logger::logError("Erro ao editar produto: " . $e->getMessage());

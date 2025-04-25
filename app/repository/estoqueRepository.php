@@ -51,40 +51,49 @@ class EstoqueRepository {
             }
             return $estoques;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao listar o estoque: " . $e->getMessage());
+            Logger::logError("Erro ao listar o estoque: " . $e->getMessage());
         }
     }
 
-    public function selecionarProdutoEstoquePorID(int $idEstoque): ?Estoque {
+    public function selecionarProdutoEstoquePorID(int $idProduto): ?Estoque {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM estoque WHERE idEstoque = :idEstoque");
-            $stmt->bindParam(':idEstoque', $idEstoque, PDO::PARAM_INT);
+            $stmt = $this->conn->prepare("SELECT * FROM estoque WHERE idProduto = :idProduto");
+            $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             
             return $row ? $this->mapEstoque($row) : null;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao selecionar o produto: " . $e->getMessage());
+            Logger::logError("Erro ao selecionar o produto: " . $e->getMessage());
         }
     }
 
-    public function editarProdutoEstoque(Estoque $produto): bool {
+    public function editarProdutoEstoque($idEstoque, $lote, $dtEntrada, $quantidade, $dtFabricacao, $dtVencimento, $precoCompra, $qtdMinima, $qtdOcorrencia, $ocorrencia){
         try {
-            $stmt = $this->conn->prepare("UPDATE estoque SET dtEntrada = :dtEntrada, quantidade = :quantidade, dtFabricacao = :dtFabricacao, dtVencimento = :dtVencimento, precoCompra = :precoCompra, qtdMinima = :qtdMinima, qtdOcorrencia = :qtdOcorrencia, ocorrencia = :ocorrencia WHERE idEstoque = :idEstoque");
+            $stmt = $this->conn->prepare("UPDATE estoque SET lote = :lote, dtEntrada = :dtEntrada, quantidade = :quantidade, dtFabricacao = :dtFabricacao, dtVencimento = :dtVencimento, precoCompra = :precoCompra, qtdMinima = :qtdMinima, qtdOcorrencia = :qtdOcorrencia, ocorrencia = :ocorrencia WHERE idEstoque = :idEstoque");
             
-            $stmt->bindParam(':dtEntrada', $produto->dtEntrada);
-            $stmt->bindParam(':quantidade', $produto->quantidade);
-            $stmt->bindParam(':dtFabricacao', $produto->dtFabricacao);
-            $stmt->bindParam(':dtVencimento', $produto->dtVencimento);
-            $stmt->bindParam(':precoCompra', $produto->precoCompra);
-            $stmt->bindParam(':qtdMinima', $produto->qtdMinima);
-            $stmt->bindParam(':qtdOcorrencia', $produto->qtdOcorrencia);
-            $stmt->bindParam(':ocorrencia', $produto->ocorrencia);
-            $stmt->bindParam(':idEstoque', $produto->idEstoque, PDO::PARAM_INT);
-            
-            return $stmt->execute() ? true : false;
+            $stmt->bindParam(':lote', $lote);
+            $stmt->bindParam(':dtEntrada', $dtEntrada);
+            $stmt->bindParam(':quantidade', $quantidade);
+            $stmt->bindParam(':dtFabricacao', $dtFabricacao);
+            $stmt->bindParam(':dtVencimento', $dtVencimento);
+            $stmt->bindParam(':precoCompra', $precoCompra);
+            $stmt->bindParam(':qtdMinima', $qtdMinima);
+            $stmt->bindParam(':qtdOcorrencia', $qtdOcorrencia);
+            $stmt->bindParam(':ocorrencia', $ocorrencia);
+            $stmt->bindParam(':idEstoque', $idEstoque, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+
         } catch (PDOException $e) {
-            throw new Exception("Erro ao editar o produto: " . $e->getMessage());
+            Logger::logError("Erro ao editar o produto: " . $e->getMessage());
+            return false;
         }
     }
 
@@ -94,7 +103,7 @@ class EstoqueRepository {
             $stmt->bindParam(':idEstoque', $idEstoque, PDO::PARAM_INT);
             return $stmt->execute() ? true : false;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao desativar o produto: " . $e->getMessage());
+            Logger::logError("Erro ao desativar o produto: " . $e->getMessage());
         }
     }
 
@@ -104,7 +113,7 @@ class EstoqueRepository {
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            throw new Exception("Erro ao verificar quantidade mínima: " . $e->getMessage());
+            Logger::logError("Erro ao verificar quantidade mínima: " . $e->getMessage());
         }
     }
     
