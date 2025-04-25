@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['idCategoriaExcl'], $_P
     
     $categoriaController->removerCategoria($idCategoria);
     
-    header("Location: editarCategorias.php");
+    header("Location: gerenciarCategorias.php");
     exit();
 }
 ?>

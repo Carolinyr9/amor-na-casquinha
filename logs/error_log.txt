@@ -81,3 +81,50 @@
 [2025-04-24 21:10:37] ERROR: 
 [2025-04-24 21:20:24] ERROR: 
 [2025-04-24 21:20:27] ERROR: 
+[2025-04-25 14:34:11] ERROR: 
+[2025-04-25 14:34:14] ERROR: 
+[2025-04-25 14:39:49] ERROR: 
+[2025-04-25 14:40:14] ERROR: 
+[2025-04-25 14:41:42] ERROR: Erro ao remover produto: Erro ao desativar o produto: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idProduto' in 'where clause'
+[2025-04-25 14:41:53] ERROR: 
+[2025-04-25 14:41:55] ERROR: Erro ao remover produto: Erro ao desativar o produto: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idProduto' in 'where clause'
+[2025-04-25 14:41:56] ERROR: 
+[2025-04-25 14:42:29] ERROR: Erro ao remover produto: Erro ao desativar o produto: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idProduto' in 'where clause'
+[2025-04-25 14:43:04] ERROR: 
+[2025-04-25 14:43:08] ERROR: 
+[2025-04-25 14:43:40] ERROR: 
+[2025-04-25 14:44:24] ERROR: 
+[2025-04-25 14:44:51] ERROR: Categoria não encontrada
+[2025-04-25 14:45:46] ERROR: 
+[2025-04-25 14:46:37] ERROR: 
+[2025-04-25 14:48:20] ERROR: 
+[2025-04-25 14:49:14] ERROR: 
+[2025-04-25 14:49:20] ERROR: 
+[2025-04-25 14:50:52] ERROR: 
+[2025-04-25 14:50:54] ERROR: 
+[2025-04-25 14:50:59] ERROR: 
+[2025-04-25 14:51:01] ERROR: 
+[2025-04-25 15:01:04] ERROR: 
+[2025-04-25 15:01:30] ERROR: 680b87aa94d44_Captura_de_tela_2025-01-30_195419.png
+[2025-04-25 15:01:30] ERROR: 
+[2025-04-25 15:03:01] ERROR: 680b88051b3d4_Captura_de_tela_2025-01-30_195419.png
+[2025-04-25 15:03:01] ERROR: 
+[2025-04-25 15:04:40] ERROR: 
+[2025-04-25 15:04:49] ERROR: 
+[2025-04-25 15:06:04] ERROR: 680b88bcd1c64_leite-condensadoChup.png
+[2025-04-25 15:06:04] ERROR: 
+[2025-04-25 15:06:37] ERROR: 
+[2025-04-25 15:28:29] ERROR: 
+[2025-04-25 15:46:34] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:49:31] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:49:32] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:49:32] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:49:33] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:49:33] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:49:38] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:49:39] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:49:40] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:51:24] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:53:28] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:53:29] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-25 15:53:49] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'

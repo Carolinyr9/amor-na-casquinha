@@ -3,7 +3,7 @@
 namespace app\repository;
 
 use app\config\DataBase;
-use app\model\Estoque;
+use app\model2\Estoque;
 use app\utils\Logger;
 use PDO;
 use PDOException;
@@ -16,12 +16,12 @@ class EstoqueRepository {
         $this->conn = (new DataBase())->getConnection();
     }
 
-    public function criarProdutoEstoque($idProduto, $idVariacao, $lote, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $quantidade, $precoCompra): int {
+    public function criarProdutoEstoque($idCategoria, $idProduto, $lote, $dataEntrada, $dataFabricacao, $dataVencimento, $quantidadeMinima, $quantidade, $precoCompra): int {
         try {
-            $stmt = $this->conn->prepare("INSERT INTO estoque (idProduto, idVariacao, lote, dtEntrada, quantidade, dtFabricacao, dtVencimento, precoCompra, qtdMinima) VALUES (:idProduto, :idVariacao, :lote, :dtEntrada, :quantidade, :dtFabricacao, :dtVencimento, :precoCompra, :qtdMinima)");
+            $stmt = $this->conn->prepare("INSERT INTO estoque (idCategoria, idProduto, lote, dtEntrada, quantidade, dtFabricacao, dtVencimento, precoCompra, qtdMinima) VALUES (:idCategoria, :idProduto, :lote, :dtEntrada, :quantidade, :dtFabricacao, :dtVencimento, :precoCompra, :qtdMinima)");
             
+            $stmt->bindParam(':idCategoria', $idCategoria);
             $stmt->bindParam(':idProduto', $idProduto);
-            $stmt->bindParam(':idVariacao', $idVariacao);
             $stmt->bindParam(':lote', $lote);
             $stmt->bindParam(':dtEntrada', $dataEntrada);
             $stmt->bindParam(':quantidade', $quantidade);
@@ -110,20 +110,21 @@ class EstoqueRepository {
     
     private function mapEstoque(array $row): Estoque {
         return new Estoque(
-            idEstoque: $row['idEstoque'], 
-            idProduto: $row['idProduto'], 
-            idVariacao: $row['idVariacao'], 
-            lote: $row['lote'], 
-            dtEntrada: $row['dtEntrada'], 
-            quantidade: $row['quantidade'], 
-            dtFabricacao: $row['dtFabricacao'], 
-            dtVencimento: $row['dtVencimento'], 
-            precoCompra: $row['precoCompra'], 
-            qtdMinima: $row['qtdMinima'], 
-            qtdVendida: $row['qtdVendida'], 
-            qtdOcorrencia: $row['qtdOcorrencia'], 
-            ocorrencia: $row['ocorrencia'], 
-            desativado: $row['desativado']
+            $row['idEstoque'], 
+            $row['idCategoria'], 
+            $row['idProduto'], 
+            $row['dtEntrada'], 
+            $row['quantidade'], 
+            $row['dtFabricacao'], 
+            $row['dtVencimento'],
+            $row['lote'], 
+            $row['precoCompra'], 
+            $row['qtdMinima'], 
+            $row['qtdVendida'], 
+            $row['qtdOcorrencia'], 
+            $row['ocorrencia'], 
+            $row['desativado']
         );
     }
+    
 }

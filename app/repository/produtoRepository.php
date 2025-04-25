@@ -104,7 +104,7 @@ class ProdutoRepository {
 
     public function desativarProduto($idProduto) {
         try {
-            $stmt = $this->conn->prepare("UPDATE produto SET desativado = 1 WHERE idProduto = :idProduto");
+            $stmt = $this->conn->prepare("UPDATE produto SET desativado = 1 WHERE id = :idProduto");
             $stmt->bindParam(":idProduto", $idProduto, PDO::PARAM_INT);
             
             return $stmt->execute();

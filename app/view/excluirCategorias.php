@@ -5,7 +5,6 @@ require_once '../../vendor/autoload.php';
 require_once '../utils/csrf.php';
 require_once '../utils/excluirCategorias.php';
 use app\controller2\CategoriaProdutoController;
-use app\utils\Logger;
 $categoriaController = new CategoriaProdutoController();
 ?>
 

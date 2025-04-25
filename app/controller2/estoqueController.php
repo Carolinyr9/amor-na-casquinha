@@ -15,7 +15,7 @@ class EstoqueController {
 
     public function criarProdutoEstoque($dados) {
         try {
-            $resultado = $this->repository->criarProdutoEstoque(
+            $idEstoque = $this->repository->criarProdutoEstoque(
                 $dados['idCategoria'] ?? null,
                 $dados['idProduto'] ?? null,
                 $dados['lote'] ?? '',
@@ -27,8 +27,23 @@ class EstoqueController {
                 $dados['precoCompra'] ?? 0.0
             );
 
-            if ($resultado) {
-                return true;
+            if ($idEstoque) {
+                new Estoque(
+                    $idEstoque, 
+                    $dados['idCategoria'] ?? null,
+                    $dados['idProduto'] ?? null,
+                    $dados['dtEntrada'] ?? '',
+                    $dados['quantidade'] ?? 0,
+                    $dados['dtFabricacao'] ?? '',
+                    $dados['dtVencimento'] ?? '',
+                    $dados['lote'] ?? '',
+                    $dados['precoCompra'] ?? 0.0,
+                    $dados['qtdMinima'] ?? 0,
+                    null,
+                    null,
+                    null,
+                    0
+                );
             } else {
                 Logger::logError("Erro ao criar produto no estoque.");
             }
@@ -41,25 +56,7 @@ class EstoqueController {
         try {
             $dados = $this->repository->listarEstoque();
             $estoque = [];
-
             foreach ($dados as $produto) {
-                if (!$produto instanceof Estoque) {
-                    $produto = new Estoque(
-                        $produto['idEstoque'],
-                        $produto['idProduto'],
-                        $produto['idVariacao'],
-                        $produto['dtEntrada'],
-                        $produto['quantidade'],
-                        $produto['dtFabricacao'],
-                        $produto['dtVencimento'],
-                        $produto['lote'],
-                        $produto['precoCompra'],
-                        $produto['qtdVendida'],
-                        $produto['qtdOcorrencia'],
-                        $produto['ocorrencia'],
-                        $produto['desativado']
-                    );
-                }
                 $estoque[] = $produto;
             }
 

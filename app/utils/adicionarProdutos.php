@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST['inserirSaborSubmit']))
     $idProduto = $produtoController->criarProduto($dadosProduto);
 
     $dadosEstoque = [
-        'idCategoria' => $_POST["idCategoria"] ?? '',
+        'idCategoria' => $_POST["idProduto"] ?? '',
         'idProduto' => $idProduto,
         'lote' => $_POST['lote'] ?? '',
         'dtEntrada' => $_POST['dataEntrada'] ?? '',

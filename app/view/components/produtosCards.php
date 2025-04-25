@@ -17,7 +17,7 @@ $paginaAtual = basename($_SERVER['SCRIPT_NAME']);
     <div class="botao text-center d-flex justify-content-evenly mt-3">
         <?php if ($paginaAtual === 'gerenciarProdutos.php'): ?>
             <?php 
-                $redirectToExcluir = 'excluirSabor.php?produto=' . urlencode($produto->getId());
+                $redirectToExcluir = 'excluirSabor.php?idProduto=' . urlencode($produto->getId()) . '&idCategoria=' . urlencode($produto->getCategoria());
                 $redirectToEditar  = 'editarSabor.php?idProduto=' . urlencode($produto->getId()) . '&idCategoria=' . urlencode($produto->getCategoria());
             ?>
             <button id="excl" class="rounded-3 border-0">
