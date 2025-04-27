@@ -7,8 +7,8 @@ use PDOException;
 
 class Estoque {
     private $idEstoque;
+    private $idCategoria;
     private $idProduto;
-    private $idVariacao;
     private $dtEntrada;
     private $quantidade;
     private $dtFabricacao;
@@ -59,7 +59,7 @@ class Estoque {
     }
 
     public function getIdCategoria() {
-        return $this->idVariacao;
+        return $this->idCategoria;
     }
 
     public function setIdCategoria($idCategoria) {

@@ -57,7 +57,7 @@ class EstoqueRepository {
 
     public function selecionarProdutoEstoquePorID(int $idProduto): ?Estoque {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM estoque WHERE idProduto = :idProduto");
+            $stmt = $this->conn->prepare("SELECT * FROM estoque WHERE idProduto = :idProduto AND desativado = 0");
             $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -109,7 +109,7 @@ class EstoqueRepository {
 
     public function verificarQuantidadeMinima() {
         try {
-            $stmt = $this->conn->prepare("SELECT idProduto, idVariacao, quantidade FROM estoque WHERE quantidade <= qtdMinima");
+            $stmt = $this->conn->prepare("SELECT idProduto, idCategoria, quantidade FROM estoque WHERE quantidade <= qtdMinima");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {

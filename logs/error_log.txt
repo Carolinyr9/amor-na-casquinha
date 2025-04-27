@@ -144,3 +144,8 @@
 [2025-04-25 20:17:01] ERROR: Erro ao editar produto.
 [2025-04-25 20:17:11] ERROR: Erro ao editar produto.
 [2025-04-25 20:19:03] ERROR: Erro ao editar produto.
+[2025-04-27 02:25:15] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-27 02:33:14] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-27 02:34:01] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-27 02:38:32] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-27 02:42:27] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
