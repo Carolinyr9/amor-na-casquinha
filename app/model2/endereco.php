@@ -1,5 +1,5 @@
 <?php
-namespace app\model;
+namespace app\model2;
 
 class Endereco {
     private $idEndereco;

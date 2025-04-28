@@ -27,7 +27,7 @@ require_once '../config/blockURLAccess.php';
                     <a class="fs-5 fw-bold text-decoration-none text-dark" href="sessaoFuncionarios.php">Funcionários</a>
                 </div>
                 <div class="box-link w-auto p-3 d-flex justify-content-center align-items-center rounded-4">
-                    <a class="fs-5 fw-bold text-decoration-none text-dark" href="sessaoFornecedores.php">Fornecedores</a>
+                    <a class="fs-5 fw-bold text-decoration-none text-dark" href="gerenciarFornecedores.php">Fornecedores</a>
                 </div>
                 
             </div>

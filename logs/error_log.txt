@@ -149,3 +149,19 @@
 [2025-04-27 02:34:01] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
 [2025-04-27 02:38:32] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
 [2025-04-27 02:42:27] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idVariacao' in 'field list'
+[2025-04-28 20:06:48] ERROR: Fornecedor não encontrado
+[2025-04-28 20:33:17] ERROR: Erro ao criar endereço
+[2025-04-28 20:34:14] ERROR: Erro ao criar endereço
+[2025-04-28 20:34:41] ERROR: Erro ao criar endereço
+[2025-04-28 20:34:41] ERROR: Erro ao criar fornecedor
+[2025-04-28 20:34:44] ERROR: Erro ao criar endereço
+[2025-04-28 20:34:44] ERROR: Erro ao criar fornecedor
+[2025-04-28 20:37:32] ERROR: Erro ao criar endereço
+[2025-04-28 20:37:32] ERROR: Erro ao criar fornecedor
+[2025-04-28 20:53:56] ERROR: Erro ao listar fornecedores: Erro ao buscar fornecedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.fornecedor' doesn't exist
+[2025-04-28 20:55:01] ERROR: Erro ao listar fornecedores: Erro ao buscar fornecedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.fornecedor' doesn't exist
+[2025-04-28 20:55:08] ERROR: Erro ao listar fornecedores: Erro ao buscar fornecedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.fornecedor' doesn't exist
+[2025-04-28 20:55:38] ERROR: Erro ao listar fornecedores: Erro ao buscar fornecedores: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.fornecedor' doesn't exist
+[2025-04-28 20:57:22] ERROR: Erro ao criar fornecedor
+[2025-04-28 20:59:23] ERROR: Erro ao criar fornecedor
+[2025-04-28 21:05:47] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idCategoria' in 'field list'
