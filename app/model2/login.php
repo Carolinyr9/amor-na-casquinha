@@ -85,7 +85,7 @@ class Login {
     private function redirecionarPorPerfil($perfil) {
         switch ($perfil) {
             case 'FUNC':
-                $this->redirecionarPara('../view/relatorios.php');
+                $this->redirecionarPara('../view/gerenciarCategorias.php');
                 break;
             case 'CLIE':
                 $this->redirecionarPara('../view/sobre.php');

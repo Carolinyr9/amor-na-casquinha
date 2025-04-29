@@ -1,12 +1,9 @@
 <?php
-require_once '../../vendor/autoload.php';
-use app\controller\PedidoController;
-
 session_start();
 require_once '../config/blockURLAccess.php';
-require_once '../controller/pedidoController.php';
-
-$pedidoController = new PedidoController();
+require_once '../../vendor/autoload.php';
+use app\controller2\CategoriaProdutoController;
+$categoriaController = new CategoriaProdutoController();
 
 $vendas = [];
 $itens = [];
