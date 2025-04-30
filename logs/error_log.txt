@@ -165,3 +165,5 @@
 [2025-04-28 20:57:22] ERROR: Erro ao criar fornecedor
 [2025-04-28 20:59:23] ERROR: Erro ao criar fornecedor
 [2025-04-28 21:05:47] ERROR: Erro ao verificar quantidade mínima: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idCategoria' in 'field list'
+[2025-04-30 16:10:20] ERROR: Erro ao criar funcionario
+[2025-04-30 16:12:24] ERROR: Erro ao criar funcionario

@@ -85,4 +85,12 @@ class Entregador {
     public function setCnh($cnh) {
         $this->cnh = $cnh;
     }
+
+    public function editarEntregador($nome, $email, $telefone, $cnh){
+        $this->setNome($nome);
+        $this->setEmail($email);
+        $this->setTelefone($telefone);
+        $this->setCnh($cnh);
+    }
+
 }

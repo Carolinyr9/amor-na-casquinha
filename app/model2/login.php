@@ -88,7 +88,7 @@ class Login {
                 $this->redirecionarPara('../view/gerenciarCategorias.php');
                 break;
             case 'CLIE':
-                $this->redirecionarPara('../view/sobre.php');
+                $this->redirecionarPara('../view/perfil.php');
                 break;
             case 'ENTR':
                 $this->redirecionarPara('../view/pedidosEntregador.php');

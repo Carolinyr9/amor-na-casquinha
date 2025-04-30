@@ -64,7 +64,7 @@ class FornecedorRepository {
                 $dados['idEndereco']
             ) : null;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar fornecedor por e-mail: " . $e->getMessage());
+            Logger::logError("Erro ao buscar fornecedor por e-mail: " . $e->getMessage());
         }
     }
 
@@ -89,7 +89,7 @@ class FornecedorRepository {
     
             return $this->conn->lastInsertId();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao inserir o fornecedor: " . $e->getMessage());
+            Logger::logError("Erro ao inserir o fornecedor: " . $e->getMessage());
         }
     }
 
@@ -108,7 +108,7 @@ class FornecedorRepository {
     
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao editar o fornecedor: " . $e->getMessage());
+            Logger::logError("Erro ao editar o fornecedor: " . $e->getMessage());
         }
     }
 
@@ -118,7 +118,7 @@ class FornecedorRepository {
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao desativar o fornecedor: " . $e->getMessage());
+            Logger::logError("Erro ao desativar o fornecedor: " . $e->getMessage());
         }
     }
 }

@@ -9,38 +9,46 @@ use Exception;
 class FuncionarioController {
     private $repository;
 
-    public function __construct(FuncionarioRepository $repository) {
-        $this->repository = $repository;
+    public function __construct(FuncionarioRepository $repository = null) {
+        $this->repository = $repository ?? new FuncionarioRepository();
     }
 
-    public function buscarFuncionarios() {
+    public function listarFuncionario() {
         try {
             $dados = $this->repository->buscarFuncionarios();
             $funcionarios = [];
 
-            foreach ($dados as $dado) {
-                $dado['senha'] = null; // não retornar a senha
-                $funcionarios[] = new Funcionario(...array_values($dado));
+            foreach ($dados as $func) {
+                if (!$func instanceof Funcionario) {
+                    
+                    $funcionario = new Funcionario(
+                        $func['idFuncionario'],
+                        $func['nome'],
+                        $func['telefone'],
+                        $func['email'],
+                        null,
+                        $func['adm'],
+                        $func['desativado'] == 0,
+                        $func['idEndereco']
+                    );
+                } else {
+                    $funcionario = $func;
+                }
+                $funcionarios[] = $funcionario;
             }
 
             return $funcionarios;
         } catch (Exception $e) {
-            Logger::logError("Erro ao listar funcionários: " . $e->getMessage());
+            Logger::logError("Erro ao listar funcionarios: " . $e->getMessage());
         }
     }
 
     public function buscarFuncionarioPorEmail($email) {
         try {
-            $dado = $this->repository->buscarFuncionarioPorEmail($email);
-
-            if ($dado) {
-                $dado['senha'] = null;
-                return new Funcionario(...array_values($dado));
-            }
-
-            return null;
+            return $this->repository->buscarFuncionarioPorEmail($email);
+            
         } catch (Exception $e) {
-            Logger::logError("Erro ao buscar funcionário por email: " . $e->getMessage());
+            Logger::logError("Erro ao buscar funcionario por email: " . $e->getMessage());
         }
     }
 
@@ -55,42 +63,47 @@ class FuncionarioController {
             );
 
             if ($idFuncionario) {
-                $dados['idFuncionario'] = $idFuncionario;
-                $dados['desativado'] = $dados['desativado'] ?? 0;
-                $dados['idEndereco'] = $dados['idEndereco'] ?? null;
-
-                new Funcionario(...array_values($dados));
-                return true;
-            } else {
-                Logger::logError("Erro ao criar funcionário");
-            }
+                $funcionario = new Funcionario(
+                    $idFuncionario,
+                    $dados['nome'],
+                    $dados['telefone'],
+                    $dados['email'],
+                    $dados['senha'],
+                    $dados['adm'],
+                    0,
+                    $dados['idEndereco'] ?? null
+                );
+                return $funcionario;
+            } 
         } catch (Exception $e) {
-            Logger::logError("Erro ao criar funcionário: " . $e->getMessage());
+            Logger::logError("Erro ao criar funcionario: " . $e->getMessage());
         }
     }
 
     public function editarFuncionario($dados) {
         try {
-            $emailAntigo = $dados['emailAntigo'];
-            $emailNovo = $dados['emailNovo'];
-            $nome = $dados['nome'];
-            $telefone = $dados['telefone'];
+            $funcionario = $this->repository->buscarFuncionarioPorEmail($dados['emailAntigo']);
 
-            $funcionarioExistente = $this->repository->buscarFuncionarioPorEmail($emailAntigo);
+            if ($funcionario) {
+                $funcionario->editarFuncionario($dados['nome'], $dados['email'], $dados['telefone']);
 
-            if ($funcionarioExistente) {
-                $resultado = $this->repository->editarFuncionario($emailAntigo, $nome, $emailNovo, $telefone);
+                $resultado = $this->repository->editarFuncionario(
+                    $dados['emailAntigo'],
+                    $dados['nome'],
+                    $dados['email'],
+                    $dados['telefone']
+                );
 
                 if ($resultado) {
                     return true;
                 } else {
-                    Logger::logError("Erro ao editar funcionário");
+                    throw new Exception("Erro ao editar funcionario");
                 }
             } else {
-                Logger::logError("Funcionário não encontrado");
+                Logger::logError("Funcionario nao encontrado para edicao");
             }
         } catch (Exception $e) {
-            Logger::logError("Erro ao editar funcionário: " . $e->getMessage());
+            Logger::logError("Erro ao editar funcionario: " . $e->getMessage());
         }
     }
 
@@ -99,18 +112,20 @@ class FuncionarioController {
             $funcionario = $this->repository->buscarFuncionarioPorEmail($email);
 
             if ($funcionario) {
+                $funcionario->setDesativado(1);
                 $resultado = $this->repository->desativarFuncionario($email);
 
                 if ($resultado) {
                     return true;
                 } else {
-                    Logger::logError("Erro ao desativar funcionário");
+                    Logger::logError("Erro ao desativar funcionario");
                 }
             } else {
-                Logger::logError("Funcionário não encontrado");
+                Logger::logError("Funcionario nao encontrado");
             }
         } catch (Exception $e) {
-            Logger::logError("Erro ao desativar funcionário: " . $e->getMessage());
+            Logger::logError("Erro ao desativar funcionario: " . $e->getMessage());
         }
     }
 }
+?>

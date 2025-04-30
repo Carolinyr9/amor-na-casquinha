@@ -2,8 +2,11 @@
 namespace app\repository;
 
 use app\config\DataBase;
+use app\model2\Funcionario;
 use PDO;
 use PDOException;
+use Exception;
+use app\utils\Logger;
 
 class FuncionarioRepository {
     private $conn;  
@@ -23,7 +26,7 @@ class FuncionarioRepository {
 
     public function buscarFuncionarios(): array {
         try {
-            $stmt = $this->conn->prepare("SELECT idFuncionario, desativado, adm, nome, telefone, email, senha, idEndereco FROM funcionarios WHERE desativado = 0");
+            $stmt = $this->conn->prepare("SELECT * FROM funcionario WHERE desativado = 0");
             $stmt->execute();
 
             $funcionarios = [];
@@ -44,13 +47,13 @@ class FuncionarioRepository {
 
             return $funcionarios;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar funcionários: " . $e->getMessage());
+            Logger::logError("Erro ao buscar funcionários: " . $e->getMessage());
         }
     }
 
     public function buscarFuncionarioPorEmail(string $email): ?Funcionario {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM funcionarios WHERE email = :email LIMIT 1");
+            $stmt = $this->conn->prepare("SELECT * FROM funcionario WHERE email = :email LIMIT 1");
             $stmt->bindParam(":email", $email);
             $stmt->execute();
 
@@ -69,14 +72,14 @@ class FuncionarioRepository {
             }
             return null;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar funcionário por email: " . $e->getMessage());
+            Logger::logError("Erro ao buscar funcionário por email: " . $e->getMessage());
         }
     }
 
     public function criarFuncionario($nome, $email, $telefone, $senha, $adm): int {
         try {
             $stmt = $this->conn->prepare("
-                INSERT INTO funcionarios (
+                INSERT INTO funcionario (
                     nome, email, telefone, senha, adm, perfil, desativado
                 ) VALUES (
                     :nome, :email, :telefone, :senha, :adm, 'FUNC', 0
@@ -92,14 +95,14 @@ class FuncionarioRepository {
             $stmt->execute();
             return $this->conn->lastInsertId();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao inserir o funcionário: " . $e->getMessage());
+            Logger::logError("Erro ao inserir o funcionário: " . $e->getMessage());
         }
     }
 
     public function editarFuncionario($emailAntigo, $nome, $emailNovo, $telefone): bool {
         try {
             $stmt = $this->conn->prepare("
-                UPDATE funcionarios SET
+                UPDATE funcionario SET
                     nome = :nome,
                     email = :emailNovo,
                     telefone = :telefone
@@ -113,14 +116,14 @@ class FuncionarioRepository {
 
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao editar o funcionário: " . $e->getMessage());
+            Logger::logError("Erro ao editar o funcionário: " . $e->getMessage());
         }
     }
 
     public function desativarFuncionario($email): bool {
         try {
             $stmt = $this->conn->prepare("
-                UPDATE funcionarios SET
+                UPDATE funcionario SET
                     desativado = 1,
                     senha = NULL
                 WHERE email = :email
@@ -130,7 +133,7 @@ class FuncionarioRepository {
 
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao desativar o funcionário: " . $e->getMessage());
+            Logger::logError("Erro ao desativar o funcionário: " . $e->getMessage());
         }
     }
 }

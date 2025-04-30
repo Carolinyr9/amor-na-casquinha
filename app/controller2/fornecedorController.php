@@ -28,7 +28,7 @@ class FornecedorController {
                         $fornecedor['email'],
                         $fornecedor['cnpj'],  
                         $fornecedor['desativado'] == 0, 
-                        $fornecedor['idEndereco'],
+                        $fornecedor['idEndereco']
                     );
                 }
                 $fornecedores[] = $fornecedor;

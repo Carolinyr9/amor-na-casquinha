@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28/04/2025 às 21:07
+-- Tempo de geração: 30/04/2025 às 16:43
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -948,9 +948,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVaricaoPorProduto` (`idProdut
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Login` (IN `emailIN` VARCHAR(255))   BEGIN
-    IF EXISTS (SELECT email FROM funcionarios WHERE email LIKE CONCAT('%', emailIN, '%'))
+    IF EXISTS (SELECT email FROM funcionario WHERE email LIKE CONCAT('%', emailIN, '%'))
     THEN
-        SELECT * FROM funcionarios WHERE email LIKE CONCAT('%', emailIN, '%') LIMIT 1;
+        SELECT * FROM funcionario WHERE email LIKE CONCAT('%', emailIN, '%') LIMIT 1;
     
     ELSEIF EXISTS (SELECT email FROM clientes WHERE email LIKE CONCAT('%', emailIN, '%'))
     THEN
@@ -1026,10 +1026,10 @@ INSERT INTO `categoriaproduto` (`id`, `nome`, `marca`, `descricao`, `idFornecedo
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `clientes`
+-- Estrutura para tabela `cliente`
 --
 
-CREATE TABLE `clientes` (
+CREATE TABLE `cliente` (
   `idCliente` int(11) NOT NULL,
   `desativado` tinyint(4) DEFAULT 0,
   `nome` varchar(255) NOT NULL,
@@ -1041,10 +1041,10 @@ CREATE TABLE `clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `clientes`
+-- Despejando dados para a tabela `cliente`
 --
 
-INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
+INSERT INTO `cliente` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
 (0, 0, 'Cliente Desconhecido', 'desconhecido', '1234', NULL, 'CLIE', 1),
 (1, 0, 'joao Lucas', 'jo@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2135', 'CLIE', 1),
 (2, 0, 'Caroliny Rocha Sampaio', 'carol@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5),
@@ -1193,19 +1193,19 @@ CREATE TABLE `fornecedor` (
 --
 
 INSERT INTO `fornecedor` (`idFornecedor`, `nome`, `telefone`, `email`, `cnpj`, `desativado`, `idEndereco`) VALUES
-(1, 'Sorvetes do Sull', '11 998986754', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 1, 1),
-(2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 1, 2),
-(3, 'Doces e Sorvetes Ltda', NULL, 'info@docesesorvetes.com.br', '56.789.012/0001-55', 1, 3),
+(1, 'Sorvetes do Sull', '11 998986754', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 0, 1),
+(2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 0, 2),
+(3, 'Doces e Sorvetes Ltda', '(73) 98789-6087', 'info@docesesorvetes.com.br', '56.789.012/0001-55', 0, 3),
 (4, 'IceDream Sorvetes', '31987654321', 'icecream@email.com', '23.456.789/0001-77', 0, 4),
-(5, 'Delícias Geladas', NULL, 'delicias_geladas@email.com', '34.567.890/0001-88', 0, 5);
+(5, 'Delícias Geladas', '(98) 98925-4608', 'delicias_geladas@email.com', '34.567.890/0001-88', 0, 5);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `funcionarios`
+-- Estrutura para tabela `funcionario`
 --
 
-CREATE TABLE `funcionarios` (
+CREATE TABLE `funcionario` (
   `idFuncionario` int(11) NOT NULL,
   `desativado` tinyint(4) DEFAULT 0,
   `adm` tinyint(4) DEFAULT NULL,
@@ -1218,55 +1218,12 @@ CREATE TABLE `funcionarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `funcionarios`
+-- Despejando dados para a tabela `funcionario`
 --
 
-INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
+INSERT INTO `funcionario` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
 (1, 0, 1, 'FUNC', 'Jessica', '96309-85895', 'je@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', 1),
-(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9998', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', NULL),
-(4, 1, 1, 'FUNC', 'Antonio', '(11) 99999-9998', 'an@email.com', NULL, NULL),
-(7, 0, NULL, 'FUNC', 'Juliana', '11998984901', 'ju@email.com', '$2y$10$6OMwNydIdQ0bzq...6E1fOzxf7xQexcCIQLvTyET86aExXaGbyJMC', NULL),
-(8, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(9, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(10, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(11, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(12, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(13, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(14, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(15, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(16, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(17, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(18, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(19, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(20, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(21, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(22, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(23, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(24, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(25, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(26, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(27, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(28, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(29, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(30, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(31, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(32, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(33, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(34, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(35, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(36, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(37, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(38, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(39, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(40, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(41, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(42, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(43, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(44, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(45, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(46, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(47, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(48, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL);
+(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9900', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', NULL);
 
 -- --------------------------------------------------------
 
@@ -1475,9 +1432,9 @@ ALTER TABLE `categoriaproduto`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `clientes`
+-- Índices de tabela `cliente`
 --
-ALTER TABLE `clientes`
+ALTER TABLE `cliente`
   ADD PRIMARY KEY (`idCliente`),
   ADD KEY `fk_cliente_endereco` (`idEndereco`);
 
@@ -1519,7 +1476,7 @@ ALTER TABLE `categoriaproduto`
 -- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `estoque`
@@ -1531,7 +1488,7 @@ ALTER TABLE `estoque`
 -- AUTO_INCREMENT de tabela `fornecedor`
 --
 ALTER TABLE `fornecedor`
-  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de tabela `produto`
