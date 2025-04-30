@@ -49,14 +49,18 @@ class FornecedorController {
     }
 
     public function criarFornecedor($dados){
-        $idFornecedor = $this->repository->criarFornecedor($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnpj'], $dados['idEndereco']);
-    
-        if ($idFornecedor) {
-            $desativado = 0;
-            $fornecedor = new Fornecedor($idFornecedor, $dados['nome'], $dados['telefone'], $dados['email'], $dados['cnpj'], $desativado, $dados['idEndereco']);
-            return $fornecedor;
-        } else {
-            Logger::logError("Erro ao criar fornecedor");
+        try{
+            $idFornecedor = $this->repository->criarFornecedor($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnpj'], $dados['idEndereco']);
+        
+            if ($idFornecedor) {
+                $desativado = 0;
+                $fornecedor = new Fornecedor($idFornecedor, $dados['nome'], $dados['telefone'], $dados['email'], $dados['cnpj'], $desativado, $dados['idEndereco']);
+                return $fornecedor;
+            } else {
+                Logger::logError("Erro ao criar fornecedor");
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao criar fornecedor: " . $e->getMessage());
         }
     }
 

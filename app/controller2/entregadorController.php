@@ -1,5 +1,5 @@
 <?php
-namespace app\controller;
+namespace app\controller2;
 
 use app\model2\Entregador;
 use app\repository\EntregadorRepository;
@@ -13,6 +13,32 @@ class EntregadorController {
         $this->repository = $repository ?? new EntregadorRepository();
     }
 
+    public function criarEntregador($dados){
+        try{
+            $idEntregador = $this->repository->criarEntregador($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnh'], $dados['senha']);
+
+            if($idEntregador){
+                $desativado = 0;
+                $funcionario = new Funcionario(
+                    $idEntregador,
+                    $desativado,
+                    $dados['nome'], 
+                    $dados['email'], 
+                    $dados['telefone'],
+                    $dados['senha'],
+                    $dados['cnh']
+                );
+
+                return $funcionario;
+                
+            } else {
+                Logger::logError("Erro ao criar entregador");
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao criar entregador: " . $e->getMessage());
+        }
+    }
+
     public function listarEntregadores() {
         $dados = $this->repository->listarEntregadores();
 
@@ -21,7 +47,7 @@ class EntregadorController {
 
             foreach ($dados as $entregador) {
                 $entregadores[] = new Entregador(
-                    $entregador['id'],
+                    $entregador['idEntregador'],
                     $entregador['desativado'],
                     $entregador['perfil'],
                     $entregador['nome'],
@@ -70,7 +96,7 @@ class EntregadorController {
         $dados = $this->repository->listarEntregadorPorEmail($email);
         if($dados) {
             $entregador = new Entregador(
-                $dados['id'],
+                $dados['idEntregador'],
                 $dados['desativado'],
                 $dados['perfil'],
                 $dados['nome'],
@@ -88,7 +114,7 @@ class EntregadorController {
 
     public function editarEntregador($dados) {
         try {
-            $entregador = $this->repository->listarEntregadorPorEmail($dados['emailAntigo']);
+            $entregador = $this->listarEntregadorPorEmail($dados['emailAntigo']);
     
             if (!$entregador) {
                 Logger::logError("Entregador não encontrado para edição.");
@@ -98,16 +124,14 @@ class EntregadorController {
             $entregador->editarEntregador(
                 $dados['nome'],
                 $dados['email'],
-                $dados['telefone'],
-                $dados['cnh']
+                $dados['telefone']
             );
     
             $resultado = $this->repository->editarEntregador(
                 $dados['emailAntigo'],
                 $dados['nome'],
                 $dados['email'],
-                $dados['telefone'],
-                $dados['cnh']
+                $dados['telefone']
             );
     
             if (!$resultado) {
@@ -125,7 +149,7 @@ class EntregadorController {
 
     public function desativarEntregador($email) {
         try {
-            $entregador = $this->repository->listarEntregadorPorEmail($email);
+            $entregador = $this->listarEntregadorPorEmail($email);
     
             if (!$entregador) {
                 Logger::logError("Entregador não encontrado para desativação.");

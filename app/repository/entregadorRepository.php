@@ -24,9 +24,35 @@ class EntregadorRepository{
         }
     }
 
+    public function criarEntregador($nome, $email, $telefone, $cnh, $senha, $desativado = 0, $perfil = 'ENTR'){
+        try {
+            $stmt = $this->conn->prepare("
+                INSERT INTO entregador
+                (nome, email, telefone, cnh, senha, perfil, desativado) 
+                VALUES 
+                (:nome, :email, :telefone, :cnh, :senha, :perfil, :desativado)
+            ");
+
+            $stmt->bindParam(':nome', $nome);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':telefone', $telefone);
+            $stmt->bindParam(':cnh', $cnh);
+            $stmt->bindParam(':senha', $senha);
+            $stmt->bindParam(':perfil', $perfil);
+            $stmt->bindParam(':desativado', $desativado);
+    
+    
+            $stmt->execute();
+    
+            return $this->conn->lastInsertId();
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao criar entregador: " . $e->getMessage());
+        }
+    }
+
     public function listarEntregadores() {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM entregador");
+            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE desativado = 0");
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
@@ -37,7 +63,7 @@ class EntregadorRepository{
 
     public function listarEntregadorPorId($idEntregador) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE id = ?");
+            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE id = ? AND desativado = 0");
             $stmt->bindParam(1, $idEntregador);
             $stmt->execute();
 
@@ -49,7 +75,7 @@ class EntregadorRepository{
 
     public function listarEntregadorPorEmail($email) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE email = ?");
+            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE email = ? AND desativado = 0");
             $stmt->bindParam(1, $email);
             $stmt->execute();
 
@@ -59,19 +85,16 @@ class EntregadorRepository{
         }
     }
 
-    public function editarEntregador($emailAntigo, $nome, $email, $telefone, $cnh) {
+    public function editarEntregador($emailAntigo, $nome, $email, $telefone) {
         try {
             $stmt = $this->conn->prepare("
                 UPDATE entregador
-                SET nome = :nome, email = :email, telefone = :telefone,
-                cnh = :cnh,
+                SET nome = :nome, email = :email, telefone = :telefone
                 WHERE email = :emailAntigo
             ");
-            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE email = ?");
             $stmt->bindParam(':nome', $nome);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':telefone', $telefone);
-            $stmt->bindParam(':cnh', $cnh);
             $stmt->bindParam(':emailAntigo', $emailAntigo);
             $stmt->execute();
 
