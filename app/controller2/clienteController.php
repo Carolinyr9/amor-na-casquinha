@@ -3,6 +3,7 @@ namespace app\controller2;
 
 use app\model2\Cliente;
 use app\repository\ClienteRepository;
+use app\config\Logger;
 
 class ClienteController {
     private $repositorio;
@@ -13,30 +14,40 @@ class ClienteController {
 
     public function listarClientePorEmail($email) {
         if(!isset($email) || empty($email)) {
-            return ["error" => "Email não fornecido!"];
+            Logger::logError("Erro ao listar cliente: E-mail não fornecido!");
+            return false;
         }
 
         $dados = $this->repositorio->listarClientePorEmail($email);
         
-        return $dados ?: ["error" => "Cliente não encontrado!"];
+        if($dados) {
+            return $dados;
+        } else {
+            Logger::logError("Erro ao listar cliente: Cliente não encotrado!");
+            return false;
+        }
     }
 
     public function editarCliente($dados) {
         if(!filter_var($dados['email'], FILTER_VALIDATE_EMAIL)) {
-            $erro = ["error" => "Email inválido! Insira um email válido."];
+            Logger::logError("Erro ao editar cliente: E-mail inválido!");
+            return false;
         }
         if(!is_numeric($dados['telefone'])) {
-            $erro = ["error" => "Telefone inválido! Insira um telefone válido e sem formatação."];
+            Logger::logError("Erro ao editar cliente: Telefone inválido!");
+            return false;
         }
 
-        if(isset($erro)) {
-            return $erro;
-        } else{
-            $cliente = new Cliente(0, $dados['nome'], $dados['email'], $dados['telefone'], $dados['senha'], $dados['idEndereco']);
+        $cliente = new Cliente(0, $dados['nome'], $dados['email'], $dados['telefone'], $dados['senha'], $dados['idEndereco']);
 
-            $answer = $this->repositorio->editarCliente($cliente);
-            
-            return $answer ?: ["error" => "Erro ao editar cliente!"];
+        $answer = $this->repositorio->editarCliente($cliente);
+        
+        if($answer) {
+            Logger::logInfo("Cliente editado com sucesso!");
+            return true;
+        } else {
+            Logger::logError("Erro ao editar cliente: Erro ao editar cliente!");
+            return false;
         }
 
     }
