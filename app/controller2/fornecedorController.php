@@ -9,8 +9,8 @@ use Exception;
 class FornecedorController {
     private $repository;
 
-    public function __construct(FornecedorRepository $repository) {
-        $this->repository = $repository;
+    public function __construct(FornecedorRepository $repository = null) {
+        $this->repository = $repository ?? new FornecedorRepository();
     }
 
     public function listarFornecedor(){
@@ -28,7 +28,7 @@ class FornecedorController {
                         $fornecedor['email'],
                         $fornecedor['cnpj'],  
                         $fornecedor['desativado'] == 0, 
-                        $fornecedor['idEndereco'],
+                        $fornecedor['idEndereco']
                     );
                 }
                 $fornecedores[] = $fornecedor;
@@ -48,16 +48,18 @@ class FornecedorController {
         }
     }
 
-    // RELACAO ENTRE FORNECEDOR E ENDERECO, PERGUNTAR P JESSICA TB
     public function criarFornecedor($dados){
-        $idFornecedor = $this->repository->criarFornecedor($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnpj']);
-    
-        if ($idFornecedor) {
-            $desativado = 0;
-            $endereco = null; // verificar depois relação entre fornecedor e endereco
-            $fornecedor = new Fornecedor($idFornecedor, $dados['nome'], $dados['telefone'], $dados['email'], $dados['cnpj'], $desativado, $endereco);
-            return $fornecedor;
-        } else {
+        try{
+            $idFornecedor = $this->repository->criarFornecedor($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnpj'], $dados['idEndereco']);
+        
+            if ($idFornecedor) {
+                $desativado = 0;
+                $fornecedor = new Fornecedor($idFornecedor, $dados['nome'], $dados['telefone'], $dados['email'], $dados['cnpj'], $desativado, $dados['idEndereco']);
+                return $fornecedor;
+            } else {
+                Logger::logError("Erro ao criar fornecedor");
+            }
+        } catch (Exception $e) {
             Logger::logError("Erro ao criar fornecedor: " . $e->getMessage());
         }
     }
@@ -98,7 +100,7 @@ class FornecedorController {
                     Logger::logError("Erro ao desativar fornecedor");
                 }
             } else {
-                Logger::logError("Fornecedor não encontrado: " . $e->getMessage());
+                Logger::logError("Fornecedor não encontrado");
             }
         } catch (Exception $e) {
             Logger::logError("Erro ao desativar fornecedor: " . $e->getMessage());

@@ -3,53 +3,81 @@ namespace app\controller2;
 
 use app\model2\Cliente;
 use app\repository\ClienteRepository;
-use app\config\Logger;
+use app\utils\Logger;
+use Exception;
 
 class ClienteController {
-    private $repositorio;
+    private $repository;
 
-    public function __contruct() {
-        $this->repositorio = new ClienteRepository();
+    public function __contruct(ClienteRepository $repository = null) {
+        $this->repository = $repository ?? new ClienteRepository();
     }
 
     public function listarClientePorEmail($email) {
-        if(!isset($email) || empty($email)) {
-            Logger::logError("Erro ao listar cliente: E-mail não fornecido!");
+        try {
+            if (!isset($email) || empty($email)) {
+                Logger::logError("Erro ao listar clientes: Email não fornecido!");
+                return false;
+            }
+    
+            $cliente = $this->repository->listarClientePorEmail($email);
+    
+            if (!$cliente instanceof Cliente) {
+                if (is_array($cliente)) {
+                    return new Cliente(
+                        $cliente['idCliente'],
+                        $cliente['nome'],
+                        $cliente['email'], 
+                        $cliente['telefone'], 
+                        $cliente['senha'], 
+                        $cliente['idEndereco']
+                    );
+                } else {
+                    Logger::logError("Erro ao listar clientes: Cliente não encontrado ou formato inválido.");
+                    return false;
+                }
+            }
+    
+            return $cliente;
+    
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar clientes: " . $e->getMessage());
             return false;
         }
-
-        $dados = $this->repositorio->listarClientePorEmail($email);
-        
-        if($dados) {
-            return $dados;
-        } else {
-            Logger::logError("Erro ao listar cliente: Cliente não encotrado!");
-            return false;
-        }
-    }
+    }    
 
     public function editarCliente($dados) {
-        if(!filter_var($dados['email'], FILTER_VALIDATE_EMAIL)) {
-            Logger::logError("Erro ao editar cliente: E-mail inválido!");
+        try {
+            if (empty($dados['email']) || !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
+                empty($dados['telefone']) || !is_numeric($dados['telefone']) ||
+                empty($dados['nome']) || empty($dados['emailAntigo'])) {
+                Logger::logError("Dados inválidos para edição do cliente.");
+                return false;
+            }
+    
+            $cliente = $this->listarClientePorEmail($dados['emailAntigo']);
+    
+            if (!$cliente instanceof Cliente) {
+                Logger::logError("Cliente não encontrado para edição.");
+                return false;
+            }
+    
+            $cliente->editar($dados['nome'], $dados['telefone'], $dados['email']);
+    
+            $resultado = $this->repository->editarCliente(
+                $dados['nome'],
+                $dados['telefone'],
+                $dados['email'],
+                $dados['emailAntigo']
+            );
+    
+            return $resultado ?: Logger::logError("Erro ao editar cliente no repositório.");
+            
+        } catch (Exception $e) {
+            Logger::logError("Erro ao editar cliente: " . $e->getMessage());
             return false;
         }
-        if(!is_numeric($dados['telefone'])) {
-            Logger::logError("Erro ao editar cliente: Telefone inválido!");
-            return false;
-        }
-
-        $cliente = new Cliente(0, $dados['nome'], $dados['email'], $dados['telefone'], $dados['senha'], $dados['idEndereco']);
-
-        $answer = $this->repositorio->editarCliente($cliente);
-        
-        if($answer) {
-            Logger::logInfo("Cliente editado com sucesso!");
-            return true;
-        } else {
-            Logger::logError("Erro ao editar cliente: Erro ao editar cliente!");
-            return false;
-        }
-
     }
+    
 }
 ?>

@@ -23,27 +23,28 @@ class ClienteRepository {
 
     public function listarClientePorEmail($email) {
         try {
-            $stmt = $this->conn->prepare(" SELECT * FROM clientes WHERE email = ?");
+            $stmt = $this->conn->prepare(" SELECT * FROM cliente WHERE email = ?");
             $stmt->bindParam(1, $email);
             $stmt->execute();
 
             return $stmt->fetch(PDO::FETCH_ASSOC) ?: false;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao listar o cliente: " . $e->getMessage());
+            Logger::logError("Erro ao listar o cliente: " . $e->getMessage());
         }
     }
 
-    public function editarCliente($cliente) {
+    public function editarCliente($nome, $telefone, $email, $emailAntigo) {
         try {
-            $stmt = $this->conn->prepare(" UPDATE clientes SET nome = ?, telefone = ? WHERE email = ?");
-            $stmt->bindParam(1, $cliente->getNome());
-            $stmt->bindParam(2, $cliente->getTelefone());
-            $stmt->bindParam(3, $cliente->getEmail());
+            $stmt = $this->conn->prepare(" UPDATE cliente SET nome = ?, telefone = ?, email = ? WHERE email = ?");
+            $stmt->bindParam(1, $nome);
+            $stmt->bindParam(2, $telefone);
+            $stmt->bindParam(3, $email);
+            $stmt->bindParam(4, $emailAntigo);
             $stmt->execute();
 
             return true;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao editar o cliente: " . $e->getMessage());
+            Logger::logError("Erro ao editar o cliente: " . $e->getMessage());
         }
     }
 

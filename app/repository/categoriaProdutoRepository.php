@@ -2,6 +2,8 @@
 namespace app\repository;
 
 use app\config\DataBase;
+use app\utils\Logger;
+use app\model2\CategoriaProduto;
 use PDO;
 use PDOException;
 
@@ -41,12 +43,11 @@ class CategoriaProdutoRepository {
                 ];
             }
         } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar produtos: " . $e->getMessage());
+            Logger::logError("Erro ao buscar produtos: " . $e->getMessage());
         }
         return $produtos;
     }
     
-
     public function buscarCategoriaPorID($id) {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM categoriaProduto WHERE id = :id AND desativado = 0 LIMIT 1");
@@ -54,24 +55,23 @@ class CategoriaProdutoRepository {
             $stmt->execute();
             $dados = $stmt->fetch(PDO::FETCH_ASSOC);
     
-            return $dados ? new Produto(
+            return $dados ? new CategoriaProduto(
                 $dados['id'],
-                $dados['fornecedor'],
+                $dados['idFornecedor'],
                 $dados['nome'],
                 $dados['marca'],
                 $dados['descricao'],
                 $dados['desativado'],
-                $dados['foto'],
-                $dados['preco']
+                $dados['foto']
             ) : null;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar produto por ID: " . $e->getMessage());
+            Logger::logError("Erro ao buscar produto por ID: " . $e->getMessage());
         }
     }
     
     public function criarCategoria($nome, $marca, $descricao, $fornecedor, $foto) {
         try {
-            $stmt = $this->conn->prepare("INSERT INTO categoriaProduto (nome, marca, descricao, idFornecedor, foto, desativado) VALUES (:nome, :marca, :descricao, :fornecedor, :foto, 0)");
+            $stmt = $this->conn->prepare("INSERT INTO categoriaproduto (nome, marca, descricao, idFornecedor, foto, desativado) VALUES (:nome, :marca, :descricao, :fornecedor, :foto, 0)");
             $stmt->bindParam(':nome', $nome);
             $stmt->bindParam(':marca', $marca);
             $stmt->bindParam(':descricao', $descricao);
@@ -81,7 +81,7 @@ class CategoriaProdutoRepository {
     
             return $this->conn->lastInsertId();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao inserir o produto: " . $e->getMessage());
+            Logger::logError("Erro ao inserir o produto: " . $e->getMessage());
         }
     }
     
@@ -95,7 +95,7 @@ class CategoriaProdutoRepository {
             $stmt->bindParam(':foto', $foto);
             return $stmt->execute() ? true : false;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao editar o produto: " . $e->getMessage());
+            Logger::logError("Erro ao editar o produto: " . $e->getMessage());
         }
     }
 
@@ -105,7 +105,7 @@ class CategoriaProdutoRepository {
             $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
             return $stmt->execute() ? true : false;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao desativar o produto: " . $e->getMessage());
+            Logger::logError("Erro ao desativar o produto: " . $e->getMessage());
         }
     }
     

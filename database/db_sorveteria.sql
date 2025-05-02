@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 19/03/2025 às 00:17
+-- Tempo de geração: 30/04/2025 às 16:43
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -948,9 +948,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ListarVaricaoPorProduto` (`idProdut
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Login` (IN `emailIN` VARCHAR(255))   BEGIN
-    IF EXISTS (SELECT email FROM funcionarios WHERE email LIKE CONCAT('%', emailIN, '%'))
+    IF EXISTS (SELECT email FROM funcionario WHERE email LIKE CONCAT('%', emailIN, '%'))
     THEN
-        SELECT * FROM funcionarios WHERE email LIKE CONCAT('%', emailIN, '%') LIMIT 1;
+        SELECT * FROM funcionario WHERE email LIKE CONCAT('%', emailIN, '%') LIMIT 1;
     
     ELSEIF EXISTS (SELECT email FROM clientes WHERE email LIKE CONCAT('%', emailIN, '%'))
     THEN
@@ -999,10 +999,37 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `clientes`
+-- Estrutura para tabela `categoriaproduto`
 --
 
-CREATE TABLE `clientes` (
+CREATE TABLE `categoriaproduto` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(255) NOT NULL,
+  `marca` varchar(255) DEFAULT NULL,
+  `descricao` text DEFAULT NULL,
+  `idFornecedor` int(11) DEFAULT NULL,
+  `foto` varchar(50) DEFAULT NULL,
+  `desativado` int(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `categoriaproduto`
+--
+
+INSERT INTO `categoriaproduto` (`id`, `nome`, `marca`, `descricao`, `idFornecedor`, `foto`, `desativado`) VALUES
+(1, 'Pote', 'Nestlé', 'Potes de Sorvete', 1, '98fb6a95c11ab1b4270121f66ced7c98.png', 1),
+(2, 'Picolé', 'Marca', 'Picolé', 2, 'picoleLogo.png', 0),
+(3, 'ChupChup', 'Garoto', 'ChupChup', 2, 'chupLogo.png', 0),
+(4, 'Sundae', 'Nestle', 'Sundae', 2, 'sundaeLogo.png', 0),
+(5, 'Açaí', 'AcaiGalaxy', 'Açai', 1, 'acaiLogo.png', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `cliente`
+--
+
+CREATE TABLE `cliente` (
   `idCliente` int(11) NOT NULL,
   `desativado` tinyint(4) DEFAULT 0,
   `nome` varchar(255) NOT NULL,
@@ -1014,10 +1041,10 @@ CREATE TABLE `clientes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `clientes`
+-- Despejando dados para a tabela `cliente`
 --
 
-INSERT INTO `clientes` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
+INSERT INTO `cliente` (`idCliente`, `desativado`, `nome`, `email`, `senha`, `telefone`, `perfil`, `idEndereco`) VALUES
 (0, 0, 'Cliente Desconhecido', 'desconhecido', '1234', NULL, 'CLIE', 1),
 (1, 0, 'joao Lucas', 'jo@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2135', 'CLIE', 1),
 (2, 0, 'Caroliny Rocha Sampaio', 'carol@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', '44564-2132', 'CLIE', 5),
@@ -1104,8 +1131,8 @@ INSERT INTO `entregador` (`idEntregador`, `desativado`, `perfil`, `nome`, `telef
 
 CREATE TABLE `estoque` (
   `idEstoque` int(11) NOT NULL,
+  `idCategoria` int(11) DEFAULT NULL,
   `idProduto` int(11) DEFAULT NULL,
-  `idVariacao` int(11) DEFAULT NULL,
   `lote` int(11) NOT NULL,
   `dtEntrada` date DEFAULT NULL COMMENT 'YYYY/MM/DD',
   `quantidade` int(11) DEFAULT 0,
@@ -1123,7 +1150,7 @@ CREATE TABLE `estoque` (
 -- Despejando dados para a tabela `estoque`
 --
 
-INSERT INTO `estoque` (`idEstoque`, `idProduto`, `idVariacao`, `lote`, `dtEntrada`, `quantidade`, `dtFabricacao`, `dtVencimento`, `precoCompra`, `qtdMinima`, `qtdVendida`, `qtdOcorrencia`, `ocorrencia`, `desativado`) VALUES
+INSERT INTO `estoque` (`idEstoque`, `idCategoria`, `idProduto`, `lote`, `dtEntrada`, `quantidade`, `dtFabricacao`, `dtVencimento`, `precoCompra`, `qtdMinima`, `qtdVendida`, `qtdOcorrencia`, `ocorrencia`, `desativado`) VALUES
 (1, 1, 1, 1, '2025-01-01', 11, '2025-01-01', '2025-12-31', 99.98, 5, NULL, NULL, '0', 1),
 (2, 1, 2, 1, '2025-01-08', 11, '2024-09-18', '2025-04-09', 15.50, 10, NULL, 0, ' ', 0),
 (3, 1, 3, 1, '2025-01-08', 63, '2024-06-06', '2025-01-24', 34.50, 10, NULL, NULL, NULL, 0),
@@ -1148,10 +1175,10 @@ INSERT INTO `estoque` (`idEstoque`, `idProduto`, `idVariacao`, `lote`, `dtEntrad
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `fornecedores`
+-- Estrutura para tabela `fornecedor`
 --
 
-CREATE TABLE `fornecedores` (
+CREATE TABLE `fornecedor` (
   `idFornecedor` int(11) NOT NULL,
   `nome` varchar(255) NOT NULL,
   `telefone` varchar(20) DEFAULT NULL,
@@ -1162,23 +1189,23 @@ CREATE TABLE `fornecedores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `fornecedores`
+-- Despejando dados para a tabela `fornecedor`
 --
 
-INSERT INTO `fornecedores` (`idFornecedor`, `nome`, `telefone`, `email`, `cnpj`, `desativado`, `idEndereco`) VALUES
-(1, 'Sorvetes do Sull', '11 998986754', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 1, 1),
-(2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 1, 2),
-(3, 'Doces e Sorvetes Ltda', NULL, 'info@docesesorvetes.com.br', '56.789.012/0001-55', 1, 3),
+INSERT INTO `fornecedor` (`idFornecedor`, `nome`, `telefone`, `email`, `cnpj`, `desativado`, `idEndereco`) VALUES
+(1, 'Sorvetes do Sull', '11 998986754', 'contato@sorvetesdosul.com.br', '12.345.678/0001-99', 0, 1),
+(2, 'Gelados Tropical', '21987654321', 'vendas@geladostropical.com.br', '98.765.432/0001-11', 0, 2),
+(3, 'Doces e Sorvetes Ltda', '(73) 98789-6087', 'info@docesesorvetes.com.br', '56.789.012/0001-55', 0, 3),
 (4, 'IceDream Sorvetes', '31987654321', 'icecream@email.com', '23.456.789/0001-77', 0, 4),
-(5, 'Delícias Geladas', NULL, 'delicias_geladas@email.com', '34.567.890/0001-88', 0, 5);
+(5, 'Delícias Geladas', '(98) 98925-4608', 'delicias_geladas@email.com', '34.567.890/0001-88', 0, 5);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `funcionarios`
+-- Estrutura para tabela `funcionario`
 --
 
-CREATE TABLE `funcionarios` (
+CREATE TABLE `funcionario` (
   `idFuncionario` int(11) NOT NULL,
   `desativado` tinyint(4) DEFAULT 0,
   `adm` tinyint(4) DEFAULT NULL,
@@ -1191,55 +1218,12 @@ CREATE TABLE `funcionarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `funcionarios`
+-- Despejando dados para a tabela `funcionario`
 --
 
-INSERT INTO `funcionarios` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
+INSERT INTO `funcionario` (`idFuncionario`, `desativado`, `adm`, `perfil`, `nome`, `telefone`, `email`, `senha`, `idEndereco`) VALUES
 (1, 0, 1, 'FUNC', 'Jessica', '96309-85895', 'je@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', 1),
-(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9998', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', NULL),
-(4, 1, 1, 'FUNC', 'Antonio', '(11) 99999-9998', 'an@email.com', NULL, NULL),
-(7, 0, NULL, 'FUNC', 'Juliana', '11998984901', 'ju@email.com', '$2y$10$6OMwNydIdQ0bzq...6E1fOzxf7xQexcCIQLvTyET86aExXaGbyJMC', NULL),
-(8, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(9, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(10, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(11, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(12, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(13, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(14, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(15, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(16, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(17, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(18, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(19, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(20, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(21, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(22, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(23, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(24, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(25, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(26, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(27, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(28, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(29, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(30, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(31, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(32, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(33, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(34, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(35, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(36, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(37, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(38, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(39, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(40, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(41, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(42, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(43, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(44, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(45, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(46, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(47, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL),
-(48, 1, 1, 'FUNC', 'marianna', '11 998987654', 'marianna@email.com', NULL, NULL);
+(3, 0, NULL, 'FUNC', 'Carol', '(11) 99999-9900', 'ca@email.com', '$2y$10$VxfyRb4qZtF8nrk/BJs1NuvJy/sG5WxHGJFbyS9gjB7SQ6.lnI1yC', NULL);
 
 -- --------------------------------------------------------
 
@@ -1399,66 +1383,23 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `produtos`
+-- Estrutura para tabela `produto`
 --
 
-CREATE TABLE `produtos` (
-  `idProduto` int(11) NOT NULL,
-  `idFornecedor` int(11) NOT NULL,
-  `nome` varchar(255) NOT NULL,
-  `marca` varchar(255) NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `desativado` int(11) DEFAULT NULL,
-  `foto` varchar(50) DEFAULT NULL
+CREATE TABLE `produto` (
+  `id` int(11) NOT NULL,
+  `desativado` tinyint(4) DEFAULT NULL,
+  `nome` varchar(255) DEFAULT NULL,
+  `preco` decimal(10,2) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
+  `categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `produtos`
+-- Despejando dados para a tabela `produto`
 --
 
-INSERT INTO `produtos` (`idProduto`, `idFornecedor`, `nome`, `marca`, `descricao`, `desativado`, `foto`) VALUES
-(1, 1, 'Pote', 'Nestlé', 'Potes de Sorvete', 1, '98fb6a95c11ab1b4270121f66ced7c98.png'),
-(2, 2, 'Picolé', 'Marca', 'Picolé', 0, 'picoleLogo.png'),
-(3, 2, 'ChupChup', 'Garoto', 'ChupChup', 0, 'chupLogo.png'),
-(4, 2, 'Sundae', 'Nestle', 'Sundae', 0, 'sundaeLogo.png'),
-(5, 1, 'Açaí', 'AcaiGalaxy', 'Açai', 0, 'acaiLogo.png'),
-(81, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(82, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(83, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(84, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(85, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(86, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(87, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(88, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(89, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(90, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(91, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(92, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(93, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(94, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(95, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png'),
-(96, 1, 'Bombom de sorvete', 'Nestlé', 'Sobremesa gelada que combina sorvete com uma cobertura de chocolate', 0, '1234.png');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `variacaoproduto`
---
-
-CREATE TABLE `variacaoproduto` (
-  `idVariacao` int(11) NOT NULL,
-  `desativado` tinyint(4) DEFAULT 0,
-  `nomeVariacao` varchar(255) NOT NULL,
-  `precoVariacao` decimal(10,2) NOT NULL,
-  `fotoVariacao` varchar(255) NOT NULL,
-  `idProduto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `variacaoproduto`
---
-
-INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `precoVariacao`, `fotoVariacao`, `idProduto`) VALUES
+INSERT INTO `produto` (`id`, `desativado`, `nome`, `preco`, `foto`, `categoria`) VALUES
 (1, 1, 'Havaiano', 25.99, 'havaianoPote.png', 1),
 (2, 1, 'Chocolitano', 22.50, 'chocolitanoPote.png', 1),
 (3, 1, 'Milho Verde - Pote 2L', 34.50, 'milho-verdePote.png', 1),
@@ -1485,18 +1426,17 @@ INSERT INTO `variacaoproduto` (`idVariacao`, `desativado`, `nomeVariacao`, `prec
 --
 
 --
--- Índices de tabela `clientes`
+-- Índices de tabela `categoriaproduto`
 --
-ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`idCliente`),
-  ADD KEY `fk_cliente_endereco` (`idEndereco`);
+ALTER TABLE `categoriaproduto`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `empresa`
+-- Índices de tabela `cliente`
 --
-ALTER TABLE `empresa`
-  ADD PRIMARY KEY (`idEmpresa`),
-  ADD KEY `fk_empresa_endereco` (`idEndereco`);
+ALTER TABLE `cliente`
+  ADD PRIMARY KEY (`idCliente`),
+  ADD KEY `fk_cliente_endereco` (`idEndereco`);
 
 --
 -- Índices de tabela `enderecos`
@@ -1505,189 +1445,56 @@ ALTER TABLE `enderecos`
   ADD PRIMARY KEY (`idEndereco`);
 
 --
--- Índices de tabela `entregador`
---
-ALTER TABLE `entregador`
-  ADD PRIMARY KEY (`idEntregador`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
 -- Índices de tabela `estoque`
 --
 ALTER TABLE `estoque`
-  ADD PRIMARY KEY (`idEstoque`),
-  ADD KEY `fk_estoque_produto` (`idProduto`),
-  ADD KEY `FK_IdVariacao` (`idVariacao`);
+  ADD PRIMARY KEY (`idEstoque`);
 
 --
--- Índices de tabela `fornecedores`
+-- Índices de tabela `fornecedor`
 --
-ALTER TABLE `fornecedores`
-  ADD PRIMARY KEY (`idFornecedor`),
-  ADD KEY `fk_fornecedor_endereco` (`idEndereco`);
+ALTER TABLE `fornecedor`
+  ADD PRIMARY KEY (`idFornecedor`);
 
 --
--- Índices de tabela `funcionarios`
+-- Índices de tabela `produto`
 --
-ALTER TABLE `funcionarios`
-  ADD PRIMARY KEY (`idFuncionario`),
-  ADD KEY `fk_funcionario_endereco` (`idEndereco`);
-
---
--- Índices de tabela `itens_pedido`
---
-ALTER TABLE `itens_pedido`
-  ADD KEY `idPedido` (`idPedido`),
-  ADD KEY `idProduto` (`idProduto`);
-
---
--- Índices de tabela `pedidos`
---
-ALTER TABLE `pedidos`
-  ADD PRIMARY KEY (`idPedido`),
-  ADD KEY `fk_pedido_endereco` (`idEndereco`),
-  ADD KEY `fk_pedido_cliente` (`idCliente`),
-  ADD KEY `fk_entregador` (`idEntregador`);
-
---
--- Índices de tabela `produtos`
---
-ALTER TABLE `produtos`
-  ADD PRIMARY KEY (`idProduto`),
-  ADD KEY `fk_produto_fornecedor` (`idFornecedor`);
-
---
--- Índices de tabela `variacaoproduto`
---
-ALTER TABLE `variacaoproduto`
-  ADD PRIMARY KEY (`idVariacao`),
-  ADD KEY `fk_variacaoproduto_produto` (`idProduto`);
+ALTER TABLE `produto`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT de tabela `clientes`
+-- AUTO_INCREMENT de tabela `categoriaproduto`
 --
-ALTER TABLE `clientes`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de tabela `empresa`
---
-ALTER TABLE `empresa`
-  MODIFY `idEmpresa` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `categoriaproduto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT de tabela `entregador`
---
-ALTER TABLE `entregador`
-  MODIFY `idEntregador` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idEndereco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `estoque`
 --
 ALTER TABLE `estoque`
-  MODIFY `idEstoque` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `idEstoque` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT de tabela `fornecedores`
+-- AUTO_INCREMENT de tabela `fornecedor`
 --
-ALTER TABLE `fornecedores`
-  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `fornecedor`
+  MODIFY `idFornecedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT de tabela `funcionarios`
+-- AUTO_INCREMENT de tabela `produto`
 --
-ALTER TABLE `funcionarios`
-  MODIFY `idFuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
-
---
--- AUTO_INCREMENT de tabela `pedidos`
---
-ALTER TABLE `pedidos`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
-
---
--- AUTO_INCREMENT de tabela `produtos`
---
-ALTER TABLE `produtos`
-  MODIFY `idProduto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
-
---
--- AUTO_INCREMENT de tabela `variacaoproduto`
---
-ALTER TABLE `variacaoproduto`
-  MODIFY `idVariacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
---
--- Restrições para tabelas despejadas
---
-
---
--- Restrições para tabelas `clientes`
---
-ALTER TABLE `clientes`
-  ADD CONSTRAINT `fk_cliente_endereco` FOREIGN KEY (`idEndereco`) REFERENCES `enderecos` (`idEndereco`);
-
---
--- Restrições para tabelas `empresa`
---
-ALTER TABLE `empresa`
-  ADD CONSTRAINT `fk_empresa_endereco` FOREIGN KEY (`idEndereco`) REFERENCES `enderecos` (`idEndereco`);
-
---
--- Restrições para tabelas `estoque`
---
-ALTER TABLE `estoque`
-  ADD CONSTRAINT `FK_IdVariacao` FOREIGN KEY (`idVariacao`) REFERENCES `variacaoproduto` (`idVariacao`),
-  ADD CONSTRAINT `fk_estoque_produto` FOREIGN KEY (`idProduto`) REFERENCES `produtos` (`idProduto`);
-
---
--- Restrições para tabelas `fornecedores`
---
-ALTER TABLE `fornecedores`
-  ADD CONSTRAINT `fk_fornecedor_endereco` FOREIGN KEY (`idEndereco`) REFERENCES `enderecos` (`idEndereco`);
-
---
--- Restrições para tabelas `funcionarios`
---
-ALTER TABLE `funcionarios`
-  ADD CONSTRAINT `fk_funcionario_endereco` FOREIGN KEY (`idEndereco`) REFERENCES `enderecos` (`idEndereco`);
-
---
--- Restrições para tabelas `itens_pedido`
---
-ALTER TABLE `itens_pedido`
-  ADD CONSTRAINT `itens_pedido_ibfk_1` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`),
-  ADD CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`idProduto`) REFERENCES `variacaoproduto` (`idVariacao`);
-
---
--- Restrições para tabelas `pedidos`
---
-ALTER TABLE `pedidos`
-  ADD CONSTRAINT `fk_entregador` FOREIGN KEY (`idEntregador`) REFERENCES `entregador` (`idEntregador`) ON DELETE SET NULL,
-  ADD CONSTRAINT `fk_pedido_cliente` FOREIGN KEY (`idCliente`) REFERENCES `clientes` (`idCliente`),
-  ADD CONSTRAINT `fk_pedido_endereco` FOREIGN KEY (`idEndereco`) REFERENCES `enderecos` (`idEndereco`);
-
---
--- Restrições para tabelas `produtos`
---
-ALTER TABLE `produtos`
-  ADD CONSTRAINT `fk_produto_fornecedor` FOREIGN KEY (`idFornecedor`) REFERENCES `fornecedores` (`idFornecedor`);
-
---
--- Restrições para tabelas `variacaoproduto`
---
-ALTER TABLE `variacaoproduto`
-  ADD CONSTRAINT `fk_variacaoproduto_produto` FOREIGN KEY (`idProduto`) REFERENCES `produtos` (`idProduto`);
+ALTER TABLE `produto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

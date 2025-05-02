@@ -6,6 +6,7 @@ use app\model2\Fornecedor;
 use PDO;
 use PDOException;
 use Exception;
+use app\utils\Logger;
 
 class FornecedorRepository {
     private $conn;  
@@ -26,7 +27,7 @@ class FornecedorRepository {
     public function listarFornecedor() {
         $fornecedores = [];
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM fornecedores WHERE desativado = 0");
+            $stmt = $this->conn->prepare("SELECT * FROM fornecedor WHERE desativado = 0");
             $stmt->execute();
     
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -48,7 +49,7 @@ class FornecedorRepository {
 
     public function buscarFornecedorPorEmail($email) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM fornecedores WHERE email = :email AND desativado = 0 LIMIT 1");
+            $stmt = $this->conn->prepare("SELECT * FROM fornecedor WHERE email = :email AND desativado = 0 LIMIT 1");
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt->execute();
             $dados = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -63,36 +64,39 @@ class FornecedorRepository {
                 $dados['idEndereco']
             ) : null;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar fornecedor por e-mail: " . $e->getMessage());
+            Logger::logError("Erro ao buscar fornecedor por e-mail: " . $e->getMessage());
         }
     }
 
-    public function criarFornecedor($nome, $email, $telefone, $cnpj) {
+    public function criarFornecedor($nome, $email, $telefone, $cnpj, $idEndereco, $desativado = 0) {
         try {
             $stmt = $this->conn->prepare("
-                INSERT INTO fornecedores 
-                (nome, email, telefone, cnpj) 
+                INSERT INTO fornecedor
+                (nome, email, telefone, cnpj, idEndereco, desativado) 
                 VALUES 
-                (:nome, :email, :telefone, :cnpj)
+                (:nome, :email, :telefone, :cnpj, :idEndereco, :desativado)
             ");
-    
+            
             $stmt->bindParam(':nome', $nome);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':telefone', $telefone);
             $stmt->bindParam(':cnpj', $cnpj);
+            $stmt->bindParam(':idEndereco', $idEndereco);
+            $stmt->bindParam(':desativado', $desativado);
+    
     
             $stmt->execute();
     
             return $this->conn->lastInsertId();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao inserir o fornecedor: " . $e->getMessage());
+            Logger::logError("Erro ao inserir o fornecedor: " . $e->getMessage());
         }
     }
 
     public function editarFornecedor($emailAntigo, $nome, $email, $telefone) {
         try {
             $stmt = $this->conn->prepare("
-                UPDATE fornecedores 
+                UPDATE fornecedor
                 SET nome = :nome, email = :email, telefone = :telefone 
                 WHERE email = :emailAntigo
             ");
@@ -104,17 +108,17 @@ class FornecedorRepository {
     
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao editar o fornecedor: " . $e->getMessage());
+            Logger::logError("Erro ao editar o fornecedor: " . $e->getMessage());
         }
     }
 
     public function desativarFornecedor($email) {
         try {
-            $stmt = $this->conn->prepare("UPDATE fornecedores SET desativado = 1 WHERE email = :email");
+            $stmt = $this->conn->prepare("UPDATE fornecedor SET desativado = 1 WHERE email = :email");
             $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao desativar o fornecedor: " . $e->getMessage());
+            Logger::logError("Erro ao desativar o fornecedor: " . $e->getMessage());
         }
     }
 }

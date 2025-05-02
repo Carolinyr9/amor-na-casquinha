@@ -57,7 +57,7 @@ class ProdutoController {
                     $dados['foto'],
                     $dados['categoria']
                 );
-                return true;
+                return $idProduto;
             } else {
                 Logger::logError("Erro ao criar produto");
                 return false;
@@ -79,19 +79,17 @@ class ProdutoController {
 
     public function editarProduto($dados) {
         try {
-            $produto = $this->repository->selecionarProdutoPorID($dados['idProduto']);
+            $produto = $this->repository->selecionarProdutoPorID($dados['id']);
 
             if ($produto) {
                 $produto->editar(
-                    $dados['categoria'],
                     $dados['nome'],
                     $dados['preco'],
                     $dados['foto']
                 );
 
                 $resultado = $this->repository->editarProduto(
-                    $dados['idProduto'],
-                    $dados['categoria'],
+                    $dados['id'],
                     $dados['nome'],
                     $dados['preco'],
                     $dados['foto']

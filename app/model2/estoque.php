@@ -7,8 +7,8 @@ use PDOException;
 
 class Estoque {
     private $idEstoque;
+    private $idCategoria;
     private $idProduto;
-    private $idVariacao;
     private $dtEntrada;
     private $quantidade;
     private $dtFabricacao;
@@ -22,13 +22,13 @@ class Estoque {
     private $desativado;
 
     public function __construct(
-        $idEstoque, $idProduto, $idVariacao, $dtEntrada, $quantidade, 
+        $idEstoque, $idCategoria, $idProduto, $dtEntrada, $quantidade, 
         $dtFabricacao, $dtVencimento, $lote, $precoCompra, $qtdMinima, 
         $qtdVendida, $qtdOcorrencia, $ocorrencia, $desativado
     ) {
         $this->idEstoque = $idEstoque;
+        $this->idCategoria = $idCategoria;
         $this->idProduto = $idProduto;
-        $this->idVariacao = $idVariacao;
         $this->dtEntrada = $dtEntrada;
         $this->quantidade = $quantidade;
         $this->dtFabricacao = $dtFabricacao;
@@ -58,12 +58,12 @@ class Estoque {
         $this->idProduto = $idProduto;
     }
 
-    public function getIdVariacao() {
-        return $this->idVariacao;
+    public function getIdCategoria() {
+        return $this->idCategoria;
     }
 
-    public function setIdVariacao($idVariacao) {
-        $this->idVariacao = $idVariacao;
+    public function setIdCategoria($idCategoria) {
+        $this->idCategoria = $idCategoria;
     }
 
     public function getDtEntrada() {
@@ -154,11 +154,9 @@ class Estoque {
         $this->desativado = $desativado;
     }
 
-    public function editarProdutoEstoque(
-        $idEstoque, $dtEntrada, $quantidade, $dtFabricacao, $dtVencimento, 
-        $precoCompra, $qtdMinima, $qtdOcorrencia, $ocorrencia
+    public function editarProdutoEstoque($lote, $dtEntrada, $quantidade, $dtFabricacao, $dtVencimento, $precoCompra, $qtdMinima, $qtdOcorrencia, $ocorrencia
     ) {
-        $this->setIdEstoque($idEstoque);
+        $this->setLote($lote);
         $this->setDtEntrada($dtEntrada);
         $this->setQuantidade($quantidade);
         $this->setDtFabricacao($dtFabricacao);

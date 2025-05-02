@@ -24,10 +24,13 @@ require_once '../config/blockURLAccess.php';
             <div class="d-flex flex-column justify-content-center align-items-center gap-4">
                 <h3 class="fw-bold">Gerenciamento de Pessoas</h3>
                 <div class="box-link w-auto p-3 d-flex justify-content-center align-items-center rounded-4">
-                    <a class="fs-5 fw-bold text-decoration-none text-dark" href="sessaoFuncionarios.php">Funcionários</a>
+                    <a class="fs-5 fw-bold text-decoration-none text-dark" href="gerenciarFuncionarios.php">Funcionários</a>
                 </div>
                 <div class="box-link w-auto p-3 d-flex justify-content-center align-items-center rounded-4">
-                    <a class="fs-5 fw-bold text-decoration-none text-dark" href="sessaoFornecedores.php">Fornecedores</a>
+                    <a class="fs-5 fw-bold text-decoration-none text-dark" href="gerenciarFornecedores.php">Fornecedores</a>
+                </div>
+                <div class="box-link w-auto p-3 d-flex justify-content-center align-items-center rounded-4">
+                    <a class="fs-5 fw-bold text-decoration-none text-dark" href="gerenciarEntregadores.php">Entregadores</a>
                 </div>
                 
             </div>

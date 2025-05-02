@@ -4,7 +4,6 @@ namespace app\model2;
 class Pedido {
     private $idPedido;
     private $idCliente;
-    private $idProduto;
     private $dtPedido;
     private $dtPagamento;
     private $tipoFrete;
@@ -18,11 +17,10 @@ class Pedido {
     private $meioPagamento;
     private $trocoPara;
 
-    public function __construct($idPedido, $idCliente, $idProduto, $dtPedido, $dtPagamento, $tipoFrete, $idEndereco, $valorTotal, $dataCancelamento, $motivoCancelamento, $statusPedido, $idEntregador, $frete, $meioPagamento, $trocoPara)
+    public function __construct($idPedido, $idCliente, $dtPedido, $dtPagamento, $tipoFrete, $idEndereco, $valorTotal, $dataCancelamento, $motivoCancelamento, $statusPedido, $idEntregador, $frete, $meioPagamento, $trocoPara)
     {
         $this->idPedido = $idPedido;
         $this->idCliente = $idCliente;
-        $this->idProduto = $idProduto;
         $this->dtPedido = $dtPedido;
         $this->dtPagamento = $dtPagamento;
         $this->tipoFrete = $tipoFrete;
@@ -55,16 +53,6 @@ class Pedido {
     public function setIdCliente($idCliente)
     {
         $this->idCliente = $idCliente;
-    }
-
-    public function getIdProduto()
-    {
-        return $this->idProduto;
-    }
-
-    public function setIdProduto($idProduto)
-    {
-        $this->idProduto = $idProduto;
     }
 
     public function getDtPedido()

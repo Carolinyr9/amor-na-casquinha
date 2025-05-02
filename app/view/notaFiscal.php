@@ -57,7 +57,7 @@ $trocoPara = is_numeric($trocoPara) ? floatval($trocoPara) : null;
             <h3 class="mt-3">Confirmar Pedido?</h3>
 
             <?php if (isset($_SESSION["userEmail"])): ?>
-                <form id="pedidoForm" name="pedidoForm" method="post" action="sobre.php">
+                <form id="pedidoForm" name="pedidoForm" method="post" action="perfil.php">
                     <input type="hidden" name="isDelivery" id="isDelivery" value="<?= $isDelivery ? '1' : '0' ?>">
 
                     <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" <?= $isDelivery ? 'checked' : '' ?>>

@@ -1,17 +1,17 @@
 <?php 
-namespace app\model;
+namespace app\model2;
 
 class Entregador {
     private $id;
     private $desativado;
-    private $perfil;
+    private $perfil = 'ENTR';
     private $nome;
     private $email;
     private $telefone;
     private $senha;
     private $cnh;
 
-    public function __construct($id, $desativado, $perfil, $nome, $email, $telefone, $senha, $cnh) {
+    public function __construct($id, $desativado, $perfil = 'ENTR', $nome, $email, $telefone, $senha, $cnh) {
         $this->id = $id;
         $this->desativado = $desativado;
         $this->perfil = $perfil;
@@ -85,4 +85,11 @@ class Entregador {
     public function setCnh($cnh) {
         $this->cnh = $cnh;
     }
+
+    public function editarEntregador($nome, $email, $telefone){
+        $this->setNome($nome);
+        $this->setEmail($email);
+        $this->setTelefone($telefone);
+    }
+
 }

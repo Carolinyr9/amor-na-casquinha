@@ -1,8 +1,10 @@
 <?php
-namespace app\controller;
+namespace app\controller2;
 
-use app\model\Endereco;
+use app\model2\Endereco;
 use app\repository\EnderecoRepository;
+use app\utils\Logger;
+use Exception;
 
 class EnderecoController {
 
@@ -12,32 +14,71 @@ class EnderecoController {
         $this->repositorio = new EnderecoRepository();
     }
 
-    public function listarEnderecoPorId($idEndereco) {
-        if(!isset($idEndereco) || empty($idEndereco)) {
-            return ["error" => "ID do endereço não fornecido!"];
-        }
+    public function criarEndereco($dados){
+        try {
+            $idEndereco = $this->repositorio->criarEndereco($dados['rua'], $dados['numero'], $dados['cep'], $dados['bairro'], $dados['cidade'], $dados['estado'], $dados['complemento']);
 
-        $dados = $this->repositorio->listarEnderecoPorId($idEndereco);
-        
-        return $dados ?: ["error" => "Endereço não encontrado!"];
+            if ($idEndereco) {
+                new Endereco(
+                    $idEndereco, 
+                    $dados['rua'], 
+                    $dados['numero'], 
+                    $dados['cep'], 
+                    $dados['bairro'], 
+                    $dados['cidade'], 
+                    $dados['estado'], 
+                    $dados['complemento']
+                );
+
+                return $idEndereco;
+            } else {
+                Logger::logError("Erro ao criar endereço");
+                return false;
+            }
+
+        } catch (Exception $e) {
+            Logger::logError("Erro ao criar endereço: " . $e->getMessage());
+        }
     }
+
+    public function listarEnderecoPorId($idEndereco) {
+        try {
+            if(!isset($idEndereco) || empty($idEndereco)){
+                Logger::logError("ID do endereço não fornecido!");
+            }
+            $dados = $this->repositorio->listarEnderecoPorId($idEndereco);
+            return $dados ?: Logger::logError("Endereço não encontrado!");
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar endereço ID: " . $e->getMessage());
+        }
+    }    
 
     function editarEndereco($dados) {
-        if(!is_numeric($dados['cep'])) {
-            $erro = ["error" => "CEP inválido! Insira um CEP válido e sem formatação."];
-        }
-        if(!is_numeric($dados['numero'])) {
-            $erro = ["error" => "Número inválido! Insira um número válido."];
-        }
-
-        if(isset($erro)) {
-            return $erro;
-        } else{
-            $endereco = new Endereco(0, $dados['rua'], $dados['numero'], $dados['cep'], $dados['bairro'], $dados['cidade'], $dados['estado'], $dados['complemento']);
+        try {
+            if (!is_numeric($dados['cep'])) {
+                Logger::logError("CEP inválido! Insira um CEP válido e sem formatação.");
+            }
+            if (!is_numeric($dados['numero'])) {
+                Logger::logError("Número inválido! Insira um número válido.");
+            }
+    
+            $endereco = new Endereco(
+                0,
+                $dados['rua'],
+                $dados['numero'],
+                $dados['cep'],
+                $dados['bairro'],
+                $dados['cidade'],
+                $dados['estado'],
+                $dados['complemento']
+            );
+    
             $answer = $this->repositorio->editarEndereco($endereco);
-
-            return $answer ? ["sucess" => "Endereço editado com sucesso!"] : ["error" => "Erro ao editar endereço!"];
-
+    
+            return $answer ? ["success" => "Endereço editado com sucesso!"] : Logger::logError("Erro ao editar endereço!");
+        } catch (Exception $e) {
+            Logger::logError("Erro ao editar endereço: " . $e->getMessage());
         }
     }
+
 }

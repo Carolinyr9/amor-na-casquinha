@@ -4,6 +4,8 @@ namespace app\repository;
 use app\config\DataBase;
 use PDO;
 use PDOException;
+use app\utils\Logger;
+use Exception;
 
 class EnderecoRepository {
     private $conn;  
@@ -33,7 +35,7 @@ class EnderecoRepository {
                 return null;
             }
         } catch (PDOException $e) {
-            throw new Exception("Erro ao listar o endereço: " . $e->getMessage());
+            Logger::logError("Erro ao listar o endereço: " . $e->getMessage());
         }
     }
 
@@ -52,7 +54,33 @@ class EnderecoRepository {
 
             return true;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao editar o endereço: " . $e->getMessage());
+            Logger::logError("Erro ao editar o endereço: " . $e->getMessage());
         }
     }
+
+    public function criarEndereco($rua, $numero, $cep, $bairro, $cidade, $estado, $complemento){
+        try {
+            $stmt = $this->conn->prepare("
+                INSERT INTO enderecos
+                (rua, numero, cep, bairro, cidade, estado, complemento) 
+                VALUES 
+                (:rua, :numero, :cep, :bairro, :cidade, :estado, :complemento)
+            ");
+
+            $stmt->bindParam(':rua', $rua);
+            $stmt->bindParam(':numero', $numero);
+            $stmt->bindParam(':cep', $cep);
+            $stmt->bindParam(':bairro', $bairro);
+            $stmt->bindParam(':cidade', $cidade);
+            $stmt->bindParam(':estado', $estado);
+            $stmt->bindParam(':complemento', $complemento);
+
+            $stmt->execute();
+
+            return $this->conn->lastInsertId();
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao inserir o endereço: " . $e->getMessage());
+        }
+    }
+
 }

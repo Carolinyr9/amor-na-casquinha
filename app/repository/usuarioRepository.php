@@ -20,18 +20,43 @@ class UsuarioRepository {
 
     public function verificarUsuarioPorEmail($email) {
         try {
-            $stmt = $this->conn->prepare("CALL Login(?)");
-            $stmt->bindParam(1, $email);
-            $stmt->execute();
-
+            $stmt = $this->conn->prepare("SELECT * FROM funcionarios WHERE email LIKE CONCAT('%', ?, '%') LIMIT 1");
+            $stmt->execute([$email]);
+    
             if ($stmt->rowCount() > 0) {
                 return $stmt->fetch(PDO::FETCH_ASSOC);
-            } else {
-                return false;
             }
+    
+            $stmt = $this->conn->prepare("
+                SELECT * FROM clientes 
+                INNER JOIN enderecos ON clientes.idEndereco = enderecos.idEndereco 
+                WHERE clientes.email LIKE CONCAT('%', ?, '%') 
+                LIMIT 1
+            ");
+            $stmt->execute([$email]);
+    
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+    
+            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE email LIKE CONCAT('%', ?, '%') LIMIT 1");
+            $stmt->execute([$email]);
+    
+            if ($stmt->rowCount() > 0) {
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+    
+            return [
+                'Status' => '403',
+                'Error' => 'ERROR_EMAIL_NAO_ENCONTRADO',
+                'Message' => '',
+                'Body' => ''
+            ];
+            
         } catch (PDOException $e) {
             throw new Exception("Erro ao verificar usuário: " . $e->getMessage());
         }
     }
+    
 
 }

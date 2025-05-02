@@ -65,4 +65,9 @@ class Cliente {
     public function setIdEndereco($idEndereco) {
         $this->idEndereco = $idEndereco;
     }
+
+    public function editar($nome, $telefone){
+        $this->setNome($nome);
+        $this->setTelefone($telefone);
+    }
 }

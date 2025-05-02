@@ -1,25 +1,53 @@
 <?php
-namespace app\controller;
+namespace app\controller2;
 
-use app\model\Entregador;
+use app\model2\Entregador;
 use app\repository\EntregadorRepository;
+use app\utils\Logger;
+use Exception;
 
 class EntregadorController {
-    private $repositorio;
+    private $repository;
 
-    public function __construct() {
-        $this->repositorio = new EntregadorRepository();
+    public function __construct(EntregadorRepository $repository = null) {
+        $this->repository = $repository ?? new EntregadorRepository();
+    }
+
+    public function criarEntregador($dados){
+        try{
+            $idEntregador = $this->repository->criarEntregador($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnh'], $dados['senha']);
+
+            if($idEntregador){
+                $desativado = 0;
+                $funcionario = new Funcionario(
+                    $idEntregador,
+                    $desativado,
+                    $dados['nome'], 
+                    $dados['email'], 
+                    $dados['telefone'],
+                    $dados['senha'],
+                    $dados['cnh']
+                );
+
+                return $funcionario;
+                
+            } else {
+                Logger::logError("Erro ao criar entregador");
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao criar entregador: " . $e->getMessage());
+        }
     }
 
     public function listarEntregadores() {
-        $dados = $this->repositorio->listarEntregadores();
+        $dados = $this->repository->listarEntregadores();
 
         if($dados) {
             $entregadores = [];
 
             foreach ($dados as $entregador) {
                 $entregadores[] = new Entregador(
-                    $entregador['id'],
+                    $entregador['idEntregador'],
                     $entregador['desativado'],
                     $entregador['perfil'],
                     $entregador['nome'],
@@ -41,7 +69,7 @@ class EntregadorController {
             return Logger::logError("Erro ao listar entregador: ID inválido.");
         }
 
-        $dados = $this->repositorio->listarEntregadorPor($idEntregador);
+        $dados = $this->repository->listarEntregadorPor($idEntregador);
         if($dados) {
             $entregador = new Entregador(
                 $dados['id'],
@@ -65,10 +93,10 @@ class EntregadorController {
             return Logger::logError("Erro ao listar entregador: Email inválido.");
         }
 
-        $dados = $this->repositorio->listarEntregadorPorEmail($email);
+        $dados = $this->repository->listarEntregadorPorEmail($email);
         if($dados) {
             $entregador = new Entregador(
-                $dados['id'],
+                $dados['idEntregador'],
                 $dados['desativado'],
                 $dados['perfil'],
                 $dados['nome'],
@@ -83,5 +111,67 @@ class EntregadorController {
             return Logger::logError("Erro ao listar entregador: Entregador não encontrado.");
         }
     }
+
+    public function editarEntregador($dados) {
+        try {
+            $entregador = $this->listarEntregadorPorEmail($dados['emailAntigo']);
+    
+            if (!$entregador) {
+                Logger::logError("Entregador não encontrado para edição.");
+                return false;
+            }
+    
+            $entregador->editarEntregador(
+                $dados['nome'],
+                $dados['email'],
+                $dados['telefone']
+            );
+    
+            $resultado = $this->repository->editarEntregador(
+                $dados['emailAntigo'],
+                $dados['nome'],
+                $dados['email'],
+                $dados['telefone']
+            );
+    
+            if (!$resultado) {
+                Logger::logError("Erro ao editar entregador no repositório.");
+                return false;
+            }
+    
+            return true;
+    
+        } catch (Exception $e) {
+            Logger::logError("Erro ao editar entregador: " . $e->getMessage());
+            return false;
+        }
+    }    
+
+    public function desativarEntregador($email) {
+        try {
+            $entregador = $this->listarEntregadorPorEmail($email);
+    
+            if (!$entregador) {
+                Logger::logError("Entregador não encontrado para desativação.");
+                return false;
+            }
+    
+            $entregador->setDesativado(1);
+    
+            $resultado = $this->repository->desativarEntregador($email);
+    
+            if (!$resultado) {
+                Logger::logError("Erro ao desativar entregador no repositório.");
+                return false;
+            }
+    
+            return true;
+    
+        } catch (Exception $e) {
+            Logger::logError("Erro ao desativar entregador: " . $e->getMessage());
+            return false;
+        }
+    }    
+
 }
 ?>

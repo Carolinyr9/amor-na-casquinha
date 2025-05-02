@@ -67,10 +67,9 @@ class Produto {
     }
 
 
-    public function editar($categoria, $nomeProduto, $preco, $imagemProduto){
-        setCategoria($categoria);
-        setNome($nome);
-        setPreco($preco);
-        setFoto($foto);
+    public function editar($nome, $preco, $foto){
+        $this->setNome($nome);
+        $this->setPreco($preco);
+        $this->setFoto($foto);
     }
 }
