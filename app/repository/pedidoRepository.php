@@ -1,10 +1,10 @@
 <?php
 namespace app\repository;
-use app\config\DataBase;
+use app\model2\Pedido;
+use app\utils\Logger;
 use PDO;
 use PDOException;
-use app\controller\ClienteController;
-use app\controller\EnderecoController;
+use Exception;
 
 class PedidoRepository {
     private $conn;  
@@ -22,41 +22,68 @@ class PedidoRepository {
         }
     }
 
-    public function listarPedidoPorIdCliente($id) {
+    public function listarPedidoPorIdCliente($idCliente) {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM pedidos WHERE idCliente = ?");
-            $stmt->bindParam(1, $id);
+            $stmt->bindParam(1, $idCliente);
             $stmt->execute();
 
-            return $stmt->fetch(PDO::FETCH_ASSOC) ?: false;
+            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $dados ? new Pedido(
+                $dados['idPedido'],
+                $dados['idCliente'],
+                $dados['dtPedido'],
+                $dados['dtPagamento'],
+                $dados['tipoFrete'],
+                $dados['idEndereco'],
+                $dados['valorTotal'],
+                $dados['dtCancelamento'],
+                $dados['motivoCancelamento'],
+                $dados['statusPedido'],
+                $dados['idEntregador'],
+                $dados['frete'],
+                $dados['meioPagamento'],
+                $dados['trocoPara']   
+            ) : null;
+
         } catch (PDOException $e) {
-            throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
+            Logger::logError("Erro ao listar pedidos por ID do cliente: " . $e->getMessage());
         }
     }
 
-    public function listarInformacoesPedido($idPedido) {
-        try{
-            $stmt = $this->conn->prepare("SELECT ip.idPedido, ip.quantidade, vp.idVariacao,
-                                            vp.nomeVariacao AS NomeProduto,
-                                            vp.precoVariacao AS Preco,
-                                            vp.fotoVariacao AS Foto,
-                                            vp.desativado AS ProdutoDesativado
-                                            FROM itens_pedido ip 
-                                            INNER JOIN variacaoproduto vp ON ip.idProduto = vp.idVariacao
-                                            WHERE ip.idPedido = ?");
+    public function listarPedidoPorId($idPedido) {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM pedidos WHERE idPedido = ?");
             $stmt->bindParam(1, $idPedido);
             $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
-        } catch(PDOException $e) {
-            throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
+            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $dados ? new Pedido(
+                $dados['idPedido'],
+                $dados['idCliente'],
+                $dados['dtPedido'],
+                $dados['dtPagamento'],
+                $dados['tipoFrete'],
+                $dados['idEndereco'],
+                $dados['valorTotal'],
+                $dados['dtCancelamento'],
+                $dados['motivoCancelamento'],
+                $dados['statusPedido'],
+                $dados['idEntregador'],
+                $dados['frete'],
+                $dados['meioPagamento'],
+                $dados['trocoPara']   
+            ) : null;
+
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao listar pedidos por ID do pedido: " . $e->getMessage());
         }
     }
 
     public function criarPedido($idCliente, $dataPedido, $tipoFrete, $idEndereco, $valorTotal, $statusPedido, $frete, $meioDePagamento, $trocoPara) {
         try {
-            date_default_timezone_set('America/Sao_Paulo');
-            $dataPedido = date('Y-m-d H:i:s');
             $stmt = $this->conn->prepare("INSERT INTO pedidos(idCliente, dtPedido, tipoFrete, idEndereco, valorTotal, statusPedido, frete, meioPagamento, trocoPara) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 
             $stmt->bindParam(1, $idCliente);
@@ -72,8 +99,7 @@ class PedidoRepository {
 
             return $this->conn->lastInsertId();
         } catch (PDOException $e) {
-            echo "Erro ao criar o pedido: " . $e->getMessage();
-            throw new Exception("Erro ao criar o pedido: " . $e->getMessage());
+            Logger::logError("Erro ao criar o pedido: " . $e->getMessage());
         }
     }
 
@@ -81,60 +107,67 @@ class PedidoRepository {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM pedidos");
             $stmt->execute();
+            $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
+            $pedidos = [];
+    
+            foreach ($dados as $pedido) {
+                $pedidos[] = new Pedido(
+                    $pedido['idPedido'],
+                    $pedido['idCliente'],
+                    $pedido['dtPedido'],
+                    $pedido['dtPagamento'],
+                    $pedido['tipoFrete'],
+                    $pedido['idEndereco'],
+                    $pedido['valorTotal'],
+                    $pedido['dtCancelamento'],
+                    $pedido['motivoCancelamento'],
+                    $pedido['statusPedido'],
+                    $pedido['idEntregador'],
+                    $pedido['frete'],
+                    $pedido['meioPagamento'],
+                    $pedido['trocoPara']   
+                );
+            }
+    
+            return $pedidos; 
         } catch (PDOException $e) {
-            throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
+            Logger::logError("Erro ao listar pedidos: " . $e->getMessage());
+            return false;
         }
     }
+    
 
     public function listarPedidosEntregador($idEntregador) {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM pedidos WHERE idEntregador = ?");
             $stmt->bindParam(1, $idEntregador);
-            $stmt->execute();
+            $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
+            $pedidos = [];
+    
+            foreach ($dados as $pedido) {
+                $pedidos[] = new Pedido(
+                    $pedido['idPedido'],
+                    $pedido['idCliente'],
+                    $pedido['dtPedido'],
+                    $pedido['dtPagamento'],
+                    $pedido['tipoFrete'],
+                    $pedido['idEndereco'],
+                    $pedido['valorTotal'],
+                    $pedido['dtCancelamento'],
+                    $pedido['motivoCancelamento'],
+                    $pedido['statusPedido'],
+                    $pedido['idEntregador'],
+                    $pedido['frete'],
+                    $pedido['meioPagamento'],
+                    $pedido['trocoPara']   
+                );
+            }
+    
+            return $pedidos; 
         } catch (PDOException $e) {
-            throw new Exception("Erro ao listar pedidos: " . $e->getMessage());
-        }
-    }
-
-    public function mudarStatus($idPedido, $novoStatus) {
-        try {
-            $stmt = $this->conn->prepare("UPDATE pedidos SET statusPedido = ? WHERE idPedido = ?");
-            $stmt->bindParam(1, $novoStatus);
-            $stmt->bindParam(2, $idPedido);
-            
-            return $stmt->rowCount() > 0 ? true : false;
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao mudar o status: " . $e->getMessage());
-        }
-    }
-
-    public function mudarmudarStatusCancelamento($idPedido, $novoStatus, $motivoCancelamento) {
-        try {
-            $stmt = $this->conn->prepare("UPDATE pedidos SET statusPedido = ?, motivoCancelamento = ? WHERE idPedido = ?");
-            $stmt->bindParam(1, $novoStatus);
-            $stmt->bindParam(2, $motivoCancelamento);
-            $stmt->bindParam(3, $idPedido);
-
-            return $stmt->rowCount() > 0 ? true : false;
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao mudar o status: " . $e->getMessage());
-        }
-    }
-
-    public function listarResumoVendas($dataInicio, $dataFim) {
-        try {
-            $stmt = $this->conn->prepare("SELECT pedidos.valorTotal, pedidos.idCliente, pedidos.idPedido AS pedidoId, itens_pedido.idProduto FROM pedidos JOIN itens_pedido ON pedidos.idPedido = itens_pedido.idPedido WHERE DATE(pedidos.dtPedido) BETWEEN ? AND ?");
-            $stmt->bindParam(1, $dataInicio);
-            $stmt->bindParam(2, $dataFim);
-            $stmt->execute();
-
-            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao resumir as vendas: " . $e->getMessage());
+            throw new Exception("Erro ao listar pedidos por entregador: " . $e->getMessage());
         }
     }
 
@@ -151,4 +184,28 @@ class PedidoRepository {
         }
     }
 
+    public function mudarStatus($idPedido, $novoStatus) {
+        try {
+            $stmt = $this->conn->prepare("UPDATE pedidos SET statusPedido = ? WHERE idPedido = ?");
+            $stmt->bindParam(1, $novoStatus);
+            $stmt->bindParam(2, $idPedido);
+            
+            return $stmt->rowCount() > 0 ? true : false;
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao mudar o status: " . $e->getMessage());
+        }
+    }
+
+    public function cancelarPedido($idPedido, $novoStatus, $motivoCancelamento) {
+        try {
+            $stmt = $this->conn->prepare("UPDATE pedidos SET statusPedido = ?, motivoCancelamento = ? WHERE idPedido = ?");
+            $stmt->bindParam(1, $novoStatus);
+            $stmt->bindParam(2, $motivoCancelamento);
+            $stmt->bindParam(3, $idPedido);
+
+            return $stmt->rowCount() > 0 ? true : false;
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao mudar o status: " . $e->getMessage());
+        }
+    }
 }
