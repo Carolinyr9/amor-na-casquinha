@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
+
+:root{
+    --Nunito: 'Nunito', sans-serif;
+    --Agbalumo: 'Agbalumo';
+    --primary: #D4C7FF;
+    --secundary: #FFC7E8;
+    --tertiary: #FFFAC7;
+    --quaternary: #C9EFFF;
+    --neutral: #F9F9F9;
+    --black: #232222;
+}

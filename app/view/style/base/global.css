@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: var(--Nunito), sans-serif;
+    color: var(--black);
+}
+
+.titulo {
+    font-family: var(--Agbalumo);
+    font-size: 2rem;
+    width: 70%;
+    text-align: center;
+    margin: 20px auto;
+    color: #5A3B90;
+}
+
+.subtitulo {
+    font-family: var(--Nunito);
+    font-size: 1.5rem;
+    width: 70%;
+    text-align: center;
+    margin: 20px auto;
+    color: #5A3B90;
+}
