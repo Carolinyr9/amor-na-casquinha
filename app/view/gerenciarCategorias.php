@@ -22,14 +22,18 @@ $categorias = $categoriasController->listarCategorias();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/editarProdutosS.css">
+    <link rel="stylesheet" href="style/components/cards.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/variables.css">
+    <link rel="stylesheet" href="style/base/global.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
     <main>
         <?php include_once 'components/header.php'; ?>
-        <h1>Categorias</h1>
+        <h1 class="titulo">Categorias</h1>
         <div class="produtos d-flex flex-column align-items-center justify-content-center">
-            <button class="produtos__btn--add border-0 rounded-4 my-3 fw-bold fs-5 px-3">Adicionar Categoria</button>
+            <button class="btn btn-primary">Adicionar Categoria</button>
             
             <div class="formulario container my-5 border w-75 rounded-4 py-3">
                 <form enctype="multipart/form-data" action="" method="POST" class="mx-auto d-flex flex-row flex-wrap gap-5 m-auto w-75">

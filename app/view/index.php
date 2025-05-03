@@ -21,14 +21,18 @@ $categorias = $categoriaController->listarCategorias();
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style/indexS.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/components/cards.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
 </head>
 <body>
     <main>
-        <h1 class="m-auto text-center pt-4 pb-4">Boas-vindas ao Amor de Casquinha!</h1>
+        <h1 class="titulo">Boas-vindas ao Amor de Casquinha!</h1>
         <section>
-            <div class="conteiner1 d-flex flex-column justify-content-center align-items-center rounded-4 p-4">
-                <h3 class="text-center pb-1">Explore nossas opções de sorvete</h3>
-                <div class="c1 d-flex flex-wrap flex-row justify-content-between align-items-center">
+            <div class="conteiner d-flex flex-column justify-content-center align-items-center rounded-4 p-4">
+                <h3 class="subtitulo text-center pb-1">Explore nossas opções de sorvete</h3>
+                <div class="d-flex flex-row flex-wrap gap-4 justify-content-center align-items-center">
                     <?php foreach ($categorias as $categoria): ?>
                         <?php include 'components/categoriasCards.php'; ?>
                     <?php endforeach; ?>
