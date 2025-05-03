@@ -1,0 +1,45 @@
+.btn {
+    border-radius: 12px;
+    font-family: var(--Nunito), sans-serif;
+    font-weight: 700;
+    padding: 6px 20px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background-color: var(--secundary); 
+    color: var(--black);
+}
+
+.btn-primary:hover {
+    background-color: #fbb9dc;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #5A3B90;
+    border: 2px solid #D4C7FF;
+}
+
+.btn-secondary:hover {
+    background-color: #D4C7FF;
+    color: #fff;
+    border: 2px solid #D4C7FF;
+}
+
+.btn-alerta {
+    background-color: var(--tertiary);
+    color: #B00020;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        width: 100%;
+        padding: 5px 35px;
+        font-size: 1.2rem;
+    }
+}
+  
