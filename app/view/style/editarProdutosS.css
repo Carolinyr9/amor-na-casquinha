@@ -1,101 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
-
-:root{
-    --roxo-bebe: #D4C7FF;
-    --Nunito: 'Nunito', sans-serif;
-    --Agbalumo: 'Agbalumo';
-    --azul-bebe: #C9EFFF;
-    --rosa-bebe: #FFC7E8;
-    --amarelo-bebe: #FFFAC7;
-    --verde-bebe: #E2FFC7;
-}
-
 main{
     min-height: calc(100vh - 170px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     font-family: var(--Nunito);
-}
-
-h1{
-    font-family: var(--Agbalumo);
-    font-size: 2rem;
-    width: 70%;
-    text-align: center;
-    margin: 20px auto;
-}
-
-.produto{
-    height: 190px;
-    background-color: var(--verde-bebe);
-    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-picture{
-    width: 57%;
-}
-
-picture img{
-    margin: 8px;
-    width: 100%;
-    height: auto;
-}
-
-.botao{
-    margin: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.card__botao .botao__link--excluir, .botao__link--editar, .botao__link--verSabores{
-    font-family: var(--Agbalumo);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-}
-
-.card__botao .botao__link--excluir{
-    background-color: var(--amarelo-bebe);
-}
-
-.botao__link--excluir:hover {
-    background-color: #f7ee93;
-    transform: scale(1.03);
-}
-
-.card__botao .botao__link--editar{
-    background-color: var(--azul-bebe);
-}
-
-.botao__link--editar:hover {
-    background-color: #6ccad6;
-    transform: scale(1.03);
-}
-
-.botao__link--verSabores{
-    background-color: var(--rosa-bebe);
-    width: 100px !important;
-}
-
-.botao__link--verSabores:hover {
-    background-color: #f58cd4 !important;
-    transform: scale(1.03);
-}
-
-.produtos__btn--add{
-    background-color: var(--azul-bebe);
-    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
-    height: 29px;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-}
-
-.produtos__btn--add:hover {
-    background-color: #6ccad6;
-    transform: scale(1.03);
 }
 
 .formulario{
@@ -115,33 +23,4 @@ picture img{
 }
 
 @media (min-width: 768px) {
-    
-    .conteiner1{
-        width: 90%;
-        gap: 40px !important;
-        flex-direction: row !important;
-    }
-
-    .c1{
-        width: 25% !important;
-        
-    }
-
-    .card{
-        justify-content: space-around !important;
-        flex-direction: row !important
-    }
-
-    img{
-        width: 75%;
-    }
-
-    h1{
-        padding-top: 20px !important;
-    }
-    .card__botao .botao__link--excluir, .botao__link--editar, .botao__link--verSabores{
-        font-size: 20px;
-    }
-    
-    
 }
