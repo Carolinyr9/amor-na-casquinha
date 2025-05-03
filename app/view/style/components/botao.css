@@ -2,7 +2,7 @@
     border-radius: 12px;
     font-family: var(--Nunito), sans-serif;
     font-weight: 700;
-    padding: 6px 20px;
+    padding: 6px 25px;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     border: none;
     cursor: pointer;
@@ -15,6 +15,7 @@
 }
 
 .btn-primary:hover {
+    color: var(--neutral);
     background-color: #fbb9dc;
 }
 

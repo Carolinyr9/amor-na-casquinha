@@ -1,37 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
-
-:root{
-    --roxo-bebe: #D4C7FF;
-    --Nunito: 'Nunito', sans-serif;
-    --Agbalumo: 'Agbalumo';
-    --azul-bebe: #C9EFFF;
-    --rosa-bebe: #FFC7E8;
-    --amarelo-bebe: #FFFAC7;
-    --verde-bebe: #E2FFC7;
-}
-
-input[type=email], input[type=password], input[type=text], input[type=tel], input[type=number] {
-    margin: 10px 0;
-    background-color: rgba(234, 231, 231, 1);
-    height: 34px;
-    width: 261px;
-    font-family: var(--Nunito);
-}
-
-h3{
-    font-family: var(--Nunito);
-}
-
-.formu input[type=submit]{
-    background-color: var(--azul-bebe);
-    width: 121px;
-}
-
-.pagRegistro {
-    background-color: #C9EFFF;
-    width: 220px;
-    font-family: var(--Nunito);
-}
 
 @media (min-width: 768px) {
 

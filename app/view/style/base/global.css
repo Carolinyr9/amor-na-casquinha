@@ -22,3 +22,17 @@
     margin: 20px auto;
     color: #5A3B90;
 }
+
+.link {
+    font-family: var(--Nunito);
+    color: #5A3B90;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.link:visited {
+    color: #5A3B90;
+}
