@@ -22,20 +22,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
-    <link rel="stylesheet" href="style/loginS.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
 </head>
 <body style="height: calc(100vh - 200px);">
     <?php
         include_once 'components/header.php';
     ?>
     <main>
-        <h3 class="m-auto fw-bold text-center">Login</h3>
-        <div class="d-flex justify-content-center align-items-center">
+        <h3 class="subtitulo">Login</h3>
+        <div class="container d-flex justify-content-center align-items-center w-75">
             <form action="login.php" method="POST" class="d-flex flex-column justify-content-center align-items-center formu">
-                <input class="rounded-4 border-0 fw-bold pl-3" type="email" name="email" placeholder="E-mail" required>
-                <input class="rounded-4 border-0 fw-bold pl-3" type="password" name="senha" placeholder="Senha" required>
-                <input class="rounded-4 border-0 fw-bold mt-3 mb-4" type="submit"  name="btnSubmit" value="Login">
-                <a class="color-black text-decoration-none fw-bold rounded-4 border-0 p-2 mt-3 pagRegistro text-center" href="registro.php">É cliente e não possui login? Clique para criar conta!</a>
+                <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control"   name="email" placeholder="E-mail" required>
+                </div>
+                <div class="form-group">
+                        <label for="senha">Senha:</label>
+                        <input type="password" class="form-control"   name="senha" placeholder="Senha" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <a class="link mt-4 text-center" href="registro.php">É cliente e não possui login? Clique para criar conta!</a>
             </form>
         </div>
     </main>

@@ -20,7 +20,7 @@ $paginaAtual = basename($_SERVER['SCRIPT_NAME']);
                 <a class="btn btn-alerta" href="<?= htmlspecialchars($redirectToExcluir) ?>">Excluir</a>
             <?php else: ?>
                 <h4 class="text-center"><?= htmlspecialchars($categoria->getNome()) ?></h4>
-                <button class="btn btn-primary"><a class="text-decoration-none text-body" href="sabores.php?categoria=<?= htmlspecialchars($categoria->getId()) ?>">ver</a></button>
+                <a class="btn btn-primary" href="sabores.php?categoria=<?= htmlspecialchars($categoria->getId()) ?>">ver</a>
             <?php endif; ?>
 
         </div>
