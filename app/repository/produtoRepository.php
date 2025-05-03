@@ -46,7 +46,7 @@ class ProdutoRepository {
     
             return $produtos; 
         } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar produtos: " . $e->getMessage());
+            Logger::logError("Erro ao buscar produtos: " . $e->getMessage());
         }
     }
 
@@ -84,7 +84,7 @@ class ProdutoRepository {
                 $dados['categoria']
             ) : null;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao buscar produto por ID: " . $e->getMessage());
+            Logger::logError("Erro ao buscar produto por ID: " . $e->getMessage());
         }
     }
 
@@ -98,7 +98,7 @@ class ProdutoRepository {
             
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao editar o produto: " . $e->getMessage());
+            Logger::logError("Erro ao editar o produto: " . $e->getMessage());
         }
     }
 
@@ -109,7 +109,7 @@ class ProdutoRepository {
             
             return $stmt->execute();
         } catch (PDOException $e) {
-            throw new Exception("Erro ao desativar o produto: " . $e->getMessage());
+            Logger::logError("Erro ao desativar o produto: " . $e->getMessage());
         }
     }
 }

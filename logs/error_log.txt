@@ -2,3 +2,5 @@
 [2025-04-30 17:32:41] ERROR: Erro ao editar entregador no repositório.
 [2025-04-30 17:32:58] ERROR: Erro ao editar entregador no repositório.
 [2025-04-30 17:33:08] ERROR: Erro ao editar entregador no repositório.
+[2025-05-01 15:26:40] ERROR: 
+[2025-05-01 15:26:53] ERROR: 
