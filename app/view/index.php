@@ -20,7 +20,7 @@ $categorias = $categoriaController->listarCategorias();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style/indexS.css">
+    <link rel="stylesheet" href="style/index.css">
     <link rel="stylesheet" href="style/components/botao.css">
     <link rel="stylesheet" href="style/components/cards.css">
     <link rel="stylesheet" href="style/base/global.css">
