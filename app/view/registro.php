@@ -97,7 +97,7 @@ if(isset($_POST['resgistrar'])){
                 <label for="senha">Senha:</label>
                 <input type="password" class="form-control" name="senha" maxlength="255" placeholder="Senha" minlength="8" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}" title="A senha deve ter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." required>
             </div>
-            <div class="form-group d-flex align-items-center justify-content-center w-100 "><input class="btn btn-primary" type="submit" value="Registre-se" name="resgistrar" class="btn btn-primary mt-3"></div>
+            <div class="form-group d-flex align-items-center justify-content-center w-100 "><input class="botao botao-primary" type="submit" value="Registre-se" name="resgistrar" class="botao botao-primary mt-3"></div>
         </form>
 </div>
     </main>
