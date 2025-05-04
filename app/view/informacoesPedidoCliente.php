@@ -14,7 +14,7 @@ $pedidoController = new PedidoController();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informações do Pedido</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">  
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/infoPedidos.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
@@ -113,8 +113,8 @@ $pedidoController = new PedidoController();
                                 <textarea class="form-control" id="motivoCancelamento" name="motivoCancelamento" rows="3" required maxlength="100"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                <button type="submit" class="btn btn-danger">Confirmar Cancelamento</button>
+                                <button type="button" class="botao botao-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="botao botao-danger">Confirmar Cancelamento</button>
                             </div>
                         </form>
                     </div>

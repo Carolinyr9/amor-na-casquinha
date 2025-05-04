@@ -33,7 +33,7 @@ $categorias = $categoriasController->listarCategorias();
         <?php include_once 'components/header.php'; ?>
         <h1 class="titulo">Categorias</h1>
         <div class="produtos d-flex flex-column align-items-center justify-content-center">
-            <button class="btn btn-primary">Adicionar Categoria</button>
+            <button class="botao botao-primary">Adicionar Categoria</button>
             
             <div class="formulario container my-5 border w-75 rounded-4 py-3">
                 <form enctype="multipart/form-data" action="" method="POST" class="mx-auto d-flex flex-row flex-wrap gap-5 m-auto w-75">
