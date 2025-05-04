@@ -2,19 +2,18 @@
 $paginaAtual = basename($_SERVER['SCRIPT_NAME']);
 ?>
 
-<div class="c1 p-3 my-3 d-flex flex-column rounded-4">
-    <div class="head-box d-flex flex-row justify-content-between">
-        <div class="img-box" style="width: 40%; height: auto;">
-            <img class="imagem m-2 rounded-4 w-100 h-auto" src="../images/<?= htmlspecialchars($produto->getFoto()) ?>" alt="<?= htmlspecialchars($produto->getNome()) ?>">
-        </div>
-        <div class="d-flex flex-column justify-content-center">
-            <h3 class="titulo mt-2 fs-6 fw-bold pl-2 px-2 text-wrap"><?= htmlspecialchars($produto->getNome()) ?></h3>
-            <div class="preco d-flex justify-content-end px-2 mt-3 pl-2">
-                <span>R$ <?= htmlspecialchars($produto->getPreco()) ?></span>
-            </div>
-        </div>
+<div class="cards-produtos d-flex flex-column justify-content-between align-items-center p-3 my-3 h-auto rounded-4" title="<?= htmlspecialchars($produto->getNome()) ?>">
+
+    <div class="d-flex flex-column justify-content-center align-items-center gap-2 w-100" title="<?= htmlspecialchars($produto->getNome()) ?>">
+        <picture class="h-auto d-flex justify-content-center align-items-center"><img src="../images/<?= htmlspecialchars($produto->getFoto()) ?>" alt="<?= htmlspecialchars($produto->getNome()) ?>"></picture>
+        
+        
+        <p class="cards-titulo w-75" title="<?= htmlspecialchars($produto->getNome()) ?>"><?= htmlspecialchars($produto->getNome()) ?></p>
+        
+        <span>R$ <?= htmlspecialchars($produto->getPreco()) ?></span>
     </div>
-    <div class="botao text-center d-flex justify-content-evenly mt-3">
+
+    <div class="text-center d-flex justify-content-evenly mt-3">
         <?php if ($paginaAtual === 'gerenciarProdutos.php'): ?>
             <?php 
                 $redirectToExcluir = 'excluirSabor.php?idProduto=' . urlencode($produto->getId()) . '&idCategoria=' . urlencode($produto->getCategoria());
@@ -27,9 +26,7 @@ $paginaAtual = basename($_SERVER['SCRIPT_NAME']);
                 <a class="text-decoration-none" href="<?= $redirectToEditar ?>">Editar</a>
             </button>
         <?php else: ?>
-            <button class="add border-0 rounded-4">
-                <a class="text-decoration-none fs-5" href="carrinho.php?add=<?= urlencode($produto->getId()) ?>">Adicionar ao Carrinho</a>
-            </button>
+            <a class="botao botao-primary" href="carrinho.php?add=<?= urlencode($produto->getId()) ?>">Adicionar ao Carrinho</a>
         <?php endif; ?>
     </div>
 </div>
