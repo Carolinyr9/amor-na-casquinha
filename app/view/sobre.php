@@ -1,18 +1,24 @@
 <?php
 session_start();
-require_once '../config/blockURLAccess.php';
-require_once '../config/config.php';
 require_once '../../vendor/autoload.php';
-use app\controller\ClienteController;
-use app\controller\PedidoController;
-use app\model\Carrinho;
+require_once '../config/config.php';
+
+use app\controller2\ClienteController;
+use app\controller2\PedidoController;
+use app\controller2\CarrinhoController;
+use app\controller2\EnderecoController;
 
 $pedidoController = new PedidoController();
 $clienteController = new ClienteController();
-$carrinho = new Carrinho();
+$carrinho = new CarrinhoController();
+$enderecoController = new EnderecoController();
 
-$clienteData = $clienteController->getClienteData($_SESSION["userEmail"]);
-$pedidos = $pedidoController->listarPedidoPorCliente($_SESSION["userEmail"]);
+$clienteData = $clienteController->listarClientePorEmail($_SESSION["userEmail"]);
+$endereco = $enderecoController->listarEnderecoPorId($clienteData->getIdEndereco());
+
+$pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
+
+
 $itensCarrinho = $carrinho->listarCarrinho();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -73,42 +79,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <main>
         <div class="conteiner1 rounded-4 text-center d-flex align-items-center flex-column w-75 p-4 my-3">
             <div class="c1 w-100">
-                <?php if (isset($clienteData["error"])): ?>
-                    <div class="alert alert-danger">
-                        <?php echo htmlspecialchars($clienteData["error"]); ?>
-                    </div>
-                <?php else: ?>
+                
                     <div id="dados">
-                        <p class="fs-5">Nome: <?= htmlspecialchars($clienteData['nome']); ?></p>
-                        <p class="fs-5">Email: <?= htmlspecialchars($clienteData['email']); ?></p>
-                        <p class="fs-5">Telefone: <?= htmlspecialchars($clienteData['telefone']); ?></p>
+                        <p class="fs-5">Nome: <?= htmlspecialchars($clienteData->getNome()); ?></p>
+                        <p class="fs-5">Email: <?= htmlspecialchars($clienteData->getEmail()); ?></p>
+                        <p class="fs-5">Telefone: <?= htmlspecialchars($clienteData->getTelefone()); ?></p>
                         <p class="fs-5">Endereço: </p>
                         
-                        <?php if (isset($clienteData['endereco']['rua'])): ?>
-                            <div id="endereco">
-                                <p class="fs-5">
-                                    <?= htmlspecialchars($clienteData['endereco']['rua']) . ', ' .
-                                       htmlspecialchars($clienteData['endereco']['numero']) . ', ' .
-                                       (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 
-                                       htmlspecialchars($clienteData['endereco']['bairro']) . ', ' .
-                                       htmlspecialchars($clienteData['endereco']['cidade']) . ', ' .
-                                       htmlspecialchars($clienteData['endereco']['estado']) . ', ' .
-                                       htmlspecialchars($clienteData['endereco']['cep']); ?>
-                                </p>
-                            </div>
-                        <?php else: ?>
-                            <p>Endereço não encontrado!</p>
-                        <?php endif; ?>
+                        <div id="endereco">
+                            <p class="fs-5">
+                                <?= 
+                                    htmlspecialchars($endereco->getRua()) . ', ' .
+                                    htmlspecialchars($endereco->getNumero()) . ', ' .
+                                    ($endereco->getComplemento() == NULL && !empty($endereco->getComplemento()) ? htmlspecialchars($endereco->getComplemento()) . ', ' : '') .
+                                    htmlspecialchars($endereco->getBairro()) . ', ' .
+                                    htmlspecialchars($endereco->getCidade()) . ', ' .
+                                    htmlspecialchars($endereco->getEstado()) . ', ' .
+                                    htmlspecialchars($endereco->getCep());
+                                ?>
+                            </p>
+                        </div>
+
                     </div>
-                <?php endif; ?>
 
                 <form action="" class="w-100 formEditar" method="POST" id="formulario">
                     <p class="fs-5">Usuário</p>
                     <label for="nome">Nome:</label>
-                    <input class="rounded-3 border-0 mr-4" type="text" id="nome" name="nome" value="<?= htmlspecialchars($clienteData['nome'] ?? ''); ?>" placeholder="Nome completo">
+                    <input class="rounded-3 border-0 mr-4" type="text" id="nome" name="nome" value="<?= htmlspecialchars($clienteData->getNome() ?? ''); ?>" placeholder="Nome completo">
                     
                     <label for="telefone">Telefone:</label>
-                    <input class="rounded-3 border-0 mr-4" type="text" id="telefone" name="telefone" value="<?= htmlspecialchars($clienteData['telefone'] ?? ''); ?>" placeholder="Telefone">
+                    <input class="rounded-3 border-0 mr-4" type="text" id="telefone" name="telefone" value="<?= htmlspecialchars($clienteData->getTelefone() ?? ''); ?>" placeholder="Telefone">
                     
                     <br>
                     <p class="fs-5">Endereço</p>
@@ -117,44 +117,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="row my-2">
                             <div class="col">
                                 <label for="rua">Rua:</label>
-                                <input class="rounded-3 border-0 mr-4" type="text" id="rua" name="rua" value="<?= htmlspecialchars($clienteData['endereco']['rua'] ?? ''); ?>" placeholder="Rua">
+                                <input class="rounded-3 border-0 mr-4" type="text" id="rua" name="rua" value="<?= htmlspecialchars($endereco->getRua() ?? ''); ?>" placeholder="Rua">
                             </div>
 
                             <div class="col">
                                 <label for="numero">Número:</label>
-                                <input class="rounded-3 border-0 mr-4" type="number" id="numero" name="numero" value="<?= htmlspecialchars($clienteData['endereco']['numero'] ?? ''); ?>" placeholder="Número">
+                                <input class="rounded-3 border-0 mr-4" type="number" id="numero" name="numero" value="<?= htmlspecialchars($endereco->getNumero() ?? ''); ?>" placeholder="Número">
                             </div>
                         </div>
                         
                         <div class="row my-2">
                             <div class="col">
                                 <label for="complemento">Complem.:</label>
-                                <input class="rounded-3 border-0 mr-4" type="text" id="complemento" name="complemento" value="<?= htmlspecialchars($clienteData['endereco']['complemento'] ?? ''); ?>" placeholder="Complemento">
+                                <input class="rounded-3 border-0 mr-4" type="text" id="complemento" name="complemento" value="<?= htmlspecialchars($endereco->getComplemento() ?? ''); ?>" placeholder="Complemento">
                             </div>
 
                             <div class="col">
                                 <label for="cep">CEP:</label>
-                                <input class="rounded-3 border-0 mr-4" type="text" id="cep" name="cep" value="<?= htmlspecialchars($clienteData['endereco']['cep'] ?? ''); ?>" placeholder="CEP">
+                                <input class="rounded-3 border-0 mr-4" type="text" id="cep" name="cep" value="<?= htmlspecialchars($endereco->getCep() ?? ''); ?>" placeholder="CEP">
                             </div>
                         </div>
                         
                         <div class="row my-2">
                             <div class="col">
                                 <label for="bairro">Bairro:</label>
-                                <input class="rounded-3 border-0 mr-4" type="text" id="bairro" name="bairro" value="<?= htmlspecialchars($clienteData['endereco']['bairro'] ?? ''); ?>" placeholder="Bairro">
+                                <input class="rounded-3 border-0 mr-4" type="text" id="bairro" name="bairro" value="<?= htmlspecialchars($endereco->getBairro() ?? ''); ?>" placeholder="Bairro">
                             </div>
                             
                             <div class="col">
                                 <label for="cidade">Cidade:</label>
-                                <input class="rounded-3 border-0 mr-4" type="text" id="cidade" name="cidade" value="<?= htmlspecialchars($clienteData['endereco']['cidade'] ?? ''); ?>" placeholder="Cidade">
+                                <input class="rounded-3 border-0 mr-4" type="text" id="cidade" name="cidade" value="<?= htmlspecialchars($endereco->getCidade() ?? ''); ?>" placeholder="Cidade">
                             </div>
                         </div>
                         
                         <label for="estado">Estado:</label>
-                        <input class="rounded-3 border-0 mr-4" type="text" id="estado" name="estado" value="<?= htmlspecialchars($clienteData['endereco']['estado'] ?? ''); ?>" placeholder="Estado">
+                        <input class="rounded-3 border-0 mr-4" type="text" id="estado" name="estado" value="<?= htmlspecialchars($endereco->getEstado() ?? ''); ?>" placeholder="Estado">
                     </div>
 
-                    <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($clienteData['endereco']['idEndereco'] ?? ''); ?>">
+                    <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($endereco->getIdEndereco() ?? ''); ?>">
 
                     <button type="submit" name="btnAlterarCliente" class="rounded-4 border-0 fs-5 mt-4">Salvar</button>
                 </form>
@@ -164,23 +164,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <br>
         <h3>Meus pedidos</h3>
-        <?php if (empty($pedidos)): ?>
-            <p>Nenhum pedido encontrado.</p>
-        <?php else: ?>
+
+        <?php if (!empty($pedidos)): ?>
             <?php foreach ($pedidos as $pedido): 
-                $redirectToInformacao = 'informacoesPedidoCliente.php?idPedido=' . $pedido['idPedido'];?>
+                $redirectToInformacao = 'informacoesPedidoCliente.php?idPedido=' . $pedido->getIdPedido(); ?>
                 <div class="conteiner-pedidos rounded-4 text-center d-flex align-items-center flex-column w-75 p-4 my-3">
-                    <h5 class="titulo">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h5>
-                    <p><strong>Data do Pedido:</strong> <?= htmlspecialchars((new DateTime($pedido['dtPedido']))->format('d/m/Y \à\s H:i')); ?></p>
-                    <p><strong>Total:</strong> R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
-                    <p><strong>Tipo de Frete:</strong> <?= ($pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
-                    <p><strong>Pagamento:</strong> <?= htmlspecialchars($pedido['meioPagamento']); ?></p>
-                    <p><strong>Status:</strong> <?= htmlspecialchars($pedido['statusPedido']); ?></p>
+                    <h5 class="titulo">Número do Pedido: <?= htmlspecialchars($pedido->getIdPedido()); ?></h5>
+                    <p><strong>Data do Pedido:</strong> <?= htmlspecialchars((new DateTime($pedido->getDtPedido()))->format('d/m/Y \à\s H:i')); ?></p>
+                    <p><strong>Total:</strong> R$ <?= number_format($pedido->getValorTotal(), 2, ',', '.'); ?></p>
+                    <p><strong>Tipo de Frete:</strong> <?= ($pedido->getTipoFrete() == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
+                    <p><strong>Pagamento:</strong> <?= htmlspecialchars($pedido->getMeioPagamento()); ?></p>
+                    <p><strong>Status:</strong> <?= htmlspecialchars($pedido->getStatusPedido()); ?></p>
                     
                     <button class="btnVerInfos mt-3"><a href="<?= $redirectToInformacao; ?>">Ver Informações</a></button>
                 </div>
             <?php endforeach; ?>
+        <?php else: ?>
+            <p>Nenhum pedido encontrado.</p>
         <?php endif; ?>
+
+
+
+        
     </main>
     <?php include_once 'components/footer.php'; ?>
     <script src="script/editar.js"></script>

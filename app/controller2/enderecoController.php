@@ -47,7 +47,19 @@ class EnderecoController {
                 Logger::logError("ID do endereço não fornecido!");
             }
             $dados = $this->repositorio->listarEnderecoPorId($idEndereco);
-            return $dados ?: Logger::logError("Endereço não encontrado!");
+
+            if ($dados) {
+                return new Endereco(
+                    $idEndereco, 
+                    $dados['rua'], 
+                    $dados['numero'], 
+                    $dados['cep'], 
+                    $dados['bairro'], 
+                    $dados['cidade'], 
+                    $dados['estado'], 
+                    $dados['complemento']
+                );
+            }
         } catch (Exception $e) {
             Logger::logError("Erro ao listar endereço ID: " . $e->getMessage());
         }

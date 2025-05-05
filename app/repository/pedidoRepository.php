@@ -1,5 +1,6 @@
 <?php
 namespace app\repository;
+use app\config\DataBase;
 use app\model2\Pedido;
 use app\utils\Logger;
 use PDO;
@@ -27,28 +28,37 @@ class PedidoRepository {
             $stmt = $this->conn->prepare("SELECT * FROM pedidos WHERE idCliente = ?");
             $stmt->bindParam(1, $idCliente);
             $stmt->execute();
-
-            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            return $dados ? new Pedido(
-                $dados['idPedido'],
-                $dados['idCliente'],
-                $dados['dtPedido'],
-                $dados['dtPagamento'],
-                $dados['tipoFrete'],
-                $dados['idEndereco'],
-                $dados['valorTotal'],
-                $dados['dtCancelamento'],
-                $dados['motivoCancelamento'],
-                $dados['statusPedido'],
-                $dados['idEntregador'],
-                $dados['frete'],
-                $dados['meioPagamento'],
-                $dados['trocoPara']   
-            ) : null;
-
+            $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            if (empty($dados)) {
+                return [];
+            }
+    
+            $pedidos = [];
+            foreach ($dados as $pedido) {
+                $pedidos[] = new Pedido(
+                    $pedido['idPedido'],
+                    $pedido['idCliente'],
+                    $pedido['dtPedido'],
+                    $pedido['dtPagamento'],
+                    $pedido['tipoFrete'],
+                    $pedido['idEndereco'],
+                    $pedido['valorTotal'],
+                    $pedido['dtCancelamento'],
+                    $pedido['motivoCancelamento'],
+                    $pedido['statusPedido'],
+                    $pedido['idEntregador'],
+                    $pedido['frete'],
+                    $pedido['meioPagamento'],
+                    $pedido['trocoPara']
+                );
+            }
+    
+            return $pedidos;
+    
         } catch (PDOException $e) {
             Logger::logError("Erro ao listar pedidos por ID do cliente: " . $e->getMessage());
+            return []; 
         }
     }
 

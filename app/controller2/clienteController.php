@@ -9,7 +9,7 @@ use Exception;
 class ClienteController {
     private $repository;
 
-    public function __contruct(ClienteRepository $repository = null) {
+    public function __construct(ClienteRepository $repository = null){
         $this->repository = $repository ?? new ClienteRepository();
     }
 

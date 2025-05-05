@@ -5,3 +5,6 @@
 [2025-05-01 15:26:40] ERROR: 
 [2025-05-01 15:26:53] ERROR: 
 [2025-05-04 01:22:52] ERROR: 
+[2025-05-05 17:49:38] ERROR: Pedido com ID 1 não encontrado
+[2025-05-05 17:49:57] ERROR: Pedido com ID 1 não encontrado
+[2025-05-05 17:49:57] ERROR: Pedido com ID 1 não encontrado
