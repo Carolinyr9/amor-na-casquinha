@@ -54,7 +54,6 @@ class PedidoController {
             $idCliente = $dadosPedido['idCliente'];
             $idEndereco = $dadosPedido['idEndereco'];
             $dataAgora = date('Y-m-d H:i:s');
-            $trocoPara = $dadosPedido['meioDePagamento'] === 'Dinheiro' ? $dadosPedido['trocoPara'] : null;
     
             $idPedido = $this->repository->criarPedido(
                 $idCliente,
@@ -65,7 +64,8 @@ class PedidoController {
                 'Aguardando Confirmação',
                 $dadosPedido['frete'],
                 $dadosPedido['meioDePagamento'],
-                $trocoPara
+                $dadosPedido
+                ['trocoPara']
             );
     
             if (!$idPedido) {
@@ -87,7 +87,8 @@ class PedidoController {
                 null,
                 $dadosPedido['frete'],
                 $dadosPedido['meioDePagamento'],
-                $trocoPara
+                $dadosPedido
+                ['trocoPara']
             );
     
             Logger::logInfo("Pedido criado com sucesso! ID do pedido: $idPedido");
@@ -232,7 +233,7 @@ class PedidoController {
     }
 
     private function validarDadosPedido($dados) {
-        $camposObrigatorios = ['idCliente', 'idEndereco', 'tipoFrete', 'valorTotal', 'frete', 'meioDePagamento'];
+        $camposObrigatorios = ['idCliente', 'idEndereco', 'valorTotal', 'meioDePagamento'];
     
         foreach ($camposObrigatorios as $campo) {
             if (empty($dados[$campo])) {

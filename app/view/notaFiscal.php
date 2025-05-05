@@ -2,36 +2,27 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
+require_once '../utils/calcularFrete.php';
 use app\controller2\CarrinhoController;
 use app\controller2\PedidoController;
 use app\controller2\ClienteController;
+use app\controller2\EnderecoController;
+use app\controller2\FreteController;
 
 $carrinhoController = new CarrinhoController();
 $clienteController = new ClienteController();
 $pedidoController = new PedidoController();
+$enderecoController = new EnderecoController();
 
 $carrinhoController->atualizarCarrinho();
-$pedidoData = $carrinhoController->getPedidoData();
-$clienteData = isset($_SESSION["userEmail"]) 
-    ? $clienteController->getClienteData($_SESSION["userEmail"]) 
-    : null;
+$clienteData =  $clienteController->listarClientePorEmail($_SESSION["userEmail"]);
+$endereco = $enderecoController->listarEnderecoPorId($clienteData->getIdEndereco());
 
-$total = $carrinhoController->calcularTotal();
+$subtotal = $carrinhoController->calcularTotal();
 $frete = 0.0;
-$totalComFrete = $total;
+$total = $subtotal;
 
 $isDelivery = isset($_POST['isDelivery']) && $_POST['isDelivery'] === '1';
-
-if ($isDelivery && $clienteData && isset($clienteData['endereco']['cep'])) {
-    $cep = $clienteData['endereco']['cep'];
-    $frete = $pedidoController->calcularFrete($cep);
-    if (!is_numeric($frete)) {
-        $isDelivery = 0;
-    } else {
-        $totalComFrete += $frete;
-    }
-}
-
 $trocoPara = isset($_POST["trocoPara"]) ? $_POST["trocoPara"] : null;
 $trocoPara = is_numeric($trocoPara) ? floatval($trocoPara) : null;
 ?>
@@ -57,29 +48,18 @@ $trocoPara = is_numeric($trocoPara) ? floatval($trocoPara) : null;
             <h3 class="mt-3">Confirmar Pedido?</h3>
 
             <?php if (isset($_SESSION["userEmail"])): ?>
-                <form id="pedidoForm" name="pedidoForm" method="post" action="perfil.php">
+                <form id="pedidoForm" name="pedidoForm" method="post" action="sobre.php">
                     <input type="hidden" name="isDelivery" id="isDelivery" value="<?= $isDelivery ? '1' : '0' ?>">
 
-                    <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" <?= $isDelivery ? 'checked' : '' ?>>
+                    <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" value="1" <?= $isDelivery ? 'checked' : '' ?>>
                     <label for="ckbIsDelivery" id="labelForCkbIsDelivery">
                         O pedido será entregue no seu endereço!
                     </label>
-
-                    <div id="addressDiv">
-                        <p>
-                            <?= htmlspecialchars($clienteData['endereco']['rua']) . ', ' . 
-                                htmlspecialchars($clienteData['endereco']['numero']) . ', ' . 
-                                (isset($clienteData['endereco']['complemento']) ? htmlspecialchars($clienteData['endereco']['complemento']) . ', ' : '') . 
-                                htmlspecialchars($clienteData['endereco']['bairro']) . ', ' . 
-                                htmlspecialchars($clienteData['endereco']['cidade']) . ', ' . 
-                                htmlspecialchars($clienteData['endereco']['estado']) . ', ' . 
-                                htmlspecialchars($clienteData['endereco']['cep']); ?>
-                        </p>
-                    </div>
-
+                    <?php include 'components/enderecoCard.php'; ?>
+                    
                     <div class="total-div">
                         <h4>Subtotal</h4>
-                        <p>R$ <?= number_format($total, 2, ',', '.') ?></p>
+                        <p>R$ <?= number_format($subtotal, 2, ',', '.') ?></p>
                     </div>
 
                     <div class="frete-div" id="freteDiv" style="display: <?= is_numeric($frete) ? 'block' : 'none' ?>;">
@@ -96,8 +76,8 @@ $trocoPara = is_numeric($trocoPara) ? floatval($trocoPara) : null;
 
                     <div class="total-com-frete">
                         <h4>Total do Pedido</h4>
-                        <p>R$ <?= number_format($totalComFrete, 2, ',', '.') ?></p>
-                        <input type="hidden" name="totalComFrete" id="totalComFrete" value="<?= htmlspecialchars($totalComFrete); ?>">
+                        <p>R$ <?= number_format($total, 2, ',', '.') ?></p>
+                        <input type="hidden" name="totalComFrete" id="totalComFrete" value="<?= htmlspecialchars($total); ?>">
                     </div>
 
                     <div class="meio-de-pagamento">
@@ -116,41 +96,12 @@ $trocoPara = is_numeric($trocoPara) ? floatval($trocoPara) : null;
                         </div>
                     </div>
 
-                    <div class="troco-div" id="trocoDiv" style="display: none;">
-                        <h4>Precisa de troco?</h4>
+                    <?php include 'components/troco.php'; ?>
 
-                        <?php if ($totalComFrete <= 5): ?>
-                            <div><input name="trocoPara" type="radio" value="5"> Troco para 5</div>
-                        <?php endif; ?>
+                    <input type="hidden" name="totalPedido" value="<?= htmlspecialchars($total); ?>">
+                    <input type="hidden" name="idCliente" value="<?= htmlspecialchars($clienteData->getId()); ?>">
+                    <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($endereco->getIdEndereco()); ?>">
 
-                        <?php if ($totalComFrete <= 10): ?>
-                            <div><input name="trocoPara" type="radio" value="10"> Troco para 10</div>
-                        <?php endif; ?>
-
-                        <?php if ($totalComFrete <= 20): ?>
-                            <div><input name="trocoPara" type="radio" value="20"> Troco para 20</div>
-                        <?php endif; ?>
-
-                        <?php if ($totalComFrete <= 50): ?>
-                            <div><input name="trocoPara" type="radio" value="50"> Troco para 50</div>
-                        <?php endif; ?>
-
-                        <?php if ($totalComFrete > 50 && $totalComFrete <= 100): ?>
-                            <div><input name="trocoPara" type="radio" value="100"> Troco para 100</div>
-                        <?php endif; ?>
-
-                        <?php if ($totalComFrete > 100 && $totalComFrete <= 200): ?>
-                            <div><input name="trocoPara" type="radio" value="200"> Troco para 200</div>
-                        <?php endif; ?>
-
-                        <?php if ($totalComFrete > 200 && $totalComFrete <= 500): ?>
-                            <div><input name="trocoPara" type="radio" value="500"> Troco para 500</div>
-                        <?php endif; ?>
-
-                        <div><input name="trocoPara" type="radio" value="NULL"> Não preciso de troco</div>
-                    </div>
-
-                    <input type="hidden" name="totalPedido" value="<?= htmlspecialchars($totalComFrete); ?>">
                     <input type="hidden" name="notaFiscal" value="1">
                     <input name="btnSubmit" id="btnSubmit" type="submit" value="Concluir Pedido" class="btnConcluir border-0 px-3 mb-3 rounded-4">
                 </form>

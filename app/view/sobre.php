@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once '../../vendor/autoload.php';
+require_once '../utils/criarPedidos.php';
+require_once '../utils/alterarCliente.php';
 require_once '../config/config.php';
 
 use app\controller2\ClienteController;
@@ -15,51 +17,8 @@ $enderecoController = new EnderecoController();
 
 $clienteData = $clienteController->listarClientePorEmail($_SESSION["userEmail"]);
 $endereco = $enderecoController->listarEnderecoPorId($clienteData->getIdEndereco());
-
 $pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
-
-
 $itensCarrinho = $carrinho->listarCarrinho();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["btnSubmit"])) {
-        $frete = isset($_POST["frete"]) && is_numeric($_POST["frete"]) ? $_POST["frete"] : NULL;
-        $isDelivery = (is_null($frete) || !is_numeric($frete)) ? 0 : (isset($_POST["ckbIsDelivery"]) ? 1 : 0);
-        $trocoPara = isset($_POST["trocoPara"]) && is_numeric($_POST["trocoPara"]) ? (float) $_POST["trocoPara"] : NULL;
-
-        $pedidoController->criarPedido(
-            $_SESSION["userEmail"],
-            $isDelivery,
-            $_POST["totalComFrete"],
-            $frete,
-            isset($_POST["meioDePagamento"]) ? $_POST["meioDePagamento"] : NULL,
-            $trocoPara,
-            $itensCarrinho
-        );
-        unset($_POST);
-
-        $carrinho->limparCarrinho();
-        header("Location: sobre.php");       
-    }
-
-    if (isset($_POST["btnAlterarCliente"])) {
-        $clienteController->editarCliente(
-            $_SESSION["userEmail"],
-            $_POST["idEndereco"],
-            $_POST["nome"],
-            $_POST["telefone"],
-            $_POST["rua"],
-            $_POST["cep"],
-            $_POST["numero"],
-            $_POST["bairro"],
-            $_POST["cidade"],
-            $_POST["estado"],
-            $_POST["complemento"]
-        );
-        header("Location: sobre.php");
-        exit();
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -83,29 +42,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <main>
         <div class="conteiner1 rounded-4 text-center d-flex align-items-center flex-column w-75 p-4 my-3">
             <div class="c1 w-100">
-                
-                    <div id="dados">
-                        <p class="fs-5">Nome: <?= htmlspecialchars($clienteData->getNome()); ?></p>
-                        <p class="fs-5">Email: <?= htmlspecialchars($clienteData->getEmail()); ?></p>
-                        <p class="fs-5">Telefone: <?= htmlspecialchars($clienteData->getTelefone()); ?></p>
-                        <p class="fs-5">Endereço: </p>
+                <div id="dados">
+                    <p class="fs-5">Nome: <?= htmlspecialchars($clienteData->getNome()); ?></p>
+                    <p class="fs-5">Email: <?= htmlspecialchars($clienteData->getEmail()); ?></p>
+                    <p class="fs-5">Telefone: <?= htmlspecialchars($clienteData->getTelefone()); ?></p>
+                    <p class="fs-5">Endereço: </p>
+                    <?php include 'components/enderecoCard.php'; ?>
                         
-                        <div id="endereco">
-                            <p class="fs-5">
-                                <?= 
-                                    htmlspecialchars($endereco->getRua()) . ', ' .
-                                    htmlspecialchars($endereco->getNumero()) . ', ' .
-                                    ($endereco->getComplemento() == NULL && !empty($endereco->getComplemento()) ? htmlspecialchars($endereco->getComplemento()) . ', ' : '') .
-                                    htmlspecialchars($endereco->getBairro()) . ', ' .
-                                    htmlspecialchars($endereco->getCidade()) . ', ' .
-                                    htmlspecialchars($endereco->getEstado()) . ', ' .
-                                    htmlspecialchars($endereco->getCep());
-                                ?>
-                            </p>
-                        </div>
-
-                    </div>
-
                 <form action="" class="w-100 formEditar" method="POST" id="formulario">
                     <p class="fs-5">Usuário</p>
                     <label for="nome">Nome:</label>
@@ -113,10 +56,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                     <label for="telefone">Telefone:</label>
                     <input class="rounded-3 border-0 mr-4" type="text" id="telefone" name="telefone" value="<?= htmlspecialchars($clienteData->getTelefone() ?? ''); ?>" placeholder="Telefone">
-                    
+
                     <br>
                     <p class="fs-5">Endereço</p>
-                    
+
                     <div class="container">
                         <div class="row my-2">
                             <div class="col">
@@ -129,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input class="rounded-3 border-0 mr-4" type="number" id="numero" name="numero" value="<?= htmlspecialchars($endereco->getNumero() ?? ''); ?>" placeholder="Número">
                             </div>
                         </div>
-                        
+
                         <div class="row my-2">
                             <div class="col">
                                 <label for="complemento">Complem.:</label>
@@ -141,19 +84,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input class="rounded-3 border-0 mr-4" type="text" id="cep" name="cep" value="<?= htmlspecialchars($endereco->getCep() ?? ''); ?>" placeholder="CEP">
                             </div>
                         </div>
-                        
+
                         <div class="row my-2">
                             <div class="col">
                                 <label for="bairro">Bairro:</label>
                                 <input class="rounded-3 border-0 mr-4" type="text" id="bairro" name="bairro" value="<?= htmlspecialchars($endereco->getBairro() ?? ''); ?>" placeholder="Bairro">
                             </div>
-                            
+
                             <div class="col">
                                 <label for="cidade">Cidade:</label>
                                 <input class="rounded-3 border-0 mr-4" type="text" id="cidade" name="cidade" value="<?= htmlspecialchars($endereco->getCidade() ?? ''); ?>" placeholder="Cidade">
                             </div>
                         </div>
-                        
+
                         <label for="estado">Estado:</label>
                         <input class="rounded-3 border-0 mr-4" type="text" id="estado" name="estado" value="<?= htmlspecialchars($endereco->getEstado() ?? ''); ?>" placeholder="Estado">
                     </div>
@@ -168,28 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <br>
         <h3>Meus pedidos</h3>
-
-        <?php if (!empty($pedidos)): ?>
-            <?php foreach ($pedidos as $pedido): 
-                $redirectToInformacao = 'informacoesPedidoCliente.php?idPedido=' . $pedido->getIdPedido(); ?>
-                <div class="conteiner-pedidos rounded-4 text-center d-flex align-items-center flex-column w-75 p-4 my-3">
-                    <h5 class="titulo">Número do Pedido: <?= htmlspecialchars($pedido->getIdPedido()); ?></h5>
-                    <p><strong>Data do Pedido:</strong> <?= htmlspecialchars((new DateTime($pedido->getDtPedido()))->format('d/m/Y \à\s H:i')); ?></p>
-                    <p><strong>Total:</strong> R$ <?= number_format($pedido->getValorTotal(), 2, ',', '.'); ?></p>
-                    <p><strong>Tipo de Frete:</strong> <?= ($pedido->getTipoFrete() == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'); ?></p>
-                    <p><strong>Pagamento:</strong> <?= htmlspecialchars($pedido->getMeioPagamento()); ?></p>
-                    <p><strong>Status:</strong> <?= htmlspecialchars($pedido->getStatusPedido()); ?></p>
-                    
-                    <button class="btnVerInfos mt-3"><a href="<?= $redirectToInformacao; ?>">Ver Informações</a></button>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>Nenhum pedido encontrado.</p>
-        <?php endif; ?>
-
-
-
-        
+        <?php include 'components/pedidoCard.php'; ?>
     </main>
     <?php include_once 'components/footer.php'; ?>
     <script src="script/editar.js"></script>

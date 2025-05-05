@@ -8,3 +8,22 @@
 [2025-05-05 17:49:38] ERROR: Pedido com ID 1 não encontrado
 [2025-05-05 17:49:57] ERROR: Pedido com ID 1 não encontrado
 [2025-05-05 17:49:57] ERROR: Pedido com ID 1 não encontrado
+[2025-05-06 00:44:14] ERROR: Erro ao buscar produtos: SQLSTATE[42S02]: Base table or view not found: 1932 Table 'db_sorveteria.categoriaproduto' doesn't exist in engine
+[2025-05-06 00:57:26] ERROR: Erro ao calcular o frete.
+[2025-05-06 01:07:17] ERROR: Erro ao calcular o frete.
+[2025-05-06 01:09:00] ERROR: Erro ao calcular o frete.
+[2025-05-06 01:09:00] ERROR: Erro ao criar pedido: Campo obrigatório 'tipoFrete' não fornecido!
+[2025-05-06 01:09:25] ERROR: Erro ao calcular o frete.
+[2025-05-06 01:09:27] ERROR: Erro ao criar pedido: Campo obrigatório 'tipoFrete' não fornecido!
+[2025-05-06 01:11:56] ERROR: Erro ao calcular o frete.
+[2025-05-06 01:11:57] ERROR: Erro ao criar pedido: Campo obrigatório 'tipoFrete' não fornecido!
+[2025-05-06 01:12:56] ERROR: Erro ao calcular o frete.
+[2025-05-06 01:12:59] ERROR: Erro ao criar pedido: Campo obrigatório 'tipoFrete' não fornecido!
+.[2025-05-06 01:13:34] ERROR: Erro ao calcular o frete.
+[2025-05-06 01:13:34] ERROR: Erro ao criar pedido: Campo obrigatório 'frete' não fornecido!
+[2025-05-06 01:16:53] ERROR: Erro ao criar pedido: Campo obrigatório 'tipoFrete' não fornecido!
+[2025-05-06 01:19:02] ERROR: Erro ao criar o pedido: SQLSTATE[21S01]: Insert value list does not match column list: 1136 Column count doesn't match value count at row 1
+[2025-05-06 01:19:02] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
+[2025-05-06 01:24:47] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
+[2025-05-06 01:55:58] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
+[2025-05-06 01:56:36] ERROR: Erro ao criar pedido: Falha ao persistir pedido.

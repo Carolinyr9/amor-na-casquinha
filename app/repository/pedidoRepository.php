@@ -94,7 +94,7 @@ class PedidoRepository {
 
     public function criarPedido($idCliente, $dataPedido, $tipoFrete, $idEndereco, $valorTotal, $statusPedido, $frete, $meioDePagamento, $trocoPara) {
         try {
-            $stmt = $this->conn->prepare("INSERT INTO pedidos(idCliente, dtPedido, tipoFrete, idEndereco, valorTotal, statusPedido, frete, meioPagamento, trocoPara) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $this->conn->prepare("INSERT INTO pedidos(idCliente, dtPedido, tipoFrete, idEndereco, valorTotal, statusPedido, frete, meioPagamento, trocoPara) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 
             $stmt->bindParam(1, $idCliente);
             $stmt->bindParam(2, $dataPedido);
