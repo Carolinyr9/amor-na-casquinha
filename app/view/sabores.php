@@ -28,7 +28,7 @@ $produtos = $categoriaId ? $produtoController->selecionarProdutosAtivos($categor
     <section class="container-md">
         <h1 class="titulo">Sabores</h1>
         <div class="conteiner container-md d-flex flex-column justify-content-center align-items-center rounded-4 p-4 m-md-0">
-                <div class="d-flex flex-md-column flex-row flex-wrap gap-4 justify-content-center align-items-center">
+                <div class="d-flex flex-row flex-wrap gap-4 justify-content-center align-items-center">
                     <?php
                         if (is_array($produtos) && count($produtos) > 0) {
                             foreach ($produtos as $produto) {

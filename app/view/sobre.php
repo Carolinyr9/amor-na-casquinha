@@ -73,6 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/sobreS.css">
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/components/cards.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>

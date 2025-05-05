@@ -1,12 +1,12 @@
 <?php 
 require_once '../../vendor/autoload.php'; ?>
 <header>
-    <div class="conteiner-fluid d-flex justify-content-around cabecalho align-items-center">
-        <div class="logo">
+    <div class="conteiner-fluid d-flex justify-content-between cabecalho align-items-center">
+        <div class="logo ms-5">
             <img src="../images/iceCream.png" alt="Logo Amor de Casquinha" class="logo">
             <h4 class="titulo1">Amor de Casquinha</h4>
         </div>
-        <nav class="navigation text-center">
+        <nav class="navigation text-center me-5">
             <?php
             if(isset($_SESSION["userEmail"])){
                 switch($_SESSION["userPerfil"]){
@@ -49,7 +49,7 @@ require_once '../../vendor/autoload.php'; ?>
             }
             ?>
         </nav>
-        <div class="toggleBox" id="toggleBtn">
+        <div class="toggleBox me-5" id="toggleBtn">
             <img src="../images/image 2.png" alt="Menu" id="toggleBtn">
         </div>
     </div>
