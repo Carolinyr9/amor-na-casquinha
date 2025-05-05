@@ -1,15 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
-
-:root{
-    --roxo-bebe: #D4C7FF;
-    --Nunito: 'Nunito', sans-serif;
-    --Agbalumo: 'Agbalumo';
-    --azul-bebe: #C9EFFF;
-    --rosa-bebe: #FFC7E8;
-    --amarelo-bebe: #FFFAC7;
-    --verde-bebe: #E2FFC7;
-}
-
 main{
     display: flex;
     justify-content: center;
@@ -19,15 +7,15 @@ main{
     font-family: var(--Nunito);
 }
 
-.conteiner1{
-    background-color: var(--azul-bebe);
-    text-align: center;
+.container-section{
+    background-color: var(--quaternary);
 }
 
 .conteiner-pedidos{
-    background-color: var(--azul-bebe);
+    background-color: var(--quaternary);
 }
 
+/* sobre.php */
 .formEditar{
     display: none;
 }
@@ -37,64 +25,13 @@ main{
     flex-direction: column;
     align-items: center;
 }
+/* sobre.php */
 
 form input{
     padding-left: 4px;
 }
 
-.btnEditar{
-    width: 100px;
-    transition: all 0.5s;
-    background-color: var(--rosa-bebe);
-    -webkit-transition: all 0.5s;
-}   
-
-.btnEditar:hover {
-    background-color: #f58cd4;
-    transform: scale(1.1);
-}
-
-.btnCancelaPedido{
-    width: 151px;
-    transition: all 0.5s;
-    background-color: var(--rosa-bebe);
-    -webkit-transition: all 0.5s;
-}   
-
-.btnCancelaPedido:hover {
-    background-color: #f58cd4;
-    transform: scale(1.1);
-}
-
-.btnMudarStatus{
-    width: 193px;
-    transition: all 0.5s;
-    background-color: var(--amarelo-bebe);
-    -webkit-transition: all 0.5s;
-}   
-
-.btnMudarStatus:hover {
-    background-color: #f7ee93;
-    transform: scale(1.1);
-}
-
 @media (min-width: 768px) {
-    .conteiner1{
-        width: 50% !important;
-        display: flex;
-        justify-content: center !important;
-        flex-direction: column;
-        align-items: center !important;
-        
-    }
-    .conteiner-pedidos{
-        width: 40% !important;
-    }
-    .conteiner1 img{
-        width: 200px;
-        height: auto;
-        margin: 30px;
-    }
     .c1{
         width: 50%;
     }
