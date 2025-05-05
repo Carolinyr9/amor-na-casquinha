@@ -36,3 +36,7 @@
 .link:visited {
     color: #5A3B90;
 }
+
+.pointer {
+    cursor: pointer;
+}

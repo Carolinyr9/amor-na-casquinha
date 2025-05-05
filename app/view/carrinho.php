@@ -35,21 +35,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id']) && isset($_POST
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrinho</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">  
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/carrinhoS.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/components/cards.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
     <main>
-        <h1 class="m-auto text-center pt-4 pb-4">Carrinho</h1>
-        <div class="container d-flex flex-column align-items-center">
-            <?php include 'components/carrinhoCards.php'; ?>
-            <button class="voltar fs-5 fw-bold mt-5 border-0 rounded-4">
-                <a class="text-decoration-none" href="index.php">Voltar</a>
-            </button>
-        </div>
+        <section>
+            <h1 class="titulo mx-auto">Carrinho</h1>
+            <div class="container d-flex flex-column align-items-center">
+                <?php include 'components/carrinhoCards.php'; ?>
+                <a class="botao botao-secondary mt-5" href="index.php">Voltar</a>
+            </div>
+        </section>
     </main>
     <?php include_once 'components/footer.php'; ?>
+    <script src="script/atualizaQuantidade.js"></script>
 </body>
 </html>
