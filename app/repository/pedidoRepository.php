@@ -177,7 +177,7 @@ class PedidoRepository {
     
             return $pedidos; 
         } catch (PDOException $e) {
-            throw new Exception("Erro ao listar pedidos por entregador: " . $e->getMessage());
+            Logger::logError("Erro ao listar pedidos por entregador: " . $e->getMessage());
         }
     }
 
@@ -190,7 +190,7 @@ class PedidoRepository {
 
             return $stmt->rowCount() > 0 ? true : false;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao atribuir entregador ao pedido: " . $e->getMessage());
+            Logger::logError("Erro ao atribuir entregador ao pedido: " . $e->getMessage());
         }
     }
 
@@ -202,7 +202,7 @@ class PedidoRepository {
             
             return $stmt->rowCount() > 0 ? true : false;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao mudar o status: " . $e->getMessage());
+            Logger::logError("Erro ao mudar o status: " . $e->getMessage());
         }
     }
 
@@ -212,10 +212,11 @@ class PedidoRepository {
             $stmt->bindParam(1, $novoStatus);
             $stmt->bindParam(2, $motivoCancelamento);
             $stmt->bindParam(3, $idPedido);
+            $stmt->execute();
 
             return $stmt->rowCount() > 0 ? true : false;
         } catch (PDOException $e) {
-            throw new Exception("Erro ao mudar o status: " . $e->getMessage());
+            Logger::logError("Erro ao mudar o status: " . $e->getMessage());
         }
     }
 }

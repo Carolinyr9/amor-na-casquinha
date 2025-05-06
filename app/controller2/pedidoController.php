@@ -93,6 +93,8 @@ class PedidoController {
     
             Logger::logInfo("Pedido criado com sucesso! ID do pedido: $idPedido");
             return true;
+
+            return $idPedido;
     
         } catch (Exception $e) {
             Logger::logError("Erro ao criar pedido: " . $e->getMessage());

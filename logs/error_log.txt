@@ -27,3 +27,37 @@
 [2025-05-06 01:24:47] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
 [2025-05-06 01:55:58] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
 [2025-05-06 01:56:36] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
+[2025-05-06 15:43:16] ERROR: Erro ao calcular o frete.
+[2025-05-06 15:43:42] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
+[2025-05-06 15:54:57] ERROR: Erro ao calcular o frete.
+[2025-05-06 15:57:43] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
+[2025-05-06 15:57:43] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.itens_pedidos' doesn't exist
+[2025-05-06 15:58:36] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
+[2025-05-06 15:58:36] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.itens_pedidos' doesn't exist
+[2025-05-06 15:59:47] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
+[2025-05-06 16:37:18] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o îd  encontrado!
+[2025-05-06 16:37:54] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-05-06 16:38:21] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-05-06 16:38:25] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:39:58] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:40:09] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:40:27] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:40:42] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:40:43] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:40:43] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:40:43] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:40:43] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:40:43] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-05-06 16:40:46] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-05-06 16:41:35] ERROR: Erro ao listar informações do pedido: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.itens_pedidos' doesn't exist
+[2025-05-06 16:41:35] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-05-06 16:41:35] ERROR: Erro ao listar informações do pedido: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.itens_pedidos' doesn't exist
+[2025-05-06 16:41:35] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-05-06 16:41:36] ERROR: Erro ao listar informações do pedido: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.itens_pedidos' doesn't exist
+[2025-05-06 16:41:36] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-05-06 16:41:39] ERROR: Erro ao listar informações do pedido: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db_sorveteria.itens_pedidos' doesn't exist
+[2025-05-06 16:41:39] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-05-06 16:41:55] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-05-06 16:43:05] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-05-06 16:58:51] ERROR: Erro ao cancelar pedido: Nenhum pedido encontrado!
+[2025-05-06 16:59:39] ERROR: Erro ao cancelar pedido: Nenhum pedido encontrado!

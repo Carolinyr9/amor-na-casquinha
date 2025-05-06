@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_POST["complemento"]
         );
         unset($_POST);
-        header("Location: sobre.php");
+        header("Location: perfil.php");
         exit();
     }
 }

@@ -1,16 +1,21 @@
 <?php
 use app\controller2\FreteController;
 
-$isDelivery = isset($_POST['isDelivery']) && $_POST['isDelivery'] === '1';
+function calcularFreteSeAplicavel($isDelivery, $endereco, $subtotal) {
+    $frete = 0.0;
+    $totalComFrete = $subtotal;
 
-if ($isDelivery && $endereco && $endereco->getCep()) {
-    $cep = $endereco->getCep();
-    $freteController = new FreteController();
-    $frete = $freteController->calcularFrete($cep);
+    if ($isDelivery && $endereco && $endereco->getCep()) {
+        $cep = $endereco->getCep();
+        $freteController = new FreteController();
+        $frete = $freteController->calcularFrete($cep);
 
-    if (!is_numeric($frete)) {
-        $isDelivery = 0;
-    } else {
-        $totalComFrete += $frete;
+        if (!is_numeric($frete)) {
+            $isDelivery = false;
+        } else {
+            $totalComFrete += $frete;
+        }
     }
+
+    return [$frete, $totalComFrete];
 }

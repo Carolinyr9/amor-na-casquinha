@@ -1,32 +1,4 @@
-<?php
-session_start();
-require_once '../config/blockURLAccess.php';
-require_once '../../vendor/autoload.php';
-require_once '../utils/calcularFrete.php';
-use app\controller2\CarrinhoController;
-use app\controller2\PedidoController;
-use app\controller2\ClienteController;
-use app\controller2\EnderecoController;
-use app\controller2\FreteController;
-
-$carrinhoController = new CarrinhoController();
-$clienteController = new ClienteController();
-$pedidoController = new PedidoController();
-$enderecoController = new EnderecoController();
-
-$carrinhoController->atualizarCarrinho();
-$clienteData =  $clienteController->listarClientePorEmail($_SESSION["userEmail"]);
-$endereco = $enderecoController->listarEnderecoPorId($clienteData->getIdEndereco());
-
-$subtotal = $carrinhoController->calcularTotal();
-$frete = 0.0;
-$total = $subtotal;
-
-$isDelivery = isset($_POST['isDelivery']) && $_POST['isDelivery'] === '1';
-$trocoPara = isset($_POST["trocoPara"]) ? $_POST["trocoPara"] : null;
-$trocoPara = is_numeric($trocoPara) ? floatval($trocoPara) : null;
-?>
-
+<?php require_once '../utils/inicializarNotaFiscal.php'; ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -48,7 +20,7 @@ $trocoPara = is_numeric($trocoPara) ? floatval($trocoPara) : null;
             <h3 class="mt-3">Confirmar Pedido?</h3>
 
             <?php if (isset($_SESSION["userEmail"])): ?>
-                <form id="pedidoForm" name="pedidoForm" method="post" action="sobre.php">
+                <form id="pedidoForm" name="pedidoForm" method="post" action="perfil.php">
                     <input type="hidden" name="isDelivery" id="isDelivery" value="<?= $isDelivery ? '1' : '0' ?>">
 
                     <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" value="1" <?= $isDelivery ? 'checked' : '' ?>>

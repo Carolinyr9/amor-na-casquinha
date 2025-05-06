@@ -25,7 +25,7 @@ class ItemPedidoController {
                $dados['quantidade']
             );
     
-            $pedido = new Pedido(
+            $pedido = new ItemPedido(
                 $dados['idPedido'],
                 $dados['idProduto'],
                 $dados['quantidade']
@@ -39,5 +39,24 @@ class ItemPedidoController {
             return false;
         }
     }
+
+    public function listarInformacoesPedido($idPedido){
+        try{
+            $dados = $this->repository->listarInformacoesPedido($idPedido);
+        
+            if (empty($dados)) {
+                Logger::logError("Erro ao listar informações do pedido: Nenhum pedido com o id {$idPedido} encontrado!");
+                return false;
+            }
+
+            return $dados;
+
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar informações do pedido: " . $e->getMessage());
+            return false;
+        }
+    }
+        
+    
 
 }
