@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 30/04/2025 às 16:43
+-- Tempo de geração: 06/05/2025 às 17:12
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -952,11 +952,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Login` (IN `emailIN` VARCHAR(255)) 
     THEN
         SELECT * FROM funcionario WHERE email LIKE CONCAT('%', emailIN, '%') LIMIT 1;
     
-    ELSEIF EXISTS (SELECT email FROM clientes WHERE email LIKE CONCAT('%', emailIN, '%'))
+    ELSEIF EXISTS (SELECT email FROM cliente WHERE email LIKE CONCAT('%', emailIN, '%'))
     THEN
         SELECT * 
-        FROM clientes 
-        INNER JOIN enderecos ON clientes.idEndereco = enderecos.idEndereco 
+        FROM cliente
+        INNER JOIN enderecos ON cliente.idEndereco = enderecos.idEndereco 
         WHERE email LIKE CONCAT('%', emailIN, '%') LIMIT 1;
     
     ELSEIF EXISTS (SELECT email FROM entregador WHERE email LIKE CONCAT('%', emailIN, '%'))
@@ -1102,14 +1102,15 @@ INSERT INTO `enderecos` (`idEndereco`, `cep`, `rua`, `numero`, `complemento`, `b
 --
 
 CREATE TABLE `entregador` (
-  `idEntregador` int(11) NOT NULL,
+  `idEntregador` int(11) NOT NULL AUTO_INCREMENT,
   `desativado` int(11) DEFAULT 0,
   `perfil` varchar(100) DEFAULT NULL,
   `nome` varchar(100) NOT NULL,
   `telefone` varchar(15) DEFAULT NULL,
   `email` varchar(100) NOT NULL,
   `senha` varchar(255) NOT NULL,
-  `cnh` varchar(20) NOT NULL
+  `cnh` varchar(20) NOT NULL,
+  PRIMARY KEY (`idEntregador`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1266,39 +1267,7 @@ INSERT INTO `itens_pedido` (`idPedido`, `idProduto`, `quantidade`) VALUES
 (200, 17, 1),
 (200, 1, 1),
 (200, 3, 1),
-(201, 13, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1),
-(189, 1, 2),
-(189, 2, 1);
+(201, 13, 1);
 
 -- --------------------------------------------------------
 
@@ -1307,7 +1276,7 @@ INSERT INTO `itens_pedido` (`idPedido`, `idProduto`, `quantidade`) VALUES
 --
 
 CREATE TABLE `pedidos` (
-  `idPedido` int(11) NOT NULL,
+  `idPedido` int(11) NOT NULL AUTO_INCREMENT,
   `idCliente` int(11) NOT NULL,
   `dtPedido` datetime DEFAULT NULL,
   `dtPagamento` datetime DEFAULT NULL,
@@ -1320,7 +1289,8 @@ CREATE TABLE `pedidos` (
   `idEntregador` int(11) DEFAULT NULL,
   `frete` double DEFAULT NULL,
   `meioPagamento` enum('Cartão de Débito','Cartão de Crédito','Dinheiro') NOT NULL DEFAULT 'Dinheiro',
-  `trocoPara` float DEFAULT NULL
+  `trocoPara` float DEFAULT NULL,
+  PRIMARY KEY (`idPedido`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1337,29 +1307,12 @@ INSERT INTO `pedidos` (`idPedido`, `idCliente`, `dtPedido`, `dtPagamento`, `tipo
 (193, 1, '2025-01-31 17:54:50', NULL, 0, 1, 20.00, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito', NULL),
 (194, 1, '2025-01-31 18:09:27', NULL, 0, 1, 20.00, NULL, NULL, 'Aguardando Confirmação', NULL, 13, 'Cartão de Crédito', NULL),
 (195, 0, '2025-01-31 18:12:23', NULL, 0, 1, 20.00, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Cartão de Crédito', NULL),
-(196, 1, '2025-02-07 18:23:21', NULL, 0, 1, 6.99, NULL, NULL, 'Aguardando Confirmação', NULL, 0, 'Dinheiro', 10),
+(196, 1, '2025-02-07 18:23:21', NULL, 0, 1, 6.99, NULL, 'teste', 'Cancelado', NULL, 0, 'Dinheiro', 10),
 (197, 0, '2025-02-07 18:24:09', NULL, 0, 1, 20.00, NULL, NULL, 'Aguardando Confirmação', NULL, 13, 'Dinheiro', NULL),
 (198, 1, '2025-02-07 18:28:58', NULL, 1, 1, 6.99, NULL, NULL, 'Aguardando Confirmação', 3, 0, 'Dinheiro', NULL),
 (199, 1, '2025-02-07 18:34:30', NULL, 1, 1, 3.99, NULL, NULL, 'Entregue', 1, 0, 'Dinheiro', 5),
 (200, 1, '2025-02-07 18:38:32', NULL, 0, 1, 123.98, NULL, NULL, 'Preparando pedido', NULL, 0, 'Dinheiro', 200),
-(201, 2, '2025-02-10 15:37:25', NULL, 1, 5, 27.77, NULL, NULL, 'Concluído', 1, 10.78, 'Cartão de Crédito', NULL),
-(202, 1, '2025-03-18 19:41:03', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(203, 1, '2025-03-18 19:41:15', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(204, 1, '2025-03-18 19:41:42', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(205, 1, '2025-03-18 19:42:25', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(206, 1, '2025-03-18 19:42:46', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(207, 1, '2025-03-18 19:43:35', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(208, 1, '2025-03-18 19:44:40', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(209, 1, '2025-03-18 19:46:32', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(210, 1, '2025-03-18 19:46:49', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(211, 1, '2025-03-18 19:48:04', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(212, 1, '2025-03-18 20:05:02', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(213, 1, '2025-03-18 20:05:21', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(214, 1, '2025-03-18 20:06:21', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(215, 1, '2025-03-18 20:06:35', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(216, 1, '2025-03-18 20:08:57', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50),
-(217, 1, '2025-03-18 20:12:02', NULL, 1, 1, 28.00, NULL, NULL, 'Aguardando Confirmação', NULL, 2.01, 'Dinheiro', 50);
-
+(201, 2, '2025-02-10 15:37:25', NULL, 1, 5, 27.77, NULL, NULL, 'Concluído', 1, 10.78, 'Cartão de Crédito', NULL);
 --
 -- Acionadores `pedidos`
 --
