@@ -2,7 +2,7 @@
     border-radius: 12px;
     font-family: var(--Nunito), sans-serif;
     font-weight: 700;
-    padding: 6px 25px;
+    padding: 4px 25px;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     border: none;
     text-decoration: none;
@@ -40,8 +40,14 @@
 @media (max-width: 768px) {
     .botao {
         width: auto;
-        padding: 1px 35px;
+        padding: 1px 25px;
         font-size: 1.2rem;
+    }
+
+    .container-botoes {
+        flex-direction: column !important;
+        gap: 20px !important;
+        width: 50% !important;
     }
 }
   

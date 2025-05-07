@@ -12,14 +12,13 @@
     box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 picture {
-    width: 57%;
+    width: 150px;
 }
 
 picture img {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     object-fit: cover; 
     border-radius: 12px;
 }
