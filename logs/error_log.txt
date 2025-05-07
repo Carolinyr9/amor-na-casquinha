@@ -187,3 +187,9 @@
 [2025-05-07 16:19:11] ERROR: Status novo: Preparando pedido
 [2025-05-07 16:20:41] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
 [2025-05-07 16:20:42] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-07 16:29:56] ERROR: Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!
+[2025-05-07 16:30:00] ERROR: Erro ao listar entregador: ID inválido.
+[2025-05-07 16:30:37] ERROR: Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!
+[2025-05-07 16:30:42] ERROR: Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!
+[2025-05-07 16:31:06] ERROR: Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!
+[2025-05-07 16:31:07] ERROR: Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!

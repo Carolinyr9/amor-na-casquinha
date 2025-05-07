@@ -144,7 +144,7 @@ class PedidoController {
             if($pedido){
                 $pedido->setIdEntregador($dados['idEntregador']);
 
-                $resposta = $this->repository->atribuirEntregadorPedido($dados['idPedido'], $dados['idEntegador']);
+                $resposta = $this->repository->atribuirEntregadorPedido($dados['idPedido'], $dados['idEntregador']);
 
                 if(!$resposta) {
                     Logger::logError("Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!");
