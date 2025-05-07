@@ -3,14 +3,14 @@ session_start();
 
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/mudarStatusPedido.php';
+require_once '../utils/mudarStatusPedidoFuncionario.php';
 
 use app\controller2\EntregadorController;
 use app\controller2\PedidoController;
 use app\controller2\ItemPedidoController;
 use app\controller2\ProdutoController;
 
-$entregadorController = new EntregadorController();
+ 
 $itemPedidoController = new ItemPedidoController();
 $pedidoController = new PedidoController();
 $produtoController = new ProdutoController();

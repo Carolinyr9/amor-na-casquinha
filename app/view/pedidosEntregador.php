@@ -2,8 +2,18 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-use app\controller\PedidoController;
+require_once '../utils/mudarStatusPedidoEntregador.php';
+
+use app\controller2\PedidoController;
+use app\controller2\EntregadorController;
+
+$pedidoController = new PedidoController();
+$entregadorController = new EntregadorController();
+
+$entregador = $entregadorController->listarEntregadorPorEmail($_SESSION['userEmail']);
+$pedidos = $pedidoController->listarPedidoPorIdEntregador($entregador->getId());
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -16,53 +26,45 @@ use app\controller\PedidoController;
     <link rel="stylesheet" href="style/entregador-pedidos-style.css">
 </head>
 <body>
-    <?php
-    include_once 'components/header.php';
-    
-    $pedidoController = new PedidoController();
-    $usuario = $_SESSION['userPerfil'] ?? null;
-    $pedidos = $pedidoController->listarPedidosEntregador($_SESSION['userEmail']);
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mudarStatus'], $_POST['idPedido'])) {
-        $pedidoId = $_POST['idPedido'];
-        $status = $_POST['mudarStatus'];
-        $pedidoController->mudarStatusEntregador($pedidoId, $status);
-        header("Location: pedidosEntregador.php");
-        exit();
-    }
-    ?>
-    
+    <?php include_once 'components/header.php'; ?>
+
     <main class="pedidos container my-5 text-center d-flex flex-column justify-content-center gap-5">
         <h1 class="mb-4">Pedidos</h1>
-        <?php if (!empty($pedidos)) : ?>
-            <?php foreach ($pedidos as $pedido) : ?>
-                <?php if ($pedido['statusPedido'] !== "Concluído" && $pedido['statusPedido'] !== "Cancelado") : ?>
-                    <div class="card d-flex flex-column justify-content-center p-3 w-25">
-                            <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h3>
-                            <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido['dtPedido']))->format('d/m/Y \à\s H:i')); ?></p>
-                            <p>Total: R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
-                            <p><?= $pedido['tipoFrete'] == 1 ? 'É para entrega!' : 'É para buscar na sorveteria!'; ?></p>
-                            <p>Status: <?= htmlspecialchars($pedido['statusPedido']); ?></p>
-                            <a  class="btn__rotas mt-3 rounded-3 w-50 m-auto mb-3" href="rotasEntregador.php?idEndereco=<?= $pedido['idEndereco']; ?>">Ver Rotas</a>
-                            <?php if ($pedido['statusPedido'] === 'Entregue') : ?>
-                                <form method="POST" action="">
-                                    <input type="hidden" name="idPedido" value="<?= htmlspecialchars($pedido['idPedido']); ?>">
-                                    <input type="hidden" name="mudarStatus" value="Entrega Falhou">
-                                    <button type="submit" class="btn__pedido--falha bg-none rounded-3 px-3">Entrega Falhou</button>
-                                </form>
-                                <form method="POST" action="" class="mt-2">
-                                    <input type="hidden" name="idPedido" value="<?= htmlspecialchars($pedido['idPedido']); ?>">
-                                    <input type="hidden" name="mudarStatus" value="Entregue">
-                                    <button type="submit" class="btn__pedido--concluido border-0 rounded-3 px-3">Entregue</button>
-                                </form>
-                            <?php endif; ?>
-                    </div>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <div class="alert alert-warning">Nenhum pedido encontrado.</div>
-        <?php endif; ?>
+
+        <?php foreach ($pedidos as $pedido): ?>
+            <?php if (!in_array($pedido->getStatusPedido(), ['Concluído', 'Cancelado'])): ?>
+                <div class="card d-flex flex-column justify-content-center p-3 w-25 m-auto">
+                    <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido->getIdPedido()) ?></h3>
+                    <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido->getDtPedido()))->format('d/m/Y \à\s H:i')) ?></p>
+                    <p>Total: R$ <?= number_format($pedido->getValorTotal(), 2, ',', '.') ?></p>
+                    <p>Status: <?= htmlspecialchars($pedido->getStatusPedido()) ?></p>
+
+                    <a href="rotasEntregador.php?idEndereco=<?= htmlspecialchars($pedido->getIdEndereco()) ?>" class="btn__rotas mt-3 rounded-3 w-50 m-auto mb-3">
+                        Ver Rotas
+                    </a>
+
+                    <?php if ($pedido->getStatusPedido() === 'Entregue'): ?>
+                        <form method="POST" class="mb-2">
+                            <input type="hidden" name="idPedido" value="<?= htmlspecialchars($pedido->getIdPedido()) ?>">
+                            <input type="hidden" name="mudarStatus" value="Entrega Falhou">
+                            <button type="submit" class="btn__pedido--falha bg-none rounded-3 px-3">
+                                Entrega Falhou
+                            </button>
+                        </form>
+
+                        <form method="POST">
+                            <input type="hidden" name="idPedido" value="<?= htmlspecialchars($pedido->getIdPedido()) ?>">
+                            <input type="hidden" name="mudarStatus" value="Entregue">
+                            <button type="submit" class="btn__pedido--concluido border-0 rounded-3 px-3">
+                                Entregue
+                            </button>
+                        </form>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </main>
+
     <?php include_once 'components/footer.php'; ?>
 </body>
 </html>

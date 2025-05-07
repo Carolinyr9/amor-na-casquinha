@@ -2,8 +2,11 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-use app\controller\ClienteController;
+require_once '../utils/enderecoHelper.php';
+use utils\obterEnderecoCompleto;
+$dadosEndereco = obterEnderecoCompleto($_GET['idEndereco']);
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,53 +20,38 @@ use app\controller\ClienteController;
     <link rel="stylesheet" href="style/rotasEntregador.css">
 </head>
 <body>
-    <?php
-        include_once 'components/header.php';
-        
-        $clienteController = new ClienteController();
-        
-        $endereco = $clienteController->listarEndereco($_GET['idEndereco']);
-        
-        // Recuperando as informações do endereço
-        $rua = $endereco['rua'];
-        $numero = $endereco['numero'];
-        $complemento = $endereco['complemento'];
-        $bairro = $endereco['bairro'];
-        $cidade = $endereco['cidade'];
-        $estado = $endereco['estado'];
-        $cep = $endereco['cep'];
+    <?php include_once 'components/header.php'; ?>
 
-        // Concatenando o endereço completo para a busca no Google Maps
-        $enderecoCompleto = urlencode($rua . ', ' . $numero . ', ' . $bairro . ', ' . $cidade . ' - ' . $estado . ', ' . $cep);
-    ?>
     <main class="d-flex justify-content-center align-items-center flex-column">
         <h1 class="m-auto text-center pt-4 pb-4">Rotas</h1>
-            <div class="container-mapa w-100 p-3 m-auto">
-                    <h4>Endereço do Destinatário</h4>
-                    <p>
-                        Rua: <?php echo $rua; ?>, Nº <?php echo $numero; ?><br>
-                        Complemento: <?php echo $complemento; ?><br>
-                        Bairro: <?php echo $bairro; ?><br>
-                        Cidade: <?php echo $cidade; ?><br>
-                        Estado: <?php echo $estado; ?><br>
-                        CEP: <?php echo $cep; ?>
-                    </p>
+        <div class="container-mapa w-100 p-3 m-auto">
+            <h4>Endereço do Destinatário</h4>
+            <p>
+                Rua: <?= $dadosEndereco['rua']; ?>, Nº <?= $dadosEndereco['numero']; ?><br>
+                <?php if (!empty($dadosEndereco['complemento'])): ?>
+                    Complemento: <?= $dadosEndereco['complemento']; ?><br>
+                <?php endif; ?>
+                Bairro: <?= $dadosEndereco['bairro']; ?><br>
+                Cidade: <?= $dadosEndereco['cidade']; ?><br>
+                Estado: <?= $dadosEndereco['estado']; ?><br>
+                CEP: <?= $dadosEndereco['cep']; ?>
+            </p>
 
-                    <!-- Exibindo o mapa com o endereço dinâmico -->
-                    <iframe class="mapa"
-                        id="mapa" 
-                        src="https://www.google.com/maps?q=<?php echo $enderecoCompleto; ?>&output=embed" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                </div>
-                <button class="voltar mt-5 fs-5 fw-bold rounded-4 border-0"><a class="text-decoration-none fs-5" href="pedidosEntregador.php">Voltar</a></button>
+            <iframe class="mapa"
+                id="mapa" 
+                src="https://www.google.com/maps?q=<?= $dadosEndereco['url']; ?>&output=embed" 
+                style="border:0;" 
+                allowfullscreen 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <button class="voltar mt-5 fs-5 fw-bold rounded-4 border-0">
+            <a class="text-decoration-none fs-5" href="pedidosEntregador.php">Voltar</a>
+        </button>
     </main>
-    
-    <?php
-        include_once 'components/footer.php';
-    ?>
+
+    <?php include_once 'components/footer.php'; ?>
 </body>
 </html>

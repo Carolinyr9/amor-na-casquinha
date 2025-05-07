@@ -193,3 +193,9 @@
 [2025-05-07 16:30:42] ERROR: Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!
 [2025-05-07 16:31:06] ERROR: Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!
 [2025-05-07 16:31:07] ERROR: Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!
+[2025-05-07 17:10:36] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-05-07 17:21:05] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-05-07 17:21:06] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-05-07 17:21:06] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-05-07 17:21:48] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-05-07 17:22:37] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!

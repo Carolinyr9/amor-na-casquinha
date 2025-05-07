@@ -152,6 +152,7 @@ class PedidoRepository {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM pedidos WHERE idEntregador = ?");
             $stmt->bindParam(1, $idEntregador);
+            $stmt->execute();
             $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $pedidos = [];
