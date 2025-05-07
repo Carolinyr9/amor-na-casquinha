@@ -42,7 +42,7 @@ class UsuarioController {
         }
 
         if ($this->estaLogado()) {
-            $this->redirecionarPara('../view/sobre.php');
+            $this->redirecionarPara('../view/perfil.php');
         }
 
         $dados = $this->verificarUsuarioPorEmail($email);

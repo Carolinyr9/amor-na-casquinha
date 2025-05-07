@@ -48,7 +48,7 @@ class Login {
 
     public function login($email, $senha) {
         if ($this->estaLogado()) {
-            $this->redirecionarPara('../view/sobre.php');
+            $this->redirecionarPara('../view/perfil.php');
         }
 
         if (!isset($_POST["email"]) || !isset($_POST["senha"])) {
@@ -88,7 +88,7 @@ class Login {
                 $this->redirecionarPara('../view/relatorios.php');
                 break;
             case 'CLIE':
-                $this->redirecionarPara('../view/sobre.php');
+                $this->redirecionarPara('../view/perfil.php');
                 break;
             case 'ENTR':
                 $this->redirecionarPara('../view/pedidosEntregador.php');
@@ -110,7 +110,7 @@ class Login {
 
     public function registrar($nome, $email, $senha, $celular, $rua, $numero, $bairro, $complemento, $cep, $cidade, $estado) {
         if ($this->estaLogado()) {
-            $this->redirecionarPara('../sobre.php');
+            $this->redirecionarPara('../perfil.php');
         }
 
         try {
