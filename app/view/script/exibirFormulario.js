@@ -1,11 +1,10 @@
-$("#toggleFormButton").click(function(){
-    $(".addPedidoForm").toggle("slow", function(){})
-})
+//gerenciarCategorias.php
+$("#addCategoria").click(function() {
+    $("#formulario").toggle("slow", function(){});
+});
 
-$(".produtos__btn--add").click(function(){
-    $(".formulario").toggle("slow",function(){});
-})
+//gerenciarProdutos.php
 
-$("#edit").click(function() {
-    $("#formulario").toggle("slow");
+$("#addProduto").click(function() {
+    $("#formulario").toggle("slow", function(){});
 });
