@@ -58,10 +58,7 @@ $pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
                                     <input type="text" name="nome" class="form-control" placeholder="Nome" value="<?= htmlspecialchars($clienteData->getNome() ?? ''); ?>" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control" name="email" placeholder="Email" value="<?= htmlspecialchars($clienteData->getNome() ?? ''); ?>" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" name="senha" placeholder="Senha" readonly>
+                                    <input type="email" class="form-control" name="email" placeholder="Email" value="<?= htmlspecialchars($clienteData->getEmail() ?? ''); ?>" readonly>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="telefone" placeholder="Telefone" pattern="^\(\d{2}\) \d{4,5}-\d{4}$" title="O telefone deve seguir o formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX" maxlength="15" value="<?= htmlspecialchars($clienteData->getTelefone() ?? ''); ?>" required>

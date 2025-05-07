@@ -69,10 +69,10 @@ class EntregadorController {
             return Logger::logError("Erro ao listar entregador: ID inválido.");
         }
 
-        $dados = $this->repository->listarEntregadorPor($idEntregador);
+        $dados = $this->repository->listarEntregadorPorId($idEntregador);
         if($dados) {
             $entregador = new Entregador(
-                $dados['id'],
+                $dados['idEntregador'],
                 $dados['desativado'],
                 $dados['perfil'],
                 $dados['nome'],

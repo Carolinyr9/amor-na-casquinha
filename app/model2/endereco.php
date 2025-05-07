@@ -85,4 +85,14 @@ class Endereco {
     public function setComplemento($complemento) {
         $this->complemento = $complemento;
     }
+
+    public function editarEndereco($rua, $numero, $complemento, $cep, $bairro, $estado, $cidade){
+        $this->setRua($rua);
+        $this->setNumero($numero);
+        $this->setComplemento($complemento);
+        $this->setCep($cep);
+        $this->setBairro($bairro);
+        $this->setEstado($estado);
+        $this->setCidade($cidade);
+    }
 }

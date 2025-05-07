@@ -199,6 +199,7 @@ class PedidoRepository {
             $stmt = $this->conn->prepare("UPDATE pedidos SET statusPedido = ? WHERE idPedido = ?");
             $stmt->bindParam(1, $novoStatus);
             $stmt->bindParam(2, $idPedido);
+            $stmt->execute();
             
             return $stmt->rowCount() > 0 ? true : false;
         } catch (PDOException $e) {

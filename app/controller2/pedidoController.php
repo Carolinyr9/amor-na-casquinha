@@ -110,37 +110,16 @@ class PedidoController {
                 Logger::logError("Erro ao listar pedidos: Nenhum pedido encontrado!");
                 return false;
             }
+            
+            $pedidosOrdenados = $this->ordenarPorPrioridadeStatus($dados);
     
-            $dadosOrdenados = $this->ordenarPorPrioridadeStatus($dados);
-    
-            $pedidos = [];
-    
-            foreach ($dadosOrdenados as $pedido) {
-                $pedidos[] = new Pedido(
-                    $pedido['idPedido'],
-                    $pedido['idCliente'],
-                    $pedido['dtPedido'],
-                    $pedido['dtPagamento'],
-                    $pedido['tipoFrete'],
-                    $pedido['idEndereco'],
-                    $pedido['valorTotal'],
-                    $pedido['dtCancelamento'],
-                    $pedido['motivoCancelamento'],
-                    $pedido['statusPedido'],
-                    $pedido['idEntregador'],
-                    $pedido['frete'],
-                    $pedido['meioPagamento'],
-                    $pedido['trocoPara']   
-                );
-            }
-
-            return $pedidos;
+            return $pedidosOrdenados;
     
         } catch (Exception $e) {
             Logger::logError("Erro ao listar pedidos: " . $e->getMessage());
             return false;
         }
-    }
+    }    
 
     public function listarPedidoPorIdEntregador($idEntregador) {
         try{
@@ -255,7 +234,7 @@ class PedidoController {
         return true;
     }
 
-    private function ordenarPorPrioridadeStatus(array $pedidos): array {
+    private function ordenarPorPrioridadeStatus($pedidos) {
         $prioridades = [
             'Aguardando Confirmação' => 1,
             'Preparando pedido'      => 2,
@@ -269,8 +248,8 @@ class PedidoController {
         ];
     
         usort($pedidos, function ($a, $b) use ($prioridades) {
-            $prioA = $prioridades[$a['statusPedido']] ?? 999;
-            $prioB = $prioridades[$b['statusPedido']] ?? 999;
+            $prioA = $prioridades[$a->getStatusPedido()] ?? 999;
+            $prioB = $prioridades[$b->getStatusPedido()] ?? 999;
             return $prioA - $prioB;
         });
     

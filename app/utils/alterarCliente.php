@@ -1,23 +1,46 @@
 <?php
 use app\controller2\ClienteController;
+use app\controller2\EnderecoController;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["btnAlterarCliente"])) {
-        $clienteController->editarCliente(
-            $_SESSION["userEmail"],
-            $_POST["idEndereco"],
-            $_POST["nome"],
-            $_POST["telefone"],
-            $_POST["rua"],
-            $_POST["cep"],
-            $_POST["numero"],
-            $_POST["bairro"],
-            $_POST["cidade"],
-            $_POST["estado"],
-            $_POST["complemento"]
-        );
+        $clienteController = new ClienteController();
+        $enderecoController = new EnderecoController();
+        $dadosCliente = [
+            'nome' => $_POST["nome"],
+            'telefone' => $_POST["telefone"],
+            'email' => $_POST["email"],
+            'emailAntigo' => $_SESSION["userEmail"]
+        ];
+
+        $clienteController->editarCliente($dadosCliente);
+
+        $dadosEndereco = [
+            'rua' => $_POST["rua"],
+            'numero' => $_POST["numero"],
+            'complemento' => $_POST["complemento"],
+            'cep' => $_POST["cep"],
+            'bairro' => $_POST["bairro"],
+            'estado' => $_POST["estado"],
+            'cidade' => $_POST["cidade"],
+            'idEndereco' => $_POST["idEndereco"]
+        ];
+
+        $enderecoController->editarEndereco($dadosEndereco);
+
         unset($_POST);
         header("Location: perfil.php");
         exit();
     }
-}
+} 
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        

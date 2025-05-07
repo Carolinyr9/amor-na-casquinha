@@ -39,17 +39,17 @@ class EnderecoRepository {
         }
     }
 
-    public function editarEndereco($endereco) {
+    public function editarEndereco($rua, $numero, $complemento, $cep, $bairro, $estado, $cidade, $idEndereco) {
         try {
             $stmt = $this->conn->prepare("UPDATE enderecos SET rua = ?, numero = ?, cep = ?, bairro = ?, cidade = ?, estado = ?, complemento = ? WHERE idEndereco = ?");
-            $stmt->bindParam(1, $endereco->getRua());
-            $stmt->bindParam(2, $endereco->getNumero());
-            $stmt->bindParam(3, $endereco->getCep());
-            $stmt->bindParam(4, $endereco->getBairro());
-            $stmt->bindParam(5, $endereco->getCidade());
-            $stmt->bindParam(6, $endereco->getEstado());
-            $stmt->bindParam(7, $endereco->getComplemento());
-            $stmt->bindParam(8, $endereco->getIdEndereco());
+            $stmt->bindParam(1, $rua);
+            $stmt->bindParam(2, $numero);
+            $stmt->bindParam(3, $cep);
+            $stmt->bindParam(4, $bairro);
+            $stmt->bindParam(5, $cidade);
+            $stmt->bindParam(6, $estado);
+            $stmt->bindParam(7, $complemento);
+            $stmt->bindParam(8, $idEndereco);
             $stmt->execute();
 
             return true;

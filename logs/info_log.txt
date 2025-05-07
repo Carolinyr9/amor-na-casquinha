@@ -1,3 +1,6 @@
 [2025-05-06 15:58:36] INFO: Pedido criado com sucesso!
 [2025-05-06 15:59:47] INFO: Pedido criado com sucesso!
 [2025-05-06 17:01:30] INFO: Pedido cancelado com sucesso!
+[2025-05-07 16:19:11] INFO: Status do pedido alterado com sucesso!
+[2025-05-07 16:20:33] INFO: Status do pedido alterado com sucesso!
+[2025-05-07 16:20:42] INFO: Status do pedido alterado com sucesso!

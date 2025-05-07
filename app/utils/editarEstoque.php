@@ -6,11 +6,7 @@ $estoqueController = new EstoqueController();
 
 if ((isset($_POST) || !empty($_POST)) && isset($_POST["editarsubmit"])) {
     foreach ($_POST['produtos'] as $produtoEditado) {
-        if($estoqueController->editarProdutoEstoque($produtoEditado)){
-            echo 'era p dar certo';
-        } else {
-            echo 'deu errado';
-        }
+        $estoqueController->editarProdutoEstoque($produtoEditado);
     }
 
     $ids = array_keys($_POST['produtos']);

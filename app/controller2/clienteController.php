@@ -49,7 +49,7 @@ class ClienteController {
     public function editarCliente($dados) {
         try {
             if (empty($dados['email']) || !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
-                empty($dados['telefone']) || !is_numeric($dados['telefone']) ||
+                empty($dados['telefone']) ||
                 empty($dados['nome']) || empty($dados['emailAntigo'])) {
                 Logger::logError("Dados inválidos para edição do cliente.");
                 return false;

@@ -2,47 +2,19 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-use app\controller\PedidoController;
+require_once '../utils/criarPedidosFuncionario.php';
+require_once '../utils/paginacaoPedidos.php';
+
+use app\controller2\PedidoController;
 
 $pedidoController = new PedidoController();
-
-if (isset($_POST['addPedido'])) {
-    $produtosArray = explode(";", $_POST["produtosPedidos"] ?? "");
-    $quantidadesArray = explode(";", $_POST["quantidadeProdutosPedidos"] ?? "");
-    $itensPedido = [];
-
-    foreach ($produtosArray as $index => $produto) {
-        $itensPedido[] = [
-            'id' => $produto,
-            'qntd' => $quantidadesArray[$index] ?? 1
-        ];
-    }
-
-    echo 'user: "' . $_POST["userEmail"] . '"';
-
-    $pedidoController->criarPedido(
-        !empty($_POST["userEmail"]) ? $_POST["userEmail"] : 'desconhecido',
-        isset($_POST["ckbIsDelivery"]) ? 1 : 0,
-        $_POST["valorTotal"] ?? "0.00",
-        $_POST["valorFrete"] ?? NULL,
-        $_POST["meioPagamento"] ?? NULL,
-        NULL,
-        $itensPedido
-    );
-
-    $_POST = [];
-    header("Location: pedidos.php");
-}
-
-$pedidosPorPagina = 8;
 $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$offset = ($paginaAtual - 1) * $pedidosPorPagina;
-
 $pedidos = $pedidoController->listarPedidos();
-$totalPedidos = count($pedidos);
-$totalPaginas = ceil($totalPedidos / $pedidosPorPagina);
 
-$pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
+$resultadoPaginado = paginarArray($pedidos, 8, $paginaAtual);
+$pedidosPagina = $resultadoPaginado['dados'];
+$totalPaginas = $resultadoPaginado['total_paginas'];
+$paginaAtual = $resultadoPaginado['pagina_atual'];
 ?>
 
 <!DOCTYPE html>
@@ -52,11 +24,10 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pedidos</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/pedidosS.css">
-    
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
@@ -68,7 +39,7 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
             <button id="toggleFormButton" class="formulario_btn--addPedido border-0 rounded-4 my-3 fw-bold fs-5 px-3">
                 Adicionar Pedido
             </button>
-            
+
             <div id="addPedidoForm" class="addPedidoForm container mx-auto justify-content-center">
                 <form action="" method="POST" class="container mx-auto d-flex flex-row flex-wrap justify-content-center gap-4 w-75 p-4 border rounded-4">
                     <input type="hidden" name="addPedido" value="1">
@@ -125,46 +96,32 @@ $pedidosPagina = array_slice($pedidos, $offset, $pedidosPorPagina);
         </div>
 
         <div class="container d-flex flex-row flex-wrap gap-5 justify-content-center mt-5">
-        <?php if (!empty($pedidosPagina)): ?>
-            <?php foreach ($pedidosPagina as $pedido): ?>
-                <div>
-                    <div class="card border-0 p-3">
-                        <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido['idPedido']); ?></h3>
-                        <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido['dtPedido']))->format('d/m/Y \à\s H:i')); ?></p>
-                        <p>Total: R$ <?= number_format($pedido['valorTotal'], 2, ',', '.'); ?></p>
-                        <p>Status: <?= htmlspecialchars($pedido['statusPedido']); ?></p>
-                        <a class="card__btn--VerInfos mt-3 text-decoration-none text-black" href="informacoesPedido.php?idPedido=<?= $pedido['idPedido']; ?>">Ver Informações</a>
-                        <?php if ($pedido['tipoFrete'] == 1 && $pedido['idEntregador'] == NULL): ?>
-                            <a class="card__btn--Entregador mt-3 text-decoration-none text-black" href="atribuirEntregador.php?idPedido=<?= $pedido['idPedido']; ?>">Atribuir Entregador ao Pedido</a>
-                        <?php endif; ?>
+            <?php if (!empty($pedidosPagina)): ?>
+                <?php foreach ($pedidosPagina as $pedido): ?>
+                    <div>
+                        <div class="card border-0 p-3">
+                            <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido->getIdPedido()); ?></h3>
+                            <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido->getDtPedido()))->format('d/m/Y \à\s H:i')); ?></p>
+                            <p>Total: R$ <?= number_format($pedido->getValorTotal(), 2, ',', '.'); ?></p>
+                            <p>Status: <?= htmlspecialchars($pedido->getStatusPedido()); ?></p>
+                            <a class="card__btn--VerInfos mt-3 text-decoration-none text-black" href="informacoesPedido.php?idPedido=<?= $pedido->getIdPedido(); ?>">Ver Informações</a>
+                            <?php if ($pedido->getTipoFrete() == 1 && $pedido->getIdEntregador() == NULL): ?>
+                                <a class="card__btn--Entregador mt-3 text-decoration-none text-black" href="atribuirEntregador.php?idPedido=<?= $pedido->getIdPedido(); ?>">Atribuir Entregador ao Pedido</a>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <div class="alert alert-warning">Nenhum pedido encontrado.</div>
-        <?php endif; ?>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="alert alert-warning">Nenhum pedido encontrado.</div>
+            <?php endif; ?>
         </div>
 
-        <nav aria-label="Navegação de página">
-            <ul class="pagination justify-content-center mt-4">
-                <li class="page-item <?= $paginaAtual == 1 ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="?pagina=<?= $paginaAtual - 1; ?>" tabindex="-1">Anterior</a>
-                </li>
-                <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-                    <li class="page-item <?= $i == $paginaAtual ? 'active' : ''; ?>">
-                        <a class="page-link" href="?pagina=<?= $i; ?>"><?= $i; ?></a>
-                    </li>
-                <?php endfor; ?>
-                <li class="page-item <?= $paginaAtual == $totalPaginas ? 'disabled' : ''; ?>">
-                    <a class="page-link" href="?pagina=<?= $paginaAtual + 1; ?>">Próxima</a>
-                </li>
-            </ul>
-        </nav>
+        <?php include_once 'components/paginacaoPedidos.php'; ?>
     </main>
 
     <?php include_once 'components/footer.php'; ?>
-    
+
     <script src="script/exibirFormulario.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

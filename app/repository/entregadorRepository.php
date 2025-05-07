@@ -63,7 +63,7 @@ class EntregadorRepository{
 
     public function listarEntregadorPorId($idEntregador) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE id = ? AND desativado = 0");
+            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE idEntregador = ? AND desativado = 0");
             $stmt->bindParam(1, $idEntregador);
             $stmt->execute();
 

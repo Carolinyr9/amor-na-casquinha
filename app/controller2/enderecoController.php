@@ -8,15 +8,15 @@ use Exception;
 
 class EnderecoController {
 
-    private $repositorio;
+    private $repository;
 
     public function __construct() {
-        $this->repositorio = new EnderecoRepository();
+        $this->repository = new EnderecoRepository();
     }
 
     public function criarEndereco($dados){
         try {
-            $idEndereco = $this->repositorio->criarEndereco($dados['rua'], $dados['numero'], $dados['cep'], $dados['bairro'], $dados['cidade'], $dados['estado'], $dados['complemento']);
+            $idEndereco = $this->repository->criarEndereco($dados['rua'], $dados['numero'], $dados['cep'], $dados['bairro'], $dados['cidade'], $dados['estado'], $dados['complemento']);
 
             if ($idEndereco) {
                 new Endereco(
@@ -46,7 +46,7 @@ class EnderecoController {
             if(!isset($idEndereco) || empty($idEndereco)){
                 Logger::logError("ID do endereço não fornecido!");
             }
-            $dados = $this->repositorio->listarEnderecoPorId($idEndereco);
+            $dados = $this->repository->listarEnderecoPorId($idEndereco);
 
             if ($dados) {
                 return new Endereco(
@@ -67,27 +67,21 @@ class EnderecoController {
 
     function editarEndereco($dados) {
         try {
-            if (!is_numeric($dados['cep'])) {
-                Logger::logError("CEP inválido! Insira um CEP válido e sem formatação.");
-            }
             if (!is_numeric($dados['numero'])) {
                 Logger::logError("Número inválido! Insira um número válido.");
             }
-    
-            $endereco = new Endereco(
-                0,
-                $dados['rua'],
-                $dados['numero'],
-                $dados['cep'],
-                $dados['bairro'],
-                $dados['cidade'],
-                $dados['estado'],
-                $dados['complemento']
-            );
-    
-            $answer = $this->repositorio->editarEndereco($endereco);
-    
-            return $answer ? ["success" => "Endereço editado com sucesso!"] : Logger::logError("Erro ao editar endereço!");
+
+            $endereco = $this->listarEnderecoPorId($dados['idEndereco']);
+
+            if($endereco){
+                $endereco->editarEndereco($dados['rua'], $dados['numero'], $dados['complemento'], $dados['cep'], $dados['bairro'], $dados['estado'], $dados['cidade']);
+
+                $resultado = $this->repository->editarEndereco($dados['rua'], $dados['numero'], $dados['complemento'], $dados['cep'], $dados['bairro'], $dados['estado'], $dados['cidade'], $dados['idEndereco']);
+
+                return $answer ? Logger::logInfo("Endereço editado com sucesso!") : Logger::logError("Erro ao editar endereço!");
+            } else {
+                Logger::logError("Endereço não encontrado para edição");
+            }
         } catch (Exception $e) {
             Logger::logError("Erro ao editar endereço: " . $e->getMessage());
         }

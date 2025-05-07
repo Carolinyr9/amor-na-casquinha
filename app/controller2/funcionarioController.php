@@ -97,7 +97,7 @@ class FuncionarioController {
                 if ($resultado) {
                     return true;
                 } else {
-                    throw new Exception("Erro ao editar funcionario");
+                    Logger::logError("Erro ao editar funcionario");
                 }
             } else {
                 Logger::logError("Funcionario nao encontrado para edicao");

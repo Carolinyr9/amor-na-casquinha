@@ -163,3 +163,27 @@
 [2025-05-07 03:03:17] ERROR: 
 [2025-05-07 03:04:06] ERROR: 
 [2025-05-07 03:05:07] ERROR: 
+[2025-05-07 15:19:45] ERROR: Dados inválidos para edição do cliente.
+[2025-05-07 15:19:45] ERROR: CEP inválido! Insira um CEP válido e sem formatação.
+[2025-05-07 15:19:45] ERROR: Erro ao editar endereço!
+[2025-05-07 15:20:02] ERROR: Dados inválidos para edição do cliente.
+[2025-05-07 15:20:02] ERROR: CEP inválido! Insira um CEP válido e sem formatação.
+[2025-05-07 15:20:02] ERROR: Erro ao editar endereço!
+[2025-05-07 15:21:23] ERROR: Erro ao editar endereço!
+[2025-05-07 15:21:35] ERROR: Erro ao editar endereço!
+[2025-05-07 15:59:07] ERROR: Erro ao listar entregador: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'id' in 'where clause'
+[2025-05-07 15:59:07] ERROR: Erro ao listar entregador: Entregador não encontrado.
+[2025-05-07 16:00:45] ERROR: Erro ao editar entregador no repositório.
+[2025-05-07 16:13:04] ERROR: Erro ao mudar status do pedido: Nenhum pedido encontrado!
+[2025-05-07 16:13:07] ERROR: Erro ao mudar status do pedido: Nenhum pedido encontrado!
+[2025-05-07 16:13:44] ERROR: Erro ao mudar status do pedido: Nenhum pedido encontrado!
+[2025-05-07 16:14:33] ERROR: Erro ao mudar status do pedido: Nenhum pedido encontrado!
+[2025-05-07 16:14:43] ERROR: Erro ao mudar status do pedido: Nenhum pedido encontrado!
+[2025-05-07 16:16:46] ERROR: Erro ao mudar status do pedido: Nenhum pedido encontrado!
+[2025-05-07 16:18:21] ERROR: ID Pedido: 193
+[2025-05-07 16:18:21] ERROR: Status novo: Preparando pedido
+[2025-05-07 16:18:21] ERROR: Erro ao mudar status do pedido: Nenhum pedido encontrado!
+[2025-05-07 16:19:11] ERROR: ID Pedido: 193
+[2025-05-07 16:19:11] ERROR: Status novo: Preparando pedido
+[2025-05-07 16:20:41] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-07 16:20:42] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
