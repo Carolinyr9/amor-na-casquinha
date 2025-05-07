@@ -21,6 +21,34 @@ class ClienteRepository {
         }
     }
 
+    public function criarCliente($nome, $email, $senha, $telefone, $idEndereco, $perfil = 'CLIE', $desativado = 0) {
+        try {
+            $stmt = $this->conn->prepare("
+                INSERT INTO cliente
+                (nome, email, senha, telefone, perfil, idEndereco, desativado) 
+                VALUES 
+                (:nome, :email, :senha, :telefone, :perfil, :idEndereco, :desativado)
+            ");
+    
+            $stmt->bindParam(':nome', $nome);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':senha', $senha);
+            $stmt->bindParam(':telefone', $telefone);
+            $stmt->bindParam(':perfil', $perfil);
+            $stmt->bindParam(':idEndereco', $idEndereco);
+            $stmt->bindParam(':desativado', $desativado, PDO::PARAM_INT);
+    
+            $stmt->execute();
+    
+            return $this->conn->lastInsertId();
+    
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao criar cliente: " . $e->getMessage());
+            return false; 
+        }
+    }
+    
+
     public function listarClientePorEmail($email) {
         try {
             $stmt = $this->conn->prepare(" SELECT * FROM cliente WHERE email = ?");

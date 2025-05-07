@@ -199,3 +199,14 @@
 [2025-05-07 17:21:06] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
 [2025-05-07 17:21:48] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
 [2025-05-07 17:22:37] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-05-07 18:32:47] ERROR: Erro ao criar cliente: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '0' for key 'PRIMARY'
+[2025-05-07 18:32:47] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-05-07 18:38:42] ERROR: Erro ao inserir o endereço: SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry '0' for key 'PRIMARY'
+[2025-05-07 18:38:42] ERROR: Erro ao criar endereço
+[2025-05-07 18:38:42] ERROR: ID do endereço não fornecido!
+[2025-05-07 18:38:42] ERROR: Pedido com ID 4 não encontrado
+[2025-05-07 19:21:00] ERROR: Pedido com ID 4 não encontrado
+[2025-05-07 19:23:58] ERROR: Pedido com ID 4 não encontrado
+[2025-05-07 19:25:56] ERROR: Pedido com ID 4 não encontrado
+[2025-05-07 19:27:16] ERROR: Pedido com ID 5 não encontrado
+[2025-05-07 19:31:19] ERROR: Pedido com ID 5 não encontrado

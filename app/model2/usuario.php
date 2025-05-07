@@ -1,5 +1,5 @@
 <?php
-namespace app\model;
+namespace app\model2;
 
 class Usuario {
     private $nome;
@@ -11,44 +11,28 @@ class Usuario {
         $this->email = $email;
         $this->perfil = $perfil;
     }
- 
-    public function getPerfil() {
-        return $this->perfil;
-    }
- 
-    public function setPerfil($perfil) {
-        $this->perfil = $perfil;
 
-        return $this;
-    }
- 
-    public function getEmail() {
-        return $this->email;
-    }
- 
-    public function setEmail($email) {
-        $this->email = $email;
-
-        return $this;
-    }
- 
     public function getNome() {
         return $this->nome;
     }
- 
+
     public function setNome($nome) {
         $this->nome = $nome;
-
-        return $this;
     }
 
-    private function redirecionarPara($url) {
-        header("Location: $url");
-        exit();
+    public function getEmail() {
+        return $this->email;
     }
 
-    private function usuarioDesativado($status) {
-        return $status == 1;
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function getPerfil() {
+        return $this->perfil;
+    }
+
+    public function setPerfil($perfil) {
+        $this->perfil = $perfil;
     }
 }
-

@@ -1,6 +1,10 @@
 <?php 
 namespace app\repository;
-use app\model\Usuario;
+
+use PDO;
+use PDOException;
+use app\config\DataBase;
+use app\controller2\ClienteController;
 
 class UsuarioRepository {
     private $conn;  
@@ -20,43 +24,31 @@ class UsuarioRepository {
 
     public function verificarUsuarioPorEmail($email) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM funcionarios WHERE email LIKE CONCAT('%', ?, '%') LIMIT 1");
+            $stmt = $this->conn->prepare("SELECT * FROM funcionario WHERE email = ? LIMIT 1");
             $stmt->execute([$email]);
-    
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            }
-    
+            if ($stmt->rowCount() > 0) return $stmt->fetch(PDO::FETCH_ASSOC);
+
             $stmt = $this->conn->prepare("
-                SELECT * FROM clientes 
-                INNER JOIN enderecos ON clientes.idEndereco = enderecos.idEndereco 
-                WHERE clientes.email LIKE CONCAT('%', ?, '%') 
+                SELECT cliente.*, enderecos.* FROM cliente
+                INNER JOIN enderecos ON cliente.idEndereco = enderecos.idEndereco 
+                WHERE cliente.email = ? 
                 LIMIT 1
             ");
             $stmt->execute([$email]);
-    
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            }
-    
-            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE email LIKE CONCAT('%', ?, '%') LIMIT 1");
+            if ($stmt->rowCount() > 0) return $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $stmt = $this->conn->prepare("SELECT * FROM entregador WHERE email = ? LIMIT 1");
             $stmt->execute([$email]);
-    
-            if ($stmt->rowCount() > 0) {
-                return $stmt->fetch(PDO::FETCH_ASSOC);
-            }
-    
+            if ($stmt->rowCount() > 0) return $stmt->fetch(PDO::FETCH_ASSOC);
+
             return [
                 'Status' => '403',
-                'Error' => 'ERROR_EMAIL_NAO_ENCONTRADO',
-                'Message' => '',
-                'Body' => ''
+                'Error' => 'ERROR_EMAIL_NAO_ENCONTRADO'
             ];
             
         } catch (PDOException $e) {
-            throw new Exception("Erro ao verificar usuário: " . $e->getMessage());
+            throw new \Exception("Erro ao verificar usuário: " . $e->getMessage());
         }
     }
-    
 
 }

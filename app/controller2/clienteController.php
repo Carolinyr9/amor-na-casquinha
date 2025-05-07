@@ -13,6 +13,38 @@ class ClienteController {
         $this->repository = $repository ?? new ClienteRepository();
     }
 
+    public function criarCliente($dados) {
+        try {
+            $idCliente = $this->repository->criarCliente(
+                $dados['nome'],
+                $dados['email'],
+                $dados['senha'],
+                $dados['telefone'],
+                $dados['idEndereco']
+            );
+    
+            if ($idCliente) {
+                $cliente = new Cliente(
+                    $idCliente,
+                    $dados['nome'],
+                    $dados['email'],
+                    $dados['telefone'],
+                    $dados['senha'],
+                    $dados['idEndereco']
+                );
+    
+                return $idCliente;
+            } else {
+                Logger::logError("Erro ao criar cliente: Não foi possível inserir no banco.");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao criar cliente: " . $e->getMessage());
+            return false;
+        }
+    }
+    
+
     public function listarClientePorEmail($email) {
         try {
             if (!isset($email) || empty($email)) {
