@@ -18,7 +18,9 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
     <title>Editar Sabor</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
-    <link rel="stylesheet" href="style/editaSaborS.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
     <script src="script/exibirArquivoImagem.js"></script>
@@ -26,42 +28,37 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
 <body>
 <?php include_once 'components/header.php'; ?>
 <main>
-    <div class="conteiner d-flex flex-column align-items-center justify-content-center flex-column">
-        <h2 class="m-auto text-center pt-4 pb-4">Editar Sabor</h2>
-        <div class="conteiner-form p-3 rounded-4 d-flex flex-column my-3 w-75">
+    <div class="d-flex flex-column align-items-center justify-content-center flex-column">
+        <h2 class="titulo">Editar Sabor</h2>
+        <div class="conteiner-form d-flex flex-column rounded-4 my-3 w-25 border p-4" style="background-color: var(--quaternary);">
             <?php if ($produto): ?>
-                <form enctype="multipart/form-data" action="<?= htmlspecialchars($_SERVER["PHP_SELF"] . '?idVariacao=' . htmlspecialchars($produto->getCategoria())) ?>" method="POST" id="formulario" class="formulario m-auto d-flex flex-column justify-content-center">
+                <form enctype="multipart/form-data" action="<?= htmlspecialchars($_SERVER["PHP_SELF"] . '?idVariacao=' . htmlspecialchars($produto->getCategoria())) ?>" method="POST" id="formulario" class="container d-flex flex-column justify-content-center align-items-center">
                     <input type="hidden" name="idProduto" value="<?= htmlspecialchars($produto->getId()) ?>">
                     <input type="hidden" name="idCategoria" value="<?= htmlspecialchars($_GET['idCategoria']) ?>">
                     <input type="hidden" name="imagemSabEdt" value="<?= htmlspecialchars($produto->getFoto()) ?>">
 
-                    <div class="mb-3">
-                        <label for="produto" class="form-label">Produto</label>
+                    <div class="w-100 mb-3">
                         <input type="text" class="form-control" name="nomeProdEdt" id="produto" value="<?= htmlspecialchars($produto->getNome()) ?>">
                     </div>
 
-                    <div class="mb-3">
-                        <label for="preco" class="form-label">Preço</label>
+                    <div class="w-100 mb-3">
                         <input type="text" class="form-control" name="precoSabEdt" id="preco" value="<?= htmlspecialchars($produto->getPreco()) ?>">
                     </div>
 
-                    <div class="mb-3">
-                        <label for="imagem" class="form-label">Imagem</label>
+                    <div class="w-100 mb-3">
                         <input type="file" id="imagem" name="imagem" class="form-control">
                     </div>
 
-                    <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto mt-3" style="max-width: 150px; display: none;">
+                    <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto my-3" style="max-width: 150px; display: none;">
 
-                    <input type="submit" name="btnEditar" class="btnEditar mt-3 mx-auto border-0 rounded-3 px-4" value="Editar" />
+                    <input type="submit" name="btnEditar" class="botao botao-primary" value="Editar" />
                 </form>
             <?php else: ?>
                 <p>Produto não encontrado.</p>
             <?php endif; ?>
         </div>
 
-        <button class="voltar border-0 rounded-3 fw-bold">
-            <a class="text-decoration-none color-black" href="gerenciarProdutos.php?categoria=<?= $produto ? htmlspecialchars($produto->getCategoria()) : '' ?>">Voltar</a>
-        </button>
+            <a class="botao botao-secondary" href="gerenciarProdutos.php?categoria=<?= $produto ? htmlspecialchars($produto->getCategoria()) : '' ?>">Voltar</a>
     </div>
 </main>
 <?php include_once 'components/footer.php'; ?>
