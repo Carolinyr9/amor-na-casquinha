@@ -4,7 +4,7 @@ namespace app\repository;
 use app\config\DataBase;
 use PDO;
 use PDOException;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 class ClienteRepository {
     private $conn;  
 

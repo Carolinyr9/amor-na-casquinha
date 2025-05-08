@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/carrinhoFuncoes.php';
+require_once '../utils/carrinho/carrinhoFuncoes.php';
 use app\controller\CarrinhoController;
 use app\controller\ProdutoController;
 

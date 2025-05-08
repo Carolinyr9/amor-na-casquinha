@@ -3,7 +3,7 @@ namespace app\controller;
 
 use app\repository\CategoriaProdutoRepository;
 use app\model\CategoriaProduto;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 use Exception;
 
 class CategoriaProdutoController {

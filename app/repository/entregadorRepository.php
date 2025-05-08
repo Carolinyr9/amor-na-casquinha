@@ -6,7 +6,7 @@ use app\config\DataBase;
 use PDO;
 use PDOException;
 use Exception;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 
 class EntregadorRepository{
     private $conn;

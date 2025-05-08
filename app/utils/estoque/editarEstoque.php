@@ -1,6 +1,6 @@
 <?php
 use app\controller\EstoqueController;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 
 $estoqueController = new EstoqueController();
 

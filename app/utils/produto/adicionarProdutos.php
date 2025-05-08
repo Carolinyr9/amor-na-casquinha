@@ -1,11 +1,9 @@
 <?php
 use app\controller\ProdutoController;
 use app\controller\EstoqueController;
-use app\utils\Logger;
-require_once '../utils/fotoHandler.php';
+use app\utils\helpers\Logger;
+require_once __DIR__ . '/../helpers/fotoHandler.php';
 $foto = fotoHandler();
-
-Logger::logError($foto);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' || isset($_POST['inserirSaborSubmit'])) {
 

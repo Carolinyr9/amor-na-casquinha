@@ -2,8 +2,8 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/criarPedidosFuncionario.php';
-require_once '../utils/paginacaoPedidos.php';
+require_once '../utils/pedido/criarPedidosFuncionario.php';
+require_once '../utils/pedido/paginacaoPedidos.php';
 
 use app\controller\PedidoController;
 

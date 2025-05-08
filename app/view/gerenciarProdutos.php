@@ -1,12 +1,12 @@
 <?php
 namespace app\view;
 require_once '../../vendor/autoload.php';
-require_once '../utils/adicionarProdutos.php';
+require_once '../utils/produto/adicionarProdutos.php';
 
 use app\controller\ProdutoController;
 
 session_start();
-require_once '../utils/sessao.php';
+require_once '../utils/autenticacao/sessao.php';
 
 $categoriaId = $_GET['categoria'] ?? null;
 $produtoController = new ProdutoController();

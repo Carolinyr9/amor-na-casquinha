@@ -1,4 +1,4 @@
-<?php require_once '../utils/inicializarNotaFiscal.php'; ?>
+<?php require_once '../utils/pedido/inicializarNotaFiscal.php'; ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

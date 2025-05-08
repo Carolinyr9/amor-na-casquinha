@@ -3,7 +3,7 @@ namespace app\controller;
 
 use app\repository\PedidoRepository;
 use app\model\Pedido;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 use Exception;
 
 class PedidoController {

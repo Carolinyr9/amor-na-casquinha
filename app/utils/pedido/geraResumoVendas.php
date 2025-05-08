@@ -2,7 +2,7 @@
 use app\controller\PedidoController;
 use app\controller\ItemPedidoController;
 use app\controller\ProdutoController;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 
 $itemPedidoController = new ItemPedidoController();
 $pedidoController = new PedidoController();

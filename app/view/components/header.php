@@ -39,7 +39,7 @@ require_once '../../vendor/autoload.php'; ?>
                         break;
                 }
 
-                echo "<a href='../utils/logout.php'>Sair</a>";
+                echo "<a href='../utils/autenticacao/logout.php'>Sair</a>";
             }
             else
             {

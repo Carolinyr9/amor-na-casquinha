@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/editarProdutos.php';
+require_once '../utils/produto/editarProdutos.php';
 use app\controller\ProdutoController;
 
 $produtoController = new ProdutoController();

@@ -1,6 +1,6 @@
 <?php
 use app\controller\ProdutoController;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['idProdutoExcl'])) {
     $idProduto = $_POST['idProdutoExcl'];

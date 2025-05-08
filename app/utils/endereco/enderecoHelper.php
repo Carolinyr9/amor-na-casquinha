@@ -1,5 +1,6 @@
 <?php
 use app\controller\EnderecoController;
+use app\utils\helpers\Logger;
 
 function obterEnderecoCompleto($idEndereco)
 {

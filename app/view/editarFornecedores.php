@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/editarFornecedor.php';
+require_once '../utils/fornecedor/editarFornecedor.php';
 
 use app\controller\FornecedorController;
 

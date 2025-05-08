@@ -3,7 +3,7 @@ namespace app\controller;
 
 use app\model\Endereco;
 use app\repository\EnderecoRepository;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 use Exception;
 
 class EnderecoController {

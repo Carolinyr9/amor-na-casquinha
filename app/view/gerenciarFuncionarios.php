@@ -3,8 +3,8 @@ session_start();
 
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/adicionarFuncionario.php';
-require_once '../utils/excluirFuncionario.php';
+require_once '../utils/funcionario/adicionarFuncionario.php';
+require_once '../utils/funcionario/excluirFuncionario.php';
 
 use app\controller\FuncionarioController;
 
@@ -80,7 +80,12 @@ $listaFuncionarios = $func->listarFuncionario();
                     </div>
                 <?php endforeach; ?>
             </div>
+
+            <button class="b-voltar m-auto border-0 rounded-4 fw-bold px-3">
+                <a class="text-decoration-none color-black" href="pessoas.php">Voltar</a>
+            </button>
         </div>
+
     </main>
 
     <?php include_once 'components/footer.php'; ?>

@@ -1,6 +1,6 @@
 <?php
 use app\controller\CategoriaProdutoController;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 
 function fotoHandler(){
 

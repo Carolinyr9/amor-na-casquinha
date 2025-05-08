@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 include_once 'components/header.php';
-require_once '../utils/faqHandler.php';
+require_once '../utils/helpers/faqHandler.php';
 ?>
 
 <!DOCTYPE html>

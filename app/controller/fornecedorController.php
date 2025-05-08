@@ -3,7 +3,7 @@ namespace app\controller;
 
 use app\repository\FornecedorRepository;
 use app\model\Fornecedor;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 use Exception;
 
 class FornecedorController {

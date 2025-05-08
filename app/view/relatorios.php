@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/geraResumoVendas.php';
+require_once '../utils/pedido/geraResumoVendas.php';
 use app\controller\PedidoController;
 use app\controller\ItemPedidoController;
 use app\controller\ProdutoController;

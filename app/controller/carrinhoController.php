@@ -2,7 +2,7 @@
 namespace app\controller;
 
 use app\model\Carrinho;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 use Exception;
 
 class CarrinhoController {

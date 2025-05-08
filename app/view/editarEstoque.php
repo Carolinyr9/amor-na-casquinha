@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/editarEstoque.php';
+require_once '../utils/estoque/editarEstoque.php';
 
 use app\controller\EstoqueController;
 use app\controller\ProdutoController;
@@ -114,6 +114,10 @@ if (isset($_GET['idEstoque']) && !empty($_GET['idEstoque'])) {
 
             <input type="submit" value="Editar" name="editarsubmit" class="editarProduto rounded-3 px-4 text-decoration-none border-0">
         </form>
+
+        <button class="b-voltar m-auto border-0 rounded-4 fw-bold px-3">
+            <a class="text-decoration-none color-black" href="telaEstoque.php">Voltar</a>
+        </button>
     </main>
 
     <?php include_once 'components/footer.php'; ?>

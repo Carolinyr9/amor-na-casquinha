@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/editarEntregador.php';
+require_once '../utils/entregador/editarEntregador.php';
 
 use app\controller\EntregadorController;
 

@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/excluirProdutoEstoque.php';
+require_once '../utils/estoque/excluirProdutoEstoque.php';
 
 use app\controller\EstoqueController;
 use app\controller\CategoriaProdutoController;
@@ -68,7 +68,7 @@ if (isset($_GET['idEstoque']) && !empty($_GET['idEstoque'])) {
         </div>
 
         <button class="b-voltar m-auto border-0 rounded-4 fw-bold px-3">
-            <a class="text-decoration-none color-black" href="editarProdutos.php">Voltar</a>
+            <a class="text-decoration-none color-black" href="telaEstoque.php">Voltar</a>
         </button>
     </main>
 

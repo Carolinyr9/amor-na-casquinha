@@ -1,8 +1,8 @@
 <?php
 session_start();
 require_once '../../vendor/autoload.php';
-require_once '../utils/criarPedidos.php';
-require_once '../utils/alterarCliente.php';
+require_once '../utils/pedido/criarPedidos.php';
+require_once '../utils/cliente/alterarCliente.php';
 require_once '../config/config.php';
 
 use app\controller\ClienteController;

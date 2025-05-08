@@ -3,7 +3,7 @@ namespace app\controller;
 
 use app\model\Cliente;
 use app\repository\ClienteRepository;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 use Exception;
 
 class ClienteController {

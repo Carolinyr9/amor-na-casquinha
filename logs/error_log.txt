@@ -288,3 +288,6 @@
 [2025-05-08 15:43:27] ERROR: Erro ao listar pedido por periodo: Nenhum pedido encontrado!
 [2025-05-08 15:43:27] ERROR: Erro ao listar pedidos no período.
 [2025-05-08 16:33:28] ERROR: 
+[2025-05-08 17:33:37] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-05-08 17:38:47] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-08 17:38:47] ERROR: Erro ao obter itens do pedido.

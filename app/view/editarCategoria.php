@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/editarCategorias.php';
+require_once '../utils/categorias/editarCategorias.php';
 
 use app\controller\CategoriaProdutoController;
 

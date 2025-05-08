@@ -3,7 +3,7 @@ namespace app\controller;
 
 use app\repository\EstoqueRepository;
 use app\model\Estoque;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 use Exception;
 
 class EstoqueController {

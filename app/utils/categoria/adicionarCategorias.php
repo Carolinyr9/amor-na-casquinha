@@ -1,7 +1,6 @@
 <?php
 use app\controller\CategoriaProdutoController;
-use app\utils\Logger;
-require_once '../utils/fotoHandler.php';
+require_once __DIR__ . '/../helpers/fotoHandler.php';
 
 $foto = fotoHandler();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

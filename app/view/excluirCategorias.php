@@ -2,8 +2,8 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/csrf.php';
-require_once '../utils/excluirCategorias.php';
+require_once '../utils/helpers/csrf.php';
+require_once '../utils/categoria/excluirCategorias.php';
 use app\controller\CategoriaProdutoController;
 $categoriaController = new CategoriaProdutoController();
 ?>

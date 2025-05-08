@@ -6,7 +6,7 @@ use app\model\Fornecedor;
 use PDO;
 use PDOException;
 use Exception;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 
 class FornecedorRepository {
     private $conn;  

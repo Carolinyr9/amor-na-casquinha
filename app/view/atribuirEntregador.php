@@ -3,7 +3,7 @@ session_start();
 
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/atribuirEntregador.php';
+require_once '../utils/entregador/atribuirEntregador.php';
 
 use app\controller\EntregadorController;
 use app\controller\PedidoController;

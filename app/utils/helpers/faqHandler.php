@@ -1,6 +1,6 @@
 <?php
 session_start();
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['inputField'])) {

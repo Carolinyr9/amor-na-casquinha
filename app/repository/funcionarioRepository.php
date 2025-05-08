@@ -6,7 +6,7 @@ use app\model\Funcionario;
 use PDO;
 use PDOException;
 use Exception;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 
 class FuncionarioRepository {
     private $conn;  

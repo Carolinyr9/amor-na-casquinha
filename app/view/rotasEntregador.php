@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/enderecoHelper.php';
+require_once '../utils/endereco/enderecoHelper.php';
 use utils\obterEnderecoCompleto;
 $dadosEndereco = obterEnderecoCompleto($_GET['idEndereco']);
 ?>

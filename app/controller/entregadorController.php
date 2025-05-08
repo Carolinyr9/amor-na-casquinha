@@ -3,7 +3,7 @@ namespace app\controller;
 
 use app\model\Entregador;
 use app\repository\EntregadorRepository;
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 use Exception;
 
 class EntregadorController {

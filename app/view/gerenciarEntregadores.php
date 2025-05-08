@@ -3,8 +3,8 @@ session_start();
 
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/adicionarEntregador.php';
-require_once '../utils/excluirEntregador.php';
+require_once '../utils/entregador/adicionarEntregador.php';
+require_once '../utils/entregador/excluirEntregador.php';
 
 use app\controller\EntregadorController;
 
@@ -79,6 +79,9 @@ $entregadores = $entregadorController->listarEntregadores();
                     </div>
                 <?php endforeach; ?>
             </div>
+            <button class="b-voltar m-auto border-0 rounded-4 fw-bold px-3">
+                <a class="text-decoration-none color-black" href="pessoas.php">Voltar</a>
+            </button>
         </div>
     </main>
 

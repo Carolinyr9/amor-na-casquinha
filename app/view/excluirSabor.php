@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/excluirProdutos.php';
+require_once '../utils/produto/excluirProdutos.php';
 
 use app\controller\ProdutoController;
 

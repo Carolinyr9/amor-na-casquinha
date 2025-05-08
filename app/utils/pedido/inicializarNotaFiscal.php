@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/calcularFrete.php';
+require_once 'calcularFrete.php';
 
 use app\controller\CarrinhoController;
 use app\controller\PedidoController;

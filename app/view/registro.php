@@ -3,7 +3,7 @@ session_start();
 
 require_once '../../vendor/autoload.php';
 require_once '../config/blockURLAccess.php';
-require_once '../utils/login.php';
+require_once '../utils/autenticacao/login.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/editarFuncionarios.php';
+require_once '../utils/funcionario/editarFuncionarios.php';
 
 use app\controller\FuncionarioController;
 

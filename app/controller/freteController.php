@@ -1,7 +1,7 @@
 <?php
 namespace app\controller;
 
-use app\utils\Logger;
+use app\utils\helpers\Logger;
 use Exception;
 
 class FreteController {
