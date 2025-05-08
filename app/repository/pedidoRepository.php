@@ -146,7 +146,42 @@ class PedidoRepository {
             return false;
         }
     }
+
+    public function listarPedidosPorPeriodo($dataInicio, $dataFim) {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM pedidos WHERE DATE(dtPedido) BETWEEN ? AND ?");
+            $stmt->bindParam(1, $dataInicio);
+            $stmt->bindParam(2, $dataFim);
+            $stmt->execute();
+            $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $pedidos = [];
     
+            foreach ($dados as $pedido) {
+                $pedidos[] = new Pedido(
+                    $pedido['idPedido'],
+                    $pedido['idCliente'],
+                    $pedido['dtPedido'],
+                    $pedido['dtPagamento'],
+                    $pedido['tipoFrete'],
+                    $pedido['idEndereco'],
+                    $pedido['valorTotal'],
+                    $pedido['dtCancelamento'],
+                    $pedido['motivoCancelamento'],
+                    $pedido['statusPedido'],
+                    $pedido['idEntregador'],
+                    $pedido['frete'],
+                    $pedido['meioPagamento'],
+                    $pedido['trocoPara']   
+                );
+            }
+    
+            return $pedidos; 
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao listar pedidos de $dataInicio a $dataFim: " . $e->getMessage());
+            return false;
+        }
+    }
 
     public function listarPedidosEntregador($idEntregador) {
         try {

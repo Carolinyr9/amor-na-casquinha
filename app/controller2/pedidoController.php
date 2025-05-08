@@ -137,6 +137,22 @@ class PedidoController {
         }
     }
 
+    public function listarPedidosPorPeriodo($dados){
+        try {
+            $pedidos = $this->repository->listarPedidosPorPeriodo($dados['dataInicio'], $dados['dataFim']);
+                
+            if(!$pedidos) {
+                Logger::logError("Erro ao listar pedido por periodo: Nenhum pedido encontrado!");
+                return false;
+            }
+            
+            return $pedidos;
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar pedido por periodo: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function atribuirEntregadorPedido($dados) {
         try {
             $pedido = $this->listarPedidoPorId($dados['idPedido']);

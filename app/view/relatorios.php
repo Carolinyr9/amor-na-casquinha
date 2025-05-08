@@ -2,21 +2,10 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-use app\controller2\CategoriaProdutoController;
-$categoriaController = new CategoriaProdutoController();
-
-$vendas = [];
-$itens = [];
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data-inicio'], $_POST['data-fim'])) {
-    $dataInicio = $_POST['data-inicio'];
-    $dataFim = $_POST['data-fim'];
-
-    if (!empty($dataInicio) && !empty($dataFim)) {
-        $vendas = $pedidoController->listarResumo($dataInicio, $dataFim);
-        $itens = $pedidoController->listarTodosItensPedidos($dataInicio, $dataFim);
-    }
-}
+require_once '../utils/geraResumoVendas.php';
+use app\controller2\PedidoController;
+use app\controller2\ItemPedidoController;
+use app\controller2\ProdutoController;
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data-inicio'], $_POST
             <button type="submit" class="form__btn text-decoration-none border-0 rounded-3 m-1 text-black px-3">Gerar Relatório</button>
         </form>
 
-        <?php if (!empty($vendas)) { ?>
+        <?php if ($totalVendas > 0) { ?>
             <h2>Resumo</h2>
             <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
                 <table class="table table-bordered">
@@ -57,17 +46,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data-inicio'], $_POST
                     </thead>
                     <tbody>
                         <tr>
-                            <td>R$ <?= number_format($vendas['totalVendas'], 2, ',', '.') ?></td>
-                            <td><?= htmlspecialchars($vendas['pedidosFeitos']) ?></td>
-                            <td><?= htmlspecialchars($vendas['totalPedidosClientes']) ?></td>
-                            <td><?= htmlspecialchars($vendas['totalProdutos']) ?></td>
+                            <td>R$ <?= number_format($totalVendas, 2, ',', '.') ?></td>
+                            <td><?= $totalPedidos ?></td>
+                            <td><?= $totalClientes ?></td>
+                            <td><?= $totalProdutos ?></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+        <?php } else { ?>
+            <p>Selecione um período válido para acessar o rela 
+                tório!</p>
         <?php } ?>
 
-        <?php if (!empty($itens)) { ?>
+
+        <?php if (!empty($produtos)) { ?>
             <h2>Sabores Mais Vendidos</h2>
             <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
                 <table class="table table-bordered">
@@ -81,13 +74,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data-inicio'], $_POST
                     </thead>
                     <tbody>
                         <?php 
-                        $itensLimitados = array_slice($itens, 0, 3);
-                        foreach ($itensLimitados as $item) { ?>
+                        $produtosLimitados = array_slice($produtos, 0, 3); // Limitar a 3 produtos mais vendidos
+                        foreach ($produtosLimitados as $produto) { ?>
                             <tr>
-                                <td><?= htmlspecialchars($item['NomeProduto']) ?></td>
-                                <td><?= htmlspecialchars($item['quantidade']) ?></td>
-                                <td>R$ <?= number_format($item['Preco'], 2, ',', '.') ?></td>
-                                <td><?= $item['ProdutoDesativado'] ? 'Sim' : 'Não' ?></td>
+                                <td><?= htmlspecialchars($produto['NomeProduto']) ?></td>
+                                <td><?= htmlspecialchars($produto['quantidade']) ?></td>
+                                <td>R$ <?= number_format($produto['Preco'], 2, ',', '.') ?></td>
+                                <td><?= $produto['ProdutoDesativado'] ? 'Sim' : 'Não' ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>
