@@ -269,3 +269,4 @@
 [2025-05-08 02:41:26] ERROR: Erro ao calcular o frete.
 [2025-05-08 02:52:04] ERROR: Erro ao calcular o frete.
 [2025-05-08 02:52:07] ERROR: Erro ao calcular o frete.
+[2025-05-08 15:12:26] ERROR: Erro ao listar clientes: Email não fornecido!

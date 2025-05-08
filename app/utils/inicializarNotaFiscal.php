@@ -16,11 +16,16 @@ $pedidoController = new PedidoController();
 $enderecoController = new EnderecoController();
 
 $carrinhoController->atualizarCarrinho();
-$clienteData = $clienteController->listarClientePorEmail($_SESSION["userEmail"]);
-$endereco = $enderecoController->listarEnderecoPorId($clienteData->getIdEndereco());
 
-$isDelivery = isset($_POST['isDelivery']) && $_POST['isDelivery'] === '1';
-$trocoPara = isset($_POST["trocoPara"]) ? $_POST["trocoPara"] : null;
-$trocoPara = is_numeric($trocoPara) ? floatval($trocoPara) : null;
-$subtotal = $carrinhoController->calcularTotal();
-list($frete, $total) = calcularFreteSeAplicavel($isDelivery, $endereco, $subtotal);
+if(isset($_SESSION["userEmail"])){
+    $clienteData = $clienteController->listarClientePorEmail($_SESSION["userEmail"]);
+    $endereco = $enderecoController->listarEnderecoPorId($clienteData->getIdEndereco());
+    
+    $isDelivery = isset($_POST['isDelivery']) && $_POST['isDelivery'] === '1';
+    $trocoPara = isset($_POST["trocoPara"]) ? $_POST["trocoPara"] : null;
+    $trocoPara = is_numeric($trocoPara) ? floatval($trocoPara) : null;
+    $subtotal = $carrinhoController->calcularTotal();
+    list($frete, $total) = calcularFreteSeAplicavel($isDelivery, $endereco, $subtotal);
+}
+
+
