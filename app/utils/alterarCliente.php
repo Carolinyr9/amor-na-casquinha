@@ -1,6 +1,6 @@
 <?php
-use app\controller2\ClienteController;
-use app\controller2\EnderecoController;
+use app\controller\ClienteController;
+use app\controller\EnderecoController;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["btnAlterarCliente"])) {

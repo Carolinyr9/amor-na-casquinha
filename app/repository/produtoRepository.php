@@ -2,7 +2,7 @@
 namespace app\repository;
 
 use app\config\DataBase;
-use app\model2\Produto;
+use app\model\Produto;
 use app\utils\Logger;
 use PDO;
 use PDOException;

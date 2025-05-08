@@ -4,11 +4,11 @@ require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/calcularFrete.php';
 
-use app\controller2\CarrinhoController;
-use app\controller2\PedidoController;
-use app\controller2\ClienteController;
-use app\controller2\EnderecoController;
-use app\controller2\FreteController;
+use app\controller\CarrinhoController;
+use app\controller\PedidoController;
+use app\controller\ClienteController;
+use app\controller\EnderecoController;
+use app\controller\FreteController;
 
 $carrinhoController = new CarrinhoController();
 $clienteController = new ClienteController();

@@ -1,8 +1,8 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
 use app\repository\ItemPedidoRepository;
-use app\model2\ItemPedido;
+use app\model\ItemPedido;
 use app\utils\Logger;
 use Exception;
 

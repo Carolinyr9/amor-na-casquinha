@@ -1,8 +1,8 @@
 <?php 
-namespace app\controller2;
+namespace app\controller;
 
 use app\repository\UsuarioRepository;
-use app\model2\Usuario;
+use app\model\Usuario;
 
 class UsuarioController {
     private $repository;

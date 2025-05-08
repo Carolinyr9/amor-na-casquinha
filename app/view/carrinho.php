@@ -3,8 +3,8 @@ session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/carrinhoFuncoes.php';
-use app\controller2\CarrinhoController;
-use app\controller2\ProdutoController;
+use app\controller\CarrinhoController;
+use app\controller\ProdutoController;
 
 $carrinhoController = new CarrinhoController();
 $produtoController = new ProdutoController();

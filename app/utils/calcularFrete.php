@@ -1,5 +1,5 @@
 <?php
-use app\controller2\FreteController;
+use app\controller\FreteController;
 
 function calcularFreteSeAplicavel($isDelivery, $endereco, $subtotal) {
     $frete = 0.0;

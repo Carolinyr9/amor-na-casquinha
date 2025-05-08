@@ -4,7 +4,7 @@ namespace app\repository;
 use PDO;
 use PDOException;
 use app\config\DataBase;
-use app\controller2\ClienteController;
+use app\controller\ClienteController;
 
 class UsuarioRepository {
     private $conn;  

@@ -3,9 +3,9 @@ session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/geraResumoVendas.php';
-use app\controller2\PedidoController;
-use app\controller2\ItemPedidoController;
-use app\controller2\ProdutoController;
+use app\controller\PedidoController;
+use app\controller\ItemPedidoController;
+use app\controller\ProdutoController;
 ?>
 
 <!DOCTYPE html>

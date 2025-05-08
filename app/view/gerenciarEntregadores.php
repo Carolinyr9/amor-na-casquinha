@@ -1,6 +1,4 @@
 <?php
-
-//  depois alterar tabela e colocar auto increment no id do entregador 
 session_start();
 
 require_once '../config/blockURLAccess.php';
@@ -8,7 +6,7 @@ require_once '../../vendor/autoload.php';
 require_once '../utils/adicionarEntregador.php';
 require_once '../utils/excluirEntregador.php';
 
-use app\controller2\EntregadorController;
+use app\controller\EntregadorController;
 
 $entregadorController = new EntregadorController();
 $entregadores = $entregadorController->listarEntregadores();

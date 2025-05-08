@@ -2,9 +2,9 @@
 session_start();
 require_once '../../vendor/autoload.php';
 
-use app\controller2\EstoqueController;
-use app\controller2\ProdutoController;
-use app\controller2\CategoriaProdutoController;
+use app\controller\EstoqueController;
+use app\controller\ProdutoController;
+use app\controller\CategoriaProdutoController;
 
 require_once '../config/blockURLAccess.php';
 

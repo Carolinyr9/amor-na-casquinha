@@ -3,7 +3,7 @@ namespace app\repository;
 
 use app\config\DataBase;
 use app\utils\Logger;
-use app\model2\CategoriaProduto;
+use app\model\CategoriaProduto;
 use PDO;
 use PDOException;
 

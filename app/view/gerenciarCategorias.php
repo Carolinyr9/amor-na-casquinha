@@ -4,7 +4,7 @@ require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/adicionarCategorias.php';
 
-use app\controller2\CategoriaProdutoController;
+use app\controller\CategoriaProdutoController;
 $categoriasController = new CategoriaProdutoController();
 $categorias = $categoriasController->listarCategorias();
 

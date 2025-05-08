@@ -1,6 +1,6 @@
 <?php
 namespace app\repository;
-use app\model2\ItemPedido;
+use app\model\ItemPedido;
 use app\config\DataBase;
 use app\utils\Logger;
 use PDO;

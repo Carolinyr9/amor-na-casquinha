@@ -6,7 +6,7 @@ require_once '../../vendor/autoload.php';
 require_once '../utils/adicionarFuncionario.php';
 require_once '../utils/excluirFuncionario.php';
 
-use app\controller2\FuncionarioController;
+use app\controller\FuncionarioController;
 
 $func = new FuncionarioController();
 $listaFuncionarios = $func->listarFuncionario();

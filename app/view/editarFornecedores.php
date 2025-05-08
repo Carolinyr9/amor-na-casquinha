@@ -4,7 +4,7 @@ require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/editarFornecedor.php';
 
-use app\controller2\FornecedorController;
+use app\controller\FornecedorController;
 
 $fornecedorController = new FornecedorController();
 

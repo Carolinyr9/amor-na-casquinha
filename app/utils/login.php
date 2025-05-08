@@ -1,7 +1,7 @@
 <?php
-use app\controller2\UsuarioController;
-use app\controller2\ClienteController;
-use app\controller2\EnderecoController;
+use app\controller\UsuarioController;
+use app\controller\ClienteController;
+use app\controller\EnderecoController;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registrar'])) {
     $usuarioController = new UsuarioController();
     if($usuarioController->validarDados($_POST['email'], $_POST['senha'], $_POST['celular'], $_POST['cep'])){

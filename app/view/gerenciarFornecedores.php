@@ -6,7 +6,7 @@ require_once '../../vendor/autoload.php';
 require_once '../utils/adicionarFornecedor.php';
 require_once '../utils/excluirFornecedor.php';
 
-use app\controller2\FornecedorController;
+use app\controller\FornecedorController;
 
 $fornecedorController = new FornecedorController();
 $fornecedores = $fornecedorController->listarFornecedor();

@@ -1,5 +1,5 @@
 <?php
-use app\controller2\FornecedorController;
+use app\controller\FornecedorController;
 
 if (isset($_POST['btnAtualizar'])) {
     $fornecedorController = new FornecedorController();

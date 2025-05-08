@@ -1,7 +1,7 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
-use app\model2\Cliente;
+use app\model\Cliente;
 use app\repository\ClienteRepository;
 use app\utils\Logger;
 use Exception;

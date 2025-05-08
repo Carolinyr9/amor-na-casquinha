@@ -1,5 +1,5 @@
 <?php
-use app\controller2\EntregadorController;
+use app\controller\EntregadorController;
 
 if(isset($_GET['exclEntr'])) {
     $entregadorController = new EntregadorController();

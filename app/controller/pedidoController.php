@@ -1,8 +1,8 @@
 <?php 
-namespace app\controller2;
+namespace app\controller;
 
 use app\repository\PedidoRepository;
-use app\model2\Pedido;
+use app\model\Pedido;
 use app\utils\Logger;
 use Exception;
 

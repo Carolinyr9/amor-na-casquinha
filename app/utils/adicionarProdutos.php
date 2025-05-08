@@ -1,6 +1,6 @@
 <?php
-use app\controller2\ProdutoController;
-use app\controller2\EstoqueController;
+use app\controller\ProdutoController;
+use app\controller\EstoqueController;
 use app\utils\Logger;
 require_once '../utils/fotoHandler.php';
 $foto = fotoHandler();

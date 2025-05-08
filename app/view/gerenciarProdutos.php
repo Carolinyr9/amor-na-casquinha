@@ -3,7 +3,7 @@ namespace app\view;
 require_once '../../vendor/autoload.php';
 require_once '../utils/adicionarProdutos.php';
 
-use app\controller2\ProdutoController;
+use app\controller\ProdutoController;
 
 session_start();
 require_once '../utils/sessao.php';

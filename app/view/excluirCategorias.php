@@ -4,7 +4,7 @@ require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/csrf.php';
 require_once '../utils/excluirCategorias.php';
-use app\controller2\CategoriaProdutoController;
+use app\controller\CategoriaProdutoController;
 $categoriaController = new CategoriaProdutoController();
 ?>
 

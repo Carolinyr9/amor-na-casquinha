@@ -1,5 +1,5 @@
 <?php
-use app\controller2\PedidoController;
+use app\controller\PedidoController;
 
 $pedidoController = new PedidoController();
 $pedidoId = $_GET['idPedido'] ?? null;

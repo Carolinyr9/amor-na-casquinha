@@ -1,5 +1,5 @@
 <?php
-use app\controller2\ProdutoController;
+use app\controller\ProdutoController;
 use app\utils\Logger;
 require_once '../utils/fotoHandler.php';
 

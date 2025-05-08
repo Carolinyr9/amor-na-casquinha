@@ -1,5 +1,5 @@
 <?php 
-use app\controller2\PedidoController;
+use app\controller\PedidoController;
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['idPedido']) && isset($_GET['idEntregador'])) {
     $pedidoController = new PedidoController();
     $dados= [

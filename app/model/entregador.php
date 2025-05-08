@@ -1,101 +1,92 @@
 <?php 
-namespace app\model2;
+namespace app\model;
 
-use app\config\DataBase;
-use PDO;
-use PDOException;
-
-class Funcionario {
+class Entregador {
     private $id;
     private $desativado;
-    private $adm;
+    private $perfil = 'ENTR';
     private $nome;
-    private $telefone;
     private $email;
+    private $telefone;
     private $senha;
-    private $endereco;
-    private $perfil = 'FUNC';
+    private $cnh;
 
-    public function __construct($id, $desativado, $adm, $nome, $telefone, $email, $senha, $endereco) {
+    public function __construct($id, $desativado, $perfil = 'ENTR', $nome, $email, $telefone, $senha, $cnh) {
         $this->id = $id;
         $this->desativado = $desativado;
-        $this->adm = $adm;
+        $this->perfil = $perfil;
         $this->nome = $nome;
-        $this->telefone = $telefone;
         $this->email = $email;
+        $this->telefone = $telefone;
         $this->senha = $senha;
-        $this->endereco = $endereco;
+        $this->cnh = $cnh;
     }
-    
+
     public function getId() {
         return $this->id;
     }
-
+ 
     public function setId($id) {
         $this->id = $id;
     }
-
+ 
     public function getDesativado() {
         return $this->desativado;
     }
-
+ 
     public function setDesativado($desativado) {
         $this->desativado = $desativado;
     }
-
-    public function getAdm() {
-        return $this->adm;
-    }
-
-    public function setAdm($adm) {
-        $this->adm = $adm;
-    }
-
-    public function getNome() {
-        return $this->nome;
-    }
-
-    public function setNome($nome) {
-        $this->nome = $nome;
-    }
-
-    public function getTelefone() {
-        return $this->telefone;
-    }
-
-    public function setTelefone($telefone) {
-        $this->telefone = $telefone;
-    }
-
-    public function getEmail() {
-        return $this->email;
-    }
-
-    public function setEmail($email) {
-        $this->email = $email;
-    }
-
-    public function getSenha() {
-        return $this->senha;
-    }
-
-    public function setSenha($senha) {
-        $this->senha = $senha;
-    }
-
-    public function getEndereco() {
-        return $this->endereco;
-    }
-
-    public function setEndereco($endereco) {
-        $this->endereco = $endereco;
-    }
-
+ 
     public function getPerfil() {
         return $this->perfil;
     }
+ 
+    public function setPerfil($perfil) {
+        $this->perfil = $perfil;
+    }
+ 
+    public function getNome() {
+        return $this->nome;
+    }
+ 
+    public function setNome($nome) {
+        $this->nome = $nome;
+    }
+ 
+    public function getEmail() {
+        return $this->email;
+    }
+ 
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+ 
+    public function getTelefone() {
+        return $this->telefone;
+    }
+ 
+    public function setTelefone($telefone) {
+        $this->telefone = $telefone;
+    }
+ 
+    public function getSenha() {
+        return $this->senha;
+    }
+ 
+    public function setSenha($senha) {
+        $this->senha = $senha;
+    }
+ 
+    public function getCnh() {
+        return $this->cnh;
+    }
+ 
+    public function setCnh($cnh) {
+        $this->cnh = $cnh;
+    }
 
-    public function editarFuncionario($nome, $email, $telefone){
+    public function editarEntregador($nome, $email, $telefone){
         $this->setNome($nome);
         $this->setEmail($email);
         $this->setTelefone($telefone);

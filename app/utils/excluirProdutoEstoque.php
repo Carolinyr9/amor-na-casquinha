@@ -1,6 +1,6 @@
 <?php
-use app\controller2\ProdutoController;
-use app\controller2\EstoqueController;
+use app\controller\ProdutoController;
+use app\controller\EstoqueController;
 
 if ((isset($_POST) || !empty($_POST)) && isset($_POST["excluirSubmit"])) {
     if (isset($_POST['idEstoque']) && !empty($_POST['idEstoque'])) {

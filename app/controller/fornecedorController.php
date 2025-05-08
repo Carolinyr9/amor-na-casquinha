@@ -1,8 +1,8 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
 use app\repository\FornecedorRepository;
-use app\model2\Fornecedor;
+use app\model\Fornecedor;
 use app\utils\Logger;
 use Exception;
 

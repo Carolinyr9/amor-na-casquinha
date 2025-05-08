@@ -1,8 +1,8 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
 use app\repository\EstoqueRepository;
-use app\model2\Estoque;
+use app\model\Estoque;
 use app\utils\Logger;
 use Exception;
 

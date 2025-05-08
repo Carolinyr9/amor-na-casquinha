@@ -1,6 +1,6 @@
 <?php
-use app\controller2\FornecedorController;
-use app\controller2\EnderecoController;
+use app\controller\FornecedorController;
+use app\controller\EnderecoController;
 
 if(isset($_POST['submitBtn'])) {
 

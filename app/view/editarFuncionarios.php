@@ -4,7 +4,7 @@ require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/editarFuncionarios.php';
 
-use app\controller2\FuncionarioController;
+use app\controller\FuncionarioController;
 
 $func = new FuncionarioController();
 $dadosFunc = null;

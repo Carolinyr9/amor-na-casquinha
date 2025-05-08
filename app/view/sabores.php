@@ -1,6 +1,6 @@
 <?php
 namespace app\view;
-use app\controller2\ProdutoController;
+use app\controller\ProdutoController;
 
 session_start();
 include_once 'components/header.php';

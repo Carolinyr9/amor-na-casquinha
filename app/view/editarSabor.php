@@ -3,7 +3,7 @@ session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/editarProdutos.php';
-use app\controller2\ProdutoController;
+use app\controller\ProdutoController;
 
 $produtoController = new ProdutoController();
 $produtoId = $_GET['idProduto'] ?? null;

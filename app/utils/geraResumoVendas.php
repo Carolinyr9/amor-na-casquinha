@@ -1,7 +1,7 @@
 <?php
-use app\controller2\PedidoController;
-use app\controller2\ItemPedidoController;
-use app\controller2\ProdutoController;
+use app\controller\PedidoController;
+use app\controller\ItemPedidoController;
+use app\controller\ProdutoController;
 use app\utils\Logger;
 
 $itemPedidoController = new ItemPedidoController();

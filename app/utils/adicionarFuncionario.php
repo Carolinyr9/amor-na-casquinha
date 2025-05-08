@@ -1,5 +1,5 @@
 <?php
-use app\controller2\FuncionarioController;
+use app\controller\FuncionarioController;
 
 if (isset($_POST['submitBtn'])) {
     $funcionarioController = new FuncionarioController();

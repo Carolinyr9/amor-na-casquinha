@@ -1,5 +1,5 @@
 <?php
-use app\controller2\EnderecoController;
+use app\controller\EnderecoController;
 
 function obterEnderecoCompleto($idEndereco)
 {

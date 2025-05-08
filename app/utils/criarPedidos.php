@@ -1,7 +1,7 @@
 <?php
-use app\controller2\PedidoController;
-use app\controller2\CarrinhoController;
-use app\controller2\ItemPedidoController;
+use app\controller\PedidoController;
+use app\controller\CarrinhoController;
+use app\controller\ItemPedidoController;
 
 $carrinhoController = new CarrinhoController();
 $itemPedidoController = new ItemPedidoController();

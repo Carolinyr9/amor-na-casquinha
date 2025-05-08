@@ -1,8 +1,8 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
 use app\repository\FuncionarioRepository;
-use app\model2\Funcionario;
+use app\model\Funcionario;
 use app\utils\Logger;
 use Exception;
 

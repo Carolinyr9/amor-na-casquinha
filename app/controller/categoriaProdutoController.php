@@ -1,8 +1,8 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
 use app\repository\CategoriaProdutoRepository;
-use app\model2\CategoriaProduto;
+use app\model\CategoriaProduto;
 use app\utils\Logger;
 use Exception;
 

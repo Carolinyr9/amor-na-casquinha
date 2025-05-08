@@ -1,5 +1,5 @@
 <?php
-use app\controller2\EstoqueController;
+use app\controller\EstoqueController;
 use app\utils\Logger;
 
 $estoqueController = new EstoqueController();

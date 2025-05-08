@@ -1,5 +1,5 @@
 <?php
-use app\controller2\PedidoController;
+use app\controller\PedidoController;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mudarStatus'], $_POST['idPedido'])) {
     $pedidoController = new PedidoController();

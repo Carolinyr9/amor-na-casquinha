@@ -5,10 +5,10 @@ require_once '../utils/criarPedidos.php';
 require_once '../utils/alterarCliente.php';
 require_once '../config/config.php';
 
-use app\controller2\ClienteController;
-use app\controller2\PedidoController;
-use app\controller2\CarrinhoController;
-use app\controller2\EnderecoController;
+use app\controller\ClienteController;
+use app\controller\PedidoController;
+use app\controller\CarrinhoController;
+use app\controller\EnderecoController;
 
 $pedidoController = new PedidoController(); 
 $clienteController = new ClienteController();

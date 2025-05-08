@@ -1,5 +1,5 @@
 <?php
-use app\controller2\CategoriaProdutoController;
+use app\controller\CategoriaProdutoController;
 use app\utils\Logger;
 
 function fotoHandler(){

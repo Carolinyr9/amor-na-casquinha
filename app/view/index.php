@@ -1,7 +1,7 @@
 <?php
 namespace app\view;
 
-use app\controller2\CategoriaProdutoController;
+use app\controller\CategoriaProdutoController;
 
 session_start();
 

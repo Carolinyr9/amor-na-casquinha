@@ -1,7 +1,7 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
-use app\model2\Entregador;
+use app\model\Entregador;
 use app\repository\EntregadorRepository;
 use app\utils\Logger;
 use Exception;

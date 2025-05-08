@@ -287,3 +287,4 @@
 [2025-05-08 15:42:08] ERROR: Erro ao obter itens do pedido.
 [2025-05-08 15:43:27] ERROR: Erro ao listar pedido por periodo: Nenhum pedido encontrado!
 [2025-05-08 15:43:27] ERROR: Erro ao listar pedidos no período.
+[2025-05-08 16:33:28] ERROR: 

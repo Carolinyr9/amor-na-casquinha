@@ -1,5 +1,5 @@
 <?php
-use app\controller2\EntregadorController;
+use app\controller\EntregadorController;
 
 if(isset($_POST['submitBtn'])) {
     $entregadorController = new EntregadorController();

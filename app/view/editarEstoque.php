@@ -4,8 +4,8 @@ require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/editarEstoque.php';
 
-use app\controller2\EstoqueController;
-use app\controller2\ProdutoController;
+use app\controller\EstoqueController;
+use app\controller\ProdutoController;
 
 $estoqueController = new EstoqueController();
 $produtoController = new ProdutoController();

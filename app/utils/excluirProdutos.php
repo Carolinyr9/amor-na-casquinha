@@ -1,5 +1,5 @@
 <?php
-use app\controller2\ProdutoController;
+use app\controller\ProdutoController;
 use app\utils\Logger;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['idProdutoExcl'])) {

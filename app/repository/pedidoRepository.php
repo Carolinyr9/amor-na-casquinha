@@ -1,7 +1,7 @@
 <?php
 namespace app\repository;
 use app\config\DataBase;
-use app\model2\Pedido;
+use app\model\Pedido;
 use app\utils\Logger;
 use PDO;
 use PDOException;

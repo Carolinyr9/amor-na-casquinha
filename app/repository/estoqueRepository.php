@@ -3,7 +3,7 @@
 namespace app\repository;
 
 use app\config\DataBase;
-use app\model2\Estoque;
+use app\model\Estoque;
 use app\utils\Logger;
 use PDO;
 use PDOException;

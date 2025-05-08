@@ -2,7 +2,7 @@
 namespace app\repository;
 
 use app\config\DataBase;
-use app\model2\Fornecedor;
+use app\model\Fornecedor;
 use PDO;
 use PDOException;
 use Exception;

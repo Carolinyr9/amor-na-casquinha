@@ -4,8 +4,8 @@ require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/mudarStatusPedidoEntregador.php';
 
-use app\controller2\PedidoController;
-use app\controller2\EntregadorController;
+use app\controller\PedidoController;
+use app\controller\EntregadorController;
 
 $pedidoController = new PedidoController();
 $entregadorController = new EntregadorController();

@@ -1,6 +1,6 @@
 <?php
-use app\controller2\PedidoController;
-use app\controller2\ItemPedidoController;
+use app\controller\PedidoController;
+use app\controller\ItemPedidoController;
 
 $itemPedidoController = new ItemPedidoController();
 $pedidoController = new PedidoController();

@@ -1,5 +1,5 @@
 <?php
-use app\controller2\FornecedorController;
+use app\controller\FornecedorController;
 
 if(isset($_GET['exclForn'])) {
     $fornecedorController = new FornecedorController();

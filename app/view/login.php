@@ -1,5 +1,5 @@
 <?php
-use app\controller2\UsuarioController;
+use app\controller\UsuarioController;
 
 session_start();
 

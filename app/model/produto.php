@@ -1,5 +1,5 @@
 <?php 
-namespace app\model2;
+namespace app\model;
 
 class Produto {
     private $id;

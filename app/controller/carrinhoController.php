@@ -1,7 +1,7 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
-use app\model2\Carrinho;
+use app\model\Carrinho;
 use app\utils\Logger;
 use Exception;
 

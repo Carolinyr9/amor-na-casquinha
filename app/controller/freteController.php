@@ -1,5 +1,5 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
 use app\utils\Logger;
 use Exception;

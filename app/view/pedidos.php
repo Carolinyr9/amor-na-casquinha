@@ -5,7 +5,7 @@ require_once '../../vendor/autoload.php';
 require_once '../utils/criarPedidosFuncionario.php';
 require_once '../utils/paginacaoPedidos.php';
 
-use app\controller2\PedidoController;
+use app\controller\PedidoController;
 
 $pedidoController = new PedidoController();
 $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;

@@ -1,7 +1,7 @@
 <?php
-namespace app\controller2;
+namespace app\controller;
 
-use app\model2\Endereco;
+use app\model\Endereco;
 use app\repository\EnderecoRepository;
 use app\utils\Logger;
 use Exception;
