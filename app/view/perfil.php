@@ -100,7 +100,7 @@ $pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
 
         <section>
             <h1 class="titulo">Meus pedidos</h1>
-            <div class="d-flex flex-row gap-5 mt-5"><?php include 'components/pedidosCards.php'; ?></div>
+            <div class="container d-flex flex-row flex-wrap justify-content-center gap-5 mt-5"><?php include 'components/pedidosCards.php'; ?></div>
         </section>
     </main>
     <?php include_once 'components/footer.php'; ?>
