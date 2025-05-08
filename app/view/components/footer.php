@@ -1,7 +1,7 @@
 <footer>
     <div class="conteiner-fluid d-flex justify-content-center rodape align-items-center flex-column">
         <div class="d-flex flex-row justify-content-around align-items-center">
-            <img src="../images/image 1.png" alt="Logo Amor de Casquinha" class="pe-4 logo">
+            <img src="../images/iceCream.png" alt="Logo Amor de Casquinha" class="pe-4 logo">
             <h3>Amor de Casquinha</h3>
         </div>
         <img src="../images/Rectangle 1048.png" class="pt-3 linha">

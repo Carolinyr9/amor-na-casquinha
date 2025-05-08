@@ -131,7 +131,7 @@ main{
 .rodape {
     padding-top: 15px;
     background-color: var(--roxo-bebe);
-    height: 200px;
+    height: 195px;
     font-family: var(--Agbalumo);
     font-size: 24px;
     border-radius: 11% 11% 0 0;
@@ -145,7 +145,7 @@ main{
 
 @media (min-width: 768px) {
     .cabecalho{
-        height: 122px;
+        height: 105px;
         border-radius: 0 0 30px 30px;
     }
 
@@ -169,11 +169,11 @@ main{
     .titulo1{
         display: block;
         width: 450px;
-        font-size: 2.20rem;
+        font-size: 2rem;
     }
     .logo img{
-        width: 89px;
-        height: 85px;
+        width: 90px;
+        height: 60px;
     }
 
     .rodape .linha{
@@ -186,9 +186,9 @@ main{
     }
     .rodape h3{
         font-family: var(--Agbalumo);
-        font-size: 35px;
+        font-size: 2rem;
     }
     .rodape p{
-        font-size: 19.254px;
+        font-size: 16px;
     }
 }
