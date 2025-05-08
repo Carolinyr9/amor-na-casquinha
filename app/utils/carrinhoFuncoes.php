@@ -1,5 +1,4 @@
 <?php
-session_start();
 use app\controller2\CarrinhoController;
 use app\controller2\ProdutoController;
 
