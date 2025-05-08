@@ -1,50 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
-
-:root{
-    --roxo-bebe: #D4C7FF;
-    --Nunito: 'Nunito', sans-serif;
-    --Agbalumo: 'Agbalumo';
-    --azul-bebe: #C9EFFF;
-    --rosa-bebe: #FFC7E8;
-    --amarelo-bebe: #FFFAC7;
-    --verde-bebe: #E2FFC7;
-}
-
-main{
-    min-height: calc(100vh - 170px);
-}
-
-.conteiner1{
-    background-color: var(--verde-bebe);
-    width: 87%;
-}
-
-.pedidoForm{
-    width: 90% !important;
-}
-
-.btnGoToLogin{
-    background-color: var(--rosa-bebe);
-    font-family: var(--Agbalumo);
-}
-
-.btnConcluir{
-    background-color: var(--azul-bebe);
-    height: 27px;
-}
-
-@media (min-width: 768px)  {
-    .conteiner1{
-        width: 40%;
-        padding: 20px 0;
+@media (max-width: 768px)  {
+    .container-pedido {
+        width: 80% !important;
     }
 
-    .btnGoToLogin{
-        height: 28px !important;
-        padding: 0 !important;
+    #labelForCkbIsDelivery {
+        word-wrap: break-word;
     }
 
-    #pedidoForm{
-        width: 90% !important;
+    .total-div {
+        width: 100% !important;
     }
+
+    .frete-div {
+        width: 100% !important;
+    }
+
+    .total-com-frete {
+        width: 100% !important;
+    }
+
 }
