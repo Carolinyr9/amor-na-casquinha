@@ -46,9 +46,9 @@ if(isset($_GET['fornEmail'])) {
                         <label for="nome2">Nome:</label>
                         <input type="text" id="nome2" name="nomeFornEdt" value="<?= $dadosForn->getNome(); ?>" required>
                         <label for="email2">Email:</label>
-                        <input type="text" id="email2" name="emailFornEdt" value="<?= $dadosForn->getEmail(); ?>" required>
+                        <input type="email" id="email2" name="emailFornEdt" value="<?= $dadosForn->getEmail(); ?>" required>
                         <label for="telefone2">Telefone:</label>
-                        <input type="text" id="telefone2" name="telefoneFornEdt" value="<?= $dadosForn->getTelefone(); ?>" required>
+                        <input type="text" id="telefone2" name="telefoneFornEdt" value="<?= $dadosForn->getTelefone(); ?>" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
                         <input type="submit" value="Atualizar" name="btnAtualizar">
                     </form>
                     </div>

@@ -47,9 +47,9 @@ if(isset($_GET['entrEmail'])) {
                         <label for="nome2">Nome:</label>
                         <input type="text" id="nome2" name="nomeEntrEdt" value="<?= $dadosEntr->getNome(); ?>" required>
                         <label for="email2">Email:</label>
-                        <input type="text" id="email2" name="emailEntrEdt" value="<?= $dadosEntr->getEmail(); ?>" required>
+                        <input type="email" id="email2" name="emailEntrEdt" value="<?= $dadosEntr->getEmail(); ?>" required>
                         <label for="telefone2">Telefone:</label>
-                        <input type="text" id="telefone2" name="telefoneEntrEdt" value="<?= $dadosEntr->getTelefone(); ?>" required>
+                        <input type="text" id="telefone2" name="telefoneEntrEdt" value="<?= $dadosEntr->getTelefone(); ?>" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
                         <input type="submit" value="Atualizar" name="btnAtualizar">
                     </form>
                     </div>

@@ -43,17 +43,17 @@ $categoria = $categoriaController->buscarCategoriaPorID($idCategoria);
 
                         <div class="mb-3">
                             <label for="produto" class="form-label">Produto</label>
-                            <input type="text" class="form-control" id="produto" name="nomeProdEdt" value="<?= htmlspecialchars($categoria->getNome()) ?>">
+                            <input type="text" class="form-control" id="produto" name="nomeProdEdt" value="<?= htmlspecialchars($categoria->getNome()) ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control" id="marca" name="marcaProdEdt" value="<?= htmlspecialchars($categoria->getMarca()) ?>">
+                            <input type="text" class="form-control" id="marca" name="marcaProdEdt" value="<?= htmlspecialchars($categoria->getMarca()) ?>" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="descricao" class="form-label">Descrição</label>
-                            <input type="text" class="form-control" id="descricao" name="descricaoProdEdt" value="<?= htmlspecialchars($categoria->getDescricao()) ?>">
+                            <input type="text" class="form-control" id="descricao" name="descricaoProdEdt" value="<?= htmlspecialchars($categoria->getDescricao()) ?>" required>
                         </div>
 
                         <div class="mb-3">

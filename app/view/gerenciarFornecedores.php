@@ -43,7 +43,7 @@ $fornecedores = $fornecedorController->listarFornecedor();
                 <input type="email" id="email1" name="emailForn" placeholder="Email" required>
 
                 <label for="telefone1">Telefone:</label>
-                <input type="text" id="telefone1" name="telefoneForn" placeholder="(11) 95555-5555" required>
+                <input type="text" id="telefone1" name="telefoneForn" placeholder="(11) 95555-5555" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
 
                 <label for="cnpj1">CNPJ:</label>
                 <input type="text" id="cnpj1" name="cnpjForn" placeholder="12.345.678/0001-95" required>

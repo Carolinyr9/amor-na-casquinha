@@ -43,10 +43,11 @@ $entregadores = $entregadorController->listarEntregadores();
                 <input type="email" id="email1" name="emailEntr" placeholder="Email" required>
 
                 <label for="telefone1">Telefone:</label>
-                <input type="text" id="telefone1" name="telefoneEntr" placeholder="(11) 95555-5555" required>
+                <input type="text" id="telefone1" name="telefoneEntr" placeholder="(11) 95555-5555" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
 
                 <label for="senha1">Senha:</label>
-                <input type="text" id="senha1" name="senhaEntr" placeholder="Senha para acesso primário" required>
+                <input type="text" id="senha1" name="senhaEntr" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}"
+                title="A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." placeholder="Senha para acesso primário" required>
 
                 <label for="estado1">CNH:</label>
                 <input type="text" id="cnh1" name="cnhEntr" placeholder="86930603333" required>

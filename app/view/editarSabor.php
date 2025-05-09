@@ -38,11 +38,11 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
                     <input type="hidden" name="imagemSabEdt" value="<?= htmlspecialchars($produto->getFoto()) ?>">
 
                     <div class="w-100 mb-3">
-                        <input type="text" class="form-control" name="nomeProdEdt" id="produto" value="<?= htmlspecialchars($produto->getNome()) ?>">
+                        <input type="text" class="form-control" name="nomeProdEdt" id="produto" value="<?= htmlspecialchars($produto->getNome()) ?>" required>
                     </div>
 
                     <div class="w-100 mb-3">
-                        <input type="text" class="form-control" name="precoSabEdt" id="preco" value="<?= htmlspecialchars($produto->getPreco()) ?>">
+                        <input type="text" class="form-control" name="precoSabEdt" id="preco" value="<?= htmlspecialchars($produto->getPreco()) ?>" required>
                     </div>
 
                     <div class="w-100 mb-3">

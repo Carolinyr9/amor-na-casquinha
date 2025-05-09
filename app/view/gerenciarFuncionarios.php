@@ -43,10 +43,10 @@ $listaFuncionarios = $func->listarFuncionario();
                 <input type="email" id="email1" name="emailFun" placeholder="Email" required>
 
                 <label for="telefone1">Telefone:</label>
-                <input type="text" id="telefone1" name="telefoneFun" placeholder="(11) 95555-5555" required>
+                <input type="text" id="telefone1" name="telefoneFun" placeholder="(11) 95555-5555" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
 
                 <label for="senha1">Senha:</label>
-                <input type="password" id="senha1" name="senhaFun" placeholder="Senha" required>
+                <input type="password" id="senha1" name="senhaFun" placeholder="Senha" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}" title="A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." required>
 
                 <label><input type="radio" name="admFun" value="1"> Administrador</label>
 

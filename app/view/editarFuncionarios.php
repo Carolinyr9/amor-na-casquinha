@@ -47,7 +47,7 @@ if (isset($_GET['funcEmail'])) {
                                 <input type="email" id="email2" name="emailFunEdt" placeholder="Email" value="<?= htmlspecialchars($dadosFunc->getEmail()); ?>" required>
 
                                 <label for="telefone2">Telefone:</label>
-                                <input type="text" id="telefone2" name="telefoneFunEdt" placeholder="(11) 95555-5555" value="<?= htmlspecialchars($dadosFunc->getTelefone()); ?>" required>
+                                <input type="text" id="telefone2" name="telefoneFunEdt" placeholder="(11) 95555-5555" value="<?= htmlspecialchars($dadosFunc->getTelefone()); ?>" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
 
                                 <input type="submit" value="Atualizar" name="btnAtualizar">
                             </form>

@@ -41,19 +41,19 @@ $categorias = $categoriasController->listarCategorias();
                     <form enctype="multipart/form-data" action="" method="POST" class="d-flex flex-column align-items-center gap-5">
                         <div class="d-flex flex-column">
                             <div class="mb-3">
-                                <input type="text" id="produto" name="nomeProAdd" class="form-control" placeholder="Produto" />
+                                <input type="text" id="produto" name="nomeProAdd" class="form-control" placeholder="Produto" required />
                             </div>
                             <div class="mb-3">
-                                <input type="text" id="marca" name="marcaProAdd" class="form-control" placeholder="Marca" />
+                                <input type="text" id="marca" name="marcaProAdd" class="form-control" placeholder="Marca" required />
                             </div>
                             <div class="mb-3">
-                                <input type="text" id="descricaoProduto" name="descricaoProAdd" class="form-control" placeholder="Descrição" />
+                                <input type="text" id="descricaoProduto" name="descricaoProAdd" class="form-control" placeholder="Descrição" required />
                             </div>
                             <div class="mb-3">
-                                <input type="text" id="fornecedor" name="fornecedor" class="form-control" placeholder="Fornecedor" />
+                                <input type="text" id="fornecedor" name="fornecedor" class="form-control" placeholder="Fornecedor" required />
                             </div>
                             <div class="mb-3">
-                                <input type="file" id="imagem" name="imagem" class="form-control"/>
+                                <input type="file" id="imagem" name="imagem" class="form-control" required />
                             </div>
                             <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto mt-3 align-self-center" style="max-width: 170px; display: none;">
                         </div>
