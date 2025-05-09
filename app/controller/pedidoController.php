@@ -15,6 +15,11 @@ class PedidoController {
 
     public function listarPedidoPorIdCliente($idCliente) {
         try{
+            if (!is_numeric($idCliente) || !isset($idCliente) || empty($idCliente)) {
+                Logger::logError("Erro ao listar pedido por ID cliente: ID inválido.");
+                return false;
+            }
+
             $pedidos = $this->repository->listarPedidoPorIdCliente($idCliente);
                 
             if(!$pedidos) {
@@ -31,6 +36,11 @@ class PedidoController {
 
     public function listarPedidoPorId($idPedido) {
         try{
+            if (!is_numeric($idPedido) || !isset($idPedido) || empty($idPedido)) {
+                Logger::logError("Erro ao listar pedido por ID pedido: ID inválido.");
+                return false;
+            }
+
             $pedidos = $this->repository->listarPedidoPorId($idPedido);
                 
             if(!$pedidos) {
@@ -123,6 +133,11 @@ class PedidoController {
 
     public function listarPedidoPorIdEntregador($idEntregador) {
         try{
+            if (!is_numeric($idEntregador) || !isset($idEntregador) || empty($idEntregador)) {
+                Logger::logError("Erro ao listar pedido por ID entregador: ID inválido.");
+                return false;
+            }
+
             $pedidos = $this->repository->listarPedidosEntregador($idEntregador);
                 
             if(!$pedidos) {
@@ -139,6 +154,12 @@ class PedidoController {
 
     public function listarPedidosPorPeriodo($dados){
         try {
+            if (!isset($dados['dataInicio']) || empty($dados['dataInicio']) ||
+                !isset($dados['dataFim']) || empty($dados['dataFim'])) {
+                Logger::logError("Erro ao listar pedidos por periodo: dados inválidos.");
+                return false;
+            }
+    
             $pedidos = $this->repository->listarPedidosPorPeriodo($dados['dataInicio'], $dados['dataFim']);
                 
             if(!$pedidos) {
@@ -155,6 +176,11 @@ class PedidoController {
 
     public function atribuirEntregadorPedido($dados) {
         try {
+            if (empty($dados['idPedido']) || empty($dados['idEntregador'])) {
+                Logger::logError("Erro ao atribuir entregador: dados inválidos.");
+                return false;
+            }
+
             $pedido = $this->listarPedidoPorId($dados['idPedido']);
 
             if($pedido){
@@ -180,6 +206,11 @@ class PedidoController {
 
     public function mudarStatus($dados) {
         try{
+            if (empty($dados['idPedido']) || empty($dados['statusPedido'])) {
+                Logger::logError("Erro ao mudar status do pedido: dados inválidos.");
+                return false;
+            }
+
             $pedido = $this->listarPedidoPorId($dados['idPedido']);
             if($pedido){
                 $pedido->setStatusPedido($dados['statusPedido']);
@@ -203,6 +234,11 @@ class PedidoController {
 
     public function cancelarPedido($dados) {
         try{
+            if (empty($dados['idPedido']) || empty($dados['motivoCancelamento'])) {
+                Logger::logError("Erro ao cancelar pedido: dados inválidos.");
+                return false;
+            }
+
             $pedido = $this->listarPedidoPorId($dados['idPedido']);
             if($pedido){
                 $pedido->setStatusPedido('Cancelado');

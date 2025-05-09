@@ -42,6 +42,10 @@ class FornecedorController {
 
     public function buscarFornecedorPorEmail($email){
         try {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return Logger::logError("Erro ao listar fornecedor: Email inválido.");
+            }
+
             return $this->repository->buscarFornecedorPorEmail($email);
         } catch (Exception $e) {
             Logger::logError("Erro ao buscar fornecedor por ID: " . $e->getMessage());
@@ -50,6 +54,14 @@ class FornecedorController {
 
     public function criarFornecedor($dados){
         try{
+            if (empty($dados['nome']) || empty($dados['email']) || 
+                !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
+                empty($dados['telefone']) || empty($dados['cnpj']) ||
+                empty($dados['idEndereco'])) {
+                Logger::logError("Dados inválidos para criação do fornecedor.");
+                return false;
+            }
+
             $idFornecedor = $this->repository->criarFornecedor($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnpj'], $dados['idEndereco']);
         
             if ($idFornecedor) {
@@ -66,6 +78,13 @@ class FornecedorController {
 
     public function editarFornecedor($dados){
         try {
+            if (empty($dados['nome']) || empty($dados['email']) || 
+                !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
+                empty($dados['telefone'])) {
+                Logger::logError("Dados inválidos para edição do fornecedor.");
+                return false;
+            }
+            
             $fornecedor = $this->repository->buscarFornecedorPorEmail($dados['emailAntigo']);
             
             if ($fornecedor) {
@@ -88,6 +107,10 @@ class FornecedorController {
 
     public function desativarFornecedor($email){
         try {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return Logger::logError("Erro ao desativar entregador: Email inválido.");
+            }
+
             $fornecedor = $this->repository->buscarFornecedorPorEmail($email);
     
             if ($fornecedor) {

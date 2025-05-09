@@ -16,6 +16,15 @@ class EnderecoController {
 
     public function criarEndereco($dados){
         try {
+            if (!is_numeric($dados['numero'])) {
+                Logger::logError("Número inválido! Insira um número válido.");
+            }
+
+            if (!preg_match("/^\d{5}-?\d{3}$/", $dados['cep'])) {
+                Logger::logError("CEP inválido. Use o formato 99999-999");
+                return;
+            }
+            
             $idEndereco = $this->repository->criarEndereco($dados['rua'], $dados['numero'], $dados['cep'], $dados['bairro'], $dados['cidade'], $dados['estado'], $dados['complemento']);
 
             if ($idEndereco) {
@@ -69,6 +78,11 @@ class EnderecoController {
         try {
             if (!is_numeric($dados['numero'])) {
                 Logger::logError("Número inválido! Insira um número válido.");
+            }
+
+            if (!preg_match("/^\d{5}-?\d{3}$/", $dados['cep'])) {
+                Logger::logError("CEP inválido. Use o formato 99999-999");
+                return;
             }
 
             $endereco = $this->listarEnderecoPorId($dados['idEndereco']);

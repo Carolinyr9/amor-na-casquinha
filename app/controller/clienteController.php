@@ -15,6 +15,13 @@ class ClienteController {
 
     public function criarCliente($dados) {
         try {
+            if (empty($dados['email']) || !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
+                empty($dados['telefone']) ||
+                empty($dados['nome'])) {
+                Logger::logError("Dados inválidos para criação do cliente.");
+                return false;
+            }
+
             $idCliente = $this->repository->criarCliente(
                 $dados['nome'],
                 $dados['email'],

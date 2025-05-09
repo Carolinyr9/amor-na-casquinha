@@ -7,6 +7,11 @@ use Exception;
 class FreteController {
     public function calcularFrete($cep) {
         try {
+            if (!preg_match("/^\d{5}-?\d{3}$/", $cep)) {
+                Logger::logError("CEP inválido. Use o formato 99999-999");
+                return "Erro ao calcular o frete: Formato inválido fornecido";
+            }
+
             $url = "http://localhost:8080/sorveteria/frete?cep=" . urlencode($cep);
             $ch = curl_init();
             $timeout = 5;

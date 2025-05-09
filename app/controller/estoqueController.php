@@ -15,6 +15,15 @@ class EstoqueController {
 
     public function criarProdutoEstoque($dados) {
         try {
+            if (empty($dados['idCategoria']) || empty($dados['idProduto']) || 
+                empty($dados['lote']) || empty($dados['dtEntrada']) ||
+                empty($dados['dtFabricacao']) || empty($dados['dtVencimento']) ||
+                empty($dados['qtdMinima']) || empty($dados['quantidade']) ||
+                empty($dados['precoCompra'])) {
+                Logger::logError("Dados inválidos para criação do produto no estoque.");
+                return false;
+            }
+
             $idEstoque = $this->repository->criarProdutoEstoque(
                 $dados['idCategoria'] ?? null,
                 $dados['idProduto'] ?? null,
@@ -68,6 +77,9 @@ class EstoqueController {
 
     public function selecionarProdutoEstoquePorID($idEstoque) {
         try {
+            if (!is_numeric($idEstoque) || !isset($idEstoque) || empty($idEstoque)) {
+                return Logger::logError("Erro ao selecionar produto do estoque: ID inválido.");
+            }
             return $this->repository->selecionarProdutoEstoquePorID($idEstoque);
         } catch (Exception $e) {
             Logger::logError("Erro ao buscar produto por ID: " . $e->getMessage());
@@ -76,6 +88,14 @@ class EstoqueController {
 
     public function editarProdutoEstoque($dados) {
         try {
+            if (empty($dados['ocorrencia']) || empty($dados['qtdOcorrencia']) || 
+                empty($dados['lote']) || empty($dados['dtEntrada']) ||
+                empty($dados['dtFabricacao']) || empty($dados['dtVencimento']) ||
+                empty($dados['qtdMinima']) || empty($dados['quantidade']) ||
+                empty($dados['precoCompra']) || empty($dados['idEstoque'])) {
+                Logger::logError("Dados inválidos para edição do produto no estoque.");
+                return false;
+            }
             $estoqueProduto = $this->repository->selecionarProdutoEstoquePorID($dados['idEstoque']);
 
             if ($estoqueProduto) {
@@ -119,6 +139,10 @@ class EstoqueController {
 
     public function desativarProdutoEstoque($idEstoque) {
         try {
+            if (!is_numeric($idEstoque) || !isset($idEstoque) || empty($idEstoque)) {
+                return Logger::logError("Erro ao desativar produto do estoque: ID inválido.");
+            }
+
             $produto = $this->repository->selecionarProdutoEstoquePorID($idEstoque);
 
             if ($produto) {

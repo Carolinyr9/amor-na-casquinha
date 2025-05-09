@@ -15,6 +15,14 @@ class EntregadorController {
 
     public function criarEntregador($dados){
         try{
+            if (empty($dados['nome']) || empty($dados['email']) || 
+                !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
+                empty($dados['telefone']) || empty($dados['cnh']) ||
+                empty($dados['senha'])) {
+                Logger::logError("Dados inválidos para criação do entregador.");
+                return false;
+            }
+
             $idEntregador = $this->repository->criarEntregador($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnh'], $dados['senha']);
 
             if($idEntregador){
@@ -65,7 +73,7 @@ class EntregadorController {
     }
 
     public function listarEntregadorPorId($idEntregador) {
-        if (!is_numeric($idEntregador)) {
+        if (!is_numeric($idEntregador) || !isset($idEntregador) || empty($idEntregador)) {
             return Logger::logError("Erro ao listar entregador: ID inválido.");
         }
 
@@ -114,6 +122,13 @@ class EntregadorController {
 
     public function editarEntregador($dados) {
         try {
+            if (empty($dados['nome']) || empty($dados['email']) || 
+                !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
+                empty($dados['telefone'])) {
+                Logger::logError("Dados inválidos para edição do entregador.");
+                return false;
+            }
+
             $entregador = $this->listarEntregadorPorEmail($dados['emailAntigo']);
     
             if (!$entregador) {
@@ -149,6 +164,10 @@ class EntregadorController {
 
     public function desativarEntregador($email) {
         try {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return Logger::logError("Erro ao desativar entregador: E-mail inválido.");
+            }
+
             $entregador = $this->listarEntregadorPorEmail($email);
     
             if (!$entregador) {

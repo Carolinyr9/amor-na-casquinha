@@ -42,6 +42,10 @@ class CategoriaProdutoController {
 
     public function buscarCategoriaPorID($id) {
         try {
+            if (!isset($id) || empty($id)) {
+                Logger::logError("Erro ao buscar categoria por ID: ID não fornecido!");
+                return false;
+            }
             return $this->repository->buscarCategoriaPorID($id);
         } catch (Exception $e) {
             Logger::logError("Erro ao buscar categoria por ID: " . $e->getMessage());
@@ -51,6 +55,13 @@ class CategoriaProdutoController {
 
     public function criarCategoria($dados) {
         try {
+            if (empty($dados['nome']) || empty($dados['fornecedor']) ||
+                empty($dados['marca']) || empty($dados['foto']) ||
+                empty($dados['descricao'])) {
+                Logger::logError("Dados inválidos para criação da categoria.");
+                return false;
+            }
+
             $idCategoria = $this->repository->criarCategoria(
                 $dados['nome'],
                 $dados['marca'],
@@ -84,6 +95,14 @@ class CategoriaProdutoController {
 
     public function editarCategoria($dados) {
         try {
+            if (empty($dados['nome']) || 
+                empty($dados['marca']) || 
+                empty($dados['foto']) ||
+                empty($dados['descricao'])) {
+                Logger::logError("Dados inválidos para edição da categoria.");
+                return false;
+            }
+
             $categoria = $this->repository->buscarCategoriaPorID($dados['id']);
 
             if ($categoria) {
@@ -120,6 +139,10 @@ class CategoriaProdutoController {
 
     public function removerCategoria($idCategoria) {
         try {
+            if (!isset($idCategoria) || empty($idCategoria)) {
+                Logger::logError("Erro ao buscar remover categoria: ID não fornecido!");
+                return false;
+            }
             $categoria = $this->repository->buscarCategoriaPorID($idCategoria);
 
             if ($categoria) {

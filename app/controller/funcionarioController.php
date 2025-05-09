@@ -45,6 +45,10 @@ class FuncionarioController {
 
     public function buscarFuncionarioPorEmail($email) {
         try {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return Logger::logError("Erro ao listar funcionário: Email inválido.");
+            }
+
             return $this->repository->buscarFuncionarioPorEmail($email);
             
         } catch (Exception $e) {
@@ -54,6 +58,14 @@ class FuncionarioController {
 
     public function criarFuncionario($dados) {
         try {
+            if (empty($dados['nome']) || empty($dados['email']) || 
+                !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
+                empty($dados['telefone']) || empty($dados['senha']) ||
+                empty($dados['adm'])) {
+                Logger::logError("Dados inválidos para criação do funcionário.");
+                return false;
+            }
+
             $idFuncionario = $this->repository->criarFuncionario(
                 $dados['nome'],
                 $dados['email'],
@@ -82,6 +94,15 @@ class FuncionarioController {
 
     public function editarFuncionario($dados) {
         try {
+            if (empty($dados['nome']) || empty($dados['email']) || 
+                !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
+                empty($dados['emailAntigo']) || 
+                !filter_var($dados['emailAntigo'], FILTER_VALIDATE_EMAIL) ||
+                empty($dados['telefone'])) {
+                Logger::logError("Dados inválidos para edição do funcionário.");
+                return false;
+            }
+
             $funcionario = $this->repository->buscarFuncionarioPorEmail($dados['emailAntigo']);
 
             if ($funcionario) {
@@ -109,6 +130,10 @@ class FuncionarioController {
 
     public function desativarFuncionario($email) {
         try {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return Logger::logError("Erro ao desativar entregador: Email inválido.");
+            }
+
             $funcionario = $this->repository->buscarFuncionarioPorEmail($email);
 
             if ($funcionario) {

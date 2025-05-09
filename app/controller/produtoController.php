@@ -15,6 +15,11 @@ class ProdutoController {
 
     public function selecionarProdutosAtivos($idCategoria) {
         try {
+            if (!isset($idCategoria) || empty($idCategoria)) {
+                Logger::logError("Erro ao buscar produto por ID categoria: ID não fornecido!");
+                return false;
+            }
+
             $produtosBanco = $this->repository->selecionarProdutosAtivosPorCategoria($idCategoria);
             $produtosModel = [];
 
@@ -41,6 +46,12 @@ class ProdutoController {
 
     public function criarProduto($dados) {
         try {
+            if (empty($dados['nome']) || empty($dados['categoria']) ||
+                empty($dados['preco']) || empty($dados['foto'])) {
+                Logger::logError("Dados inválidos para criação do produto.");
+                return false;
+            }
+
             $idProduto = $this->repository->criarProduto(
                 $dados['categoria'],
                 $dados['nome'],
@@ -70,6 +81,11 @@ class ProdutoController {
 
     public function selecionarProdutoPorID($id) {
         try {
+            if (!isset($id) || empty($id)) {
+                Logger::logError("Erro ao buscar produto por ID: ID não fornecido!");
+                return false;
+            }
+
             return $this->repository->selecionarProdutoPorID($id);
         } catch (Exception $e) {
             Logger::logError("Erro ao selecionar produto por ID: " . $e->getMessage());
@@ -79,6 +95,11 @@ class ProdutoController {
 
     public function editarProduto($dados) {
         try {
+            if (empty($dados['nome']) || empty($dados['preco']) || empty($dados['foto'])) {
+                Logger::logError("Dados inválidos para edição do produto.");
+                return false;
+            }
+
             $produto = $this->repository->selecionarProdutoPorID($dados['id']);
 
             if ($produto) {
@@ -113,6 +134,11 @@ class ProdutoController {
 
     public function desativarProduto($idProduto) {
         try {
+            if (!isset($id) || empty($id)) {
+                Logger::logError("Erro ao buscar desativar produto por ID: ID não fornecido!");
+                return false;
+            }
+
             $produto = $this->repository->selecionarProdutoPorID($idProduto);
 
             if ($produto) {

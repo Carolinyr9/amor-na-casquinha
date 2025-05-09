@@ -15,7 +15,9 @@ class ItemPedidoController {
 
     public function criarPedido($dados){
         try {
-            if (empty($dados)) {
+            if (empty($dados['idPedido']) || empty($dados['idProduto']) || 
+                empty($dados['quantidade'])) {
+                Logger::logError("Dados inválidos para criação de itens do pedido.");
                 return false;
             }
     
@@ -42,6 +44,10 @@ class ItemPedidoController {
 
     public function listarInformacoesPedido($idPedido){
         try{
+            if (!is_numeric($idPedido) || !isset($idPedido) || empty($idPedido)) {
+                return Logger::logError("Erro ao listar itens do pedido: ID inválido.");
+            }
+
             $dados = $this->repository->listarInformacoesPedido($idPedido);
         
             if (empty($dados)) {
