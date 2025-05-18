@@ -1,87 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
-
-:root{
-    --roxo-bebe: #D4C7FF;
-    --Nunito: 'Nunito', sans-serif;
-    --Agbalumo: 'Agbalumo';
-    --azul-bebe: #C9EFFF;
-    --rosa-bebe: #FFC7E8;
-    --amarelo-bebe: #FFFAC7;
-    --verde-bebe: #E2FFC7;
+form {
+    width: 100%;
 }
 
-main{
-    min-height: calc(100vh - 170px);
-    font-family: var(--Nunito);
-}
-
-h1{
-    font-family: var(--Agbalumo);
-    font-size: 2rem;
+#formulario {
     width: 70%;
-    text-align: center;
-    margin: 20px auto;
 }
 
-.addPedidoForm{
-    display: none;
-}
+@media (max-width: 768px) {
+    #formulario, form {
+        width: 100% !important;
+    }
 
-.formulario_btn--addPedido{
-    background-color: var(--rosa-bebe);
-    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-}
-
-.formulario_btn--addPedido:hover {
-    background-color: #f58cd4;
-    transform: scale(1.03);
-}
-
-.btn--salvar{
-    background-color: var(--azul-bebe);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-}
-
-.btn--salvar:hover {
-    background-color: #6ccad6;
-    transform: scale(1.03);
-}
-
-.card{
-    background-color: var(--roxo-bebe);
-    box-shadow: 10px 10px 10px #9c9c9c1b;
-}
-
-.pagination .page-link {
-    background-color: var(--rosa-bebe);
-    border-color: #9282c6;
-}
-
-.page-link:hover{
-    color: #5733cb;
-}
-
-.card__btn--VerInfos, .card__btn--Entregador{
-    background-color: var(--azul-bebe);
-    border: none;
-    border-radius: 7px;
-    font-family: var(--Agbalumo);
-    padding: 1px 10px;
-    height: 30px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-}
-
-.card__btn--VerInfos:hover, .card__btn--Entregador:hover {
-    background-color: #6ccad6;
-    transform: scale(1.03);
-}
-
-.addPedidoForm {
-    display: none;
+    form{
+        padding: 10px 0;
+        margin: 0 !important;
+    }
 }

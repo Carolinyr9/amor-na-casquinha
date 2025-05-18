@@ -15,6 +15,10 @@
     color: var(--black);
 }
 
+.botao-primary:visited, .botao-primary:active {
+    color: var(--black);
+}
+
 .botao-primary:hover {
     color: var(--neutral);
     background-color: #fbb9dc;
@@ -26,6 +30,10 @@
     border: 2px solid #D4C7FF;
 }
 
+.botao-secondary:visited, .botao-secondary:active {
+    color: #5A3B90;
+}
+
 .botao-secondary:hover {
     background-color: #D4C7FF;
     color: #fff;
@@ -34,6 +42,10 @@
 
 .botao-alerta {
     background-color: var(--tertiary);
+    color: #B00020;
+}
+
+.botao-alerta:visited, .botao-alerta:active {
     color: #B00020;
 }
 

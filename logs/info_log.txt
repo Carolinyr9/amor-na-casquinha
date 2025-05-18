@@ -7,3 +7,8 @@
 [2025-05-07 16:29:43] INFO: Entregador atribuído ao pedido com sucesso!
 [2025-05-07 16:32:30] INFO: Entregador atribuído ao pedido com sucesso!
 [2025-05-07 16:54:50] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-05-18 21:42:17] INFO: Status do pedido alterado com sucesso!
+[2025-05-18 21:42:42] INFO: Status do pedido alterado com sucesso!
+[2025-05-18 21:42:46] INFO: Status do pedido alterado com sucesso!
+[2025-05-18 21:42:58] INFO: Status do pedido alterado com sucesso!
+[2025-05-18 21:43:18] INFO: Status do pedido alterado com sucesso!

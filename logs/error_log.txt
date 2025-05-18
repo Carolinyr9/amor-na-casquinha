@@ -291,3 +291,4 @@
 [2025-05-08 17:33:37] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
 [2025-05-08 17:38:47] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
 [2025-05-08 17:38:47] ERROR: Erro ao obter itens do pedido.
+[2025-05-12 22:56:34] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.

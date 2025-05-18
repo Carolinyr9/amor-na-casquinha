@@ -54,6 +54,13 @@ picture img {
     box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.cards-pessoa {
+    width: 340px;
+    height: auto;
+    background-color: var(--neutral);
+    box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 768px) {
     .cards-categoria, .cards-produtos{
         flex-direction: column !important;

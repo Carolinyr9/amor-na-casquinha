@@ -1,0 +1,9 @@
+.botao {
+    width: 100px !important;
+}
+
+@media (max-width: 768px) {
+    .container-form {
+        width: 90% !important;
+    }
+}

@@ -143,6 +143,13 @@ main{
     margin-top: 15px;
 }
 
+
+
+.rodape img {
+    width: 60px;
+    height: auto;
+}
+
 @media (min-width: 768px) {
     .cabecalho{
         height: 105px;

@@ -1,58 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
-
-:root{
-    --roxo-bebe: #D4C7FF;
-    --Nunito: 'Nunito', sans-serif;
-    --Agbalumo: 'Agbalumo';
-    --azul-bebe: #C9EFFF;
-    --rosa-bebe: #FFC7E8;
-    --amarelo-bebe: #FFFAC7;
-    --verde-bebe: #E2FFC7;
+section {
+    width: 50%;
 }
 
-*{
-    font-family: var(--Nunito);
-}
-
-.pedido__informacoes, .pedido__itens, .pedido__entregador{
-    background-color: var(--azul-bebe);
-    box-shadow: 10px 10px 10px #9c9c9c14;
-}
-
-.pedido__btn--voltar{
-    background-color: var(--amarelo-bebe);
-    border: none;
-    font-family: var(--Agbalumo);
-    width: 90px;
-    height: 30px;
-    box-shadow: 10px 10px 10px #9c9c9c14;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-}
-
-.pedido__btn--voltar:hover {
-    background-color: #f7ee93;
-    transform: scale(1.1);
-}
-
-.btnStatus{
-    border: none;
-    border-radius: 7px;
-    font-family: var(--Agbalumo);
-    height: 30px;
-    margin: 5px 0;
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-    background-color: var(--rosa-bebe);
-}
-
-.btnStatus:hover {
-    background-color: #f58cd4;
-    transform: scale(1.1);
-}
-
-@media (min-width: 768px) {
-    .box-pedido{
-        width: 40% !important;
+@media (max-width: 768px) {
+    section {
+        width: 100% !important;
     }
 }
