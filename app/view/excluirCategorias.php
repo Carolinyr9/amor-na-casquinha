@@ -18,7 +18,10 @@ $categoriaController = new CategoriaProdutoController();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">  
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/excluirProdS.css">
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
@@ -29,10 +32,10 @@ $categoriaController = new CategoriaProdutoController();
     ?>
 
     <main class="d-flex flex-column justify-content-center align-items-center">
-        <h1 class="m-auto text-center pt-4 pb-4">Excluir Categoria</h1>
-        <h4 class="text-center">Tem certeza que deseja excluir essa categoria?</h4>
+        <h1 class="titulo">Excluir Categoria</h1>
+        <h4 class="subtitulo">Tem certeza que deseja excluir essa categoria?</h4>
         
-        <div class="c1 mx-auto my-4 p-2 rounded-4 d-flex align-items-center flex-column justify-content-center">
+        <div class="container-info d-flex align-items-center flex-column justify-content-center mx-auto my-4 p-3 rounded-4" style="background-color: var(--quaternary);">
             <?php if ($categoria): ?>
                 <div class="d-flex align-items-center flex-column">
                     <picture>
@@ -48,16 +51,14 @@ $categoriaController = new CategoriaProdutoController();
                 <form action="" method="POST" id="formulario" class="formulario">
                     <input type="hidden" name="idCategoriaExcl" value="<?= htmlspecialchars($categoria->getId()) ?>">
                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-                    <button type="submit" class="btnExcluir border-0 rounded-4 px-3 fw-bold">Excluir</button>
+                    <button type="submit" class="botao botao-primary">Excluir</button>
                 </form>
             <?php else: ?>
                 <p>Categoria não encontrada.</p>
             <?php endif; ?>
         </div>
         
-        <button class="voltar m-auto border-0 rounded-4 fw-bold">
-            <a class="text-decoration-none color-black" href="editarCategorias.php">Voltar</a>
-        </button>
+        <a class="botao botao-secondary" href="gerenciarCategorias.php">Voltar</a>
     </main>
 
     <?php include_once 'components/footer.php'; ?>
