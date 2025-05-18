@@ -22,7 +22,7 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
     <link rel="stylesheet" href="style/base/global.css">
     <link rel="stylesheet" href="style/base/variables.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
     <script src="script/exibirArquivoImagem.js"></script>
 </head>
 <body>

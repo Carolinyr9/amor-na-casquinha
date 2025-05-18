@@ -27,7 +27,7 @@ $categorias = $categoriasController->listarCategorias();
     <link rel="stylesheet" href="style/base/variables.css">
     <link rel="stylesheet" href="style/base/global.css">
     <link rel="stylesheet" href="style/formulario.css">
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
     <main>

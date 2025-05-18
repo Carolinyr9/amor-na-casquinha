@@ -21,7 +21,7 @@ $fornecedores = $fornecedorController->listarFornecedor();
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="style/CabecalhoRodape.css" rel="stylesheet">
     <link href="style/editarFuncionariosS.css" rel="stylesheet">
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.7.1/jquery-confirm.min.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

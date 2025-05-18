@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="style/base/variables.css">
     <link rel="stylesheet" href="style/base/global.css">
     <link rel="stylesheet" href="style/components/botao.css">
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
@@ -81,7 +81,7 @@
                     <input name="btnSubmit" id="btnSubmit" type="submit" value="Concluir Pedido" class="botao botao-primary my-4">
                 </form>
             <?php else: ?>
-                <button id="btnGoToLogin" class="link" onclick="window.location.href='login.php'">Faça Login para Concluir seu Pedido</button>
+                <button id="btnGoToLogin" class="botao botao-primary" onclick="window.location.href='login.php'">Faça Login para Concluir seu Pedido</button>
             <?php endif; ?>
         </div>
     </main>
