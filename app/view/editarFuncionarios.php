@@ -24,43 +24,71 @@ if (isset($_GET['funcEmail'])) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/editFuncS.css">
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
 
     <main>
-        <h1 class="text-center pt-4 pb-4">Editar Funcionário</h1>
-        <div class="conteiner">
-            <div class="conteiner1">
-                <div class="c1">
-                    <div class="c2">
-                        <?php if ($dadosFunc): ?>
-                            <form action="editarFuncionarios.php" method="POST" id="formulario" class="formulario">
-                                <input type="hidden" name="emailFunAtual" value="<?= htmlspecialchars($dadosFunc->getEmail()); ?>">
+        <h1 class="titulo">Editar Funcionário</h1>
+        <section>
+            <div class="container" style="background-color: var(--quaternary);">
+                <?php if ($dadosFunc): ?>
+                    <form action="editarFuncionarios.php" method="POST" id="formulario" class="formulario">
+                        <input type="hidden" name="emailFunAtual" value="<?= htmlspecialchars($dadosFunc->getEmail()); ?>">
 
-                                <label for="nome2">Nome:</label>
-                                <input type="text" id="nome2" name="nomeFunEdt" placeholder="Nome" value="<?= htmlspecialchars($dadosFunc->getNome()); ?>" required>
+                        <div class="form-group mb-3">
+                            <input type="text" id="nome" name="nomeFunEdt" class="form-control" placeholder="Nome" value="<?= htmlspecialchars($dadosFunc->getNome()); ?>" required> 
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="email" id="email" name="emailFunEdt" class="form-control" placeholder="Email" value="<?= htmlspecialchars($dadosFunc->getEmail()); ?>" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" id="telefone" name="telefoneFunEdt" class="form-control" placeholder="(11) 95555-5555" value="<?= htmlspecialchars($dadosFunc->getTelefone()); ?>" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" id="rua" name="ruaFunEdt" class="form-control" placeholder="Rua" value="<?= htmlspecialchars($dadosFunc->getRua()); ?>" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" id="numero" name="numeroFunEdt" class="form-control" placeholder="Número" value="<?= htmlspecialchars($dadosFunc->getNumero()); ?>" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" id="complemento" name="complementoFunEdt" class="form-control" placeholder="Complemento" value="<?= htmlspecialchars($dadosFunc->getComplemento()); ?>">
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" id="bairro" name="bairroFunEdt" class="form-control" placeholder="Bairro" value="<?= htmlspecialchars($dadosFunc->getBairro()); ?>" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" id="cidade" name="cidadeFunEdt" class="form-control" placeholder="Cidade" value="<?= htmlspecialchars($dadosFunc->getCidade()); ?>" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" id="estado" name="estadoFunEdt" class="form-control" placeholder="Estado" value="<?= htmlspecialchars($dadosFunc->getEstado()); ?>" required>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <input type="text" id="cep" name="cepFunEdt" class="form-control" placeholder="CEP" value="<?= htmlspecialchars($dadosFunc->getCep()); ?>" pattern="\d{5}-\d{3}" title="Formato esperado: 12345-678" required>
+                        </div>
 
-                                <label for="email2">Email:</label>
-                                <input type="email" id="email2" name="emailFunEdt" placeholder="Email" value="<?= htmlspecialchars($dadosFunc->getEmail()); ?>" required>
-
-                                <label for="telefone2">Telefone:</label>
-                                <input type="text" id="telefone2" name="telefoneFunEdt" placeholder="(11) 95555-5555" value="<?= htmlspecialchars($dadosFunc->getTelefone()); ?>" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
-
-                                <input type="submit" value="Atualizar" name="btnAtualizar">
-                            </form>
-                        <?php else: ?>
-                            <p class="text-danger">Funcionário não encontrado.</p>
-                        <?php endif; ?>
-                    </div>
-                </div>
+                        <input type="submit" value="Atualizar" name="btnAtualizar">
+                    </form>
+                <?php else: ?>
+                    <p class="text-danger">Funcionário não encontrado.</p>
+                <?php endif; ?>
             </div>
-            <div class="text-center mt-4">
-                <button class="voltar"><a href="gerenciarFuncionarios.php">Voltar</a></button>
-            </div>
-        </div>
+        </section>
+        <button class="voltar"><a href="gerenciarFuncionarios.php">Voltar</a></button>
     </main>
 
     <?php include_once 'components/footer.php'; ?>
