@@ -1,10 +1,10 @@
 <footer>
-    <div class="conteiner-fluid d-flex justify-content-center rodape align-items-center flex-column">
+    <div class="rodape conteiner-fluid d-flex justify-content-center align-items-center flex-column">
         <div class="d-flex flex-row justify-content-around align-items-center">
             <img src="../images/iceCream.png" alt="Logo Amor de Casquinha" class="pe-4 logo">
             <h3>Amor de Casquinha</h3>
         </div>
-        <img src="../images/Rectangle 1048.png" class="pt-3 linha">
+        <img src="../images/Rectangle 1048.png" class="img pt-3 linha">
         <div class="text-center">
             <p>&copy; 2023 Amor de Casquinha Todos os direitos reservados</p>
         </div>
