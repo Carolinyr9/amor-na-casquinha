@@ -8,3 +8,16 @@ $("#addCategoria").click(function() {
 $("#addProduto").click(function() {
     $("#formulario").toggle("slow", function(){});
 });
+
+$(document).ready(function() {
+    
+    //pedido.php
+    $("#addPedido").click(function() {
+        $("#formulario").toggle("slow");
+    });
+
+    //gerenciarFuncionarios.php
+    $('#addFuncionario').click(function() {
+        $('#formulario').toggle("slow");
+    });
+});
