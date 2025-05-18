@@ -24,47 +24,46 @@ $pedidoId = $_GET['idPedido'] ?? null;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/infoPedidos.css">
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
 
     <main class="container my-5 text-center">
-        <h1 class="text-center mb-4">Informações do Pedido</h1>
-
-        <?php if ($pedidoId): ?>
-            <?php 
-                $pedido = $pedidoController->listarPedidoPorId($pedidoId);
-                $produtos = $itemPedidoController->listarInformacoesPedido($pedidoId);
-            ?>
-
-            <?php include 'components/infoPedidoCard.php'; ?>
-            <?php include 'components/itensPedidoTabela.php'; ?>
-
-            <?php 
-            $statusPermitidos = ['Aguardando Confirmação', 'Preparando pedido', 'Aguardando Envio'];
-            ?>
-
-            <?php if ($pedido->getStatusPedido() == 'Entregue'): ?>
-                <form method="POST" action="">
-                    <input type="hidden" name="mudarStatus" value="1">
-                    <input type="hidden" name="idPedido" value="<?= $pedido->getIdPedido(); ?>">
-                    <button type="submit" class="btnMudarStatus border-0 rounded-4 h-auto px-2">
-                        Eu recebi meu pedido
+        <h1 class="titulo">Informações do Pedido</h1>
+        <section class="w-50 mx-auto mb-4 rounded-4 p-4 " style="background-color: var(--quaternary);">
+            <?php if ($pedidoId): ?>
+                <?php
+                    $pedido = $pedidoController->listarPedidoPorId($pedidoId);
+                    $produtos = $itemPedidoController->listarInformacoesPedido($pedidoId);
+                ?>
+                <?php include 'components/infoPedidoCard.php'; ?>
+                <?php include 'components/itensPedidoTabela.php'; ?>
+                <?php
+                    $statusPermitidos = ['Aguardando Confirmação', 'Preparando pedido', 'Aguardando Envio'];
+                ?>
+                <?php if ($pedido->getStatusPedido() == 'Entregue'): ?>
+                    <form method="POST" action="">
+                        <input type="hidden" name="mudarStatus" value="1">
+                        <input type="hidden" name="idPedido" value="<?= $pedido->getIdPedido(); ?>">
+                        <button type="submit" class="botao botao-primary">
+                            Eu recebi meu pedido
+                        </button>
+                    </form>
+                <?php endif; ?>
+                <?php if (in_array($pedido->getStatusPedido(), $statusPermitidos)): ?>
+                    <button type="button" class="botao botao-alerta"
+                            data-bs-toggle="modal" data-bs-target="#cancelModal">
+                        Cancelar Pedido
                     </button>
-                </form>
-            <?php endif; ?>
+                <?php endif; ?>
+        </section>
 
-            <?php if (in_array($pedido->getStatusPedido(), $statusPermitidos)): ?>
-                <button type="button" class="btnCancelaPedido rounded-4 border-0 fw-bold"
-                        data-bs-toggle="modal" data-bs-target="#cancelModal">
-                    Cancelar Pedido
-                </button>
-            <?php endif; ?>
+            <a href="perfil.php" class="botao botao-secondary">Voltar</a>
 
-            <button class="btn-yellow rounded-4 mt-5">
-                <a href="perfil.php">Voltar</a>
-            </button>
         <?php else: ?>
             <div class="alert alert-warning">ID do pedido não fornecido.</div>
         <?php endif; ?>

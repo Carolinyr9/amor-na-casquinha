@@ -1,7 +1,7 @@
 <?php if ($produtos): ?>
-<div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
+<div class="d-flex justify-content-center w-100 m-auto py-3">
     <div>
-        <h3>Itens do Pedido</h3>
+        <h3 class="subtitulo">Itens do Pedido</h3>
         <table class="table table-bordered">
             <thead>
                 <tr>
