@@ -2,7 +2,7 @@
 session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/categorias/editarCategorias.php';
+require_once '../utils/categoria/editarCategorias.php';
 
 use app\controller\CategoriaProdutoController;
 
@@ -18,9 +18,12 @@ $categoria = $categoriaController->buscarCategoriaPorID($idCategoria);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Categoria</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">  
-    <link rel="stylesheet" href="style/CabecalhoRodape.css">
-    <link rel="stylesheet" href="style/editaSaborS.css">
-    <link rel="shortcut icon" href="images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style/CabecalhoRodape.css"> 
+    <link rel="stylesheet" href="style/editarCategoria.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="script/exibirArquivoImagem.js"></script>
 </head>
@@ -29,14 +32,14 @@ $categoria = $categoriaController->buscarCategoriaPorID($idCategoria);
     
     <main>
         <div class="conteiner d-flex flex-column align-items-center justify-content-center">
-            <h2 class="text-center pt-4 pb-4">Editar Produto</h2>
+            <h2 class="titulo">Editar Produto</h2>
 
-            <div class="conteiner-form p-3 rounded-4 my-3 w-75">
+            <div class="container-form rounded-4 p-3 my-3 w-50">
                 <?php if ($categoria): ?>
                     <form enctype="multipart/form-data" 
                           action="<?= htmlspecialchars($_SERVER['PHP_SELF']) . '?categoria=' . htmlspecialchars($categoria->getId()) ?>" 
                           method="POST" 
-                          class="formulario d-flex flex-column">
+                          class="d-flex flex-column">
 
                         <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria->getId()) ?>">
                         <input type="hidden" name="imagemProdEdt" value="<?= htmlspecialchars($categoria->getFoto()) ?>">
@@ -63,14 +66,14 @@ $categoria = $categoriaController->buscarCategoriaPorID($idCategoria);
 
                         <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto mt-3" style="max-width: 150px; display: none;">
 
-                        <input type="submit" name="btnEditar" value="Editar" class="btnEditar mt-3 mx-auto border-0 rounded-3 px-4">
+                        <input type="submit" name="btnEditar" value="Editar" class="botao botao-primary mx-auto mt-4">
                     </form>
                 <?php else: ?>
                     <p class="text-danger">Produto não encontrado.</p>
                 <?php endif; ?>
             </div>
 
-            <a href="gerenciarCategorias.php" class="btn voltar border-0 rounded-3 fw-bold">Voltar</a>
+            <a href="gerenciarCategorias.php" class="botao botao-secondary">Voltar</a>
         </div>
     </main>
 
