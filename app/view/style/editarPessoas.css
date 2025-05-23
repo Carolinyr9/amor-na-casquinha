@@ -1,0 +1,20 @@
+.container-form {
+    width: 50%;
+    background-color: var(--quaternary);
+}
+
+form{
+    width: 75%;
+}
+
+@media (max-width: 768px) {
+    .container-form {
+        width: 90% !important;
+    }
+
+    form{
+        width: 100% !important;
+    }
+
+    
+}
