@@ -27,7 +27,7 @@ class EntregadorController {
 
             if($idEntregador){
                 $desativado = 0;
-                $funcionario = new Funcionario(
+                $entregador = new Entregador(
                     $idEntregador,
                     $desativado,
                     $dados['nome'], 
@@ -37,7 +37,7 @@ class EntregadorController {
                     $dados['cnh']
                 );
 
-                return $funcionario;
+                return $entregador;
                 
             } else {
                 Logger::logError("Erro ao criar entregador");
