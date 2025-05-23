@@ -5,11 +5,11 @@ if(isset($_POST['submitBtn'])) {
     $entregadorController = new EntregadorController();
     
     $dados = [
-        'nome' => $_POST['nomeEntr'],
-        'email' => $_POST['emailEntr'],
-        'telefone' => $_POST['telefoneEntr'],
-        'cnh' => $_POST['cnhEntr'],
-        'senha' => password_hash($_POST['senhaEntr'], PASSWORD_DEFAULT),
+        'nome' => $_POST['nome'],
+        'email' => $_POST['email'],
+        'telefone' => $_POST['telefone'],
+        'cnh' => $_POST['cnh'],
+        'senha' => password_hash($_POST['senha'], PASSWORD_DEFAULT),
     ];
 
     $entregadorController->criarEntregador($dados);
