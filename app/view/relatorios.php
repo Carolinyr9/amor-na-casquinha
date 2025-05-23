@@ -17,23 +17,27 @@ use app\controller\ProdutoController;
     <title>Relatórios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">  
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/variables.css">
+    <link rel="stylesheet" href="style/base/global.css">
     <link rel="stylesheet" href="style/relatorios-style.css">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
 
     <main class="container my-5 text-center flex flex-column justify-content-center">
-        <h1 class="mb-4 my-4 text-center">Relatórios</h1>
+        <h1 class="titulo mb-3">Relatórios</h1>
 
-        <h3>Selecionar Período</h3>
-        <form method="POST" class="mb-4">
-            <input type="date" name="data-inicio" id="data-inicio" required>
-            <input type="date" name="data-fim" id="data-fim" required>
-            <button type="submit" class="form__btn text-decoration-none border-0 rounded-3 m-1 text-black px-3">Gerar Relatório</button>
+        <h3 class="subtitulo">Selecionar Período</h3>
+        <form method="POST" class="d-flex flex-row justify-content-center gap-4 mb-4">
+            <input type="date" class="form-control w-auto" name="data-inicio" id="data-inicio" required>
+            <input type="date" class="form-control w-auto" name="data-fim" id="data-fim" required>
+            <button type="submit" class="botao botao-primary">Gerar Relatório</button>
         </form>
 
         <?php if ($totalVendas > 0) { ?>
-            <h2>Resumo</h2>
+            <h2 class="subtitulo">Resumo</h2>
             <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
                 <table class="table table-bordered">
                     <thead>
@@ -61,7 +65,7 @@ use app\controller\ProdutoController;
 
 
         <?php if (!empty($produtos)) { ?>
-            <h2>Sabores Mais Vendidos</h2>
+            <h2 class="subtitulo">Sabores Mais Vendidos</h2>
             <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
                 <table class="table table-bordered">
                     <thead>

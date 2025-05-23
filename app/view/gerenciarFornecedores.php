@@ -15,95 +15,79 @@ $fornecedores = $fornecedorController->listarFornecedor();
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Fornecedores</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">  
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style/CabecalhoRodape.css" rel="stylesheet">
-    <link href="style/editarFuncionariosS.css" rel="stylesheet">
+    <title>Fornecedores</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style/CabecalhoRodape.css">
+    <link rel="stylesheet" href="style/components/cards.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/variables.css">
+    <link rel="stylesheet" href="style/base/global.css">
     <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.7.1/jquery-confirm.min.css" rel="stylesheet">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script\exibirFormulario.js"></script>
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
 
     <main>
-        <h1 class="m-auto text-center pt-4 pb-4">Fornecedores</h1>
+        <h1 class="titulo">Fornecedores</h1>
 
-        <div class="conteiner">
-            <button class="add">Adicionar Fornecedores</button>
+        <section>
+            <div class="conteiner d-flex flex-column justify-content-center align-items-center">
+                <button id="addFornecedor" class="botao botao-primary mx-auto mt-4">Adicionar Fornecedor</button>
 
-            <form action="gerenciarFornecedores.php" method="POST" id="addFormulario">
-                <label for="nome1">Nome:</label>
-                <input type="text" id="nome1" name="nomeForn" placeholder="Nome" required>
-
-                <label for="email1">Email:</label>
-                <input type="email" id="email1" name="emailForn" placeholder="Email" required>
-
-                <label for="telefone1">Telefone:</label>
-                <input type="text" id="telefone1" name="telefoneForn" placeholder="(11) 95555-5555" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
-
-                <label for="cnpj1">CNPJ:</label>
-                <input type="text" id="cnpj1" name="cnpjForn" placeholder="12.345.678/0001-95" required>
-
-                <label for="rua1">Rua:</label>
-                <input type="text" id="rua1" name="ruaForn" placeholder="Rua" required>
-
-                <label for="bairro1">Bairro:</label>
-                <input type="text" id="bairro1" name="bairroForn" placeholder="Bairro" required>
-
-                <label for="numero1">Número:</label>
-                <input type="text" id="numero1" name="numeroForn" placeholder="Número" required>
-
-                <label for="complemento1">Complemento:</label>
-                <input type="text" id="complemento1" name="complementoForn" placeholder="Complemento">
-
-                <label for="cep1">CEP:</label>
-                <input type="text" id="cep1" name="cepForn" placeholder="00000-000" required>
-
-                <label for="cidade1">Cidade:</label>
-                <input type="text" id="cidade1" name="cidadeForn" placeholder="Cidade" required>
-
-                <label for="estado1">Estado:</label>
-                <input type="text" id="estado1" name="estadoForn" placeholder="Estado" required>
-
-                <input type="submit" name="submitBtn" value="Adicionar">
-            </form>
-
-            <div class="conteiner1">
-                <?php foreach ($fornecedores as $fornecedor): 
-                    $redirectToEditar = 'editarFornecedores.php?fornEmail=' . urlencode($fornecedor->getEmail());
-                    $redirectToExcluir = 'gerenciarFornecedores.php?exclForn=' . urlencode($fornecedor->getEmail());
-                ?>
-                    <div class="c1">
-                        <div class="c2">
-                            <div class="d-flex flex-column">
-                                <div id="dados">
-                                    <h3 class="titulo px-3"><?php echo htmlspecialchars($fornecedor->getNome()); ?></h3>
-                                    <div class="px-3">
-                                        <p>Email: <?php echo htmlspecialchars($fornecedor->getEmail()); ?></p>
-                                        <p>Celular: <?php echo htmlspecialchars($fornecedor->getTelefone()); ?></p>
+                <div id="formulario" class="container" style="display: none;">
+                    <form action="gerenciarFornecedores" method="POST" class="d-flex flex-column justify-content-center w-50 mx-auto my-4 border rounded-4 p-4">
+                        <div class="d-flex flex-row flex-wrap justify-content-center align-items-center gap-4">
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="email" id="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="telefone" name="telefone" placeholder="(11) 95555-5555" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="cnpj" name="cnpj" placeholder="12.345.678/0001-95" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="rua" name="rua" placeholder="Rua" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="number" id="numero" name="numero" placeholder="Número" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="complemento" name="complemento" placeholder="Complemento">
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="cep" name="cep" placeholder="CEP" pattern="\d{5}-\d{3}" title="Formato esperado: XXXXX-XXX" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="bairro" name="bairro" placeholder="Bairro" required>
                                     </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="cidade" name="cidade" placeholder="Cidade" required>
                                 </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="estado" name="estado" placeholder="Estado" required>
                             </div>
                         </div>
-                        <div class="botao text-center d-flex justify-content-evenly mt-3">
-                            <button id="edit"><a href="<?php echo $redirectToEditar; ?>">Editar</a></button>
-                            <button id="excl"><a href="<?php echo $redirectToExcluir; ?>">Excluir</a></button>
+                        <input type="submit" name="submitBtn" value="Adicionar" class="botao botao-primary mx-auto">
+                    </form>
                         </div>
+
+                <div class="container d-flex flex-row flex-wrap justify-content-center gap-5 my-5">
+                    <?php include './components/pessoasCards.php'; ?>
                     </div>
-                <?php endforeach; ?>
+
+                <a class="botao botao-secondary" href="pessoas.php">Voltar</a>
             </div>
-            <button class="b-voltar m-auto border-0 rounded-4 fw-bold px-3">
-                <a class="text-decoration-none color-black" href="pessoas.php">Voltar</a>
-            </button>
-        </div>
+        </section>
     </main>
 
     <?php include_once 'components/footer.php'; ?>
-
-    <script src="script/adicionar.js"></script>
 </body>
 </html>

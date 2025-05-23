@@ -15,75 +15,61 @@ $entregadores = $entregadorController->listarEntregadores();
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Entregadores</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">  
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style/CabecalhoRodape.css" rel="stylesheet">
-    <link href="style/editarFuncionariosS.css" rel="stylesheet">
+    <title>Entregadores</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style/CabecalhoRodape.css">
+    <link rel="stylesheet" href="style/components/cards.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/variables.css">
+    <link rel="stylesheet" href="style/base/global.css">
     <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.7.1/jquery-confirm.min.css" rel="stylesheet">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script\exibirFormulario.js"></script>
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
 
     <main>
-        <h1 class="m-auto text-center pt-4 pb-4">Entregadores</h1>
+        <h1 class="titulo">Entregadores</h1>
 
-        <div class="conteiner">
-            <button class="add">Adicionar Entregadores</button>
+        <section>
+            <div class="conteiner d-flex flex-column justify-content-center align-items-center">
+                <button id="addEntregador" class="botao botao-primary mx-auto mt-4">Adicionar Entregador</button>
 
-            <form action="gerenciarEntregadores.php" method="POST" id="addFormulario">
-                <label for="nome1">Nome:</label>
-                <input type="text" id="nome1" name="nomeEntr" placeholder="Nome" required>
-
-                <label for="email1">Email:</label>
-                <input type="email" id="email1" name="emailEntr" placeholder="Email" required>
-
-                <label for="telefone1">Telefone:</label>
-                <input type="text" id="telefone1" name="telefoneEntr" placeholder="(11) 95555-5555" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
-
-                <label for="senha1">Senha:</label>
-                <input type="text" id="senha1" name="senhaEntr" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}"
-                title="A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." placeholder="Senha para acesso primário" required>
-
-                <label for="estado1">CNH:</label>
-                <input type="text" id="cnh1" name="cnhEntr" placeholder="86930603333" required>
-
-                <input type="submit" name="submitBtn" value="Adicionar">
-            </form>
-
-            <div class="conteiner1">
-                <?php foreach ($entregadores as $entregador): 
-                    $redirectToEditar = 'editarEntregadores.php?entrEmail=' . urlencode($entregador->getEmail());
-                    $redirectToExcluir = 'gerenciarEntregadores.php?exclEntr=' . urlencode($entregador->getEmail());
-                ?>
-                    <div class="c1">
-                        <div class="c2">
-                            <div class="d-flex flex-column">
-                                <div id="dados">
-                                    <h3 class="titulo px-3"><?php echo htmlspecialchars($entregador->getNome()); ?></h3>
-                                    <div class="px-3">
-                                        <p>Email: <?php echo htmlspecialchars($entregador->getEmail()); ?></p>
-                                        <p>Celular: <?php echo htmlspecialchars($entregador->getTelefone()); ?></p>
-                                        <p>CNH: <?php echo htmlspecialchars($entregador->getCnh()); ?></p>
+                <div id="formulario" class="container" style="display: none;">
+                    <form action="gerenciarEntregadores.php" method="POST" class="d-flex flex-column justify-content-center w-50 mx-auto my-4 border rounded-4 p-4">
+                        <div class="d-flex flex-row flex-wrap justify-content-center align-items-center gap-4">
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="email" id="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="telefone" name="telefone" placeholder="(11) 95555-5555" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
                                     </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="text" id="cnh" name="cnh" placeholder="99999900000" required>
                                 </div>
+                            <div class="form-group mb-3">
+                                <input class="form-control" type="password" id="senha1" name="senha" placeholder="Senha" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}" title="A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." required>
                             </div>
                         </div>
-                        <div class="botao text-center d-flex justify-content-evenly mt-3">
-                            <button id="edit"><a href="<?php echo $redirectToEditar; ?>">Editar</a></button>
-                            <button id="excl"><a href="<?php echo $redirectToExcluir; ?>">Excluir</a></button>
+
+                        <input type="submit" name="submitBtn" value="Adicionar" class="botao botao-primary mx-auto">
+                    </form>
                         </div>
+
+                <div class="container d-flex flex-row flex-wrap justify-content-center gap-5 my-5">
+                    <?php include './components/pessoasCards.php'; ?>
                     </div>
-                <?php endforeach; ?>
+
+                <a class="botao botao-secondary" href="pessoas.php">Voltar</a>
             </div>
-            <button class="b-voltar m-auto border-0 rounded-4 fw-bold px-3">
-                <a class="text-decoration-none color-black" href="pessoas.php">Voltar</a>
-            </button>
-        </div>
+        </section>
     </main>
 
     <?php include_once 'components/footer.php'; ?>
