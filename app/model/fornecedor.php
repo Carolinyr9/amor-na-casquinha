@@ -41,7 +41,7 @@ class Fornecedor {
         return $this->email;
     }
 
-    public function getCpnj() {
+    public function getCnpj() {
         return $this->cpnj;
     }
 
