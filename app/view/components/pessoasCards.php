@@ -1,11 +1,28 @@
-<?php foreach ($listaFuncionarios as $funcionario): ?>
+<?php 
+
+$paginaAtual = basename($_SERVER['SCRIPT_NAME']);
+foreach ($listaPessoas as $pessoa): ?>
     <?php
-        $email = $funcionario->getEmail();
-        $nome = $funcionario->getNome();
-        $telefone = $funcionario->getTelefone();
-        $perfilImg = $funcionario->getPerfil();
-        $editarUrl = "editarFuncionarios.php?funcEmail={$email}";
-        $excluirUrl = "gerenciarFuncionarios.php?exclFunc={$email}";
+        $email = $pessoa->getEmail();
+        $nome = $pessoa->getNome();
+        $telefone = $pessoa->getTelefone();
+
+        switch ($paginaAtual) {
+            case 'gerenciarFornecedores.php':
+                $editarUrl = "editarFornecedores.php?fornEmail={$email}";
+                $excluirUrl = "gerenciarFornecedores.php?exclForn={$email}";
+                break;
+            case 'gerenciarEntregadores.php':
+                $editarUrl = "editarEntregadores.php?entrEmail={$email}";
+                $excluirUrl = "gerenciarEntregadores.php?exclEntr=={$email}";;
+                break;
+            case 'gerenciarFuncionarios.php':
+                $editarUrl = "editarFuncionarios.php?funcEmail={$email}";
+                $excluirUrl = "gerenciarFuncionarios.php?exclFunc={$email}";
+                $perfilImg = $pessoa->getPerfil();
+                break;
+        }
+       
     ?>
     <div class="cards-pessoa d-flex flex-column rounded-3 p-3">
         <div class="d-flex flex-column">
@@ -14,6 +31,11 @@
                 <div class="px-3">
                     <p>Email: <?= $email ?></p>
                     <p>Celular: <?= $telefone ?></p>
+
+                   <?php if($paginaAtual === 'gerenciarEntregadores.php'): ?>
+                        <p>CNH: <?= $pessoa->getCnh() ?></p>
+                    <?php endif; ?>
+
                 </div>
             </div>
         </div>
