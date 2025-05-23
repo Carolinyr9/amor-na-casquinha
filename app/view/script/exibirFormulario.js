@@ -20,4 +20,15 @@ $(document).ready(function() {
     $('#addFuncionario').click(function() {
         $('#formulario').toggle("slow");
     });
+
+    //gerenciarFornecedores.php
+    $('#addFornecedor').click(function() {
+        $('#formulario').toggle("slow");
+    });
+
+    //gerenciarEntregador.php
+    $('#addEntregador').click(function() {
+        $('#formulario').toggle("slow");
+    });
+    
 });

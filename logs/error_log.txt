@@ -292,3 +292,39 @@
 [2025-05-08 17:38:47] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
 [2025-05-08 17:38:47] ERROR: Erro ao obter itens do pedido.
 [2025-05-12 22:56:34] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-05-20 00:00:27] ERROR: Dados inválidos para criação do funcionário.
+[2025-05-22 23:47:10] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:47:14] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:47:31] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:48:13] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:48:16] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:48:16] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:48:17] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:48:17] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:49:49] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:49:49] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:49:50] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:49:50] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:49:50] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:50:30] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:50:31] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:50:31] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:50:53] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:50:53] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:50:53] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:01] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:01] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:01] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:32] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:32] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:33] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:37] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:38] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:38] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:51] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:51] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:51:52] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:52:12] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:52:12] ERROR: ID do endereço não fornecido!
+[2025-05-22 23:53:04] ERROR: ID do endereço não fornecido!
+[2025-05-23 01:17:58] ERROR: Dados inválidos para criação do entregador.
