@@ -5,11 +5,12 @@ require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/entregador/adicionarEntregador.php';
 require_once '../utils/entregador/excluirEntregador.php';
+require_once '../utils/entregador/adicionarEntregador.php';
 
 use app\controller\EntregadorController;
 
 $entregadorController = new EntregadorController();
-$entregadores = $entregadorController->listarEntregadores();
+$listaPessoas = $entregadorController->listarEntregadores();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -50,10 +51,10 @@ $entregadores = $entregadorController->listarEntregadores();
                             </div>
                             <div class="form-group mb-3">
                                 <input class="form-control" type="text" id="telefone" name="telefone" placeholder="(11) 95555-5555" pattern="\(\d{2}\) \d{5}-\d{4}" title="Formato esperado: (69) 97955-6487" required>
-                                    </div>
+                            </div>
                             <div class="form-group mb-3">
                                 <input class="form-control" type="text" id="cnh" name="cnh" placeholder="99999900000" required>
-                                </div>
+                            </div>
                             <div class="form-group mb-3">
                                 <input class="form-control" type="password" id="senha1" name="senha" placeholder="Senha" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}" title="A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." required>
                             </div>
@@ -61,11 +62,11 @@ $entregadores = $entregadorController->listarEntregadores();
 
                         <input type="submit" name="submitBtn" value="Adicionar" class="botao botao-primary mx-auto">
                     </form>
-                        </div>
+                </div>
 
                 <div class="container d-flex flex-row flex-wrap justify-content-center gap-5 my-5">
                     <?php include './components/pessoasCards.php'; ?>
-                    </div>
+                </div>
 
                 <a class="botao botao-secondary" href="pessoas.php">Voltar</a>
             </div>
@@ -73,7 +74,5 @@ $entregadores = $entregadorController->listarEntregadores();
     </main>
 
     <?php include_once 'components/footer.php'; ?>
-
-    <script src="script/adicionar.js"></script>
 </body>
 </html>

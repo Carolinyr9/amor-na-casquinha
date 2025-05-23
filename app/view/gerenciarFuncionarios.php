@@ -5,11 +5,12 @@ require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/funcionario/adicionarFuncionario.php';
 require_once '../utils/funcionario/excluirFuncionario.php';
+require_once '../utils/funcionario/adicionarFuncionario.php';
 
 use app\controller\FuncionarioController;
 
-$func = new FuncionarioController();
-$listaFuncionarios = $func->listarFuncionario();
+$funcionarioController = new FuncionarioController();
+$listaPessoas = $funcionarioController->listarFuncionario();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -83,6 +84,7 @@ $listaFuncionarios = $func->listarFuncionario();
                 <div class="container d-flex flex-row flex-wrap justify-content-center gap-5 my-5">
                     <?php include './components/pessoasCards.php'; ?>
                 </div>
+
                 <a class="botao botao-secondary" href="pessoas.php">Voltar</a>
             </div>
         </section>

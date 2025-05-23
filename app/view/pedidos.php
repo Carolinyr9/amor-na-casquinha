@@ -33,6 +33,7 @@ $paginaAtual = $resultadoPaginado['pagina_atual'];
     <link rel="stylesheet" href="style/components/cards.css">
     <link rel="stylesheet" href="style/base/global.css">
     <link rel="stylesheet" href="style/base/variables.css">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
     <script src="script\exibirFormulario.js"></script>
 </head>
 <body>

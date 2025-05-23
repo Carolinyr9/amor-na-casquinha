@@ -9,7 +9,7 @@ require_once '../utils/fornecedor/excluirFornecedor.php';
 use app\controller\FornecedorController;
 
 $fornecedorController = new FornecedorController();
-$fornecedores = $fornecedorController->listarFornecedor();
+$listaPessoas = $fornecedorController->listarFornecedor();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -67,21 +67,21 @@ $fornecedores = $fornecedorController->listarFornecedor();
                             </div>
                             <div class="form-group mb-3">
                                 <input class="form-control" type="text" id="bairro" name="bairro" placeholder="Bairro" required>
-                                    </div>
+                            </div>
                             <div class="form-group mb-3">
                                 <input class="form-control" type="text" id="cidade" name="cidade" placeholder="Cidade" required>
-                                </div>
+                            </div>
                             <div class="form-group mb-3">
                                 <input class="form-control" type="text" id="estado" name="estado" placeholder="Estado" required>
                             </div>
                         </div>
                         <input type="submit" name="submitBtn" value="Adicionar" class="botao botao-primary mx-auto">
                     </form>
-                        </div>
+                </div>
 
                 <div class="container d-flex flex-row flex-wrap justify-content-center gap-5 my-5">
                     <?php include './components/pessoasCards.php'; ?>
-                    </div>
+                </div>
 
                 <a class="botao botao-secondary" href="pessoas.php">Voltar</a>
             </div>
