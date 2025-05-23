@@ -5,17 +5,19 @@ require_once '../../vendor/autoload.php';
 require_once '../utils/fornecedor/editarFornecedor.php';
 
 use app\controller\FornecedorController;
+use app\controller\EnderecoController;
 
 $fornecedorController = new FornecedorController();
+$dadosForn = null;
+$enderecoController = new EnderecoController();
 
 if(isset($_GET['fornEmail'])) {
-    
-    $emailForn = $_GET['fornEmail'];
-    $dadosForn = $fornecedorController->buscarFornecedorPorEmail($emailForn);
-} else {
-    echo "<p class='text-center text-danger'>Fornecedor não encontrado.</p>";
-}
+    $dadosForn = $fornecedorController->buscarFornecedorPorEmail($_GET['fornEmail']);
 
+    if ($dadosForn) {
+        $endereco = $enderecoController->listarEnderecoPorId($dadosForn->getEndereco());
+}
+} 
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

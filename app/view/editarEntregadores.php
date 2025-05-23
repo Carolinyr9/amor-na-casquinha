@@ -5,18 +5,14 @@ require_once '../../vendor/autoload.php';
 require_once '../utils/entregador/editarEntregador.php';
 
 use app\controller\EntregadorController;
+use app\controller\EnderecoController;
 
 $entregadorController = new EntregadorController();
+$dadosEntr = null;
 
 if(isset($_GET['entrEmail'])) {
-    
-    $emailEntr = $_GET['entrEmail'];
-    $dadosEntr = $entregadorController->listarEntregadorPorEmail($emailEntr);
-
-} else {
-    echo "<p class='text-center text-danger'>Entregador não encontrado.</p>";
+    $dadosEntr = $entregadorController->listarEntregadorPorEmail($_GET['entrEmail']);
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
