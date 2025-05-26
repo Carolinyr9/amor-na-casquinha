@@ -18,6 +18,6 @@
         <td><?= htmlspecialchars($estoque->getOcorrencia()) ?></td>
         <td><?= htmlspecialchars($estoque->getQtdOcorrencia()) ?></td>
         <td><a class="botao botao-primary" href="editarEstoque.php?idEstoque=<?= htmlspecialchars($estoque->getIdEstoque()) ?>">Editar</a></td>
-        <td><a class="botao botao-secondary" href="excluirEstoque.php?idEstoque=<?= htmlspecialchars($estoque->getIdEstoque()) ?>">Excluir</a></td>
+        <td><a class="botao botao-alerta" href="excluirEstoque.php?idEstoque=<?= htmlspecialchars($estoque->getIdEstoque()) ?>">Excluir</a></td>
     </tr>
 <?php endforeach; ?>
