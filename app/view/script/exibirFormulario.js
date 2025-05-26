@@ -30,5 +30,11 @@ $(document).ready(function() {
     $('#addEntregador').click(function() {
         $('#formulario').toggle("slow");
     });
+
     
 });
+    //perfil.php
+    $('#editPerfil').click(function() {
+        $('#formulario').toggle("slow");
+        $('#dados').toggle("slow");
+    });
