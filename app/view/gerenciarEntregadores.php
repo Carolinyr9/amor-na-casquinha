@@ -3,7 +3,6 @@ session_start();
 
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
-require_once '../utils/entregador/adicionarEntregador.php';
 require_once '../utils/entregador/excluirEntregador.php';
 require_once '../utils/entregador/adicionarEntregador.php';
 
