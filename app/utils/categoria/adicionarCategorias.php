@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categoriaController = new CategoriaProdutoController();
     $categoriaController->criarCategoria($dados);
 
-    header("Location: editarCategorias.php");
+    header("Location: gerenciarCategorias.php");
     exit;
 }
 ?>
