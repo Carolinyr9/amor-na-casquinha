@@ -43,7 +43,7 @@ $paginaAtual = $resultadoPaginado['pagina_atual'];
         <h1 class="titulo">Pedidos</h1>
 
         <div class="pedido__formulario container d-flex flex-column align-items-center justify-content-center">
-            <button class="botao botao-primary" id="addPedido">Adicionar Categoria</button>
+            <button class="botao botao-primary" id="addPedido">Adicionar Pedido</button>
 
             <div class="container justify-content-center mt-4" id="formulario" style="display: none;">
                 <form action="" method="POST" class="container d-flex flex-wrap gap-4 border rounded-4 py-4">
