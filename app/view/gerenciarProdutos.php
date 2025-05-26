@@ -60,19 +60,22 @@ $produtos = $categoriaId ? $produtoController->selecionarProdutosAtivos($categor
                             <input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required>
                         </div>
                         <div class="mb-3">
+                            <label for="dataEntrada" class="form-label">Data de entrada</label>
                             <input type="date" class="form-control" id="dataEntrada" name="dataEntrada" placeholder="Data de entrada" required>
                         </div>
                         <div class="mb-3">
+                            <label for="dataFabricacao" class="form-label">Data de fabricação</label>
                             <input type="date" class="form-control" id="dataFabricacao" name="dataFabricacao" placeholder="Data de fabricação" required>
                         </div>
                         <div class="mb-3">
+                            <label for="dataVencimento" class="form-label">Data de vencimento</label>
                             <input type="date" class="form-control" id="dataVencimento" name="dataVencimento" placeholder="Data de vencimento" required>
                         </div>
                         <div class="mb-3">
                             <input type="number" class="form-control" id="quantidadeMinima" name="quantidadeMinima" placeholder="Quantidade mínima" required>
                         </div>
                         <div class="mb-3">
-                            <input type="file" id="imagem" name="imagem" class="form-control"/>
+                            <input type="file" id="imagem" name="imagem" class="form-control" require/>
                         </div>
                             <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto mt-3 align-self-center" style="max-width: 170px; display: none;">
                         
