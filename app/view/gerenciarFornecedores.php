@@ -39,7 +39,7 @@ $listaPessoas = $fornecedorController->listarFornecedor();
                 <button id="addFornecedor" class="botao botao-primary mx-auto mt-4">Adicionar Fornecedor</button>
 
                 <div id="formulario" class="container" style="display: none;">
-                    <form action="gerenciarFornecedores" method="POST" class="d-flex flex-column justify-content-center w-50 mx-auto my-4 border rounded-4 p-4">
+                    <form action="gerenciarFornecedores.php" method="POST" class="d-flex flex-column justify-content-center w-50 mx-auto my-4 border rounded-4 p-4">
                         <div class="d-flex flex-row flex-wrap justify-content-center align-items-center gap-4">
                             <div class="form-group mb-3">
                                 <input class="form-control" type="text" id="nome" name="nome" placeholder="Nome" required>
