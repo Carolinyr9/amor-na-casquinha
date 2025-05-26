@@ -14,7 +14,7 @@ foreach ($listaPessoas as $pessoa): ?>
                 break;
             case 'gerenciarEntregadores.php':
                 $editarUrl = "editarEntregadores.php?entrEmail={$email}";
-                $excluirUrl = "gerenciarEntregadores.php?exclEntr=={$email}";;
+                $excluirUrl = "gerenciarEntregadores.php?exclEntr={$email}";;
                 break;
             case 'gerenciarFuncionarios.php':
                 $editarUrl = "editarFuncionarios.php?funcEmail={$email}";
