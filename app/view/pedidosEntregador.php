@@ -33,41 +33,13 @@ $pedidos = $pedidoController->listarPedidoPorIdEntregador($entregador->getId());
 <body>
     <?php include_once 'components/header.php'; ?>
 
-    <main class="pedidos container my-5 text-center d-flex flex-column justify-content-center gap-5">
-        <h1 class="mb-4">Pedidos</h1>
+    <main class="pedidos container text-center d-flex flex-column justify-content-center">
+        <h1 class=" titulo mb-4">Pedidos</h1>
 
-        <?php foreach ($pedidos as $pedido): ?>
-            <?php if (!in_array($pedido->getStatusPedido(), ['Concluído', 'Cancelado'])): ?>
-                <div class="card d-flex flex-column justify-content-center p-3 w-25 m-auto">
-                    <h3 class="titulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido->getIdPedido()) ?></h3>
-                    <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido->getDtPedido()))->format('d/m/Y \à\s H:i')) ?></p>
-                    <p>Total: R$ <?= number_format($pedido->getValorTotal(), 2, ',', '.') ?></p>
-                    <p>Status: <?= htmlspecialchars($pedido->getStatusPedido()) ?></p>
-
-                    <a href="rotasEntregador.php?idEndereco=<?= htmlspecialchars($pedido->getIdEndereco()) ?>" class="btn__rotas mt-3 rounded-3 w-50 m-auto mb-3">
-                        Ver Rotas
-                    </a>
-
-                    <?php if ($pedido->getStatusPedido() === 'Entregue'): ?>
-                        <form method="POST" class="mb-2">
-                            <input type="hidden" name="idPedido" value="<?= htmlspecialchars($pedido->getIdPedido()) ?>">
-                            <input type="hidden" name="mudarStatus" value="Entrega Falhou">
-                            <button type="submit" class="btn__pedido--falha bg-none rounded-3 px-3">
-                                Entrega Falhou
-                            </button>
-                        </form>
-
-                        <form method="POST">
-                            <input type="hidden" name="idPedido" value="<?= htmlspecialchars($pedido->getIdPedido()) ?>">
-                            <input type="hidden" name="mudarStatus" value="Entregue">
-                            <button type="submit" class="btn__pedido--concluido border-0 rounded-3 px-3">
-                                Entregue
-                            </button>
-                        </form>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-        <?php endforeach; ?>
+        <div class="container d-flex flex-row flex-wrap gap-5 justify-content-center mt-5">
+            <?php include './components/pedidosCards.php' ?>
+        </div>
+            
     </main>
 
     <?php include_once 'components/footer.php'; ?>
