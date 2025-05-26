@@ -41,27 +41,26 @@ $pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
     <main>
         <section>
             <h1 class="titulo">Perfil</h1>
-            <div class="container-section container d-flex align-items-center flex-column text-center rounded-4 w-75 p-4 my-3">
-                <div class="w-100">
-                    <div id="dados">
+            <div class="container-section container d-flex align-items-center flex-column text-center rounded-4 p-4 my-3">
+                    <div id="dados" class="w-50">
                         <p class="fs-5">Nome: <?= htmlspecialchars($clienteData->getNome()); ?></p>
                         <p class="fs-5">Email: <?= htmlspecialchars($clienteData->getEmail()); ?></p>
                         <p class="fs-5">Telefone: <?= htmlspecialchars($clienteData->getTelefone()); ?></p>
                         <p class="fs-5">Endereço: </p>
                         <?php include 'components/enderecoCard.php'; ?>
-                        <button id="edit" class="botao botao-secondary">Editar</button>
+                        <button id="editPerfil" class="botao botao-secondary">Editar</button>
                     </div>
-                        <form action="" class="formEditar flex-column justify-content-center w-auto " method="POST" id="formulario">
+                    <form action="" class="formEditar flex-column justify-content-center w-auto" method="POST" id="formulario">
                             <p class="subtitulo">Usuário</p>
                             <div class="d-flex flex-row flex-wrap justify-content-center gap-4 mb-4">
                                 <div class="form-group">
-                                    <input type="text" name="nome" class="form-control" placeholder="Nome" value="<?= htmlspecialchars($clienteData->getNome() ?? ''); ?>" readonly>
+                                    <input type="text" name="nome" class="form-control" placeholder="Nome" value="<?= htmlspecialchars($clienteData->getNome() ?? ''); ?>" >
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control" name="email" placeholder="Email" value="<?= htmlspecialchars($clienteData->getEmail() ?? ''); ?>" readonly>
+                                    <input type="email" class="form-control" name="email" placeholder="Email" value="<?= htmlspecialchars($clienteData->getEmail() ?? ''); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="telefone" placeholder="Telefone" pattern="^\(\d{2}\) \d{4,5}-\d{4}$" title="O telefone deve seguir o formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX" maxlength="15" value="<?= htmlspecialchars($clienteData->getTelefone() ?? ''); ?>" required>
+                                    <input type="text" class="form-control" name="telefone" placeholder="Telefone" pattern="^\(\d{2}\) \d{4,5}-\d{4}$" title="O telefone deve seguir o formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX" maxlength="15" value="<?= htmlspecialchars($clienteData->getTelefone() ?? ''); ?>" >
                                 </div>
                             </div>
 
@@ -91,10 +90,9 @@ $pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
                                 </div>
                             </div>
 
-                        <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($endereco->getIdEndereco() ?? ''); ?>">
-                        <button type="submit" name="btnAlterarCliente" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
+                            <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($endereco->getIdEndereco() ?? ''); ?>">
+                            <button type="submit" name="btnAlterarCliente" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
                     </form>
-                </div>
             </div>
         </section>
 
@@ -105,6 +103,6 @@ $pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
     </main>
     <?php include_once 'components/footer.php'; ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script/editar.js"></script>
+    <script src="script/exibirFormulario.js"></script>
 </body>
 </html>

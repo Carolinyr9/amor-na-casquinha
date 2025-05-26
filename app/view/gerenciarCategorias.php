@@ -38,7 +38,7 @@ $categorias = $categoriasController->listarCategorias();
                 <button class="botao botao-primary" id="addCategoria">Adicionar Categoria</button>
             
                 <div class="container my-5 border w-50 rounded-4 py-3" id="formulario" style="display: none;">
-                    <form enctype="multipart/form-data" action="" method="POST" class="d-flex flex-column align-items-center gap-5">
+                    <form enctype="multipart/form-data" action="gerenciarCategorias.php" method="POST" class="d-flex flex-column align-items-center gap-5">
                         <div class="d-flex flex-column">
                             <div class="mb-3">
                                 <input type="text" id="produto" name="nomeProAdd" class="form-control" placeholder="Produto" required />

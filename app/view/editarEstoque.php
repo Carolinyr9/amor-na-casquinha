@@ -40,87 +40,76 @@ if (isset($_GET['idEstoque']) && !empty($_GET['idEstoque'])) {
     <?php include_once 'components/header.php'; ?>
 
     <main>
-        <h2 class="text-center mb-3">Edição</h2>
-        <form action="editarEstoque.php" method="post"
-            class="formulario w-50 m-auto p-3 rounded-4 d-flex flex-row flex-wrap gap-4 justify-content-center">
-            <?php foreach ($produtosEstoque as $produtoEstoque) {  
-                $produto = $produtoController->selecionarProdutoPorID($produtoEstoque->getIdProduto());
-            ?>
+        <div class="d-flex flex-column justify-content-center align-items-center">
+            <h2 class="titulo">Edição</h2>
+            <form action="editarEstoque.php" method="post"
+                class="container w-50 m-auto p-3 rounded-4 d-flex flex-row flex-wrap gap-4 justify-content-center">
+                <?php foreach ($produtosEstoque as $produtoEstoque) {
+                    $produto = $produtoController->selecionarProdutoPorID($produtoEstoque->getIdProduto());
+                ?>
             
-            <h3 class="w-100 text-center mt-4"><?= $produto->getNome() ?></h3>
-            <input type="hidden" name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][idEstoque]" 
-                value="<?= $produtoEstoque->getIdEstoque() ?>">
+                <h3 class="subtitulo w-100"><?= $produto->getNome() ?></h3>
+                <input type="hidden" name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][idEstoque]"
+                    value="<?= $produtoEstoque->getIdEstoque() ?>">
+                <div class="form-group w-25">
+                    <label for="lote_">Lote</label>
+                    <input type="text" class="form-control" id="lote_<?= $produtoEstoque->getIdEstoque() ?>"
+                        name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][lote]" value="<?= $produtoEstoque->getLote() ?>"
+                        required>
+                </div>
+                <div class="form-group w-25">
+                    <label for="precoCompra_">Valor de compra</label>
+                    <input type="text" class="form-control" id="precoCompra_<?= $produtoEstoque->getIdEstoque() ?>"
+                        name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][precoCompra]"
+                        value="<?= $produtoEstoque->getPrecoCompra() ?>" required>
+                </div>
+                <div class="form-group w-25">
+                    <label for="quantidade_">Quantidade</label>
+                    <input type="number" class="form-control" id="quantidade_<?= $produtoEstoque->getIdEstoque() ?>"
+                        name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][quantidade]"
+                        value="<?= $produtoEstoque->getQuantidade() ?>" required>
+                </div>
+                <div class="form-group w-25">
+                    <label for="dtEntrada_">Entrada</label>
+                    <input type="date" class="form-control" id="dtEntrada_<?= $produtoEstoque->getIdEstoque() ?>"
+                        name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][dtEntrada]"
+                        value="<?= $produtoEstoque->getDtEntrada() ?>" required>
+                </div>
+                <div class="form-group w-25">
+                    <label for="dtFabricacao_">Fabricação</label>
+                    <input type="date" class="form-control" id="dtFabricacao_<?= $produtoEstoque->getIdEstoque() ?>"
+                        name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][dtFabricacao]"
+                        value="<?= $produtoEstoque->getDtFabricacao() ?>" required>
+                </div>
+                <div class="form-group w-25">
+                    <label for="dtVencimento_">Vencimento</label>
+                    <input type="date" class="form-control" id="dtVencimento_<?= $produtoEstoque->getIdEstoque() ?>"
+                        name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][dtVencimento]"
+                        value="<?= $produtoEstoque->getDtVencimento() ?>" required>
+                </div>
+                <div class="form-group w-25">
+                    <label for="qtdMinima_">Quantidade Mínima</label>
+                    <input type="text" class="form-control" id="qtdMinima_<?= $produtoEstoque->getIdEstoque() ?>"
+                        name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][qtdMinima]"
+                        value="<?= $produtoEstoque->getQtdMinima() ?>" required>
+                </div>
+                <div class="form-group w-25">
+                    <label for="qtdOcorrencia_">Quantidade Ocorrida</label>
+                    <input type="number" class="form-control" id="qtdOcorrencia_<?= $produtoEstoque->getIdEstoque() ?>"
+                        name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][qtdOcorrencia]"
+                        value="<?= $produtoEstoque->getQtdOcorrencia() ?>">
+                </div>
+                <div class="form-group w-100">
+                    <label for="ocorrencia_">Ocorrência</label>
+                    <textarea class="form-control" name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][ocorrencia]"
+                        id="ocorrencia_<?= $produtoEstoque->getIdEstoque() ?>"><?= $produtoEstoque->getOcorrencia() ?></textarea>
+                </div>
+                <?php } ?>
+                <input type="submit" value="Editar" name="editarsubmit" class="botao botao-primary m-auto">
+            </form>
+            <a class="botao botao-secondary mt-4" href="telaEstoque.php">Voltar</a>
+        </div>
 
-            <div class="form-group w-25">
-                <label for="lote_">Lote</label>
-                <input type="text" class="form-control" id="lote_<?= $produtoEstoque->getIdEstoque() ?>"
-                    name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][lote]" value="<?= $produtoEstoque->getLote() ?>"
-                    required>
-            </div>
-
-            <div class="form-group w-25">
-                <label for="precoCompra_">Valor de compra</label>
-                <input type="text" class="form-control" id="precoCompra_<?= $produtoEstoque->getIdEstoque() ?>"
-                    name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][precoCompra]"
-                    value="<?= $produtoEstoque->getPrecoCompra() ?>" required>
-            </div>
-
-            <div class="form-group w-25">
-                <label for="quantidade_">Quantidade</label>
-                <input type="number" class="form-control" id="quantidade_<?= $produtoEstoque->getIdEstoque() ?>"
-                    name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][quantidade]"
-                    value="<?= $produtoEstoque->getQuantidade() ?>" required>
-            </div>
-
-            <div class="form-group w-25">
-                <label for="dtEntrada_">Entrada</label>
-                <input type="date" class="form-control" id="dtEntrada_<?= $produtoEstoque->getIdEstoque() ?>"
-                    name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][dtEntrada]"
-                    value="<?= $produtoEstoque->getDtEntrada() ?>" required>
-            </div>
-
-            <div class="form-group w-25">
-                <label for="dtFabricacao_">Fabricação</label>
-                <input type="date" class="form-control" id="dtFabricacao_<?= $produtoEstoque->getIdEstoque() ?>"
-                    name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][dtFabricacao]"
-                    value="<?= $produtoEstoque->getDtFabricacao() ?>" required>
-            </div>
-
-            <div class="form-group w-25">
-                <label for="dtVencimento_">Vencimento</label>
-                <input type="date" class="form-control" id="dtVencimento_<?= $produtoEstoque->getIdEstoque() ?>"
-                    name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][dtVencimento]"
-                    value="<?= $produtoEstoque->getDtVencimento() ?>" required>
-            </div>
-
-            <div class="form-group w-25">
-                <label for="qtdMinima_">Quantidade Mínima</label>
-                <input type="text" class="form-control" id="qtdMinima_<?= $produtoEstoque->getIdEstoque() ?>"
-                    name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][qtdMinima]"
-                    value="<?= $produtoEstoque->getQtdMinima() ?>" required>
-            </div>
-
-            <div class="form-group w-25">
-                <label for="qtdOcorrencia_">Quantidade Ocorrida</label>
-                <input type="number" class="form-control" id="qtdOcorrencia_<?= $produtoEstoque->getIdEstoque() ?>"
-                    name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][qtdOcorrencia]"
-                    value="<?= $produtoEstoque->getQtdOcorrencia() ?>">
-            </div>
-
-            <div class="form-group w-100">
-                <label for="ocorrencia_">Ocorrência</label>
-                <textarea class="form-control" name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][ocorrencia]"
-                    id="ocorrencia_<?= $produtoEstoque->getIdEstoque() ?>"><?= $produtoEstoque->getOcorrencia() ?></textarea>
-            </div>
-
-            <?php } ?>
-
-            <input type="submit" value="Editar" name="editarsubmit" class="editarProduto rounded-3 px-4 text-decoration-none border-0">
-        </form>
-
-        <button class="b-voltar m-auto border-0 rounded-4 fw-bold px-3">
-            <a class="text-decoration-none color-black" href="telaEstoque.php">Voltar</a>
-        </button>
     </main>
 
     <?php include_once 'components/footer.php'; ?>

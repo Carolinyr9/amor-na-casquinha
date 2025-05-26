@@ -33,16 +33,16 @@ $categoriaController = new CategoriaProdutoController();
 
     <main class="d-flex flex-column justify-content-center align-items-center">
         <h1 class="titulo">Excluir Categoria</h1>
-        <h4 class="subtitulo">Tem certeza que deseja excluir essa categoria?</h4>
         
-        <div class="container-info d-flex align-items-center flex-column justify-content-center mx-auto my-4 p-3 rounded-4" style="background-color: var(--quaternary);">
+        <div class="container-info container d-flex align-items-center flex-column justify-content-center mx-auto my-4 p-4 rounded-4">
+        <h4 class="subtitulo text-center">Tem certeza que deseja excluir essa categoria?</h4>
             <?php if ($categoria): ?>
                 <div class="d-flex align-items-center flex-column">
                     <picture>
-                        <img src="../images/<?= htmlspecialchars($categoria->getFoto()) ?>" alt="<?= htmlspecialchars($categoria->getNome()) ?>" class="imagem">
+                        <img class="rounded-4" src="../images/<?= htmlspecialchars($categoria->getFoto()) ?>" alt="<?= htmlspecialchars($categoria->getNome()) ?>" class="imagem">
                     </picture>
                     <div class="d-flex align-items-center flex-column">
-                        <h4><?= htmlspecialchars($categoria->getNome()) ?></h4>
+                        <h4 class="subtitulo"><?= htmlspecialchars($categoria->getNome()) ?></h4>
                         <p>Descrição: <?= htmlspecialchars($categoria->getDescricao()) ?></p>
                         <p>Número de Identificação: <?= htmlspecialchars($categoria->getId()) ?></p>
                     </div>
@@ -51,7 +51,7 @@ $categoriaController = new CategoriaProdutoController();
                 <form action="" method="POST" id="formulario" class="formulario">
                     <input type="hidden" name="idCategoriaExcl" value="<?= htmlspecialchars($categoria->getId()) ?>">
                     <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
-                    <button type="submit" class="botao botao-primary">Excluir</button>
+                    <button type="submit" class="botao botao-alerta">Excluir</button>
                 </form>
             <?php else: ?>
                 <p>Categoria não encontrada.</p>

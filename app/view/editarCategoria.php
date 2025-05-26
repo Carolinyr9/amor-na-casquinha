@@ -34,12 +34,12 @@ $categoria = $categoriaController->buscarCategoriaPorID($idCategoria);
         <div class="conteiner d-flex flex-column align-items-center justify-content-center">
             <h2 class="titulo">Editar Produto</h2>
 
-            <div class="container-form rounded-4 p-3 my-3 w-50">
+            <div class="container-form d-flex flex-column align-items-center justify-content-center rounded-4 p-3 my-3 w-50">
                 <?php if ($categoria): ?>
                     <form enctype="multipart/form-data" 
                           action="<?= htmlspecialchars($_SERVER['PHP_SELF']) . '?categoria=' . htmlspecialchars($categoria->getId()) ?>" 
                           method="POST" 
-                          class="d-flex flex-column">
+                          class="d-flex flex-column w-75">
 
                         <input type="hidden" name="categoria" value="<?= htmlspecialchars($categoria->getId()) ?>">
                         <input type="hidden" name="imagemProdEdt" value="<?= htmlspecialchars($categoria->getFoto()) ?>">

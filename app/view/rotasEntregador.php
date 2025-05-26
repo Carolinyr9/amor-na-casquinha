@@ -28,19 +28,21 @@ $dadosEndereco = obterEnderecoCompleto($_GET['idEndereco']);
     <?php include_once 'components/header.php'; ?>
 
     <main class="d-flex justify-content-center align-items-center flex-column">
-        <h1 class="m-auto text-center pt-4 pb-4">Rotas</h1>
-        <div class="container-mapa w-100 p-3 m-auto">
-            <h4>Endereço do Destinatário</h4>
-            <p>
-                Rua: <?= $dadosEndereco['rua']; ?>, Nº <?= $dadosEndereco['numero']; ?><br>
-                <?php if (!empty($dadosEndereco['complemento'])): ?>
-                    Complemento: <?= $dadosEndereco['complemento']; ?><br>
-                <?php endif; ?>
-                Bairro: <?= $dadosEndereco['bairro']; ?><br>
-                Cidade: <?= $dadosEndereco['cidade']; ?><br>
-                Estado: <?= $dadosEndereco['estado']; ?><br>
-                CEP: <?= $dadosEndereco['cep']; ?>
-            </p>
+        <h1 class="titulo m-auto text-center py-4">Rotas</h1>
+        <div class="container-mapa d-flex flex-column justify-content-center align-items-center w-100 p-3 m-auto">
+            <h4 class="subtitulo">Endereço do Destinatário</h4>
+            <div>
+                <p>
+                    Rua: <?= $dadosEndereco['rua']; ?>, Nº <?= $dadosEndereco['numero']; ?><br>
+                    <?php if (!empty($dadosEndereco['complemento'])): ?>
+                        Complemento: <?= $dadosEndereco['complemento']; ?><br>
+                    <?php endif; ?>
+                    Bairro: <?= $dadosEndereco['bairro']; ?><br>
+                    Cidade: <?= $dadosEndereco['cidade']; ?><br>
+                    Estado: <?= $dadosEndereco['estado']; ?><br>
+                    CEP: <?= $dadosEndereco['cep']; ?>
+                </p>
+            </div>
 
             <iframe class="mapa"
                 id="mapa" 
@@ -52,9 +54,7 @@ $dadosEndereco = obterEnderecoCompleto($_GET['idEndereco']);
             </iframe>
         </div>
 
-        <button class="voltar mt-5 fs-5 fw-bold rounded-4 border-0">
-            <a class="text-decoration-none fs-5" href="pedidosEntregador.php">Voltar</a>
-        </button>
+        <a class="botao botao-secondary" href="pedidosEntregador.php">Voltar</a>
     </main>
 
     <?php include_once 'components/footer.php'; ?>

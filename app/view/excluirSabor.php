@@ -33,10 +33,11 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
     <?php include_once 'components/header.php'; ?>
 
     <main class="d-flex flex-column justify-content-center align-items-center">
-        <h1 class="m-auto text-center pt-4 pb-4">Excluir Sabor</h1>
-        <h4 class="text-center">Tem certeza que deseja excluir esse sabor?</h4>
+        <h1 class="titulo">Excluir Sabor</h1>
 
-        <div class="c1 mx-auto my-4 p-2 rounded-4 d-flex align-items-center flex-column justify-content-center">
+        <div class="container-info container d-flex align-items-center flex-column justify-content-center mx-auto my-4 p-4 rounded-4">
+        <h4 class="subtitulo text-center">Tem certeza que deseja excluir esse sabor?</h4>
+
             <?php if ($produto): ?>
                 <div class="d-flex align-items-center flex-column">
                     <picture>
@@ -45,7 +46,7 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
                              class="imagem">
                     </picture>
                     <div class="d-flex align-items-center flex-column">
-                        <h4><?= htmlspecialchars($produto->getNome()) ?></h4>
+                        <h4 class="subtitulo"><?= htmlspecialchars($produto->getNome()) ?></h4>
                         <p>Número de Identificação: <?= htmlspecialchars($produto->getId()) ?></p>
                         <p>Preço: R$ <?= htmlspecialchars(number_format($produto->getPreco(), 2, ',', '.')) ?></p>
                     </div>
@@ -53,16 +54,15 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
 
                 <form action="" method="POST" id="formulario" class="formulario">
                     <input type="hidden" name="idProdutoExcl" value="<?= htmlspecialchars($produto->getId()) ?>">
-                    <button type="submit" class="btnExcluir border-0 rounded-4 px-3 fw-bold">Excluir</button>
+                    <button type="submit" class="botao botao-alerta">Excluir</button>
                 </form>
             <?php else: ?>
                 <p>Produto não encontrado.</p>
             <?php endif; ?>
         </div>
 
-        <button class="voltar m-auto border-0 rounded-4 fw-bold">
-            <a class="text-decoration-none color-black" href="gerenciarProdutos.php?categoria=<?= htmlspecialchars($categoriaId) ?>">Voltar</a>
-        </button>
+        <a class="botao botao-secondary" href="gerenciarProdutos.php?categoria=<?= htmlspecialchars($categoriaId) ?>">Voltar</a>
+        
     </main>
 
     <?php include_once 'components/footer.php'; ?>

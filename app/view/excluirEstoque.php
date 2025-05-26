@@ -35,14 +35,14 @@ if (isset($_GET['idEstoque']) && !empty($_GET['idEstoque'])) {
     <?php include_once 'components/header.php'; ?>
 
     <main class="d-flex flex-column justify-content-center align-items-center">
-        <h1 class="m-auto text-center pt-4 pb-4">Excluir produto do estoque</h1>
+        <h1 class="titulo">Excluir produto do estoque</h1>
         <p class="text-center text-wrap w-50">
             Tem certeza que deseja excluir esse produto? Ele também será excluído dos produtos em visualização para compra de clientes.
         </p>
 
-        <div class="dashboard w-25 mx-auto my-4 p-4 rounded-4 d-flex align-items-center flex-column justify-content-center">
+        <div class="container-info container d-flex align-items-center flex-column justify-content-center mx-auto my-4 p-4 rounded-4">
             <?php if (isset($estoqueProduto) && $estoqueProduto): ?>
-                <form action="" method="POST" id="formulario" class="d-flex justify-content-center flex-column">
+                <form action="" method="POST" id="formulario" class="d-flex justify-content-center align-items-center flex-column">
                     <?php 
                         $categoria = $categoriaController->buscarCategoriaPorID($estoqueProduto->getIdCategoria());
                         $produto = $produtoController->selecionarProdutoPorID($estoqueProduto->getIdProduto());
@@ -53,26 +53,24 @@ if (isset($_GET['idEstoque']) && !empty($_GET['idEstoque'])) {
                         <p>Produto: <?= $produto ? $produto->getNome() : 'Produto não encontrado' ?></p>
                         <p>Lote: <?= $estoqueProduto->getLote() ?></p>
 
-                        <div class="img-box" style="width: 40%; height: auto;">
-                            <img class="imagem m-2 rounded-4 w-100 h-auto"
-                                 src="../images/<?= htmlspecialchars($produto->getFoto()) ?>"
-                                 alt="<?= htmlspecialchars($produto->getNome()) ?>">
-                        </div>
+                        <picture>
+                            <img class="rounded-4"
+                                    src="../images/<?= htmlspecialchars($produto->getFoto()) ?>"
+                                    alt="<?= htmlspecialchars($produto->getNome()) ?>">
+                        </picture>
 
                         <input type="hidden" name="idEstoque" value="<?= htmlspecialchars($estoqueProduto->getIdEstoque()) ?>">
                         <input type="hidden" name="idProduto" value="<?= htmlspecialchars($estoqueProduto->getIdProduto()) ?>">
                     </div>
 
-                    <input type="submit" name="excluirSubmit" class="input-excluir border-0 rounded-4 px-3 fw-bold mx-auto" value="Excluir" />
+                    <input type="submit" name="excluirSubmit" class="botao botao-alerta mx-auto mt-4" value="Excluir" />
                 </form>
             <?php else: ?>
                 <p>Produto não encontrado.</p>
             <?php endif; ?>
         </div>
 
-        <button class="b-voltar m-auto border-0 rounded-4 fw-bold px-3">
-            <a class="text-decoration-none color-black" href="telaEstoque.php">Voltar</a>
-        </button>
+        <a class="botao botao-secondary mt-4" href="telaEstoque.php">Voltar</a>
     </main>
 
     <?php include_once 'components/footer.php'; ?>

@@ -3,6 +3,7 @@ session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/produto/editarProdutos.php';
+
 use app\controller\ProdutoController;
 
 $produtoController = new ProdutoController();
@@ -26,41 +27,46 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
     <script src="script/exibirArquivoImagem.js"></script>
 </head>
 <body>
-<?php include_once 'components/header.php'; ?>
-<main>
-    <div class="d-flex flex-column align-items-center justify-content-center flex-column">
-        <h2 class="titulo">Editar Sabor</h2>
-        <div class="conteiner-form d-flex flex-column rounded-4 my-3 w-25 border p-4" style="background-color: var(--quaternary);">
-            <?php if ($produto): ?>
-                <form enctype="multipart/form-data" action="<?= htmlspecialchars($_SERVER["PHP_SELF"] . '?idVariacao=' . htmlspecialchars($produto->getCategoria())) ?>" method="POST" id="formulario" class="container d-flex flex-column justify-content-center align-items-center">
-                    <input type="hidden" name="idProduto" value="<?= htmlspecialchars($produto->getId()) ?>">
-                    <input type="hidden" name="idCategoria" value="<?= htmlspecialchars($_GET['idCategoria']) ?>">
-                    <input type="hidden" name="imagemSabEdt" value="<?= htmlspecialchars($produto->getFoto()) ?>">
+    <?php include_once 'components/header.php'; ?>
+    <main>
+        <div class="conteiner d-flex flex-column align-items-center justify-content-center">
+            <h2 class="titulo">Editar Sabor</h2>
 
-                    <div class="w-100 mb-3">
-                        <input type="text" class="form-control" name="nomeProdEdt" id="produto" value="<?= htmlspecialchars($produto->getNome()) ?>" required>
-                    </div>
+            <div class="container-form d-flex flex-column align-items-center justify-content-center rounded-4 p-3 my-3 w-50">
+                <?php if ($produto): ?>
+                    <form enctype="multipart/form-data" action="<?= htmlspecialchars($_SERVER["PHP_SELF"] . '?idVariacao=' . htmlspecialchars($produto->getCategoria())) ?>" method="POST" id="formulario" class="d-flex flex-column w-75">
 
-                    <div class="w-100 mb-3">
-                        <input type="text" class="form-control" name="precoSabEdt" id="preco" value="<?= htmlspecialchars($produto->getPreco()) ?>" required>
-                    </div>
+                        <input type="hidden" name="idProduto" value="<?= htmlspecialchars($produto->getId()) ?>">
+                        <input type="hidden" name="idCategoria" value="<?= htmlspecialchars($_GET['idCategoria']) ?>">
+                        <input type="hidden" name="imagemSabEdt" value="<?= htmlspecialchars($produto->getFoto()) ?>">
 
-                    <div class="w-100 mb-3">
-                        <input type="file" id="imagem" name="imagem" class="form-control">
-                    </div>
+                        <div class="mb-3">
+                            <label for="produto" class="form-label">Produto</label>
+                            <input type="text" class="form-control" name="nomeProdEdt" id="produto" value="<?= htmlspecialchars($produto->getNome()) ?>" required>
+                        </div>
 
-                    <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto my-3" style="max-width: 150px; display: none;">
+                        <div class="mb-3">
+                            <label for="preco" class="form-label">Preço</label>
+                            <input type="text" class="form-control" name="precoSabEdt" id="preco" value="<?= htmlspecialchars($produto->getPreco()) ?>" required>
+                        </div>
 
-                    <input type="submit" name="btnEditar" class="botao botao-primary" value="Editar" />
-                </form>
-            <?php else: ?>
-                <p>Produto não encontrado.</p>
-            <?php endif; ?>
+                        <div class="mb-3">
+                            <label for="imagem" class="form-label">Imagem</label>
+                            <input type="file" id="imagem" name="imagem" class="form-control">
+                        </div>
+
+                        <img id="preview" src="" alt="Pré-visualização da imagem" class="mx-auto my-3" style="max-width: 150px; display: none;">
+
+                        <input type="submit" name="btnEditar" class="botao botao-primary mx-auto mt-4" value="Editar" />
+                    </form>
+                <?php else: ?>
+                    <p>Produto não encontrado.</p>
+                <?php endif; ?>
+            </div>
+
+                <a class="botao botao-secondary" href="gerenciarProdutos.php?categoria=<?= $produto ? htmlspecialchars($produto->getCategoria()) : '' ?>">Voltar</a>
         </div>
-
-            <a class="botao botao-secondary" href="gerenciarProdutos.php?categoria=<?= $produto ? htmlspecialchars($produto->getCategoria()) : '' ?>">Voltar</a>
-    </div>
-</main>
+    </main>
 <?php include_once 'components/footer.php'; ?>
 <script src="script/header.js"></script>
 <script src="script/adicionar.js"></script>
