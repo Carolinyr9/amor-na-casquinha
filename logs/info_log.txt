@@ -12,3 +12,16 @@
 [2025-05-18 21:42:46] INFO: Status do pedido alterado com sucesso!
 [2025-05-18 21:42:58] INFO: Status do pedido alterado com sucesso!
 [2025-05-18 21:43:18] INFO: Status do pedido alterado com sucesso!
+[2025-05-24 02:51:43] INFO: Pedido criado com sucesso! ID do pedido: 203
+[2025-05-24 02:51:43] INFO: Pedido criado com sucesso!
+[2025-05-26 21:14:32] INFO: Status do pedido alterado com sucesso!
+[2025-05-26 21:14:39] INFO: Status do pedido alterado com sucesso!
+[2025-05-26 21:16:47] INFO: Status do pedido alterado com sucesso!
+[2025-05-27 00:31:39] INFO: Pedido criado com sucesso! ID do pedido: 204
+[2025-05-27 00:31:39] INFO: Pedido criado com sucesso!
+[2025-05-27 00:31:52] INFO: Pedido criado com sucesso! ID do pedido: 205
+[2025-05-27 00:31:52] INFO: Pedido criado com sucesso!
+[2025-05-27 00:32:03] INFO: Pedido criado com sucesso! ID do pedido: 206
+[2025-05-27 00:32:03] INFO: Pedido criado com sucesso!
+[2025-05-27 00:53:07] INFO: Pedido criado com sucesso! ID do pedido: 207
+[2025-05-27 00:53:07] INFO: Pedido criado com sucesso!

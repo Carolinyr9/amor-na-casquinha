@@ -1,56 +1,19 @@
-main{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: calc(100vh - 170px);
-    font-family: var(--Nunito);
-}
-
-.container-section{
+.container-section {
+    width: 50%;
     background-color: var(--quaternary);
 }
 
-.conteiner-pedidos{
+.conteiner-pedidos {
     background-color: var(--quaternary);
 }
 
-/* sobre.php */
-.formEditar{
+form {
     display: none;
 }
 
-.exibir{
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-}
-/* sobre.php */
-
-form input{
-    padding-left: 4px;
-}
-
-@media (min-width: 768px) {
-    .c1{
-        width: 50%;
-    }
-
-    form label, input{
-        font-size: 1.2rem;
-        height: 30px;
-    }
-
-    .btnEditar{
-        width: 100px;
-    }
-
-    .btnMudarStatus{
-        width: 190px;
-    }
-
-    .btnCancelaPedido{
-        width: 140px;
+@media (max-width: 768px) {
+    .container-section {
+        width: 90%;
     }
 
 }

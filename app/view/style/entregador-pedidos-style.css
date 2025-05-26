@@ -1,66 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
-
-:root{
-    --roxo-bebe: #D4C7FF;
-    --Nunito: 'Nunito', sans-serif;
-    --Agbalumo: 'Agbalumo';
-    --azul-bebe: #C9EFFF;
-    --rosa-bebe: #FFC7E8;
-    --amarelo-bebe: #FFFAC7;
-    --verde-bebe: #E2FFC7;
-}
-
-main{
-    min-height: calc(100vh - 170px);
-    font-family: var(--Nunito);
-}
-
-h1{
-    font-family: var(--Agbalumo);
-    font-size: 2rem;
-    width: 70%;
-    text-align: center;
-    margin: 20px auto;
-}
-
 .card{
     border: 3px solid var(--roxo-bebe);
     box-shadow: 10px 10px 10px #9c9c9c1b;
 }
 
-.btn__rotas{
-    background-color: var(--azul-bebe);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-}
-
-.btn__rotas:hover {
-    background-color: #6ccad6;
-    transform: scale(1.03);
-}
-
-.btn__pedido--falha{
-    background-color: white;
-    border: 2px solid var(--rosa-bebe);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-}
-
-.btn__pedido--falha:hover {
-    background-color: #FFC7E8;
-    transform: scale(1.03);
-}
-
-.btn__pedido--concluido{
-    background-color: var(--verde-bebe);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s;
-    -webkit-transition: all 0.5s;
-}
-
-.btn__pedido--concluido:hover {
-    background-color: #acdb7f;
-    transform: scale(1.03);
+@media (max-width: 735px) {
+    .card {
+        width: 100%;
+        margin: 0 auto;
+    }
 }

@@ -1,5 +1,6 @@
 .container-info {
     width: 30%;
+    background-color: var(--quaternary);
 }
 
 picture img {

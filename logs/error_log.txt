@@ -328,3 +328,90 @@
 [2025-05-22 23:52:12] ERROR: ID do endereço não fornecido!
 [2025-05-22 23:53:04] ERROR: ID do endereço não fornecido!
 [2025-05-23 01:17:58] ERROR: Dados inválidos para criação do entregador.
+[2025-05-24 02:49:34] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-05-24 02:50:30] ERROR: Erro ao editar endereço!
+[2025-05-24 02:51:02] ERROR: Erro ao calcular o frete.
+[2025-05-24 02:51:43] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
+[2025-05-24 02:53:53] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 203 encontrado!
+[2025-05-26 21:29:19] ERROR: Dados inválidos para edição da categoria.
+[2025-05-26 21:37:37] ERROR: Dados inválidos para edição da categoria.
+[2025-05-26 21:59:28] ERROR: Dados inválidos para edição do produto.
+[2025-05-26 23:02:56] ERROR: Erro ao buscar desativar produto por ID: ID não fornecido!
+[2025-05-26 23:48:35] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-05-26 23:48:50] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-05-26 23:52:23] ERROR: Dados inválidos para criação do funcionário.
+[2025-05-27 00:04:17] ERROR: Erro ao buscar desativar produto por ID: ID não fornecido!
+[2025-05-27 00:07:59] ERROR: Número inválido! Insira um número válido.
+[2025-05-27 00:07:59] ERROR: CEP inválido. Use o formato 99999-999
+[2025-05-27 00:07:59] ERROR: Dados inválidos para criação do fornecedor.
+[2025-05-27 00:13:04] ERROR: Erro ao listar entregador: Entregador não encontrado.
+[2025-05-27 00:13:04] ERROR: Entregador não encontrado para desativação.
+[2025-05-27 00:13:06] ERROR: Erro ao listar entregador: Entregador não encontrado.
+[2025-05-27 00:13:06] ERROR: Entregador não encontrado para desativação.
+[2025-05-27 00:13:10] ERROR: Erro ao listar entregador: Entregador não encontrado.
+[2025-05-27 00:13:10] ERROR: Entregador não encontrado para desativação.
+[2025-05-27 00:16:12] ERROR: Erro ao criar pedido: Campo obrigatório 'idCliente' não fornecido!
+[2025-05-27 00:16:12] ERROR: Dados inválidos para criação de itens do pedido.
+[2025-05-27 00:18:41] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:20:22] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:20:29] ERROR: Erro ao editar endereço!
+[2025-05-27 00:20:29] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:20:50] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:20:50] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:20:51] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:20:58] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:20:58] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:20:59] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:21:20] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:21:21] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:21:21] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:21:28] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:21:28] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:21:29] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:22:28] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:22:29] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:22:29] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:22:40] ERROR: Erro ao editar endereço!
+[2025-05-27 00:22:40] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:22:49] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:22:49] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:22:50] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:23:21] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:23:21] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:23:21] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:23:22] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:23:36] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:23:36] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:23:39] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:26:25] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:26:26] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:26:30] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:26:31] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:26:31] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:26:32] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:26:34] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:27:15] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:27:15] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:27:17] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:27:32] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:27:33] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:29:09] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:29:10] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:29:51] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:29:56] ERROR: Erro ao editar endereço!
+[2025-05-27 00:29:56] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:30:06] ERROR: Erro ao editar endereço!
+[2025-05-27 00:30:06] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:30:27] ERROR: Erro ao calcular o frete.
+[2025-05-27 00:30:29] ERROR: Erro ao calcular o frete.
+[2025-05-27 00:30:35] ERROR: Erro ao calcular o frete.
+[2025-05-27 00:31:06] ERROR: Erro ao criar pedido: Troco para não fornecido!
+[2025-05-27 00:31:06] ERROR: Dados inválidos para criação de itens do pedido.
+[2025-05-27 00:31:06] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:31:28] ERROR: Erro ao criar pedido: Troco para não fornecido!
+[2025-05-27 00:31:28] ERROR: Dados inválidos para criação de itens do pedido.
+[2025-05-27 00:31:28] ERROR: Pedido com ID 4 não encontrado
+[2025-05-27 00:31:39] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
+[2025-05-27 00:31:52] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
+[2025-05-27 00:32:03] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
+[2025-05-27 00:53:07] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
