@@ -18,6 +18,11 @@ $dadosEndereco = obterEnderecoCompleto($_GET['idEndereco']);
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/rotasEntregador.css">
+    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/components/cards.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>

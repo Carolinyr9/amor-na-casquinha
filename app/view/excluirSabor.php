@@ -23,6 +23,9 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="style/CabecalhoRodape.css">
     <link rel="stylesheet" href="style/excluirProdS.css">
+    <link rel="stylesheet" href="style/components/botao.css">
+    <link rel="stylesheet" href="style/base/global.css">
+    <link rel="stylesheet" href="style/base/variables.css">
     <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
