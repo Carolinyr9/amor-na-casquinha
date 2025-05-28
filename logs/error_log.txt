@@ -415,3 +415,10 @@
 [2025-05-27 00:31:52] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
 [2025-05-27 00:32:03] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
 [2025-05-27 00:53:07] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
+[2025-05-28 13:11:09] ERROR: Erro ao buscar desativar produto por ID: ID não fornecido!
+[2025-05-28 13:15:13] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-05-28 13:18:01] ERROR: Erro ao editar produto.
+[2025-05-28 13:21:33] ERROR: Dados inválidos para criação do funcionário.
+[2025-05-28 13:27:41] ERROR: Dados inválidos para criação do funcionário.
+[2025-05-28 13:28:52] ERROR: Dados inválidos para criação do funcionário.
+[2025-05-28 13:31:31] ERROR: Dados inválidos para criação do funcionário.

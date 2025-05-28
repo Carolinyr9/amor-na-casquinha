@@ -57,12 +57,12 @@ class EntregadorController {
                 $entregadores[] = new Entregador(
                     $entregador['idEntregador'],
                     $entregador['desativado'],
-                    $entregador['perfil'],
                     $entregador['nome'],
                     $entregador['email'],
                     $entregador['telefone'],
                     $entregador['senha'],
-                    $entregador['cnh']
+                    $entregador['cnh'],
+                    $entregador['perfil']
                 );
             }
 
@@ -82,12 +82,12 @@ class EntregadorController {
             $entregador = new Entregador(
                 $dados['idEntregador'],
                 $dados['desativado'],
-                $dados['perfil'],
                 $dados['nome'],
                 $dados['email'],
                 $dados['telefone'],
                 $dados['senha'],
-                $dados['cnh']
+                $dados['cnh'],
+                $dados['perfil']
             );
 
             return $entregador;
@@ -106,12 +106,12 @@ class EntregadorController {
             $entregador = new Entregador(
                 $dados['idEntregador'],
                 $dados['desativado'],
-                $dados['perfil'],
                 $dados['nome'],
                 $dados['email'],
                 $dados['telefone'],
                 $dados['senha'],
-                $dados['cnh']
+                $dados['cnh'],
+                $dados['perfil']
             );
 
             return $entregador;

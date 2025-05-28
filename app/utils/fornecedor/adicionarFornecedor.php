@@ -7,22 +7,22 @@ if(isset($_POST['submitBtn'])) {
     $fornecedorController = new FornecedorController();
     $enderecoController = new EnderecoController();
     $dadosEndereco = [
-        'rua' => $_POST['ruaForn'],
-        'numero' => $_POST['numeroForn'],
-        'bairro' => $_POST['bairroForn'],
-        'complemento' => $_POST['complementoForn'],
-        'cep' => $_POST['cepForn'],
-        'cidade' => $_POST['cidadeForn'],
-        'estado' => $_POST['estadoForn']
+        'rua' => $_POST['rua'],
+        'numero' => $_POST['numero'],
+        'bairro' => $_POST['bairro'],
+        'complemento' => $_POST['complemento'],
+        'cep' => $_POST['cep'],
+        'cidade' => $_POST['cidade'],
+        'estado' => $_POST['estado']
     ];
 
     $idEndereco = $enderecoController->criarEndereco($dadosEndereco);
 
     $dadosFornecedor = [
-        'nome' => $_POST['nomeForn'],
-        'email' => $_POST['emailForn'],
-        'telefone' => $_POST['telefoneForn'],
-        'cnpj' => $_POST['cnpjForn'],
+        'nome' => $_POST['nome'],
+        'email' => $_POST['email'],
+        'telefone' => $_POST['telefone'],
+        'cnpj' => $_POST['cnpj'],
         'idEndereco' => $idEndereco
     ];
 

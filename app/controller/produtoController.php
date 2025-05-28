@@ -132,18 +132,18 @@ class ProdutoController {
         }
     }
 
-    public function desativarProduto($idProduto) {
+    public function desativarProduto($id) {
         try {
             if (!isset($id) || empty($id)) {
                 Logger::logError("Erro ao buscar desativar produto por ID: ID não fornecido!");
                 return false;
             }
 
-            $produto = $this->repository->selecionarProdutoPorID($idProduto);
+            $produto = $this->repository->selecionarProdutoPorID($id);
 
             if ($produto) {
                 $produto->setDesativado(1);
-                $resultado = $this->repository->desativarProduto($idProduto);
+                $resultado = $this->repository->desativarProduto($id);
 
                 if ($resultado) {
                     return true;

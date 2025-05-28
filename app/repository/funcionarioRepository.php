@@ -76,13 +76,13 @@ class FuncionarioRepository {
         }
     }
 
-    public function criarFuncionario($nome, $email, $telefone, $senha, $adm): int {
+    public function criarFuncionario($nome, $email, $telefone, $senha, $adm, $idEndereco): int {
         try {
             $stmt = $this->conn->prepare("
                 INSERT INTO funcionario (
-                    nome, email, telefone, senha, adm, perfil, desativado
+                    nome, email, telefone, senha, adm, perfil, idEndereco, desativado
                 ) VALUES (
-                    :nome, :email, :telefone, :senha, :adm, 'FUNC', 0
+                    :nome, :email, :telefone, :senha, :adm, 'FUNC', :idEndereco, 0
                 )
             ");
 
@@ -91,6 +91,7 @@ class FuncionarioRepository {
             $stmt->bindParam(':telefone', $telefone);
             $stmt->bindParam(':senha', $senha);
             $stmt->bindParam(':adm', $adm);
+            $stmt->bindParam(':idEndereco', $idEndereco);
 
             $stmt->execute();
             return $this->conn->lastInsertId();
