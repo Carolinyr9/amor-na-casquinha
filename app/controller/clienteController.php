@@ -117,6 +117,34 @@ class ClienteController {
             return false;
         }
     }
+
+    public function alterarSenha($dados) {
+        try {
+            if (
+                empty($dados['senhaNova']) || 
+                empty($dados['senhaAtual']) || 
+                empty($dados['idCliente'])
+            ) {
+                Logger::logError("Dados inválidos para edição da senha.");
+                return false;
+            }
+
+            $senhaNovaHash = password_hash($dados['senhaNova'], PASSWORD_DEFAULT);
+
+            $resultado = $this->repository->editarSenha(
+                $dados['senhaNova'],
+                $dados['senhaAtual'], 
+                $dados['idCliente']
+            );
+
+            return $resultado ?: Logger::logError("Erro ao editar senha no repositório.");
+
+        } catch (Exception $e) {
+            Logger::logError("Erro ao editar senha: " . $e->getMessage());
+            return false;
+        }
+    }
+
     
 }
 ?>
