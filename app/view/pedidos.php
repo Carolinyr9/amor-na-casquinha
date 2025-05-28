@@ -51,8 +51,12 @@ $paginaAtual = $resultadoPaginado['pagina_atual'];
 
                     <div class="d-flex flex-row flex-wrap justify-content-center gap-5 w-100">
                         <div class="mb-3">
-                            <label for="userEmail" class="form-label">Email do cliente:</label>
-                            <input type="text" id="userEmail" name="userEmail" class="form-control" placeholder="Se não possuir, não preencher">
+                            <label for="idCliente" class="form-label">ID do cliente:</label>
+                            <input type="text" id="idCliente" name="idCliente" class="form-control" placeholder="Se não possuir, preencher com 0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="idEndereco" class="form-label">ID do endereco:</label>
+                            <input type="text" id="idEndereco" name="idEndereco" class="form-control" placeholder="Se não possuir, preencher com 0" required>
                         </div>
                         <div class="mb-3">
                             <label for="produtosPedidos" class="form-label">Produtos Pedidos:</label>
@@ -101,6 +105,7 @@ $paginaAtual = $resultadoPaginado['pagina_atual'];
         </div>
 
         <?php include_once 'components/paginacaoPedidos.php'; ?>
+
     </main>
 
     <?php include_once 'components/footer.php'; ?>

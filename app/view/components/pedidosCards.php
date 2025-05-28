@@ -1,5 +1,6 @@
 <?php
-$paginaAtual = basename($_SERVER['SCRIPT_NAME']);
+$nomePaginaAtual = basename($_SERVER['SCRIPT_NAME']);
+
 
 if (!empty($pedidos)): ?>
     <?php foreach ($pedidos as $pedido): 

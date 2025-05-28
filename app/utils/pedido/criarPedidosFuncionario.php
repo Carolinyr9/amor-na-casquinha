@@ -1,6 +1,7 @@
 <?php
 use app\controller\PedidoController;
 use app\controller\ItemPedidoController;
+use app\utils\helpers\Logger;
 
 $itemPedidoController = new ItemPedidoController();
 $pedidoController = new PedidoController();
@@ -8,9 +9,9 @@ $pedidoController = new PedidoController();
 if (isset($_POST['addPedido'])) {
     $produtosArray = explode(";", $_POST["produtosPedidos"] ?? "");
     $quantidadesArray = explode(";", $_POST["quantidadeProdutosPedidos"] ?? "");
-    
+
     $dadosPedido = [
-        'idCliente' => $_POST["idCliente"] ?? null,
+        'idCliente' => $_POST["idCliente"] ?? 0,
         'idEndereco' => $_POST["idEndereco"] ?? null,
         'tipoFrete' => isset($_POST["ckbIsDelivery"]) ? 1 : 0,
         'valorTotal' => $_POST["valorTotal"] ?? "0.00",
