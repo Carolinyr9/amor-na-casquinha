@@ -163,12 +163,52 @@ class EstoqueController {
         }
     }
 
+    public function decrementarQuantidade($dados) {
+        try {
+            if (empty($dados['idProduto']) || empty($dados['quantidade'])) {
+                Logger::logError("Dados inválidos para decrementação do produto no estoque.");
+                return false;
+            }
+
+            $produto = $this->repository->selecionarProdutoEstoquePorID($dados['idProduto']);
+
+            if ($produto) {
+                $novaQuantidade = $this->calcularNovaQuantidade($produto->getQuantidade(), (int)$dados['quantidade']);
+
+                if ($novaQuantidade < 0) {
+                    Logger::logError("Quantidade insuficiente em estoque.");
+                    return false;
+                }
+
+                $resultado = $this->repository->decrementarProduto($novaQuantidade, $dados['idProduto']);
+
+                if ($resultado) {
+                    return true;
+                } else {
+                    Logger::logError("Erro ao decrementar produto.");
+                }
+            } else {
+                Logger::logError("Produto não encontrado.");
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao decrementar produto: " . $e->getMessage());
+        }
+
+        return false;
+    }
+
+
+
     public function verificarQuantidadeMinima(){
         try {
             return $this->repository->verificarQuantidadeMinima();
         } catch (Exception $e) {
             Logger::logError("Erro ao verificar quantidade mínima: " . $e->getMessage());
         }
+    }
+
+    private function calcularNovaQuantidade($quantidadeAntiga, $quantidadeDecrementada){
+        return $quantidadeAntiga - $quantidadeDecrementada;
     }
 }
 ?>

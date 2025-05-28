@@ -2,6 +2,7 @@
 session_start();
 require_once '../../vendor/autoload.php';
 require_once '../config/blockURLAccess.php';
+require_once '../utils/estoque/quantidadeMinima.php';
 
 use app\controller\EstoqueController;
 use app\controller\ProdutoController;
