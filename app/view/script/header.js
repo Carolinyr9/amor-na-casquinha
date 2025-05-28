@@ -1,18 +1,16 @@
-(()=>{
-//referências
-var toggleBtn = document.getElementById('toggleBtn');
-var navigation = document.querySelector('.navigation');
-
-// evento de clique para toggleBtn
-toggleBtn.addEventListener('click', function() {
-    // Verifica se a classe "active" já está presente na navigation
-    var isActive = navigation.classList.contains('active');
-
-    // Se já estiver ativa, remove a classe; caso contrário, adiciona a classe
-    if (isActive) {
-        navigation.classList.remove('active');
+$(document).ready(function() {
+    $('#toggleBtn').click(function () {
+    const nav = $('.navigation');
+    
+    if (nav.is(':visible')) {
+        console.log('hide');
+        nav.hide(); 
+        nav.removeClass('active');
     } else {
-        navigation.classList.add('active');
+        console.log('show');
+        nav.css('display', 'flex').hide().show();
+        nav.addClass('active');
     }
+    });
+
 });
-})()
