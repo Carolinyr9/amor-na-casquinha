@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+    .fomulario-relatorio {
+        flex-direction: column !important;
+        margin: 0 auto;
+    }
+}
