@@ -3,6 +3,7 @@ session_start();
 require_once '../config/blockURLAccess.php';
 require_once '../../vendor/autoload.php';
 require_once '../utils/pedido/mudarStatusPedidoEntregador.php';
+require_once '../utils/pedido/paginacaoPedidos.php';
 
 use app\controller\PedidoController;
 use app\controller\EntregadorController;
@@ -12,6 +13,14 @@ $entregadorController = new EntregadorController();
 
 $entregador = $entregadorController->listarEntregadorPorEmail($_SESSION['userEmail']);
 $pedidos = $pedidoController->listarPedidoPorIdEntregador($entregador->getId());
+
+$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+$pedidos = $pedidoController->listarPedidos();
+
+$resultadoPaginado = paginarArray($pedidos, 8, $paginaAtual);
+$pedidos = $resultadoPaginado['dados'];
+$totalPaginas = $resultadoPaginado['total_paginas'];
+$paginaAtual = $resultadoPaginado['pagina_atual'];
 ?>
 
 <!DOCTYPE html>

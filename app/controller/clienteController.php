@@ -145,6 +145,33 @@ class ClienteController {
         }
     }
 
+    public function desativarPerfil($email) {
+        try {
+            if (!isset($email) || empty($email)) {
+                Logger::logError("Erro ao buscar desativar cliente: e-mail não fornecido!");
+                return false;
+            }
+
+            $pedido = $this->listarClientePorEmail($email);
+
+            if ($pedido) {
+                $resultado = $this->repository->desativarPerfil($email);
+
+                if ($resultado) {
+                    return true;
+                } else {
+                    Logger::logError("Erro ao desativar cliente");
+                    return false;
+                }
+            } else {
+                Logger::logError("Cliente não encontrado");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao desativar cliente: " . $e->getMessage());
+            return false;
+        }
+    }
     
 }
 ?>

@@ -1,34 +1,5 @@
 <?php
-session_start();
-require_once '../../vendor/autoload.php';
-require_once '../utils/pedido/criarPedidos.php';
-require_once '../utils/cliente/alterarCliente.php';
-require_once '../config/config.php';
-require_once '../utils/pedido/paginacaoPedidos.php';
-require_once '../utils/cliente/alterarSenha.php';
-
-use app\controller\ClienteController;
-use app\controller\PedidoController;
-use app\controller\CarrinhoController;
-use app\controller\EnderecoController;
-
-$pedidoController = new PedidoController(); 
-$clienteController = new ClienteController();
-$carrinho = new CarrinhoController();
-$enderecoController = new EnderecoController();
-
-$clienteData = $clienteController->listarClientePorEmail($_SESSION["userEmail"]);
-$endereco = $enderecoController->listarEnderecoPorId($clienteData->getIdEndereco());
-$pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
-
-$pedidoController = new PedidoController();
-$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$pedidos = $pedidoController->listarPedidos();
-
-$resultadoPaginado = paginarArray($pedidos, 8, $paginaAtual);
-$pedidos = $resultadoPaginado['dados'];
-$totalPaginas = $resultadoPaginado['total_paginas'];
-$paginaAtual = $resultadoPaginado['pagina_atual'];
+require_once '../utils/cliente/inicializarPerfil.php';
 ?>
 
 <!DOCTYPE html>
@@ -132,6 +103,19 @@ $paginaAtual = $resultadoPaginado['pagina_atual'];
         <section>
             <h1 class="titulo">Meus pedidos</h1>
             <div class="container d-flex flex-row flex-wrap justify-content-center gap-5 mt-5"><?php include 'components/pedidosCards.php'; ?></div>
+        </section>
+
+        <section>
+            <h1 class="titulo">Excluir perfil</h1>
+            <div class="container-section container d-flex align-items-center flex-column text-center rounded-4 p-4 my-3">
+                <p class="fs-5">Se você deseja excluir seu perfil, clique no botão abaixo. Esta ação é irreversível.</p>
+                <form action="" method="POST" class="formExcluirPerfil" id="formularioPerfil">
+                    <?php foreach ($pedidos as $pedido): ?>
+                        <input type="hidden" name="statusPedidos[]" value="<?= $pedido->getStatusPedido(); ?>">
+                    <?php endforeach; ?>
+                    <input type="hidden" name="emailCliente" value="<?= $clienteData->getEmail(); ?>">
+                    <button type="submit" name="btnExcluirPerfil" class="botao botao-danger mt-4">Excluir</button>
+                </form>
         </section>
     </main>
     <?php include_once 'components/footer.php'; ?>

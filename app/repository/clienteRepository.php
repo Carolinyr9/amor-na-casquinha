@@ -101,4 +101,15 @@ class ClienteRepository {
         }
     }
 
+    public function desativarProduto($email) {
+        try {
+            $stmt = $this->conn->prepare("UPDATE cliente SET desativado = 1 WHERE email = :email");
+            $stmt->bindParam(":email", $email, PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao desativar o cliente: " . $e->getMessage());
+        }
+    }
+
 }

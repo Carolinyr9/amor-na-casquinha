@@ -1,12 +1,10 @@
 <?php
 $nomePaginaAtual = basename($_SERVER['SCRIPT_NAME']);
 
-
 if (!empty($pedidos)): ?>
-    <?php foreach ($pedidos as $pedido): 
-
-        if($paginaAtual === 'pedidosEntregador.php'):
-            if (!in_array($pedido->getStatusPedido(), ['Concluído', 'Cancelado'])): ?>
+    <?php foreach ($pedidos as $pedido): ?>
+        <?php if ($nomePaginaAtual === 'pedidosEntregador.php'): ?>
+            <?php if (!in_array($pedido->getStatusPedido(), ['Concluído', 'Cancelado']) && $pedido->getTipoFrete() == 1): ?>
                 <div class="cards-pedido d-flex align-items-center flex-column rounded-3 text-center p-3">
                     <h3 class="subtitulo mt-3">Número do Pedido: <?= htmlspecialchars($pedido->getIdPedido()) ?></h3>
                     <p>Realizado em: <?= htmlspecialchars((new DateTime($pedido->getDtPedido()))->format('d/m/Y \à\s H:i')) ?></p>
@@ -36,7 +34,7 @@ if (!empty($pedidos)): ?>
                     <?php endif; ?>
                 </div>
             <?php endif; ?>
-        <?php else:
+        <?php else: ?>
      
                 $redirectToInformacao = ($paginaAtual === 'pedidos.php') ? 
                         'informacoesPedido.php?idPedido='.$pedido->getIdPedido() : 
@@ -53,7 +51,7 @@ if (!empty($pedidos)): ?>
                     
                     <a href="<?= $redirectToInformacao; ?>" class="botao botao-primary">Ver Informações</a>
 
-                    <?php if ($paginaAtual === 'pedidos.php' && ($pedido->getTipoFrete() == 1 && $pedido->getIdEntregador() == NULL)): ?>
+                    <?php if ($nomePaginaAtual === 'pedidos.php' && ($pedido->getTipoFrete() == 1 && $pedido->getIdEntregador() == NULL)): ?>
                                 <a class="card__btn--Entregador mt-3 text-decoration-none text-black" href="atribuirEntregador.php?idPedido=<?= $pedido->getIdPedido(); ?>">Atribuir Entregador ao Pedido</a>
                     <?php endif; ?>
 
