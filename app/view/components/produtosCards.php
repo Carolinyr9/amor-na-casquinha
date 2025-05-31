@@ -9,6 +9,7 @@ $paginaAtual = basename($_SERVER['SCRIPT_NAME']);
         
         
         <p class="cards-titulo w-75 text-center" title="<?= htmlspecialchars($produto->getNome()) ?>"><?= htmlspecialchars($produto->getNome()) ?></p>
+        <p class="cards-titulo w-75 text-center" title="<?= htmlspecialchars($produto->getId()) ?>"><?= htmlspecialchars($produto->getId()) ?></p>
         
         <span>R$ <?= htmlspecialchars($produto->getPreco()) ?></span>
     </div>

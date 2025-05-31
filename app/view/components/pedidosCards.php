@@ -36,7 +36,7 @@ if (!empty($pedidos)): ?>
             <?php endif; ?>
         <?php else: ?>
      
-                $redirectToInformacao = ($paginaAtual === 'pedidos.php') ? 
+                <?php $redirectToInformacao = ($nomePaginaAtual === 'pedidos.php') ? 
                         'informacoesPedido.php?idPedido='.$pedido->getIdPedido() : 
                         'informacoesPedidoCliente.php?idPedido=' . $pedido->getIdPedido(); ?>
 

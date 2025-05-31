@@ -16,6 +16,8 @@ $paginaAtual = basename($_SERVER['SCRIPT_NAME']);
                     $redirectToEditar = 'editarCategoria.php?categoria=' . urlencode($id);
                     $redirectToExcluir = 'excluirCategorias.php?categoria=' . urlencode($id);
                 ?>
+                <p class="cards-titulo w-75 text-center" title="<?= htmlspecialchars($categoria->getNome()) ?>"><?= htmlspecialchars($categoria->getNome()) ?></p>
+                <p class="cards-titulo w-75 text-center" title="<?= htmlspecialchars($categoria->getId()) ?>"><?= htmlspecialchars($categoria->getId()) ?></p>
                 <a class="botao botao-primary" href="<?= htmlspecialchars($redirectToVariacao) ?>">Ver Sabores</a>     
                 <a class="botao botao-secondary" href="<?= htmlspecialchars($redirectToEditar) ?>">Editar</a>      
                 <a class="botao botao-alerta" href="<?= htmlspecialchars($redirectToExcluir) ?>">Excluir</a>

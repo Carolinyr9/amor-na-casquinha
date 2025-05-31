@@ -59,8 +59,7 @@ use app\controller\ProdutoController;
                 </table>
             </div>
         <?php } else { ?>
-            <p>Selecione um período válido para acessar o rela 
-                tório!</p>
+            <p>Selecione um período válido para acessar o relatório!</p>
         <?php } ?>
 
 
