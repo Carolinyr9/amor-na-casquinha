@@ -1,22 +1,4 @@
-<?php
-session_start();
-require_once '../config/blockURLAccess.php';
-require_once '../../vendor/autoload.php';
-require_once '../utils/pedido/criarPedidosFuncionario.php';
-require_once '../utils/pedido/paginacaoPedidos.php';
-
-use app\controller\PedidoController;
-
-$pedidoController = new PedidoController();
-$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$pedidos = $pedidoController->listarPedidos();
-
-$resultadoPaginado = paginarArray($pedidos, 8, $paginaAtual);
-$pedidos = $resultadoPaginado['dados'];
-$totalPaginas = $resultadoPaginado['total_paginas'];
-$paginaAtual = $resultadoPaginado['pagina_atual'];
-?>
-
+<?php require_once '../utils/pedido/inicializarPedidos.php'; ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -51,16 +33,22 @@ $paginaAtual = $resultadoPaginado['pagina_atual'];
 
                     <div class="d-flex flex-row flex-wrap justify-content-center gap-5 w-100">
                         <div class="mb-3">
-                            <label for="idCliente" class="form-label">ID do cliente:</label>
-                            <input type="text" id="idCliente" name="idCliente" class="form-control" placeholder="Se não possuir, preencher com 0" required>
+                            <label for="idCliente" class="form-label">Selecione o cliente:</label>
+                            <select name="idCliente" id="idCliente">
+                                <?php include_once 'components/clientesOpcoes.php'; ?>
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="idEndereco" class="form-label">ID do endereco:</label>
-                            <input type="text" id="idEndereco" name="idEndereco" class="form-control" placeholder="Se não possuir, preencher com 0" required>
+                            <label for="idEndereco" class="form-label">Selecione o endereço:</label>
+                            <select name="idEndereco" id="idEndereco">
+                                <?php include_once 'components/enderecosOpcoes.php'; ?>
+                            </fieldset>
                         </div>
                         <div class="mb-3">
-                            <label for="produtosPedidos" class="form-label">Produtos Pedidos:</label>
-                            <input type="text" id="produtosPedidos" name="produtosPedidos" class="form-control" placeholder="Ex.: 1;2;3;4;5" required>
+                            <fieldset>
+                                <legend>Produtos Pedidos:</legend>
+                                <?php include_once 'components/produtosOpcoes.php'; ?>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="quantidadeProdutosPedidos" class="form-label">Quantidade dos Produtos Pedidos:</label>

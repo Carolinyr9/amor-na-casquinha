@@ -112,4 +112,15 @@ class ClienteRepository {
         }
     }
 
+    public function listarClientes() {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM cliente WHERE desativado = 0");
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao listar clientes: " . $e->getMessage());
+        }
+    }
+
 }

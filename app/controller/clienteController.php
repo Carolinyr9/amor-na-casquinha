@@ -172,6 +172,37 @@ class ClienteController {
             return false;
         }
     }
+
+    public function listarClientes() {
+        try {
+    
+            $dados = $this->repository->listarClientes();
+    
+            if($dados) {
+                $clientes = [];
+
+                foreach ($dados as $cliente) {
+                    $clientes[] = new Cliente(
+                        $cliente['idCliente'],
+                        $cliente['nome'],
+                        $cliente['email'], 
+                        $cliente['telefone'], 
+                        $cliente['senha'], 
+                        $cliente['idEndereco']
+                    );
+                }
+
+                return $clientes;
+
+            } else {
+                Logger::logError("Erro ao listar clientes: Nenhum cliente encontrado.");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar clientes: " . $e->getMessage());
+            return false;
+        }
+    }    
     
 }
 ?>

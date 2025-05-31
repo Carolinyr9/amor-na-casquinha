@@ -7,7 +7,7 @@ $itemPedidoController = new ItemPedidoController();
 $pedidoController = new PedidoController();
 
 if (isset($_POST['addPedido'])) {
-    $produtosArray = explode(";", $_POST["produtosPedidos"] ?? "");
+    $produtosArray = $_POST["produtosSelecionados"] ?? "";
     $quantidadesArray = explode(";", $_POST["quantidadeProdutosPedidos"] ?? "");
 
     $dadosPedido = [

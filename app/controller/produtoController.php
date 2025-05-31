@@ -44,6 +44,33 @@ class ProdutoController {
         }
     }
 
+    public function selecionarProdutos() {
+        try {
+
+            $produtosBanco = $this->repository->selecionarProdutos();
+            $produtosModel = [];
+
+            foreach ($produtosBanco as $produto) {
+                if (!$produto instanceof Produto) {
+                    $produto = new Produto(
+                        $produto['idProduto'],
+                        $produto['desativado'],
+                        $produto['nome'],
+                        $produto['preco'],
+                        $produto['foto'],
+                        $produto['categoria']
+                    );
+                }
+                $produtosModel[] = $produto;
+            }
+
+            return $produtosModel;
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar produtos: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function criarProduto($dados) {
         try {
             if (empty($dados['nome']) || empty($dados['categoria']) ||

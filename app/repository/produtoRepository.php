@@ -50,6 +50,31 @@ class ProdutoRepository {
         }
     }
 
+    public function selecionarProdutos() {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM produto WHERE desativado = 0");
+            $stmt->execute();
+            $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $produtos = [];
+    
+            foreach ($dados as $produto) {
+                $produtos[] = new Produto(
+                    $produto['id'],
+                    $produto['desativado'],
+                    $produto['nome'],
+                    $produto['preco'],
+                    $produto['foto'],
+                    $produto['categoria']
+                );
+            }
+    
+            return $produtos; 
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao buscar produtos: " . $e->getMessage());
+        }
+    }
+
     public function criarProduto($categoria, $nomeProduto, $preco, $imagem) {
         try {
             $stmt = $this->conn->prepare("

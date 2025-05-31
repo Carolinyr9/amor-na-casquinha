@@ -83,4 +83,15 @@ class EnderecoRepository {
         }
     }
 
+    public function listarEnderecos() {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM enderecos");
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao listar endereços: " . $e->getMessage());
+        }
+    }
+
 }
