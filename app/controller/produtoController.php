@@ -44,6 +44,37 @@ class ProdutoController {
         }
     }
 
+    public function selecionarProdutosCategoria($idCategoria) {
+        try {
+            if (!isset($idCategoria) || empty($idCategoria)) {
+                Logger::logError("Erro ao buscar produto por ID categoria: ID não fornecido!");
+                return false;
+            }
+
+            $produtosBanco = $this->repository->selecionarProdutosCategoria($idCategoria);
+            $produtosModel = [];
+
+            foreach ($produtosBanco as $produto) {
+                if (!$produto instanceof Produto) {
+                    $produto = new Produto(
+                        $produto['idProduto'],
+                        $produto['desativado'],
+                        $produto['nome'],
+                        $produto['preco'],
+                        $produto['foto'],
+                        $produto['categoria']
+                    );
+                }
+                $produtosModel[] = $produto;
+            }
+
+            return $produtosModel;
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar produtos: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function selecionarProdutos() {
         try {
 
@@ -184,6 +215,28 @@ class ProdutoController {
             }
         } catch (Exception $e) {
             Logger::logError("Erro ao remover produto: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function ativarProduto($id) {
+        try {
+            if (!isset($id) || empty($id)) {
+                Logger::logError("Erro ao buscar ativar produto por ID: ID não fornecido!");
+                return false;
+            }
+
+            $resultado = $this->repository->ativarProduto($id);
+
+            if ($resultado) {
+                return true;
+            } else {
+                Logger::logError("Erro ao ativar produto");
+                return false;
+            }
+            
+        } catch (Exception $e) {
+            Logger::logError("Erro ao ativar produto: " . $e->getMessage());
             return false;
         }
     }

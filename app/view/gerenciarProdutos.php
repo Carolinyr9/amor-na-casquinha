@@ -2,6 +2,7 @@
 namespace app\view;
 require_once '../../vendor/autoload.php';
 require_once '../utils/produto/adicionarProdutos.php';
+require_once '../utils/produto/reativarProduto.php';
 
 use app\controller\ProdutoController;
 
@@ -10,7 +11,7 @@ require_once '../utils/autenticacao/sessao.php';
 
 $categoriaId = $_GET['categoria'] ?? null;
 $produtoController = new ProdutoController();
-$produtos = $categoriaId ? $produtoController->selecionarProdutosAtivos($categoriaId) : [];
+$produtos = $categoriaId ? $produtoController->selecionarProdutosCategoria($categoriaId) : [];
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

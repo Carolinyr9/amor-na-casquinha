@@ -1,14 +1,17 @@
 <?php
+
 use app\controller\CategoriaProdutoController;
 use app\utils\helpers\Logger;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['idCategoriaExcl'])) {
-    $idCategoria = $_POST['idCategoriaExcl'];
+if (isset($_GET['categoriaAtivar'])) {
+    $idCategoria = $_GET['categoriaAtivar'];
     $categoriaController = new CategoriaProdutoController();
-
-    $categoriaController->removerCategoria($idCategoria);
+    
+    $categoriaController->ativarCategoria($idCategoria);
     
     header("Location: gerenciarCategorias.php");
     exit();
+} else {
+    echo "Categoria não especificada.";
 }
 ?>
