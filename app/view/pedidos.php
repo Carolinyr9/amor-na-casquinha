@@ -51,16 +51,12 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="quantidadeProdutosPedidos" class="form-label">Quantidade dos Produtos Pedidos:</label>
-                            <input type="text" id="quantidadeProdutosPedidos" name="quantidadeProdutosPedidos" class="form-control" placeholder="Ex.: 1;2;3;4;5" required>
-                        </div>
-                        <div class="mb-3">
                             <label for="valorFrete" class="form-label">Valor do Frete:</label>
                             <input type="text" id="valorFrete" name="valorFrete" class="form-control" placeholder="Ex.: 15.00">
                         </div>
-                        <div class="mb-3">
-                            <label for="valorTotal" class="form-label">Valor Total:</label>
-                            <input type="text" id="valorTotal" name="valorTotal" class="form-control" placeholder="Ex.: 150.00" required>
+                        <div class="mb-3 form-check d-flex">
+                            <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" class="form-check-input flex-grow-1">
+                            <label for="ckbIsDelivery" class="form-check-label ms-2">O pedido é para entrega!</label>
                         </div>
                         <div class="mb-3">
                             <label for="meioPagamento" class="form-label">Meio de Pagamento:</label>
@@ -77,10 +73,7 @@
                                 <label for="pagamentoDinheiro" class="form-check-label">Dinheiro</label>
                             </div>
                         </div>
-                        <div class="mb-3 form-check d-flex">
-                            <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" class="form-check-input flex-grow-1">
-                            <label for="ckbIsDelivery" class="form-check-label ms-2">O pedido é para entrega!</label>
-                        </div>
+                        
                     </div>
 
                     <button type="submit" class="botao botao-primary m-auto" >Salvar Pedido</button>
@@ -97,6 +90,7 @@
     </main>
 
     <?php include_once 'components/footer.php'; ?>
+    <script src="script/atualizarQtddPedidos.js"></script>
 
 </body>
 </html>
