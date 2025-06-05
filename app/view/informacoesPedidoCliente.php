@@ -21,13 +21,8 @@ $pedidoId = $_GET['idPedido'] ?? null;
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informações do Pedido</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style/CabecalhoRodape.css">
+    <?php include_once '../utils/links/styleLinks.php'; ?>
     <link rel="stylesheet" href="style/infoPedidos.css">
-    <link rel="stylesheet" href="style/components/botao.css">
-    <link rel="stylesheet" href="style/base/global.css">
-    <link rel="stylesheet" href="style/base/variables.css">
-    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>

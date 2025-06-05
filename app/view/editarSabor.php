@@ -17,13 +17,8 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Sabor</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="style/CabecalhoRodape.css">
-    <link rel="stylesheet" href="style/components/botao.css">
-    <link rel="stylesheet" href="style/base/global.css">
-    <link rel="stylesheet" href="style/base/variables.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="shortcut icon" href="../images/iceCreamIcon.ico" type="image/x-icon">
+    <?php include_once '../utils/links/styleLinks.php'; ?>
+    <link rel="stylesheet" href="style/editarCategoria.css">
     <script src="script/exibirArquivoImagem.js"></script>
 </head>
 <body>
@@ -68,7 +63,5 @@ $produto = $produtoController->selecionarProdutoPorID($produtoId);
         </div>
     </main>
 <?php include_once 'components/footer.php'; ?>
-<script src="script/header.js"></script>
-<script src="script/adicionar.js"></script>
 </body>
 </html>

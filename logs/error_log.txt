@@ -415,3 +415,23 @@
 [2025-05-27 00:31:52] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
 [2025-05-27 00:32:03] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
 [2025-05-27 00:53:07] ERROR: Erro ao associar itens ao pedido o pedido: SQLSTATE[23000]: Integrity constraint violation: 1452 Cannot add or update a child row: a foreign key constraint fails (`db_sorveteria`.`itens_pedido`, CONSTRAINT `fk_itens_pedido_pedidos` FOREIGN KEY (`idPedido`) REFERENCES `pedidos` (`idPedido`) ON DELETE CASCADE ON UPDATE CASCADE)
+[2025-05-28 23:56:36] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:56:36] ERROR: Erro ao obter itens do pedido.
+[2025-05-28 23:58:32] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:58:32] ERROR: Erro ao obter itens do pedido.
+[2025-05-28 23:58:33] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:58:33] ERROR: Erro ao obter itens do pedido.
+[2025-05-28 23:58:33] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:58:33] ERROR: Erro ao obter itens do pedido.
+[2025-05-28 23:58:34] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:58:34] ERROR: Erro ao obter itens do pedido.
+[2025-05-28 23:58:34] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:58:34] ERROR: Erro ao obter itens do pedido.
+[2025-05-28 23:58:34] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:58:34] ERROR: Erro ao obter itens do pedido.
+[2025-05-28 23:58:35] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:58:35] ERROR: Erro ao obter itens do pedido.
+[2025-05-28 23:59:42] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:59:42] ERROR: Erro ao obter itens do pedido.
+[2025-05-28 23:59:42] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-05-28 23:59:42] ERROR: Erro ao obter itens do pedido.

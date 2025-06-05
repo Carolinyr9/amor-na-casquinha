@@ -50,7 +50,7 @@ require_once '../../vendor/autoload.php'; ?>
             ?>
         </nav>
         <div class="toggleBox me-5" id="toggleBtn">
-            <img src="../images/image 2.png" alt="Menu" id="toggleBtn">
+            <img src="../images/image 2.png" alt="Menu">
         </div>
     </div>
 </header>
