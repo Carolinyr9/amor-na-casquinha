@@ -33,7 +33,7 @@ $pedidos = $pedidoController->listarPedidoPorIdEntregador($entregador->getId());
 <body>
     <?php include_once 'components/header.php'; ?>
 
-    <main class="pedidos container text-center d-flex flex-column justify-content-center">
+    <main class="pedidos container my-5 text-center d-flex flex-column justify-content-center gap-5">
         <h1 class=" titulo mb-4">Pedidos</h1>
 
         <div class="container d-flex flex-row flex-wrap gap-5 justify-content-center mt-5">

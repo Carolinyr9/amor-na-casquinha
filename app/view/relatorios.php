@@ -30,7 +30,7 @@ use app\controller\ProdutoController;
         <h1 class="titulo mb-3">Relatórios</h1>
 
         <h3 class="subtitulo">Selecionar Período</h3>
-        <form method="POST" class="d-flex flex-row justify-content-center gap-4 mb-4">
+        <form method="POST" class="fomulario-relatorio d-flex flex-row justify-content-center gap-4 mb-4">
             <input type="date" class="form-control w-auto" name="data-inicio" id="data-inicio" required>
             <input type="date" class="form-control w-auto" name="data-fim" id="data-fim" required>
             <button type="submit" class="botao botao-primary">Gerar Relatório</button>
@@ -38,7 +38,7 @@ use app\controller\ProdutoController;
 
         <?php if ($totalVendas > 0) { ?>
             <h2 class="subtitulo">Resumo</h2>
-            <div class="box-pedido w-100 d-flex justify-content-center blue m-auto rounded-5 py-3">
+            <div class="box-pedido d-flex justify-content-center blue m-auto rounded-5 py-3">
                 <table class="table table-bordered">
                     <thead>
                         <tr>

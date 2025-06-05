@@ -43,7 +43,7 @@ if (isset($_GET['idEstoque']) && !empty($_GET['idEstoque'])) {
         <div class="d-flex flex-column justify-content-center align-items-center">
             <h2 class="titulo">Edição</h2>
             <form action="editarEstoque.php" method="post"
-                class="container w-50 m-auto p-3 rounded-4 d-flex flex-row flex-wrap gap-4 justify-content-center">
+                class="formulario container m-auto p-3 rounded-4 d-flex flex-row flex-wrap gap-4 justify-content-center">
                 <?php foreach ($produtosEstoque as $produtoEstoque) {
                     $produto = $produtoController->selecionarProdutoPorID($produtoEstoque->getIdProduto());
                 ?>
