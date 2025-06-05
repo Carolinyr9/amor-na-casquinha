@@ -40,6 +40,33 @@ class CategoriaProdutoController {
         }
     }
 
+    public function buscarCategorias() {
+        try {
+            $dados = $this->repository->buscarCategorias();
+            $categorias = [];
+
+            foreach ($dados as $categoria) {
+                if (!$categoria instanceof CategoriaProduto) {
+                    $categoria = new CategoriaProduto(
+                        $categoria['id'],
+                        $categoria['fornecedor'],
+                        $categoria['nome'],
+                        $categoria['marca'],
+                        $categoria['descricao'],
+                        $categoria['desativado'],
+                        $categoria['foto']
+                    );
+                }
+                $categorias[] = $categoria;
+            }
+
+            return $categorias;
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar categorias: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function buscarCategoriaPorID($id) {
         try {
             if (!isset($id) || empty($id)) {
@@ -161,6 +188,31 @@ class CategoriaProdutoController {
             }
         } catch (Exception $e) {
             Logger::logError("Erro ao remover categoria: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function ativarCategoria($idCategoria) {
+        try {
+            if (!isset($idCategoria) || empty($idCategoria)) {
+                Logger::logError("Erro ao buscar ativar categoria: ID não fornecido!");
+                return false;
+            }
+            
+            $resultado = $this->repository->ativarCategoria($idCategoria);
+
+            $categoria = $this->repository->buscarCategoriaPorID($idCategoria);
+            $categoria->setDesativado(0);
+
+            if ($resultado) {
+                return true;
+            } else {
+                Logger::logError("Erro ao ativar categoria");
+                return false;
+            }
+            
+        } catch (Exception $e) {
+            Logger::logError("Erro ao ativar categoria: " . $e->getMessage());
             return false;
         }
     }

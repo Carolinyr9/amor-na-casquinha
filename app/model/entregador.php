@@ -11,7 +11,7 @@ class Entregador {
     private $senha;
     private $cnh;
 
-    public function __construct($id, $desativado, $perfil = 'ENTR', $nome, $email, $telefone, $senha, $cnh) {
+    public function __construct($id, $desativado, $nome, $email, $telefone, $senha, $cnh, $perfil = 'ENTR') {
         $this->id = $id;
         $this->desativado = $desativado;
         $this->perfil = $perfil;

@@ -1,23 +1,5 @@
 <?php
-session_start();
-require_once '../../vendor/autoload.php';
-require_once '../utils/pedido/criarPedidos.php';
-require_once '../utils/cliente/alterarCliente.php';
-require_once '../config/config.php';
-
-use app\controller\ClienteController;
-use app\controller\PedidoController;
-use app\controller\CarrinhoController;
-use app\controller\EnderecoController;
-
-$pedidoController = new PedidoController(); 
-$clienteController = new ClienteController();
-$carrinho = new CarrinhoController();
-$enderecoController = new EnderecoController();
-
-$clienteData = $clienteController->listarClientePorEmail($_SESSION["userEmail"]);
-$endereco = $enderecoController->listarEnderecoPorId($clienteData->getIdEndereco());
-$pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
+require_once '../utils/cliente/inicializarPerfil.php';
 ?>
 
 <!DOCTYPE html>
@@ -44,7 +26,7 @@ $pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
                         <?php include 'components/enderecoCard.php'; ?>
                         <button id="editPerfil" class="botao botao-secondary">Editar</button>
                     </div>
-                    <form action="" class="formEditar flex-column justify-content-center w-auto" method="POST" id="formulario">
+                    <form action="" class="formEditar flex-column justify-content-center w-auto" method="POST" id="formularioSenha">
                             <p class="subtitulo">Usuário</p>
                             <div class="d-flex flex-row flex-wrap justify-content-center gap-4 mb-4">
                                 <div class="form-group">
@@ -85,14 +67,49 @@ $pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
                             </div>
 
                             <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($endereco->getIdEndereco() ?? ''); ?>">
-                            <button type="submit" name="btnAlterarCliente" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
+                            <button type="submit" name="btnAlterarSenha" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
                     </form>
+            </div>
+        </section>
+
+        <section>
+            <h1 class="titulo">Alterar Senha</h1>
+            <div class="container-section container d-flex align-items-center flex-column text-center rounded-4 p-4 my-3">
+                
+                <form action="" class="formEditarSenha" method="POST" id="formularioSenha">
+                        <p class="subtitulo">Confirme sua senha</p>
+                        <div class="d-flex flex-row flex-wrap justify-content-center gap-4 mb-4">
+                            <div class="form-group">
+                                <input type="password" name="senhaAtual" class="form-control" placeholder="Senha atual" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" type="password" id="senhaNova" name="senhaNova" placeholder="Senha nova" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}" title="A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." required>
+                            </div>
+
+                            
+                        </div>
+                        <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($clienteData->getId() ?? ''); ?>">  
+                        <button type="submit" name="btnAlterarCliente" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
+                </form>
             </div>
         </section>
 
         <section>
             <h1 class="titulo">Meus pedidos</h1>
             <div class="container d-flex flex-row flex-wrap justify-content-center gap-5 mt-5"><?php include 'components/pedidosCards.php'; ?></div>
+        </section>
+
+        <section>
+            <h1 class="titulo">Excluir perfil</h1>
+            <div class="container-section container d-flex align-items-center flex-column text-center rounded-4 p-4 my-3">
+                <p class="fs-5">Se você deseja excluir seu perfil, clique no botão abaixo. Esta ação é irreversível.</p>
+                <form action="" method="POST" class="formExcluirPerfil" id="formularioPerfil">
+                    <?php foreach ($pedidos as $pedido): ?>
+                        <input type="hidden" name="statusPedidos[]" value="<?= $pedido->getStatusPedido(); ?>">
+                    <?php endforeach; ?>
+                    <input type="hidden" name="emailCliente" value="<?= $clienteData->getEmail(); ?>">
+                    <button type="submit" name="btnExcluirPerfil" class="botao botao-danger mt-4">Excluir</button>
+                </form>
         </section>
     </main>
     <?php include_once 'components/footer.php'; ?>

@@ -117,6 +117,92 @@ class ClienteController {
             return false;
         }
     }
+
+    public function alterarSenha($dados) {
+        try {
+            if (
+                empty($dados['senhaNova']) || 
+                empty($dados['senhaAtual']) || 
+                empty($dados['idCliente'])
+            ) {
+                Logger::logError("Dados inválidos para edição da senha.");
+                return false;
+            }
+
+            $senhaNovaHash = password_hash($dados['senhaNova'], PASSWORD_DEFAULT);
+
+            $resultado = $this->repository->editarSenha(
+                $dados['senhaNova'],
+                $dados['senhaAtual'], 
+                $dados['idCliente']
+            );
+
+            return $resultado ?: Logger::logError("Erro ao editar senha no repositório.");
+
+        } catch (Exception $e) {
+            Logger::logError("Erro ao editar senha: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function desativarPerfil($email) {
+        try {
+            if (!isset($email) || empty($email)) {
+                Logger::logError("Erro ao buscar desativar cliente: e-mail não fornecido!");
+                return false;
+            }
+
+            $pedido = $this->listarClientePorEmail($email);
+
+            if ($pedido) {
+                $resultado = $this->repository->desativarPerfil($email);
+
+                if ($resultado) {
+                    return true;
+                } else {
+                    Logger::logError("Erro ao desativar cliente");
+                    return false;
+                }
+            } else {
+                Logger::logError("Cliente não encontrado");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao desativar cliente: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function listarClientes() {
+        try {
+    
+            $dados = $this->repository->listarClientes();
+    
+            if($dados) {
+                $clientes = [];
+
+                foreach ($dados as $cliente) {
+                    $clientes[] = new Cliente(
+                        $cliente['idCliente'],
+                        $cliente['nome'],
+                        $cliente['email'], 
+                        $cliente['telefone'], 
+                        $cliente['senha'], 
+                        $cliente['idEndereco']
+                    );
+                }
+
+                return $clientes;
+
+            } else {
+                Logger::logError("Erro ao listar clientes: Nenhum cliente encontrado.");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar clientes: " . $e->getMessage());
+            return false;
+        }
+    }    
     
 }
 ?>

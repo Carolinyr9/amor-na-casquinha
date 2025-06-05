@@ -1,4 +1,6 @@
-<?php if ($totalPaginas > 1): ?>
+<?php
+if ($totalPaginas > 1): ?>
+    
 <nav aria-label="Navegação de página">
     <ul class="pagination justify-content-center mt-4">
         <li class="page-item <?= $paginaAtual == 1 ? 'disabled' : ''; ?>">

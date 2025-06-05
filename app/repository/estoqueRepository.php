@@ -116,6 +116,20 @@ class EstoqueRepository {
             Logger::logError("Erro ao verificar quantidade mínima: " . $e->getMessage());
         }
     }
+
+    public function decrementarProduto($novaQuantidade, $idProduto) {
+        try {
+            $stmt = $this->conn->prepare("UPDATE estoque SET quantidade = :quantidade WHERE idProduto = :idProduto");
+            $stmt->bindParam(':quantidade', $novaQuantidade, PDO::PARAM_INT);
+            $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao decrementar quantidade do produto no estoque: " . $e->getMessage());
+            return false;
+        }
+    }
+
     
     private function mapEstoque(array $row): Estoque {
         return new Estoque(

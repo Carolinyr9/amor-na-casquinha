@@ -102,7 +102,6 @@ class PedidoController {
             );
     
             Logger::logInfo("Pedido criado com sucesso! ID do pedido: $idPedido");
-            return true;
 
             return $idPedido;
     
@@ -269,18 +268,12 @@ class PedidoController {
         $camposObrigatorios = ['idCliente', 'idEndereco', 'valorTotal', 'meioDePagamento'];
     
         foreach ($camposObrigatorios as $campo) {
-            if (empty($dados[$campo])) {
+            if (($campo != 'idCliente' && $campo != 'idEndereco' && empty($dados[$campo])) || 
+                ($campo == 'idCliente' && !isset($dados[$campo])) || 
+                ($campo == 'idEndereco' && !isset($dados[$campo]))) {
                 Logger::logError("Erro ao criar pedido: Campo obrigatório '$campo' não fornecido!");
                 return false;
             }
-        }
-    
-        if (
-            $dados['meioDePagamento'] === 'Dinheiro' &&
-            (empty($dados['trocoPara']) || !isset($dados['trocoPara']))
-        ) {
-            Logger::logError("Erro ao criar pedido: Troco para não fornecido!");
-            return false;
         }
     
         return true;

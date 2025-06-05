@@ -77,4 +77,50 @@ class ClienteRepository {
     }
 
 
+    public function editarSenha($senhaNova, $senhaAtual, $idCliente) {
+        try {
+            $stmt = $this->conn->prepare("SELECT senha FROM cliente WHERE idCliente = ?");
+            $stmt->bindParam(1, $idCliente);
+            $stmt->execute();
+            $senhaHash = $stmt->fetchColumn();
+
+            if (!$senhaHash || !password_verify($senhaAtual, $senhaHash)) {
+                return false; 
+            }
+
+            $novaSenhaHash = password_hash($senhaNova, PASSWORD_DEFAULT);
+            $stmt = $this->conn->prepare("UPDATE cliente SET senha = ? WHERE idCliente = ?");
+            $stmt->bindParam(1, $novaSenhaHash);
+            $stmt->bindParam(2, $idCliente);
+            $stmt->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao editar senha: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function desativarProduto($email) {
+        try {
+            $stmt = $this->conn->prepare("UPDATE cliente SET desativado = 1 WHERE email = :email");
+            $stmt->bindParam(":email", $email, PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao desativar o cliente: " . $e->getMessage());
+        }
+    }
+
+    public function listarClientes() {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM cliente WHERE desativado = 0");
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: false;
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao listar clientes: " . $e->getMessage());
+        }
+    }
+
 }

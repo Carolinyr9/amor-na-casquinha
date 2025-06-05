@@ -50,6 +50,57 @@ class ProdutoRepository {
         }
     }
 
+    public function selecionarProdutosCategoria($idCategoria) {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM produto WHERE categoria = :idCategoria");
+            $stmt->bindParam(":idCategoria", $idCategoria, PDO::PARAM_INT);
+            $stmt->execute();
+            $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $produtos = [];
+    
+            foreach ($dados as $produto) {
+                $produtos[] = new Produto(
+                    $produto['id'],
+                    $produto['desativado'],
+                    $produto['nome'],
+                    $produto['preco'],
+                    $produto['foto'],
+                    $produto['categoria']
+                );
+            }
+    
+            return $produtos; 
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao buscar produtos: " . $e->getMessage());
+        }
+    }
+
+    public function selecionarProdutos() {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM produto WHERE desativado = 0");
+            $stmt->execute();
+            $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            $produtos = [];
+    
+            foreach ($dados as $produto) {
+                $produtos[] = new Produto(
+                    $produto['id'],
+                    $produto['desativado'],
+                    $produto['nome'],
+                    $produto['preco'],
+                    $produto['foto'],
+                    $produto['categoria']
+                );
+            }
+    
+            return $produtos; 
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao buscar produtos: " . $e->getMessage());
+        }
+    }
+
     public function criarProduto($categoria, $nomeProduto, $preco, $imagem) {
         try {
             $stmt = $this->conn->prepare("
@@ -110,6 +161,17 @@ class ProdutoRepository {
             return $stmt->execute();
         } catch (PDOException $e) {
             Logger::logError("Erro ao desativar o produto: " . $e->getMessage());
+        }
+    }
+
+    public function ativarProduto($idProduto) {
+        try {
+            $stmt = $this->conn->prepare("UPDATE produto SET desativado = 0 WHERE id = :idProduto");
+            $stmt->bindParam(":idProduto", $idProduto, PDO::PARAM_INT);
+            
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao ativar o produto: " . $e->getMessage());
         }
     }
 }

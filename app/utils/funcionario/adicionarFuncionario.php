@@ -1,17 +1,32 @@
 <?php
 use app\controller\FuncionarioController;
+use app\controller\EnderecoController;
 
 if (isset($_POST['submitBtn'])) {
     $funcionarioController = new FuncionarioController();
-    $dados = [
-        'nome' => $_POST['nomeFun'],
-        'email' => $_POST['emailFun'],
-        'telefone' => $_POST['telefoneFun'],
-        'senha' => password_hash($_POST['senhaFun'], PASSWORD_DEFAULT),
-        'adm' => $_POST['admFun']
+    $enderecoController = new EnderecoController();
+    $dadosEndereco = [
+        'rua' => $_POST['rua'],
+        'numero' => $_POST['numero'],
+        'bairro' => $_POST['bairro'],
+        'complemento' => $_POST['complemento'],
+        'cep' => $_POST['cep'],
+        'cidade' => $_POST['cidade'],
+        'estado' => $_POST['estado']
     ];
 
-    $funcionarioController->criarFuncionario($dados);
+    $idEndereco = $enderecoController->criarEndereco($dadosEndereco);
+
+    $dados = [
+        'nome' => $_POST['nome'],
+        'email' => $_POST['email'],
+        'telefone' => $_POST['telefone'],
+        'senha' => password_hash($_POST['senha'], PASSWORD_DEFAULT),
+        'adm' => $_POST['admFun'],
+        'idEndereco' => $idEndereco
+    ];
+
+    ;;$funcionarioController->criarFuncionario($dados);
     header("Location: gerenciarFuncionarios.php");
     exit;
 }

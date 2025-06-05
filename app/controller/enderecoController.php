@@ -101,4 +101,37 @@ class EnderecoController {
         }
     }
 
+    public function listarEnderecos() {
+        try {
+    
+            $dados = $this->repository->listarEnderecos();
+    
+            if($dados) {
+                $enderecos = [];
+
+                foreach ($dados as $endereco) {
+                    $enderecos[] = new Endereco(
+                        $endereco['idEndereco'], 
+                        $endereco['rua'], 
+                        $endereco['numero'], 
+                        $endereco['cep'], 
+                        $endereco['bairro'], 
+                        $endereco['cidade'], 
+                        $endereco['estado'], 
+                        $endereco['complemento']
+                    );
+                }
+
+                return $enderecos;
+
+            } else {
+                Logger::logError("Erro ao listar endereços: Nenhum endereço encontrado.");
+                return false;
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao listar endereços: " . $e->getMessage());
+            return false;
+        }
+    }    
+
 }

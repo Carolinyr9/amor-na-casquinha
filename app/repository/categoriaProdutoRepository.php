@@ -47,6 +47,31 @@ class CategoriaProdutoRepository {
         }
         return $produtos;
     }
+
+    public function buscarCategorias($limit = 100, $offset = 0) {
+        $produtos = [];
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM categoriaProduto LIMIT :limit OFFSET :offset");
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $produtos[] = [
+                    'id' => $row['id'],  
+                    'fornecedor' => $row['idFornecedor'],  
+                    'nome' => $row['nome'],  
+                    'marca' => $row['marca'],  
+                    'descricao' => $row['descricao'],  
+                    'desativado' => $row['desativado'], 
+                    'foto' => $row['foto']
+                ];
+            }
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao buscar produtos: " . $e->getMessage());
+        }
+        return $produtos;
+    }
     
     public function buscarCategoriaPorID($id) {
         try {
@@ -106,6 +131,16 @@ class CategoriaProdutoRepository {
             return $stmt->execute() ? true : false;
         } catch (PDOException $e) {
             Logger::logError("Erro ao desativar o produto: " . $e->getMessage());
+        }
+    }
+
+    public function ativarCategoria($idProduto) {
+        try {
+            $stmt = $this->conn->prepare("UPDATE categoriaProduto SET desativado = 0 WHERE id = :idProduto");
+            $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+            return $stmt->execute() ? true : false;
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao ativar o produto: " . $e->getMessage());
         }
     }
     

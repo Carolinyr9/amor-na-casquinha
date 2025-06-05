@@ -93,12 +93,12 @@ if (isset($_GET['idEstoque']) && !empty($_GET['idEstoque'])) {
                     <label for="qtdOcorrencia_">Quantidade Ocorrida</label>
                     <input type="number" class="form-control" id="qtdOcorrencia_<?= $produtoEstoque->getIdEstoque() ?>"
                         name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][qtdOcorrencia]"
-                        value="<?= $produtoEstoque->getQtdOcorrencia() ?>">
+                        value="<?= $produtoEstoque->getQtdOcorrencia() ?>" required>
                 </div>
                 <div class="form-group w-100">
                     <label for="ocorrencia_">Ocorrência</label>
                     <textarea class="form-control" name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][ocorrencia]"
-                        id="ocorrencia_<?= $produtoEstoque->getIdEstoque() ?>"><?= $produtoEstoque->getOcorrencia() ?></textarea>
+                        id="ocorrencia_<?= $produtoEstoque->getIdEstoque() ?>" required><?= $produtoEstoque->getOcorrencia() ?></textarea>
                 </div>
                 <?php } ?>
                 <input type="submit" value="Editar" name="editarsubmit" class="botao botao-primary m-auto">

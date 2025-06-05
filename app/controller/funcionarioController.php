@@ -60,8 +60,8 @@ class FuncionarioController {
         try {
             if (empty($dados['nome']) || empty($dados['email']) || 
                 !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
-                empty($dados['telefone']) || empty($dados['senha']) ||
-                empty($dados['adm'])) {
+                empty($dados['telefone']) || empty($dados['senha'] ||
+                empty($dados['idEndereco']))) {
                 Logger::logError("Dados inválidos para criação do funcionário.");
                 return false;
             }
@@ -71,7 +71,8 @@ class FuncionarioController {
                 $dados['email'],
                 $dados['telefone'],
                 $dados['senha'],
-                $dados['adm']
+                $dados['adm'], 
+                $dados['idEndereco']
             );
 
             if ($idFuncionario) {

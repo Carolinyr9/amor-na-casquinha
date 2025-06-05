@@ -1,22 +1,4 @@
-<?php
-session_start();
-require_once '../config/blockURLAccess.php';
-require_once '../../vendor/autoload.php';
-require_once '../utils/pedido/criarPedidosFuncionario.php';
-require_once '../utils/pedido/paginacaoPedidos.php';
-
-use app\controller\PedidoController;
-
-$pedidoController = new PedidoController();
-$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$pedidos = $pedidoController->listarPedidos();
-
-$resultadoPaginado = paginarArray($pedidos, 8, $paginaAtual);
-$pedidos = $resultadoPaginado['dados'];
-$totalPaginas = $resultadoPaginado['total_paginas'];
-$paginaAtual = $resultadoPaginado['pagina_atual'];
-?>
-
+<?php require_once '../utils/pedido/inicializarPedidos.php'; ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -42,24 +24,30 @@ $paginaAtual = $resultadoPaginado['pagina_atual'];
 
                     <div class="d-flex flex-row flex-wrap justify-content-center gap-5 w-100">
                         <div class="mb-3">
-                            <label for="userEmail" class="form-label">Email do cliente:</label>
-                            <input type="text" id="userEmail" name="userEmail" class="form-control" placeholder="Se não possuir, não preencher">
+                            <label for="idCliente" class="form-label">Selecione o cliente:</label>
+                            <select name="idCliente" id="idCliente">
+                                <?php include_once 'components/clientesOpcoes.php'; ?>
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="produtosPedidos" class="form-label">Produtos Pedidos:</label>
-                            <input type="text" id="produtosPedidos" name="produtosPedidos" class="form-control" placeholder="Ex.: 1;2;3;4;5" required>
+                            <label for="idEndereco" class="form-label">Selecione o endereço:</label>
+                            <select name="idEndereco" id="idEndereco">
+                                <?php include_once 'components/enderecosOpcoes.php'; ?>
+                            </fieldset>
                         </div>
                         <div class="mb-3">
-                            <label for="quantidadeProdutosPedidos" class="form-label">Quantidade dos Produtos Pedidos:</label>
-                            <input type="text" id="quantidadeProdutosPedidos" name="quantidadeProdutosPedidos" class="form-control" placeholder="Ex.: 1;2;3;4;5" required>
+                            <fieldset>
+                                <legend>Produtos Pedidos:</legend>
+                                <?php include_once 'components/produtosOpcoes.php'; ?>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="valorFrete" class="form-label">Valor do Frete:</label>
                             <input type="text" id="valorFrete" name="valorFrete" class="form-control" placeholder="Ex.: 15.00">
                         </div>
-                        <div class="mb-3">
-                            <label for="valorTotal" class="form-label">Valor Total:</label>
-                            <input type="text" id="valorTotal" name="valorTotal" class="form-control" placeholder="Ex.: 150.00" required>
+                        <div class="mb-3 form-check d-flex">
+                            <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" class="form-check-input flex-grow-1">
+                            <label for="ckbIsDelivery" class="form-check-label ms-2">O pedido é para entrega!</label>
                         </div>
                         <div class="mb-3">
                             <label for="meioPagamento" class="form-label">Meio de Pagamento:</label>
@@ -76,10 +64,7 @@ $paginaAtual = $resultadoPaginado['pagina_atual'];
                                 <label for="pagamentoDinheiro" class="form-check-label">Dinheiro</label>
                             </div>
                         </div>
-                        <div class="mb-3 form-check d-flex">
-                            <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" class="form-check-input flex-grow-1">
-                            <label for="ckbIsDelivery" class="form-check-label ms-2">O pedido é para entrega!</label>
-                        </div>
+                        
                     </div>
 
                     <button type="submit" class="botao botao-primary m-auto" >Salvar Pedido</button>
@@ -92,8 +77,11 @@ $paginaAtual = $resultadoPaginado['pagina_atual'];
         </div>
 
         <?php include_once 'components/paginacaoPedidos.php'; ?>
+
     </main>
 
-    <?php include_once './components/footer.php'; ?>
+    <?php include_once 'components/footer.php'; ?>
+    <script src="script/atualizarQtddPedidos.js"></script>
+
 </body>
 </html>

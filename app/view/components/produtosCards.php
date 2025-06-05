@@ -18,9 +18,16 @@ $paginaAtual = basename($_SERVER['SCRIPT_NAME']);
             <?php 
                 $redirectToExcluir = 'excluirSabor.php?idProduto=' . urlencode($produto->getId()) . '&idCategoria=' . urlencode($produto->getCategoria());
                 $redirectToEditar  = 'editarSabor.php?idProduto=' . urlencode($produto->getId()) . '&idCategoria=' . urlencode($produto->getCategoria());
+                $redirectToReativar = 'gerenciarProdutos.php?produtoAtivar=' . urlencode($produto->getId()) . '&idCategoria=' . urlencode($produto->getCategoria());
             ?>
-                <a class="botao botao-primary" href="<?= $redirectToEditar ?>">Editar</a>
-                <a class="botao botao-alerta" href="<?= $redirectToExcluir ?>">Excluir</a>
+
+                <?php if ($produto->getDesativado() != 1): ?>
+                    <a class="botao botao-primary" href="<?= $redirectToEditar ?>">Editar</a>
+                    <a class="botao botao-alerta" href="<?= $redirectToExcluir ?>">Excluir</a>
+
+                <?php else: ?>
+                    <a class="botao botao-primary" href="<?= htmlspecialchars($redirectToReativar) ?>">Reativar</a>
+                <?php endif; ?>
         <?php else: ?>
             <a class="botao botao-primary" href="carrinho.php?add=<?= urlencode($produto->getId()) ?>">Adicionar ao Carrinho</a>
         <?php endif; ?>
