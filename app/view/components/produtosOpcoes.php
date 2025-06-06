@@ -2,7 +2,7 @@
     $id = htmlspecialchars($produto->getId());
     $nome = htmlspecialchars($produto->getNome());
 ?>
-    <div class="produto-item" style="margin-bottom: 10px;">
+    <div class="produto-item">
         <input 
             type="checkbox" 
             id="produto<?= $id ?>" 
