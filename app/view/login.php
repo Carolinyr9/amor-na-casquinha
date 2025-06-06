@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <label for="senha">Senha:</label>
                     <input type="password" class="form-control" name="senha" placeholder="Senha" required>
                 </div>
-                <button type="submit" class="botao botao-primary">Login</button>
+                <button type="submit" class="botao botao-primary mt-4">Login</button>
                 <a class="link mt-4 text-center" href="registro.php">É cliente e não possui login? Clique para criar conta!</a>
             </form>
         </div>
