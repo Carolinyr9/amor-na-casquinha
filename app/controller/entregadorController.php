@@ -139,14 +139,16 @@ class EntregadorController {
             $entregador->editarEntregador(
                 $dados['nome'],
                 $dados['email'],
-                $dados['telefone']
+                $dados['telefone'],
+                $dados['cnh']
             );
     
             $resultado = $this->repository->editarEntregador(
                 $dados['emailAntigo'],
                 $dados['nome'],
                 $dados['email'],
-                $dados['telefone']
+                $dados['telefone'],
+                $dados['cnh']
             );
     
             if (!$resultado) {

@@ -88,9 +88,9 @@ class FornecedorController {
             $fornecedor = $this->repository->buscarFornecedorPorEmail($dados['emailAntigo']);
             
             if ($fornecedor) {
-                $fornecedor->editarFornecedor($dados['nome'], $dados['email'], $dados['telefone']);
+                $fornecedor->editarFornecedor($dados['nome'], $dados['email'], $dados['telefone'], $dados['cnpj']);
                 
-                $resultado = $this->repository->editarFornecedor($dados['emailAntigo'], $dados['nome'], $dados['email'], $dados['telefone']);
+                $resultado = $this->repository->editarFornecedor($dados['emailAntigo'], $dados['nome'], $dados['email'], $dados['telefone'], $dados['cnpj']);
                 
                 if ($resultado) {
                     return true;

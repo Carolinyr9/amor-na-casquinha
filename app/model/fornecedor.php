@@ -82,10 +82,11 @@ class Fornecedor {
     }
 
 
-    public function editarFornecedor($nome, $email, $telefone){
+    public function editarFornecedor($nome, $email, $telefone, $cpnj) {
         $this->setEmail($email);
         $this->setNome($nome);
         $this->setTelefone($telefone);
+        $this->setCpnj($this->cpnj);
     }
 }
 ?>

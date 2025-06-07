@@ -53,32 +53,34 @@ if (isset($_GET['funcEmail'])) {
                         </div>
 
                         <div class="form-group mb-3">
-                            <input type="text" id="rua" name="ruaFunEdt" class="form-control" placeholder="Rua" value="<?= htmlspecialchars($endereco->getRua()); ?>" required>
+                            <input type="text" id="rua" name="rua" class="form-control" placeholder="Rua" value="<?= htmlspecialchars($endereco->getRua()); ?>" required>
                         </div>
 
                         <div class="form-group mb-3">
-                            <input type="text" id="numero" name="numeroFunEdt" class="form-control" placeholder="Número" value="<?= htmlspecialchars($endereco->getNumero()); ?>" required>
+                            <input type="text" id="numero" name="numero" class="form-control" placeholder="Número" value="<?= htmlspecialchars($endereco->getNumero()); ?>" required>
                         </div>
 
                         <div class="form-group mb-3">
-                            <input type="text" id="complemento" name="complementoFunEdt" class="form-control" placeholder="Complemento" value="<?= htmlspecialchars($endereco->getComplemento()); ?>">
+                            <input type="text" id="complemento" name="complemento" class="form-control" placeholder="Complemento" value="<?= htmlspecialchars($endereco->getComplemento()); ?>">
                         </div>
 
                         <div class="form-group mb-3">
-                            <input type="text" id="bairro" name="bairroFunEdt" class="form-control" placeholder="Bairro" value="<?= htmlspecialchars($endereco->getBairro()); ?>" required>
+                            <input type="text" id="bairro" name="bairro" class="form-control" placeholder="Bairro" value="<?= htmlspecialchars($endereco->getBairro()); ?>" required>
                         </div>
 
                         <div class="form-group mb-3">
-                            <input type="text" id="cidade" name="cidadeFunEdt" class="form-control" placeholder="Cidade" value="<?= htmlspecialchars($endereco->getCidade()); ?>" required>
+                            <input type="text" id="cidade" name="cidade" class="form-control" placeholder="Cidade" value="<?= htmlspecialchars($endereco->getCidade()); ?>" required>
                         </div>
 
                         <div class="form-group mb-3">
-                            <input type="text" id="estado" name="estadoFunEdt" class="form-control" placeholder="Estado" value="<?= htmlspecialchars($endereco->getEstado()); ?>" required>
+                            <input type="text" id="estado" name="estado" class="form-control" placeholder="Estado" value="<?= htmlspecialchars($endereco->getEstado()); ?>" required>
                         </div>
 
                         <div class="form-group mb-3">
-                            <input type="text" id="cep" name="cepFunEdt" class="form-control" placeholder="CEP" value="<?= htmlspecialchars($endereco->getCep()); ?>" pattern="\d{5}-\d{3}" title="Formato esperado: 12345-678" required>
+                            <input type="text" id="cep" name="cep" class="form-control" placeholder="CEP" value="<?= htmlspecialchars($endereco->getCep()); ?>" pattern="\d{5}-\d{3}" title="Formato esperado: 12345-678" required>
                         </div>
+
+                        <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($endereco->getIdEndereco() ?? ''); ?>">
 
                         <div class="m-auto w-25 d-flex justify-content-center align-items-center"><input type="submit" value="Atualizar" name="btnAtualizar" class="botao botao-primary m-auto"></div>
                     </form>

@@ -9,6 +9,7 @@ if (isset($_POST['btnAtualizar'])) {
         'emailAntigo' => $_POST['emailEntrAtual'],
         'email' => $_POST['emailEntrEdt'],
         'telefone' => $_POST['telefoneEntrEdt'],
+        'cnh' => $_POST['cnhEntrEdt']
     ];
 
     $entregadorController->editarEntregador($dados);

@@ -85,16 +85,17 @@ class EntregadorRepository{
         }
     }
 
-    public function editarEntregador($emailAntigo, $nome, $email, $telefone) {
+    public function editarEntregador($emailAntigo, $nome, $email, $telefone, $cnh) {
         try {
             $stmt = $this->conn->prepare("
                 UPDATE entregador
-                SET nome = :nome, email = :email, telefone = :telefone
+                SET nome = :nome, email = :email, telefone = :telefone, cnh = :cnh
                 WHERE email = :emailAntigo
             ");
             $stmt->bindParam(':nome', $nome);
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':telefone', $telefone);
+            $stmt->bindParam(':cnh', $cnh);
             $stmt->bindParam(':emailAntigo', $emailAntigo);
             $stmt->execute();
 

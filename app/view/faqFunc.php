@@ -68,7 +68,7 @@ require_once '../utils/helpers/faqHandler.php';
                 
                 Mais dúvidas? 
                 Envie uma mensagem diretamente:
-                <form action="../utils/faqHandler.php" method="post">
+                <form action="../utils/helpers/faqHandler.php" method="post">
                     <input type="email" name="emailField" required placeholder="Email para contato">
                     <textarea id="inputField" name="inputField" cols="30" required placeholder="Sua dúvida"></textarea>
                     <input type="submit" value="Enviar">

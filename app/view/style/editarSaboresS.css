@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
+
+:root{
+    --roxo-bebe: #D4C7FF;
+    --Nunito: 'Nunito', sans-serif;
+    --Agbalumo: 'Agbalumo';
+    --azul-bebe: #C9EFFF;
+    --rosa-bebe: #FFC7E8;
+    --amarelo-bebe: #FFFAC7;
+    --verde-bebe: #E2FFC7;
+}
+
+
+h1{
+    font-family: var(--Agbalumo);
+    font-size: 2rem;
+    width: 70%;
+    text-align: center;
+    margin: 20px auto;
+}
+main{
+    min-height: calc(100vh - 170px);
+}
+.conteiner1 button{
+    width: 208px;
+    background-color: var(--azul-bebe);
+}
+
+
+.c1{
+    background-color: var(--verde-bebe);
+    width: 400px;
+}
+
+.titulo{
+    font-family: var(--Nunito);
+    max-width: 120px;
+}
+
+.preco span{
+    font-weight: bold;
+}
+
+.botao #excl{
+    background-color: var(--rosa-bebe);
+    font-family: var(--Agbalumo);
+    width: 90px;
+    height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+  
+#excl:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
+}
+
+.botao #edit{
+    background-color: var(--azul-bebe);
+    font-family: var(--Agbalumo);
+    width: 90px;
+    height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+  
+#edit:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
+}
+
+.botao #excl a, a:visited, a:active{
+    color: black;
+}
+
+.botao #edit a, a:visited, a:active{
+    color: black;
+}
+
+.add{
+    background-color: var(--azul-bebe);
+    font-family: var(--Nunito);
+    width: 180px;
+    height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+  
+.add:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
+}
+
+.voltar{
+    background-color: var(--azul-bebe);
+    font-family: var(--Nunito);
+    width: 110px;
+    height: 30px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+  
+.voltar:hover {
+    background-color: #6ccad6;
+    transform: scale(1.1);
+}
+
+.voltar a, a:visited, a:active{
+    color: black;
+    text-decoration: none;
+}
+
+.c1 form{
+    display: none;
+    padding-left: 10px;
+}
+
+.exibir{
+    display: flex !important;
+    flex-direction: column;
+}
+form input{
+    padding-left: 4px;
+    border-radius: 10px;
+}
+
+.form__submit{
+    background-color: var(--azul-bebe);
+    font-family: var(--Nunito);
+    height: 29px;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+
+.form__submit:hover{
+    background-color: #6ccad6;
+    transform: scale(1.1);
+}
+
+form{
+    display: none;
+}
+
+@media (min-width: 768px) {
+    
+    .img-box{
+        width: 40% !important;
+    }
+    .titulo{
+        font-size: 1.2rem !important;
+    }
+    .head-box{
+        justify-content: space-around !important;
+    }
+    .conteiner1{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 90%;
+        justify-content: center;
+    }
+    .c1{
+        margin: 29px;
+        width: 28%;
+    }
+    h1{
+        padding-top: 20px !important;
+    }
+    .botao #excl, #edit{
+        font-size: 1.25rem;
+    }
+    .voltar a{
+        font-size: 1.35rem !important;
+        height: 40px;
+        width: 130px;
+    }
+    .add{
+        font-size: 1.35rem !important;
+        height: 35px;
+        width: 200px;
+    }
+    
+}
