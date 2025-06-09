@@ -48,7 +48,7 @@ if(isset($_GET['entrEmail'])) {
                         </div>
 
                         <div class="form-group mb-3">
-                            <input type="text" id="cnh" name="cnhEntrEdt" class="form-control" placeholder="CNH" value="<?= htmlspecialchars($dadosEntr->getCnh()); ?>" required>
+                            <input type="text" id="cnh" name="cnhEntrEdt" class="form-control" placeholder="CNH" maxlength=11 value="<?= htmlspecialchars($dadosEntr->getCnh()); ?>" required>
                         </div>
 
                         <div class="m-auto w-25 d-flex justify-content-center align-items-center"><input type="submit" value="Atualizar" name="btnAtualizar" class="botao botao-primary m-auto"></div>
@@ -63,5 +63,13 @@ if(isset($_GET['entrEmail'])) {
     <?php
         include_once 'components/footer.php';
     ?>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#telefone').mask('(00) 00000-0000');
+        });
+    </script>
 </body>
 </html>
