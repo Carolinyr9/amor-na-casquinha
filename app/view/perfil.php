@@ -11,6 +11,7 @@ require_once '../utils/cliente/inicializarPerfil.php';
     <title>Perfil</title>
     <?php include_once '../utils/links/styleLinks.php'; ?>
     <link rel="stylesheet" href="style/perfil.css">
+    <script src="script/exibirFormulario.js"></script>
 </head>
 <body>
     <?php include_once 'components/header.php'; ?>
@@ -18,7 +19,8 @@ require_once '../utils/cliente/inicializarPerfil.php';
         <section>
             <h1 class="titulo">Perfil</h1>
             <div class="container-section container d-flex align-items-center flex-column text-center rounded-4 p-4 my-3">
-                    <div id="dados" class="w-50">
+                <div  class="fechar"><span>x</span></div>
+                    <div id="dadosPerfil" class="w-50">
                         <p class="fs-5">Nome: <?= htmlspecialchars($clienteData->getNome()); ?></p>
                         <p class="fs-5">Email: <?= htmlspecialchars($clienteData->getEmail()); ?></p>
                         <p class="fs-5">Telefone: <?= htmlspecialchars($clienteData->getTelefone()); ?></p>
@@ -26,7 +28,7 @@ require_once '../utils/cliente/inicializarPerfil.php';
                         <?php include 'components/enderecoCard.php'; ?>
                         <button id="editPerfil" class="botao botao-secondary">Editar</button>
                     </div>
-                    <form action="" class="formEditar flex-column justify-content-center w-auto" method="POST" id="formularioSenha">
+                    <form action="" class="formEditar flex-column justify-content-center w-auto" method="POST" id="formularioPerfil">
                             <p class="subtitulo">Usuário</p>
                             <div class="d-flex flex-row flex-wrap justify-content-center gap-4 mb-4">
                                 <div class="form-group">
@@ -73,7 +75,7 @@ require_once '../utils/cliente/inicializarPerfil.php';
         </section>
 
         <section>
-            <h1 class="titulo">Alterar Senha</h1>
+            <h1 class="subtitulo">Alterar Senha</h1>
             <div class="container-section container d-flex align-items-center flex-column text-center rounded-4 p-4 my-3">
                 
                 <form action="" class="formEditarSenha" method="POST" id="formularioSenha">
@@ -108,12 +110,10 @@ require_once '../utils/cliente/inicializarPerfil.php';
                         <input type="hidden" name="statusPedidos[]" value="<?= $pedido->getStatusPedido(); ?>">
                     <?php endforeach; ?>
                     <input type="hidden" name="emailCliente" value="<?= $clienteData->getEmail(); ?>">
-                    <button type="submit" name="btnExcluirPerfil" class="botao botao-danger mt-4">Excluir</button>
+                    <button type="submit" name="btnExcluirPerfil" class="botao botao-alerta mt-4">Excluir</button>
                 </form>
         </section>
     </main>
     <?php include_once 'components/footer.php'; ?>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script/exibirFormulario.js"></script>
 </body>
 </html>
