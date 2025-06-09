@@ -32,7 +32,7 @@ $produtos = $categoriaId ? $produtoController->selecionarProdutosCategoria($cate
         <div class="container d-flex flex-column align-items-center justify-content-center m-auto my-5">
             <button class="botao botao-primary" id="addProduto">Adicionar Sabor</button>
 
-            <div class="container my-5 border w-50 rounded-4 py-3" id="formulario" style="display: none;">
+            <div class="formulario container my-5 border rounded-4 py-3" id="formulario" style="display: none;">
                 <form enctype="multipart/form-data" action="" method="POST" class="d-flex flex-column align-items-center gap-5">
                     <div class="d-flex flex-column ">
                         <div class="mb-3">

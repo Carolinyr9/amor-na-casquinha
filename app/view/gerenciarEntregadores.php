@@ -19,7 +19,7 @@ $listaPessoas = $entregadorController->listarEntregadores();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entregadores</title>
     <?php include_once '../utils/links/styleLinks.php'; ?>
-    <link rel="stylesheet" href="style/editarEstoque.css">
+    <link rel="stylesheet" href="style/formulario.css">
     <script src="script\exibirFormulario.js"></script>
 </head>
 <body>
