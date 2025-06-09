@@ -491,3 +491,20 @@
 [2025-05-28 15:17:25] ERROR: Dados inválidos para criação de itens do pedido.
 [2025-05-28 15:17:41] ERROR: Erro ao criar pedido: Troco para não fornecido!
 [2025-05-28 15:17:41] ERROR: Dados inválidos para criação de itens do pedido.
+[2025-06-09 02:26:22] ERROR: Dados inválidos para edição do cliente.
+[2025-06-09 02:26:22] ERROR: Número inválido! Insira um número válido.
+[2025-06-09 02:26:22] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-09 02:27:29] ERROR: Dados inválidos para edição do cliente.
+[2025-06-09 02:27:29] ERROR: Número inválido! Insira um número válido.
+[2025-06-09 02:27:29] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-09 02:29:12] ERROR: Dados inválidos para edição do cliente.
+[2025-06-09 02:29:12] ERROR: Número inválido! Insira um número válido.
+[2025-06-09 02:29:12] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-09 02:33:38] ERROR: Dados inválidos para edição do cliente.
+[2025-06-09 02:33:38] ERROR: Número inválido! Insira um número válido.
+[2025-06-09 02:33:38] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-09 03:13:42] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-09 03:13:49] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-09 03:13:57] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-09 03:14:42] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-09 03:14:53] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
