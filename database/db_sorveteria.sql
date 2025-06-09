@@ -25,7 +25,7 @@ CREATE TABLE `categoriaproduto` (
   `marca` varchar(255) DEFAULT NULL,
   `descricao` text DEFAULT NULL,
   `idFornecedor` int(11) DEFAULT NULL,
-  `foto` varchar(50) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
   `desativado` int(1) DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
