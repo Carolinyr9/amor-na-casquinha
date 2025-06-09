@@ -128,6 +128,6 @@ class UsuarioController {
     public function logout() {
         session_start();
         session_destroy();
-        $this->redirecionarPara('../../view/index.php');
+        $this->redirecionarPara('/amor-na-casquinha/app/view/index.php');
     }
 }

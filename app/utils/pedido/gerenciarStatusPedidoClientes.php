@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['mudarStatus'])) {
         $dados = [
             'idPedido' => $pedidoId,
-            'statusPedido' => 'Entregue'
+            'statusPedido' => 'Concluído'
         ];
         $pedidoController->mudarStatus($dados);
         header("Location: informacoesPedidoCliente.php?idPedido=$pedidoId");

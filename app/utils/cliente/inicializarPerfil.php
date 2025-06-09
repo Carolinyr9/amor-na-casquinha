@@ -23,7 +23,7 @@ $pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
 
 $pedidoController = new PedidoController();
 $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-$pedidos = $pedidoController->listarPedidos();
+$pedidos = $pedidoController->listarPedidoPorIdCliente($clienteData->getId());
 
 $resultadoPaginado = paginarArray($pedidos, 8, $paginaAtual);
 $pedidos = $resultadoPaginado['dados'];

@@ -69,14 +69,12 @@ require_once '../utils/cliente/inicializarPerfil.php';
                             </div>
 
                             <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($endereco->getIdEndereco() ?? ''); ?>">
-                            <button type="submit" name="btnAlterarSenha" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
+                            <button type="submit" name="btnAlterarCliente" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
                     </form>
 
                     <a href="alterarSenha.php">Alterar Senha</a>
             </div>
         </section>
-        
-        
 
         <section>
             <h1 class="titulo">Meus pedidos</h1>

@@ -100,7 +100,7 @@ class ClienteRepository {
         }
     }
 
-    public function desativarProduto($email) {
+    public function desativarPerfil($email) {
         try {
             $stmt = $this->conn->prepare("UPDATE cliente SET desativado = 1 WHERE email = :email");
             $stmt->bindParam(":email", $email, PDO::PARAM_INT);
