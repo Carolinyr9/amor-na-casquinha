@@ -12,23 +12,23 @@
             if(isset($_SESSION["userEmail"])){
                 switch($_SESSION["userPerfil"]){                        
                     case "FUNC":
-                        echo "<a href='faqFunc.php'>FAQ</a>";
+                        echo "<a href='faqFunc.php' class='text-black text-decoration-none mb-3 fs-6'>FAQ</a>";
                         break;
                         
                     case "FADM":
-                        echo "<a href='faqFunc.php'>FAQ</a>";
+                        echo "<a href='faqFunc.php' class='text-black text-decoration-none mb-3 fs-6'>FAQ</a>";
                         break;
                         
                     case "ENTR":
-                        echo "<a href='faqFunc.php'>FAQ</a>";
+                        echo "<a href='faqFunc.php' class='text-black text-decoration-none mb-3 fs-6'>FAQ</a>";
                         break;
 
                     default:
-                        echo "<a href='faqCliente.php'>FAQ</a>";
+                        echo "<a href='faqCliente.php' class='text-black text-decoration-none mb-3 fs-6'>FAQ</a>";
                         break;
                 }
             } else {
-                echo "<a href='faqCliente.php' class='text-black text-decoration-none mb-3'>FAQ</a>";
+                echo "<a href='faqCliente.php' class='text-black text-decoration-none mb-3 fs-6'>FAQ</a>";
             }
             ?>
     </div>
