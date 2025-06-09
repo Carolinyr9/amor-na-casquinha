@@ -31,10 +31,17 @@ $(document).ready(function() {
         $('#formulario').toggle("slow");
     });
 
-    
-});
     //perfil.php
     $('#editPerfil').click(function() {
-        $('#formulario').toggle("slow");
-        $('#dados').toggle("slow");
+        $('#formularioPerfil').toggle("slow");
+        $('#dadosPerfil').toggle("slow");
+        $('.fechar').toggle("slow");
     });
+    $('.fechar').click(function() {
+        $('#formularioPerfil').hide("slow");
+        $('#dadosPerfil').show("slow");
+        $('.fechar').hide("slow");
+    });
+    
+});
+    
