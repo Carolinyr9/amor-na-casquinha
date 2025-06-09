@@ -72,7 +72,7 @@ require_once '../utils/cliente/inicializarPerfil.php';
                             <button type="submit" name="btnAlterarCliente" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
                     </form>
 
-                    <a href="alterarSenha.php">Alterar Senha</a>
+                    <a href="alterarSenha.php" class="link mt-3">Alterar Senha</a>
             </div>
         </section>
 

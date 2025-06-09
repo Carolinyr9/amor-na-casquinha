@@ -84,7 +84,7 @@ $pedidoId = $_GET['idPedido'] ?? null;
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="botao botao-secondary" data-bs-dismiss="modal">Fechar</button>
-                            <button type="submit" class="botao botao-danger">Confirmar Cancelamento</button>
+                            <button type="submit" class="botao botao-alerta">Confirmar Cancelamento</button>
                         </div>
                     </form>
                 </div>

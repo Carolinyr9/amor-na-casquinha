@@ -23,9 +23,9 @@ $clienteData = $clienteController->listarClientePorEmail($_SESSION["userEmail"])
 <body>
     <?php include_once 'components/header.php'; ?>
     <main>
-        <section>
-            <h1 class="subtitulo">Alterar Senha</h1>
-            <div class="container-section container d-flex align-items-center flex-column text-center rounded-4 p-4 my-3">
+        <section class="d-flex flex-column align-items-center justify-content-center">
+            <h1 class="titulo">Alterar Senha</h1>
+            <div class="container-section container d-flex justify-content-center align-items-center flex-column text-center rounded-4 p-4 my-3">
                 
                 <form action="" class="formEditarSenha" method="POST" id="formularioSenha">
                         <p class="subtitulo">Confirme sua senha</p>
@@ -42,7 +42,7 @@ $clienteData = $clienteController->listarClientePorEmail($_SESSION["userEmail"])
                         <button type="submit" name="btnAlterarSenha" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
                 </form>
             </div>
-            <a href="perfil.php" class="botao botao-secondary mt-4">Voltar</a>
+            <a href="perfil.php" class="botao botao-secondary mt-4 text-center">Voltar</a>
         </section>
 
 

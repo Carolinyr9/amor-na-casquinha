@@ -25,12 +25,12 @@
                     </div>
                     <?php include 'components/enderecoCard.php'; ?>
                     
-                    <div class="total-div d-flex flex-row align-items-center justify-content-between w-50 mt-3">
+                    <div class="total-div d-flex flex-row align-items-center justify-content-between mt-3">
                         <h4>Subtotal</h4>
                         <p>R$ <?= number_format($subtotal, 2, ',', '.') ?></p>
                     </div>
 
-                    <div class="frete-div flex-row align-items-center justify-content-between w-50" id="freteDiv" style="display: <?= is_numeric($freteValor) ? 'flex' : 'none' ?>;">
+                    <div class="frete-div flex-row align-items-center justify-content-between" id="freteDiv" style="display: <?= is_numeric($freteValor) ? 'flex' : 'none' ?>;">
                         <h4>Frete</h4>
                         <p>
                             <?php if (is_numeric($freteValor)): ?>
@@ -42,7 +42,7 @@
                         <input type="hidden" name="frete" id="frete" value="<?= htmlspecialchars($freteValor); ?>">
                     </div>
 
-                    <div class="total-com-frete d-flex flex-row align-items-center justify-content-between w-50 mb-3">
+                    <div class="total-com-frete d-flex flex-row align-items-center justify-content-between mb-3">
                         <h4>Total do Pedido</h4>
                         <p>R$ <?= number_format($total, 2, ',', '.') ?></p>
                         <input type="hidden" name="totalComFrete" id="totalComFrete" value="<?= htmlspecialchars($total); ?>">
