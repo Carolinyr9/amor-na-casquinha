@@ -1,0 +1,26 @@
+main{
+    min-height: calc(100vh - 170px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: var(--Nunito);
+}
+
+.formulario{
+    display: none;
+}
+
+.formumario__btn--submit{
+    background-color: var(--rosa-bebe);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+
+.formumario__btn--submit:hover {
+    background-color: #f58cd4 !important;
+    transform: scale(1.03);
+}
+
+@media (min-width: 768px) {
+}

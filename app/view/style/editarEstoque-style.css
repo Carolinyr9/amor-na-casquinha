@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Nunito:wght@400;700&display=swap');
+
+:root{
+    --roxo-bebe: #D4C7FF;
+    --Nunito: 'Nunito', sans-serif;
+    --Agbalumo: 'Agbalumo';
+    --azul-bebe: #C9EFFF;
+    --rosa-bebe: #FFC7E8;
+    --amarelo-bebe: #FFFAC7;
+    --verde-bebe: #E2FFC7;
+}
+
+body{
+    font-family: var(--Nunito);
+}
+
+h2{
+    font-family: var(--Agbalumo);
+}
+
+.formulario{
+    background-color: var(--amarelo-bebe);
+}
+
+.editarProduto{
+    font-family: var(--Agbalumo);
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    background-color: var(--rosa-bebe);
+}
+
+
+
+.editarProduto:hover {
+    background-color: #f58cd4;
+    transform: scale(1.1);
+}

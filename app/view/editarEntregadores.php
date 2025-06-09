@@ -33,7 +33,7 @@ if(isset($_GET['entrEmail'])) {
             <div class="container-form container rounded-4 p-4">
                 <?php if ($dadosEntr): ?>
                     <form action="editarEntregadores.php" method="POST" class="m-auto">
-                        <input type="hidden" name="emailFunAtual" value="<?= htmlspecialchars($dadosEntr->getEmail()); ?>">
+                        <input type="hidden" name="emailEntrAtual" value="<?= htmlspecialchars($dadosEntr->getEmail()); ?>">
 
                         <div class="form-group mb-3">
                             <input type="text" id="nome" name="nomeEntrEdt" class="form-control" placeholder="Nome" value="<?= htmlspecialchars($dadosEntr->getNome()); ?>" required> 

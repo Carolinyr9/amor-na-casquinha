@@ -56,7 +56,7 @@ require_once '../utils/helpers/faqHandler.php';
                 <div class="d-flex flex-column justify-content-center">
                     Mais dúvidas?
                     Envie uma mensagem diretamente:
-                    <form action="../utils/faqHandler.php" method="post" class="d-flex flex-column justify-content-center gap-4">
+                    <form action="../utils/helpers/faqHandler.php" method="post" class="d-flex flex-column justify-content-center gap-4">
                         <input type="email" name="emailField" class="form-control" placeholder="Email para contato" required>
                         <textarea id="inputField" name="inputField" cols="30" class="form-control" placeholder="Sua dúvida" required></textarea>
                         <input type="submit" class="botao botao-primary mx-auto" value="Enviar">

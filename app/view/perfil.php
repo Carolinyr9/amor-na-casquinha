@@ -113,6 +113,8 @@ require_once '../utils/cliente/inicializarPerfil.php';
                     <button type="submit" name="btnExcluirPerfil" class="botao botao-alerta mt-4">Excluir</button>
                 </form>
         </section>
+
+        <?php include_once 'components/paginacaoPedidos.php'; ?>
     </main>
     <?php include_once 'components/footer.php'; ?>
 </body>
