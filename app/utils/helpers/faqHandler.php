@@ -1,5 +1,4 @@
 <?php
-session_start();
 use app\utils\helpers\Logger;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
