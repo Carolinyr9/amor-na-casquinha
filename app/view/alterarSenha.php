@@ -34,7 +34,7 @@ $clienteData = $clienteController->listarClientePorEmail($_SESSION["userEmail"])
                                 <input type="password" name="senhaAtual" class="form-control" placeholder="Senha atual" required>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="password" id="senhaNova" name="senhaNova" placeholder="Senha nova" title="A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." required>
+                                <input class="form-control" type="password" id="senhaNova" name="senhaNova" placeholder="Senha nova" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}" title="A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." required>
                             </div>
                             
                         </div>
