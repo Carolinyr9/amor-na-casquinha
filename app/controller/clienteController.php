@@ -129,8 +129,6 @@ class ClienteController {
                 return false;
             }
 
-            $senhaNovaHash = password_hash($dados['senhaNova'], PASSWORD_DEFAULT);
-
             $resultado = $this->repository->editarSenha(
                 $dados['senhaNova'],
                 $dados['senhaAtual'], 

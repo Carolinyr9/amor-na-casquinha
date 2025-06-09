@@ -76,7 +76,6 @@ class ClienteRepository {
         }
     }
 
-
     public function editarSenha($senhaNova, $senhaAtual, $idCliente) {
         try {
             $stmt = $this->conn->prepare("SELECT senha FROM cliente WHERE idCliente = ?");

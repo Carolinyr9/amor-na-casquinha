@@ -71,30 +71,12 @@ require_once '../utils/cliente/inicializarPerfil.php';
                             <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($endereco->getIdEndereco() ?? ''); ?>">
                             <button type="submit" name="btnAlterarSenha" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
                     </form>
+
+                    <a href="alterarSenha.php">Alterar Senha</a>
             </div>
         </section>
-
-        <section>
-            <h1 class="subtitulo">Alterar Senha</h1>
-            <div class="container-section container d-flex align-items-center flex-column text-center rounded-4 p-4 my-3">
-                
-                <form action="" class="formEditarSenha" method="POST" id="formularioSenha">
-                        <p class="subtitulo">Confirme sua senha</p>
-                        <div class="d-flex flex-row flex-wrap justify-content-center gap-4 mb-4">
-                            <div class="form-group">
-                                <input type="password" name="senhaAtual" class="form-control" placeholder="Senha atual" required>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="password" id="senhaNova" name="senhaNova" placeholder="Senha nova" pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}" title="A senha deve conter pelo menos 8 caracteres, incluindo uma letra maiúscula, uma minúscula, um número e um caractere especial." required>
-                            </div>
-
-                            
-                        </div>
-                        <input type="hidden" name="idEndereco" value="<?= htmlspecialchars($clienteData->getId() ?? ''); ?>">  
-                        <button type="submit" name="btnAlterarCliente" class="botao botao-primary mt-4" style="width: 100px;">Salvar</button>
-                </form>
-            </div>
-        </section>
+        
+        
 
         <section>
             <h1 class="titulo">Meus pedidos</h1>

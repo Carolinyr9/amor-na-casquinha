@@ -6,7 +6,6 @@ require_once(__DIR__ . '/../cliente/alterarCliente.php');
 require_once(__DIR__ . '/../cliente/excluirPerfil.php');
 require_once(__DIR__ . '/../../config/config.php');
 require_once(__DIR__ .'/../pedido/paginacaoPedidos.php');
-require_once(__DIR__ . '/../cliente/alterarSenha.php');
 
 use app\controller\ClienteController;
 use app\controller\PedidoController;

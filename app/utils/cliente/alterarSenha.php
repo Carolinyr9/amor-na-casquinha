@@ -4,10 +4,10 @@ use app\controller\ClienteController;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["btnAlterarSenha"])) {
         $clienteController = new ClienteController();
-        $enderecoController = new EnderecoController();
         $dadosCliente = [
-            'senhaAtual' => $_POST["nome"],
-            'senhaNova' => $_POST["telefone"]
+            'senhaAtual' => $_POST["senhaAtual"],
+            'senhaNova' => $_POST["senhaNova"],
+            'idCliente' => $_POST["idCliente"]
         ];
 
         $result = $clienteController->alterarSenha($dadosCliente);
