@@ -491,20 +491,70 @@
 [2025-05-28 15:17:25] ERROR: Dados inválidos para criação de itens do pedido.
 [2025-05-28 15:17:41] ERROR: Erro ao criar pedido: Troco para não fornecido!
 [2025-05-28 15:17:41] ERROR: Dados inválidos para criação de itens do pedido.
-[2025-06-09 02:26:22] ERROR: Dados inválidos para edição do cliente.
-[2025-06-09 02:26:22] ERROR: Número inválido! Insira um número válido.
-[2025-06-09 02:26:22] ERROR: CEP inválido. Use o formato 99999-999
-[2025-06-09 02:27:29] ERROR: Dados inválidos para edição do cliente.
-[2025-06-09 02:27:29] ERROR: Número inválido! Insira um número válido.
-[2025-06-09 02:27:29] ERROR: CEP inválido. Use o formato 99999-999
-[2025-06-09 02:29:12] ERROR: Dados inválidos para edição do cliente.
-[2025-06-09 02:29:12] ERROR: Número inválido! Insira um número válido.
-[2025-06-09 02:29:12] ERROR: CEP inválido. Use o formato 99999-999
-[2025-06-09 02:33:38] ERROR: Dados inválidos para edição do cliente.
-[2025-06-09 02:33:38] ERROR: Número inválido! Insira um número válido.
-[2025-06-09 02:33:38] ERROR: CEP inválido. Use o formato 99999-999
-[2025-06-09 03:13:42] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
-[2025-06-09 03:13:49] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
-[2025-06-09 03:13:57] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
-[2025-06-09 03:14:42] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
-[2025-06-09 03:14:53] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-08 00:07:41] ERROR: Número inválido! Insira um número válido.
+[2025-06-08 00:07:41] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-08 00:07:41] ERROR: Erro ao listar fornecedor: Email inválido.
+[2025-06-08 00:08:04] ERROR: Número inválido! Insira um número válido.
+[2025-06-08 00:08:04] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-08 00:09:44] ERROR: Número inválido! Insira um número válido.
+[2025-06-08 00:09:44] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-08 00:09:58] ERROR: ID do endereço não fornecido!
+[2025-06-08 00:09:58] ERROR: Endereço não encontrado para edição
+[2025-06-08 00:11:06] ERROR: Erro ao editar endereço!
+[2025-06-08 00:12:35] ERROR: Erro ao editar o fornecedor: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cpnj' in 'field list'
+[2025-06-08 00:12:35] ERROR: Fornecedor não encontrado: Erro ao editar fornecedor
+[2025-06-08 00:12:35] ERROR: Erro ao editar endereço!
+[2025-06-08 00:13:11] ERROR: Erro ao editar o fornecedor: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cpnj' in 'field list'
+[2025-06-08 00:13:11] ERROR: Fornecedor não encontrado: Erro ao editar fornecedor
+[2025-06-08 00:13:11] ERROR: Erro ao editar endereço!
+[2025-06-08 00:13:16] ERROR: Erro ao editar o fornecedor: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cpnj' in 'field list'
+[2025-06-08 00:13:16] ERROR: Fornecedor não encontrado: Erro ao editar fornecedor
+[2025-06-08 00:13:16] ERROR: Erro ao editar endereço!
+[2025-06-08 00:13:23] ERROR: Erro ao editar o fornecedor: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'cpnj' in 'field list'
+[2025-06-08 00:13:23] ERROR: Fornecedor não encontrado: Erro ao editar fornecedor
+[2025-06-08 00:13:23] ERROR: Erro ao editar endereço!
+[2025-06-08 00:14:41] ERROR: Erro ao editar endereço!
+[2025-06-08 00:16:14] ERROR: Erro ao editar endereço!
+[2025-06-08 00:17:05] ERROR: Erro ao listar entregador: Email inválido.
+[2025-06-08 00:17:05] ERROR: Entregador não encontrado para edição.
+[2025-06-08 00:18:49] ERROR: Erro ao listar entregador: Email inválido.
+[2025-06-08 00:18:49] ERROR: Entregador não encontrado para edição.
+[2025-06-08 00:18:57] ERROR: Erro ao editar entregador no repositório.
+[2025-06-08 00:19:00] ERROR: Erro ao editar entregador no repositório.
+[2025-06-08 00:19:04] ERROR: Erro ao editar entregador no repositório.
+[2025-06-08 00:19:09] ERROR: Erro ao editar entregador no repositório.
+[2025-06-08 00:20:28] ERROR: Erro ao editar entregador no repositório.
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 14:04:15] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 14:10:16] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 14:10:54] ERROR: Erro ao editar produto.

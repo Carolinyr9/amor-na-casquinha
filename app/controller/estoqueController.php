@@ -65,7 +65,15 @@ class EstoqueController {
         try {
             $dados = $this->repository->listarEstoque();
             $estoque = [];
+
             foreach ($dados as $produto) {
+                if ($produto->getDtVencimento() < date('Y-m-d')) {
+                    Logger::logError("Produto com data de vencimento ultrapassada: " . $produto->getIdEstoque());
+                    $this->repository->decrementarProduto(0, $produto->getIdEstoque());
+                    
+                    continue; 
+                }
+
                 $estoque[] = $produto;
             }
 
@@ -74,6 +82,7 @@ class EstoqueController {
             Logger::logError("Erro ao listar estoque: " . $e->getMessage());
         }
     }
+
 
     public function selecionarProdutoEstoquePorID($idEstoque) {
         try {
@@ -173,6 +182,13 @@ class EstoqueController {
             $produto = $this->repository->selecionarProdutoEstoquePorID($dados['idProduto']);
 
             if ($produto) {
+
+                if($produto->getDtVencimento() < date('Y-m-d')) {
+                    Logger::logError("Produto com data de vencimento ultrapassada: " . $produto->getIdEstoque());
+                    $this->repository->decrementarProduto(0, $dados['idProduto']);
+                    return false;
+                }
+
                 $novaQuantidade = $this->calcularNovaQuantidade($produto->getQuantidade(), (int)$dados['quantidade']);
 
                 if ($novaQuantidade < 0) {
