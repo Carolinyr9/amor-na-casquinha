@@ -31,16 +31,10 @@ $estoqueController->verificarQuantidadeMinima();
 <?php include_once 'components/header.php'; ?>
 
 <main>
-    <div class="d-flex justify-content-between m-auto w-25">
-        <a href="#" id="editarProdutoEstoque" class="botao botao-primary">Editar</a>
-        <a href="#" id="excluirProdutoEstoque" class="botao botao-secondary">Excluir</a>
-    </div>
-
     <div class="lista m-auto p-3">
         <table class="table table-striped table-hover text-nowrap">
             <thead>
                 <tr>
-                    <th scope="col"></th>
                     <th scope="col">Produto</th>
                     <th scope="col">Categoria</th>
                     <th scope="col">Data de Entrada</th>
