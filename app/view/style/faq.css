@@ -1,0 +1,9 @@
+@media (max-width: 768px) {
+    .container-fac{
+        flex-direction: column !important;
+    }
+
+    .card-fac{
+        width: 100% !important;
+    }
+}
