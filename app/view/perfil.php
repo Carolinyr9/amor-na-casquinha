@@ -38,7 +38,7 @@ require_once '../utils/cliente/inicializarPerfil.php';
                                     <input type="email" class="form-control" name="email" placeholder="Email" value="<?= htmlspecialchars($clienteData->getEmail() ?? ''); ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="telefone" placeholder="Telefone" pattern="^\(\d{2}\) \d{4,5}-\d{4}$" title="O telefone deve seguir o formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX" maxlength="15" value="<?= htmlspecialchars($clienteData->getTelefone() ?? ''); ?>" >
+                                    <input type="text" class="form-control" name="telefone" placeholder="Telefone" id='telefone' pattern="^\(\d{2}\) \d{4,5}-\d{4}$" title="O telefone deve seguir o formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX" maxlength="15" value="<?= htmlspecialchars($clienteData->getTelefone() ?? ''); ?>" >
                                 </div>
                             </div>
 
@@ -54,7 +54,7 @@ require_once '../utils/cliente/inicializarPerfil.php';
                                     <input type="text" class="form-control" value="<?= htmlspecialchars($endereco->getComplemento() ?? ''); ?>" name="complemento" placeholder="Complemento" maxlength="50">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="cep" value="<?= htmlspecialchars($endereco->getCep() ?? ''); ?>" placeholder="CEP" pattern="^\d{5}-\d{3}$" title="O CEP deve seguir o formato XXXXX-XXX" required>
+                                    <input type="text" class="form-control" name="cep" value="<?= htmlspecialchars($endereco->getCep() ?? ''); ?>" placeholder="CEP" pattern="^\d{5}-\d{3}$" title="O CEP deve seguir o formato XXXXX-XXX" id='cep' required>
                                 </div>
                                 
                                 <div class="form-group">
@@ -99,5 +99,14 @@ require_once '../utils/cliente/inicializarPerfil.php';
         <?php include_once 'components/paginacaoPedidos.php'; ?>
     </main>
     <?php include_once 'components/footer.php'; ?>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#telefone').mask('(00) 00000-0000');
+            $('#cep').mask('00000-000');
+        });
+    </script>
 </body>
 </html>

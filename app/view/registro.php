@@ -39,7 +39,7 @@ require_once '../utils/autenticacao/login.php';
 
                 <div class="form-group">
                     <label for="celular">Celular:</label>
-                    <input type="tel" class="form-control" name="celular"
+                    <input type="tel" class="form-control" name="celular" id="celular"
                            placeholder="(XX) XXXXX-XXXX" maxlength="25"
                            pattern="^\(\d{2}\) \d{5}-\d{4}$"
                            title="Formato esperado: (XX) XXXXX-XXXX" required>
@@ -65,7 +65,7 @@ require_once '../utils/autenticacao/login.php';
 
                 <div class="form-group">
                     <label for="cep">CEP:</label>
-                    <input type="text" class="form-control" name="cep" placeholder="CEP"
+                    <input type="text" class="form-control" name="cep" placeholder="CEP" id="cep"
                            pattern="^\d{5}-?\d{3}$" title="Formato esperado: 99999-999"
                            maxlength="20" required>
                 </div>
@@ -105,5 +105,13 @@ require_once '../utils/autenticacao/login.php';
     </main>
 
     <?php include_once 'components/footer.php'; ?>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#celular').mask('(00) 00000-0000');
+            $('#cep').mask('00000-000');
+        });
+    </script>
 </body>
 </html>
