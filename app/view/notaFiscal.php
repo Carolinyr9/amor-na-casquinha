@@ -30,16 +30,16 @@
                         <p>R$ <?= number_format($subtotal, 2, ',', '.') ?></p>
                     </div>
 
-                    <div class="frete-div flex-row align-items-center justify-content-between w-50" id="freteDiv" style="display: <?= is_numeric($frete) ? 'flex' : 'none' ?>;">
+                    <div class="frete-div flex-row align-items-center justify-content-between w-50" id="freteDiv" style="display: <?= is_numeric($freteValor) ? 'flex' : 'none' ?>;">
                         <h4>Frete</h4>
                         <p>
-                            <?php if (is_numeric($frete)): ?>
-                                R$ <?= number_format($frete, 2, ',', '.') ?>
+                            <?php if (is_numeric($freteValor)): ?>
+                                R$ <?= number_format($freteValor, 2, ',', '.') ?> 
                             <?php else: ?>
-                                <?= htmlspecialchars($frete) ?>
+                                <?= htmlspecialchars($freteDescricao) ?>
                             <?php endif; ?>
                         </p>
-                        <input type="hidden" name="frete" id="frete" value="<?= htmlspecialchars($frete); ?>">
+                        <input type="hidden" name="frete" id="frete" value="<?= htmlspecialchars($freteValor); ?>">
                     </div>
 
                     <div class="total-com-frete d-flex flex-row align-items-center justify-content-between w-50 mb-3">
