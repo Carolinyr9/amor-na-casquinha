@@ -4,7 +4,6 @@
         $categoria = $produto ? $categoriaController->buscarCategoriaPorID($produto->getCategoria()) : null;
     ?>
     <tr>
-        <td><input type="checkbox" class="produtoCheck" name="produtoCheck" id="<?= htmlspecialchars($estoque->getIdEstoque()) ?>"></td>
         <td><?= $produto ? htmlspecialchars($produto->getNome()) : 'Produto não encontrado' ?></td>
         <td><?= $categoria ? htmlspecialchars($categoria->getNome()) : 'Categoria não encontrada' ?></td>
         <td><?= htmlspecialchars($estoque->getDtEntrada()) ?></td>
