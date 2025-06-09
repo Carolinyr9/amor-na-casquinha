@@ -561,3 +561,167 @@
 [2025-06-09 14:13:29] ERROR: Dados inválidos para edição do cliente.
 [2025-06-09 14:13:29] ERROR: Número inválido! Insira um número válido.
 [2025-06-09 14:13:29] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-09 20:05:18] ERROR: Erro ao editar endereço!
+[2025-06-09 20:22:27] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-06-09 20:22:27] ERROR: Erro ao obter itens do pedido.
+[2025-06-09 20:22:27] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 203 encontrado!
+[2025-06-09 20:22:27] ERROR: Erro ao obter itens do pedido.
+[2025-06-09 20:22:27] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 204 encontrado!
+[2025-06-09 20:22:27] ERROR: Erro ao obter itens do pedido.
+[2025-06-09 20:22:27] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 205 encontrado!
+[2025-06-09 20:22:27] ERROR: Erro ao obter itens do pedido.
+[2025-06-09 20:22:27] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 206 encontrado!
+[2025-06-09 20:22:27] ERROR: Erro ao obter itens do pedido.
+[2025-06-09 20:22:27] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 207 encontrado!
+[2025-06-09 20:22:27] ERROR: Erro ao obter itens do pedido.
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 20:22:35] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 20:22:51] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 20:24:18] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 20:24:19] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 20:24:19] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 20:26:03] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 20:26:11] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 20:32:03] ERROR: Erro ao editar entregador no repositório.
+[2025-06-09 20:32:07] ERROR: Erro ao editar entregador no repositório.
+[2025-06-09 20:33:33] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-06-09 20:33:41] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-06-09 20:33:45] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-06-09 20:38:11] ERROR: Erro ao editar senha no repositório.
+[2025-06-09 20:38:58] ERROR: Erro ao editar senha no repositório.
+[2025-06-09 20:39:49] ERROR: Erro ao editar endereço!
+[2025-06-09 20:41:08] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 192 encontrado!
+[2025-06-09 20:41:50] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 192 encontrado!
+[2025-06-09 20:42:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 192 encontrado!
+[2025-06-09 20:42:32] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 201 encontrado!
+[2025-06-09 20:56:47] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 20:57:10] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 20:57:26] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 21:12:46] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 21:27:33] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 20

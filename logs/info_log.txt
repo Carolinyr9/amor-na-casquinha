@@ -49,3 +49,10 @@
 [2025-05-28 14:57:44] INFO: Pedido criado com sucesso!
 [2025-05-28 15:01:11] INFO: Pedido criado com sucesso! ID do pedido: 214
 [2025-05-28 15:01:11] INFO: Pedido criado com sucesso!
+[2025-06-09 20:11:48] INFO: Pedido criado com sucesso! ID do pedido: 208
+[2025-06-09 20:11:48] INFO: Pedido criado com sucesso!
+[2025-06-09 20:11:48] INFO: Pedido criado com sucesso!
+[2025-06-09 20:21:02] INFO: Status do pedido alterado com sucesso!
+[2025-06-09 20:21:05] INFO: Status do pedido alterado com sucesso!
+[2025-06-09 20:21:08] INFO: Status do pedido alterado com sucesso!
+[2025-06-09 20:42:23] INFO: Pedido cancelado com sucesso!
