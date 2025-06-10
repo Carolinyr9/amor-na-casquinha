@@ -1,0 +1,14 @@
+.formulario {
+    width: 50%;
+}
+
+@media (max-width: 768px) {
+    .formulario {
+        flex-direction: column !important;
+        width: 95%;
+    }
+
+    .formulario > div {
+        width: 100% !important;
+    }
+}

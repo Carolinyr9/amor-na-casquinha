@@ -107,6 +107,16 @@ class EstoqueRepository {
         }
     }
 
+    public function desativarProduto($idProduto) {
+        try {
+            $stmt = $this->conn->prepare("UPDATE produto SET desativado = 1 WHERE id = :idProduto");
+            $stmt->bindParam(':idProduto', $idProduto, PDO::PARAM_INT);
+            return $stmt->execute() ? true : false;
+        } catch (PDOException $e) {
+            Logger::logError("Erro ao desativar o produto: " . $e->getMessage());
+        }
+    }
+
     public function verificarQuantidadeMinima() {
         try {
             $stmt = $this->conn->prepare("SELECT idProduto, idCategoria, quantidade FROM estoque WHERE quantidade <= qtdMinima");

@@ -1,0 +1,15 @@
+.container-info {
+    width: 30%;
+    background-color: var(--quaternary);
+}
+
+picture img {
+    width: 150px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .container-info {
+        width: 90%;
+    }
+}

@@ -2,10 +2,19 @@
     <?php
         $produto = $produtoController->selecionarProdutoPorID($estoque->getIdProduto());
         $categoria = $produto ? $categoriaController->buscarCategoriaPorID($produto->getCategoria()) : null;
+
+        $hoje = date('Y-m-d');
+        $mensagem = '';
+
+        if ($estoque->getDtVencimento() < $hoje) {
+            $mensagem = 'Produto vencido!';
+        } elseif ($estoque->getQuantidade() == 0) {
+            $mensagem = 'Estoque zerado!';
+        }
     ?>
-    <tr>
-        <td><?= $produto ? htmlspecialchars($produto->getNome()) : 'Produto não encontrado' ?></td>
-        <td><?= $categoria ? htmlspecialchars($categoria->getNome()) : 'Categoria não encontrada' ?></td>
+    <tr <?= $mensagem ? 'style="background-color: #ffe0e0;"' : '' ?>>
+        <td><?= $produto ? htmlspecialchars($produto->getNome()) : 'Produto Desativado' ?></td>
+        <td><?= $categoria ? htmlspecialchars($categoria->getNome()) : 'Categoria Desativada' ?></td>
         <td><?= htmlspecialchars($estoque->getDtEntrada()) ?></td>
         <td><?= htmlspecialchars($estoque->getQuantidade()) ?></td>
         <td><?= htmlspecialchars($estoque->getDtFabricacao()) ?></td>
@@ -16,7 +25,16 @@
         <td><?= htmlspecialchars($estoque->getQtdVendida()) ?></td>
         <td><?= htmlspecialchars($estoque->getOcorrencia()) ?></td>
         <td><?= htmlspecialchars($estoque->getQtdOcorrencia()) ?></td>
-        <td><a class="botao botao-primary" href="editarEstoque.php?idEstoque=<?= htmlspecialchars($estoque->getIdEstoque()) ?>">Editar</a></td>
-        <td><a class="botao botao-alerta" href="excluirEstoque.php?idEstoque=<?= htmlspecialchars($estoque->getIdEstoque()) ?>">Excluir</a></td>
+        <td>
+            <?php if ($mensagem): ?>
+                <span style="color: red; font-weight: bold;"><?= $mensagem ?></span>
+                <a class="botao botao-primary" href="editarEstoque.php?idEstoque=<?= htmlspecialchars($estoque->getIdEstoque()) ?>">Adicionar Lote</a>
+            <?php else: ?>
+                <a class="botao botao-primary" href="editarEstoque.php?idEstoque=<?= htmlspecialchars($estoque->getIdEstoque()) ?>">Editar</a>
+            <?php endif; ?>
+        </td>
+        <td>
+            <a class="botao botao-alerta" href="excluirEstoque.php?idEstoque=<?= htmlspecialchars($estoque->getIdEstoque()) ?>">Excluir</a>
+        </td>
     </tr>
 <?php endforeach; ?>

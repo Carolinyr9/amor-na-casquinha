@@ -70,8 +70,7 @@ class EstoqueController {
                 if ($produto->getDtVencimento() < date('Y-m-d')) {
                     Logger::logError("Produto com data de vencimento ultrapassada: " . $produto->getIdEstoque());
                     $this->repository->decrementarProduto(0, $produto->getIdEstoque());
-                    
-                    continue; 
+                    $this->repository->desativarProduto($produto->getIdEstoque());
                 }
 
                 $estoque[] = $produto;
@@ -192,7 +191,8 @@ class EstoqueController {
                 $novaQuantidade = $this->calcularNovaQuantidade($produto->getQuantidade(), (int)$dados['quantidade']);
 
                 if ($novaQuantidade < 0) {
-                    Logger::logError("Quantidade insuficiente em estoque.");
+                    Logger::logError("Quantidade insuficiente em estoque do produto: " . $dados['idProduto']);
+                    $this->repository->desativarProduto($dados['idProduto']);
                     return false;
                 }
 
@@ -214,12 +214,29 @@ class EstoqueController {
     }
 
 
-
     public function verificarQuantidadeMinima(){
         try {
             return $this->repository->verificarQuantidadeMinima();
         } catch (Exception $e) {
             Logger::logError("Erro ao verificar quantidade mínima: " . $e->getMessage());
+        }
+    }
+
+    public function desativarProduto($idProduto){
+        try {
+            if (!is_numeric($idProduto) || !isset($idProduto) || empty($idProduto)) {
+                return Logger::logError("Erro ao desativar produto: ID inválido.");
+            }
+
+            $resultado = $this->repository->desativarProduto($idProduto);
+
+            if ($resultado) {
+                return true;
+            } else {
+                Logger::logError("Erro ao desativar produto.");
+            }
+        } catch (Exception $e) {
+            Logger::logError("Erro ao remover produto: " . $e->getMessage());
         }
     }
 
