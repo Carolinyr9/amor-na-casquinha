@@ -99,7 +99,12 @@ class EntregadorRepository{
             $stmt->bindParam(':emailAntigo', $emailAntigo);
             $stmt->execute();
 
-            return $stmt->fetch(PDO::FETCH_ASSOC) ?: false;
+            if ($stmt->rowCount() > 0) {
+                return true;
+            } else {
+                Logger::logError("Nenhum entregador foi atualizado.");
+                return false;
+            }
         } catch (PDOException $e) {
             Logger::logError("Erro ao listar entregador: " . $e->getMessage());
         }

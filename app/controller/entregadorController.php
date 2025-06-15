@@ -9,7 +9,7 @@ use Exception;
 class EntregadorController {
     private $repository;
 
-    public function __construct(EntregadorRepository $repository = null) {
+    public function __construct(?EntregadorRepository $repository = null) {
         $this->repository = $repository ?? new EntregadorRepository();
     }
 
@@ -122,10 +122,10 @@ class EntregadorController {
 
     public function editarEntregador($dados) {
         try {
-            if (empty($dados['nome']) || empty($dados['email']) || 
+            if (empty($dados['nome']) || empty($dados['email']) ||
                 !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
-                empty($dados['telefone'])) {
-                Logger::logError("Dados inválidos para edição do entregador.");
+                empty($dados['telefone']) || empty($dados['cnh'])) {
+                Logger::logError("Dados inválidos para criação do entregador.");
                 return false;
             }
 

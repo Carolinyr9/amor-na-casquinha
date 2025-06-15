@@ -37,20 +37,20 @@ class EntregadorControllerTest extends TestCase {
                 $dados['cnh'],
                 $dados['senha']
             )
-            ->willReturn(1); // Simula o ID retornado pelo repositório
+            ->willReturn(1);
 
         $entregador = $this->entregadorController->criarEntregador($dados);
 
         $this->assertInstanceOf(Entregador::class, $entregador);
         $this->assertEquals(1, $entregador->getId());
         $this->assertEquals('novo@example.com', $entregador->getEmail());
-        $this->assertEquals(0, $entregador->getDesativado()); // desativado = 0 por padrão
+        $this->assertEquals(0, $entregador->getDesativado());
     }
 
     public function testCriarEntregadorComDadosInvalidosRetornaFalse() {
         $dados = [
             'nome' => 'Entregador Inválido',
-            'email' => 'email_invalido', // Email inválido
+            'email' => 'email_invalido',
             'telefone' => '11987654321',
             'cnh' => '12345678901',
             'senha' => 'Senha@123'
@@ -68,7 +68,6 @@ class EntregadorControllerTest extends TestCase {
             'nome' => 'Entregador Faltando',
             'email' => 'faltando@example.com',
             'telefone' => '11987654321',
-            // 'cnh' => '12345678901', // CNH faltando
             'senha' => 'Senha@123'
         ];
 
@@ -90,10 +89,10 @@ class EntregadorControllerTest extends TestCase {
 
         $this->entregadorRepositoryMock->expects($this->once())
             ->method('criarEntregador')
-            ->willReturn(0); // Repositório falha ao criar
+            ->willReturn(0); 
 
         $resultado = $this->entregadorController->criarEntregador($dados);
-        $this->assertNull($resultado); // Controller retorna null quando repositório falha
+        $this->assertNull($resultado); 
     }
 
     public function testCriarEntregadorLancaExcecaoRetornaNull() {
@@ -138,10 +137,10 @@ class EntregadorControllerTest extends TestCase {
     public function testListarEntregadoresQuandoNenhumEncontradoRetornaNull() {
         $this->entregadorRepositoryMock->expects($this->once())
             ->method('listarEntregadores')
-            ->willReturn(false); // Repositório retorna false ou array vazio
+            ->willReturn(false); 
 
         $resultado = $this->entregadorController->listarEntregadores();
-        $this->assertNull($resultado); // Controller retorna null se nenhum entregador for encontrado
+        $this->assertNull($resultado); 
     }
 
     // --- Testes para listarEntregadorPorId ---
@@ -163,7 +162,7 @@ class EntregadorControllerTest extends TestCase {
     }
 
     public function testListarEntregadorPorIdComIdInvalidoRetornaNull() {
-        $id = 'abc'; // ID inválido
+        $id = 'abc'; 
 
         $this->entregadorRepositoryMock->expects($this->never())
             ->method('listarEntregadorPorId');
@@ -173,12 +172,12 @@ class EntregadorControllerTest extends TestCase {
     }
 
     public function testListarEntregadorPorIdComIdNaoEncontradoRetornaNull() {
-        $id = 99; // ID que não existe
+        $id = 99;
 
         $this->entregadorRepositoryMock->expects($this->once())
             ->method('listarEntregadorPorId')
             ->with($id)
-            ->willReturn(false); // Repositório não encontra
+            ->willReturn(false);
 
         $resultado = $this->entregadorController->listarEntregadorPorId($id);
         $this->assertNull($resultado);
@@ -337,7 +336,6 @@ class EntregadorControllerTest extends TestCase {
             ->with($dados['emailAntigo'])
             ->willReturn($entregadorArray);
 
-        // Aqui simulamos que o repositório falhou ao tentar editar
         $this->entregadorRepositoryMock->expects($this->once())
             ->method('editarEntregador')
             ->willReturn(false);
@@ -353,7 +351,7 @@ class EntregadorControllerTest extends TestCase {
             'email'       => 'excecao@example.com',
             'telefone'    => '11988887777',
             'cnh'         => '09876543210',
-            'senha'       => 'Senha@123',          // ← acrescentar
+            'senha'       => 'Senha@123',     
             'emailAntigo' => 'antigo@example.com'
         ];
 
@@ -414,7 +412,7 @@ class EntregadorControllerTest extends TestCase {
         $this->entregadorRepositoryMock->expects($this->once())
             ->method('listarEntregadorPorEmail')
             ->with($email)
-            ->willReturn(null); // Entregador não encontrado
+            ->willReturn(null);
 
         $this->entregadorRepositoryMock->expects($this->never())
             ->method('desativarEntregador');
@@ -443,7 +441,7 @@ class EntregadorControllerTest extends TestCase {
         $this->entregadorRepositoryMock->expects($this->once())
             ->method('desativarEntregador')
             ->with($email)
-            ->willReturn(false); // Simula falha na desativação
+            ->willReturn(false); 
 
         $resultado = $this->entregadorController->desativarEntregador($email);
         $this->assertFalse($resultado);
