@@ -73,6 +73,7 @@ class ClienteRepository {
             return true;
         } catch (PDOException $e) {
             Logger::logError("Erro ao editar o cliente: " . $e->getMessage());
+            return false;
         }
     }
 

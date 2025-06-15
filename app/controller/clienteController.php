@@ -9,7 +9,7 @@ use Exception;
 class ClienteController {
     private $repository;
 
-    public function __construct(ClienteRepository $repository = null){
+    public function __construct(?ClienteRepository $repository = null){
         $this->repository = $repository ?? new ClienteRepository();
     }
 
@@ -110,7 +110,12 @@ class ClienteController {
                 $dados['emailAntigo']
             );
     
-            return $resultado ?: Logger::logError("Erro ao editar cliente no repositório.");
+            if($resultado) {
+                return true;
+            } else {
+                Logger::logError("Erro ao editar cliente no repositório.");
+                return false;
+            }
             
         } catch (Exception $e) {
             Logger::logError("Erro ao editar cliente: " . $e->getMessage());
@@ -135,7 +140,12 @@ class ClienteController {
                 $dados['idCliente']
             );
 
-            return $resultado ?: Logger::logError("Erro ao editar senha no repositório.");
+            if ($resultado) {
+                return true;
+            } else {
+                Logger::logError("Erro ao editar senha: Senha atual incorreta ou falha na atualização.");
+                return false;
+            }
 
         } catch (Exception $e) {
             Logger::logError("Erro ao editar senha: " . $e->getMessage());
