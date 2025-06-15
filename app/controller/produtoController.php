@@ -9,7 +9,7 @@ use Exception;
 class ProdutoController {
     private ProdutoRepository $repository;
 
-    public function __construct(ProdutoRepository $repository = null) {
+    public function __construct(?ProdutoRepository $repository  = null) {
         $this->repository = $repository ?? new ProdutoRepository();
     }
 
