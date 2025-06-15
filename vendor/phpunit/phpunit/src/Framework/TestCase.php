@@ -9,21 +9,12 @@
  */
 namespace PHPUnit\Framework;
 
-use const LC_ALL;
-use const LC_COLLATE;
-use const LC_CTYPE;
-use const LC_MONETARY;
-use const LC_NUMERIC;
-use const LC_TIME;
-use const PATHINFO_FILENAME;
 use const PHP_EOL;
-use const PHP_URL_PATH;
 use function array_keys;
 use function array_merge;
 use function array_reverse;
 use function array_values;
 use function assert;
-use function basename;
 use function chdir;
 use function class_exists;
 use function clearstatcache;
@@ -34,7 +25,6 @@ use function explode;
 use function getcwd;
 use function implode;
 use function in_array;
-use function ini_set;
 use function is_array;
 use function is_callable;
 use function is_int;
@@ -47,15 +37,11 @@ use function ob_get_clean;
 use function ob_get_contents;
 use function ob_get_level;
 use function ob_start;
-use function parse_url;
-use function pathinfo;
 use function preg_match;
-use function preg_replace;
 use function restore_error_handler;
 use function restore_exception_handler;
 use function set_error_handler;
 use function set_exception_handler;
-use function setlocale;
 use function sprintf;
 use function str_contains;
 use function trim;
@@ -76,15 +62,10 @@ use PHPUnit\Framework\MockObject\Rule\AnyInvokedCount as AnyInvokedCountMatcher;
 use PHPUnit\Framework\MockObject\Rule\InvokedAtLeastCount as InvokedAtLeastCountMatcher;
 use PHPUnit\Framework\MockObject\Rule\InvokedAtLeastOnce as InvokedAtLeastOnceMatcher;
 use PHPUnit\Framework\MockObject\Rule\InvokedAtMostCount as InvokedAtMostCountMatcher;
+use PHPUnit\Framework\MockObject\Rule\InvokedCount;
 use PHPUnit\Framework\MockObject\Rule\InvokedCount as InvokedCountMatcher;
 use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\MockObject\Stub\ConsecutiveCalls as ConsecutiveCallsStub;
 use PHPUnit\Framework\MockObject\Stub\Exception as ExceptionStub;
-use PHPUnit\Framework\MockObject\Stub\ReturnArgument as ReturnArgumentStub;
-use PHPUnit\Framework\MockObject\Stub\ReturnCallback as ReturnCallbackStub;
-use PHPUnit\Framework\MockObject\Stub\ReturnSelf as ReturnSelfStub;
-use PHPUnit\Framework\MockObject\Stub\ReturnStub;
-use PHPUnit\Framework\MockObject\Stub\ReturnValueMap as ReturnValueMapStub;
 use PHPUnit\Framework\TestSize\TestSize;
 use PHPUnit\Framework\TestStatus\TestStatus;
 use PHPUnit\Metadata\Api\Groups;
@@ -100,7 +81,6 @@ use PHPUnit\Util\Test as TestUtil;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionObject;
-use SebastianBergmann\CodeCoverage\StaticAnalysisCacheNotConfiguredException;
 use SebastianBergmann\CodeCoverage\UnintentionallyCoveredCodeException;
 use SebastianBergmann\Comparator\Comparator;
 use SebastianBergmann\Comparator\Factory as ComparatorFactory;
@@ -118,8 +98,7 @@ use Throwable;
  */
 abstract class TestCase extends Assert implements Reorderable, SelfDescribing, Test
 {
-    private const LOCALE_CATEGORIES = [LC_ALL, LC_COLLATE, LC_CTYPE, LC_MONETARY, LC_NUMERIC, LC_TIME];
-    private ?bool $backupGlobals    = null;
+    private ?bool $backupGlobals = null;
 
     /**
      * @var list<string>
@@ -181,16 +160,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      * @var array<non-empty-string, array<mixed>>
      */
     private array $dependencyInput = [];
-
-    /**
-     * @var array<string,string>
-     */
-    private array $iniSettings = [];
-
-    /**
-     * @var array<int, non-empty-string>
-     */
-    private array $locale = [];
 
     /**
      * @var list<MockObjectInternal>
@@ -347,7 +316,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      * @throws Exception
      * @throws NoPreviousThrowableException
      * @throws ProcessIsolationException
-     * @throws StaticAnalysisCacheNotConfiguredException
      * @throws UnintentionallyCoveredCodeException
      *
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
@@ -422,6 +390,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
     /**
      * @internal This method is not covered by the backward compatibility promise for PHPUnit
+     *
+     * @phpstan-assert-if-true non-empty-string $this->output()
      */
     final public function hasUnexpectedOutput(): bool
     {
@@ -534,6 +504,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 $e->getMessage(),
             );
         } catch (AssertionError|AssertionFailedError $e) {
+            $this->handleExceptionFromInvokedCountMockObjectRule($e);
+
             if (!$this->wasPrepared) {
                 $this->wasPrepared = true;
 
@@ -550,7 +522,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 Event\Code\ComparisonFailureBuilder::from($e),
             );
         } catch (TimeoutException $e) {
-            $this->status = TestStatus::risky($e->getMessage());
         } catch (Throwable $_e) {
             if ($this->isRegisteredFailure($_e)) {
                 $this->status = TestStatus::failure($_e->getMessage());
@@ -651,8 +622,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         $this->restoreGlobalErrorExceptionHandlers();
         $this->restoreGlobalState();
         $this->unregisterCustomComparators();
-        $this->cleanupIniSettings();
-        $this->cleanupLocaleSettings();
         libxml_clear_errors();
 
         $this->testValueObjectForEvents = null;
@@ -1010,108 +979,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         return new InvokedAtMostCountMatcher($allowedInvocations);
     }
 
-    /**
-     * @deprecated Use <code>$double->willReturn()</code> instead of <code>$double->will($this->returnValue())</code>
-     * @see https://github.com/sebastianbergmann/phpunit/issues/5423
-     *
-     * @codeCoverageIgnore
-     */
-    final protected function returnValue(mixed $value): ReturnStub
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'returnValue() is deprecated and will be removed in PHPUnit 12. Use $double->willReturn() instead of $double->will($this->returnValue())',
-        );
-
-        return new ReturnStub($value);
-    }
-
-    /**
-     * @param array<mixed> $valueMap
-     *
-     * @deprecated Use <code>$double->willReturnMap()</code> instead of <code>$double->will($this->returnValueMap())</code>
-     * @see https://github.com/sebastianbergmann/phpunit/issues/5423
-     *
-     * @codeCoverageIgnore
-     */
-    final protected function returnValueMap(array $valueMap): ReturnValueMapStub
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'returnValueMap() is deprecated and will be removed in PHPUnit 12. Use $double->willReturnMap() instead of $double->will($this->returnValueMap())',
-        );
-
-        return new ReturnValueMapStub($valueMap);
-    }
-
-    /**
-     * @deprecated Use <code>$double->willReturnArgument()</code> instead of <code>$double->will($this->returnArgument())</code>
-     * @see https://github.com/sebastianbergmann/phpunit/issues/5423
-     *
-     * @codeCoverageIgnore
-     */
-    final protected function returnArgument(int $argumentIndex): ReturnArgumentStub
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'returnArgument() is deprecated and will be removed in PHPUnit 12. Use $double->willReturnArgument() instead of $double->will($this->returnArgument())',
-        );
-
-        return new ReturnArgumentStub($argumentIndex);
-    }
-
-    /**
-     * @deprecated Use <code>$double->willReturnCallback()</code> instead of <code>$double->will($this->returnCallback())</code>
-     * @see https://github.com/sebastianbergmann/phpunit/issues/5423
-     *
-     * @codeCoverageIgnore
-     */
-    final protected function returnCallback(callable $callback): ReturnCallbackStub
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'returnCallback() is deprecated and will be removed in PHPUnit 12. Use $double->willReturnCallback() instead of $double->will($this->returnCallback())',
-        );
-
-        return new ReturnCallbackStub($callback);
-    }
-
-    /**
-     * @deprecated Use <code>$double->willReturnSelf()</code> instead of <code>$double->will($this->returnSelf())</code>
-     * @see https://github.com/sebastianbergmann/phpunit/issues/5423
-     *
-     * @codeCoverageIgnore
-     */
-    final protected function returnSelf(): ReturnSelfStub
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'returnSelf() is deprecated and will be removed in PHPUnit 12. Use $double->willReturnSelf() instead of $double->will($this->returnSelf())',
-        );
-
-        return new ReturnSelfStub;
-    }
-
     final protected function throwException(Throwable $exception): ExceptionStub
     {
         return new ExceptionStub($exception);
-    }
-
-    /**
-     * @deprecated Use <code>$double->willReturn()</code> instead of <code>$double->will($this->onConsecutiveCalls())</code>
-     * @see https://github.com/sebastianbergmann/phpunit/issues/5423
-     * @see https://github.com/sebastianbergmann/phpunit/issues/5425
-     *
-     * @codeCoverageIgnore
-     */
-    final protected function onConsecutiveCalls(mixed ...$arguments): ConsecutiveCallsStub
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'onConsecutiveCalls() is deprecated and will be removed in PHPUnit 12. Use $double->willReturn() instead of $double->will($this->onConsecutiveCalls())',
-        );
-
-        return new ConsecutiveCallsStub($arguments);
     }
 
     final protected function getActualOutputForAssertion(): string
@@ -1248,88 +1118,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
-     * This method is a wrapper for the ini_set() function that automatically
-     * resets the modified php.ini setting to its original value after the
-     * test is run.
-     *
-     * @throws Exception
-     *
-     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5214
-     *
-     * @codeCoverageIgnore
-     */
-    final protected function iniSet(string $varName, string $newValue): void
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'iniSet() is deprecated and will be removed in PHPUnit 12 without replacement.',
-        );
-
-        $currentValue = ini_set($varName, $newValue);
-
-        if ($currentValue !== false) {
-            $this->iniSettings[$varName] = $currentValue;
-        } else {
-            throw new Exception(
-                sprintf(
-                    'INI setting "%s" could not be set to "%s".',
-                    $varName,
-                    $newValue,
-                ),
-            );
-        }
-    }
-
-    /**
-     * This method is a wrapper for the setlocale() function that automatically
-     * resets the locale to its original value after the test is run.
-     *
-     * @throws Exception
-     *
-     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5216
-     *
-     * @codeCoverageIgnore
-     */
-    final protected function setLocale(mixed ...$arguments): void
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'setLocale() is deprecated and will be removed in PHPUnit 12 without replacement.',
-        );
-
-        if (count($arguments) < 2) {
-            throw new Exception;
-        }
-
-        [$category, $locale] = $arguments;
-
-        if (!in_array($category, self::LOCALE_CATEGORIES, true)) {
-            throw new Exception;
-        }
-
-        if (!is_array($locale) && !is_string($locale)) {
-            throw new Exception;
-        }
-
-        $this->locale[$category] = setlocale($category, '0');
-
-        $result = setlocale(...$arguments);
-
-        if ($result === false) {
-            throw new Exception(
-                'The locale functionality is not implemented on your platform, ' .
-                'the specified locale does not exist or the category name is ' .
-                'invalid.',
-            );
-        }
-    }
-
-    /**
      * Creates a mock object for the specified interface or class.
      *
      * @template RealInstanceType of object
      *
-     * @param class-string<RealInstanceType> $originalClassName
+     * @param class-string<RealInstanceType> $type
      *
      * @throws InvalidArgumentException
      * @throws MockObjectException
@@ -1337,25 +1130,22 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      *
      * @return MockObject&RealInstanceType
      */
-    final protected function createMock(string $originalClassName): MockObject
+    final protected function createMock(string $type): MockObject
     {
         $mock = (new MockGenerator)->testDouble(
-            $originalClassName,
-            true,
+            $type,
             true,
             callOriginalConstructor: false,
             callOriginalClone: false,
-            cloneArguments: false,
-            allowMockingUnknownTypes: false,
             returnValueGeneration: self::generateReturnValuesForTestDoubles(),
         );
 
-        assert($mock instanceof $originalClassName);
+        assert($mock instanceof $type);
         assert($mock instanceof MockObject);
 
         $this->registerMockObject($mock);
 
-        Event\Facade::emitter()->testCreatedMockObject($originalClassName);
+        Event\Facade::emitter()->testCreatedMockObject($type);
 
         return $mock;
     }
@@ -1387,7 +1177,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      *
      * @template RealInstanceType of object
      *
-     * @param class-string<RealInstanceType> $originalClassName
+     * @param class-string<RealInstanceType> $type
      * @param array<non-empty-string, mixed> $configuration
      *
      * @throws InvalidArgumentException
@@ -1396,9 +1186,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      *
      * @return MockObject&RealInstanceType
      */
-    final protected function createConfiguredMock(string $originalClassName, array $configuration): MockObject
+    final protected function createConfiguredMock(string $type, array $configuration): MockObject
     {
-        $o = $this->createMock($originalClassName);
+        $o = $this->createMock($type);
 
         foreach ($configuration as $method => $return) {
             $o->method($method)->willReturn($return);
@@ -1410,7 +1200,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     /**
      * Creates a partial mock object for the specified interface or class.
      *
-     * @param class-string<RealInstanceType> $originalClassName
+     * @param class-string<RealInstanceType> $type
      * @param list<non-empty-string>         $methods
      *
      * @template RealInstanceType of object
@@ -1420,13 +1210,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      *
      * @return MockObject&RealInstanceType
      */
-    final protected function createPartialMock(string $originalClassName, array $methods): MockObject
+    final protected function createPartialMock(string $type, array $methods): MockObject
     {
-        $mockBuilder = $this->getMockBuilder($originalClassName)
+        $mockBuilder = $this->getMockBuilder($type)
             ->disableOriginalConstructor()
             ->disableOriginalClone()
-            ->disableArgumentCloning()
-            ->disallowMockingUnknownTypes()
             ->onlyMethods($methods);
 
         if (!self::generateReturnValuesForTestDoubles()) {
@@ -1436,218 +1224,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         $partialMock = $mockBuilder->getMock();
 
         Event\Facade::emitter()->testCreatedPartialMockObject(
-            $originalClassName,
+            $type,
             ...$methods,
         );
 
         return $partialMock;
-    }
-
-    /**
-     * Creates a test proxy for the specified class.
-     *
-     * @template RealInstanceType of object
-     *
-     * @param class-string<RealInstanceType> $originalClassName
-     * @param array<mixed>                   $constructorArguments
-     *
-     * @throws InvalidArgumentException
-     * @throws MockObjectException
-     *
-     * @return MockObject&RealInstanceType
-     *
-     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5240
-     */
-    final protected function createTestProxy(string $originalClassName, array $constructorArguments = []): MockObject
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'createTestProxy() is deprecated and will be removed in PHPUnit 12 without replacement.',
-        );
-
-        $testProxy = $this->getMockBuilder($originalClassName)
-            ->setConstructorArgs($constructorArguments)
-            ->enableProxyingToOriginalMethods()
-            ->getMock();
-
-        Event\Facade::emitter()->testCreatedTestProxy(
-            $originalClassName,
-            $constructorArguments,
-        );
-
-        return $testProxy;
-    }
-
-    /**
-     * Creates a mock object for the specified abstract class with all abstract
-     * methods of the class mocked. Concrete methods are not mocked by default.
-     * To mock concrete methods, use the 7th parameter ($mockedMethods).
-     *
-     * @template RealInstanceType of object
-     *
-     * @param class-string<RealInstanceType> $originalClassName
-     * @param array<mixed>                   $arguments
-     * @param list<non-empty-string>         $mockedMethods
-     *
-     * @throws InvalidArgumentException
-     * @throws MockObjectException
-     *
-     * @return MockObject&RealInstanceType
-     *
-     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5241
-     */
-    final protected function getMockForAbstractClass(string $originalClassName, array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, array $mockedMethods = [], bool $cloneArguments = false): MockObject
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'getMockForAbstractClass() is deprecated and will be removed in PHPUnit 12 without replacement.',
-        );
-
-        $mockObject = (new MockGenerator)->mockObjectForAbstractClass(
-            $originalClassName,
-            $arguments,
-            $mockClassName,
-            $callOriginalConstructor,
-            $callOriginalClone,
-            $callAutoload,
-            $mockedMethods,
-            $cloneArguments,
-        );
-
-        $this->registerMockObject($mockObject);
-
-        Event\Facade::emitter()->testCreatedMockObjectForAbstractClass($originalClassName);
-
-        assert($mockObject instanceof $originalClassName);
-        assert($mockObject instanceof MockObject);
-
-        return $mockObject;
-    }
-
-    /**
-     * Creates a mock object based on the given WSDL file.
-     *
-     * @param list<string> $methods
-     * @param list<mixed>  $options
-     *
-     * @throws MockObjectException
-     *
-     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5242
-     */
-    final protected function getMockFromWsdl(string $wsdlFile, string $originalClassName = '', string $mockClassName = '', array $methods = [], bool $callOriginalConstructor = true, array $options = []): MockObject
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'getMockFromWsdl() is deprecated and will be removed in PHPUnit 12 without replacement.',
-        );
-
-        if ($originalClassName === '') {
-            $fileName          = pathinfo(basename(parse_url($wsdlFile, PHP_URL_PATH)), PATHINFO_FILENAME);
-            $originalClassName = preg_replace('/\W/', '', $fileName);
-        }
-
-        if (!class_exists($originalClassName)) {
-            eval(
-                (new MockGenerator)->generateClassFromWsdl(
-                    $wsdlFile,
-                    $originalClassName,
-                    $methods,
-                    $options,
-                )
-            );
-        }
-
-        $mockObject = (new MockGenerator)->testDouble(
-            $originalClassName,
-            true,
-            true,
-            $methods,
-            ['', $options],
-            $mockClassName,
-            $callOriginalConstructor,
-            false,
-            false,
-        );
-
-        Event\Facade::emitter()->testCreatedMockObjectFromWsdl(
-            $wsdlFile,
-            $originalClassName,
-            $mockClassName,
-            $methods,
-            $callOriginalConstructor,
-            $options,
-        );
-
-        assert($mockObject instanceof MockObject);
-
-        $this->registerMockObject($mockObject);
-
-        return $mockObject;
-    }
-
-    /**
-     * Creates a mock object for the specified trait with all abstract methods
-     * of the trait mocked. Concrete methods to mock can be specified with the
-     * `$mockedMethods` parameter.
-     *
-     * @param trait-string           $traitName
-     * @param array<mixed>           $arguments
-     * @param list<non-empty-string> $mockedMethods
-     *
-     * @throws InvalidArgumentException
-     * @throws MockObjectException
-     *
-     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5243
-     */
-    final protected function getMockForTrait(string $traitName, array $arguments = [], string $mockClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true, array $mockedMethods = [], bool $cloneArguments = false): MockObject
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'getMockForTrait() is deprecated and will be removed in PHPUnit 12 without replacement.',
-        );
-
-        $mockObject = (new MockGenerator)->mockObjectForTrait(
-            $traitName,
-            $arguments,
-            $mockClassName,
-            $callOriginalConstructor,
-            $callOriginalClone,
-            $callAutoload,
-            $mockedMethods,
-            $cloneArguments,
-        );
-
-        $this->registerMockObject($mockObject);
-
-        Event\Facade::emitter()->testCreatedMockObjectForTrait($traitName);
-
-        return $mockObject;
-    }
-
-    /**
-     * Creates an object that uses the specified trait.
-     *
-     * @param trait-string $traitName
-     * @param array<mixed> $arguments
-     *
-     * @throws MockObjectException
-     *
-     * @deprecated https://github.com/sebastianbergmann/phpunit/issues/5244
-     */
-    final protected function getObjectForTrait(string $traitName, array $arguments = [], string $traitClassName = '', bool $callOriginalConstructor = true, bool $callOriginalClone = true, bool $callAutoload = true): object
-    {
-        Event\Facade::emitter()->testTriggeredPhpunitDeprecation(
-            $this->valueObjectForEvents(),
-            'getObjectForTrait() is deprecated and will be removed in PHPUnit 12 without replacement.',
-        );
-
-        return (new MockGenerator)->objectForTrait(
-            $traitName,
-            $traitClassName,
-            $callAutoload,
-            $callOriginalConstructor,
-            $arguments,
-        );
     }
 
     protected function transformException(Throwable $t): Throwable
@@ -1793,7 +1374,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                     'This test depends on a test that is larger than itself',
                 );
 
-                return false;
+                return true;
             }
 
             $returnValue = $passedTests->returnValue($dependencyTarget);
@@ -1883,8 +1464,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 $message,
             );
 
-            $this->status = TestStatus::risky($message);
-
             return false;
         }
 
@@ -1932,8 +1511,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 $this->valueObjectForEvents(),
                 $message,
             );
-
-            $this->status = TestStatus::risky($message);
         }
 
         $message = null;
@@ -1964,8 +1541,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 $this->valueObjectForEvents(),
                 $message,
             );
-
-            $this->status = TestStatus::risky($message);
         }
     }
 
@@ -2010,8 +1585,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 $this->valueObjectForEvents(),
                 $message,
             );
-
-            $this->status = TestStatus::risky($message);
         }
 
         return $activeErrorHandlers;
@@ -2194,24 +1767,6 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         $this->customComparators = [];
     }
 
-    private function cleanupIniSettings(): void
-    {
-        foreach ($this->iniSettings as $varName => $oldValue) {
-            ini_set($varName, $oldValue);
-        }
-
-        $this->iniSettings = [];
-    }
-
-    private function cleanupLocaleSettings(): void
-    {
-        foreach ($this->locale as $category => $locale) {
-            setlocale($category, $locale);
-        }
-
-        $this->locale = [];
-    }
-
     /**
      * @throws Exception
      */
@@ -2329,6 +1884,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $hookMethods['beforeClass'],
             $emitter,
             'testBeforeFirstTestMethodCalled',
+            'testBeforeFirstTestMethodErrored',
             'testBeforeFirstTestMethodFinished',
         );
     }
@@ -2344,6 +1900,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $hookMethods['before'],
             $emitter,
             'testBeforeTestMethodCalled',
+            'testBeforeTestMethodErrored',
             'testBeforeTestMethodFinished',
         );
     }
@@ -2359,6 +1916,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $hookMethods['preCondition'],
             $emitter,
             'testPreConditionCalled',
+            'testPreConditionErrored',
             'testPreConditionFinished',
         );
     }
@@ -2374,6 +1932,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $hookMethods['postCondition'],
             $emitter,
             'testPostConditionCalled',
+            'testPostConditionErrored',
             'testPostConditionFinished',
         );
     }
@@ -2389,6 +1948,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $hookMethods['after'],
             $emitter,
             'testAfterTestMethodCalled',
+            'testAfterTestMethodErrored',
             'testAfterTestMethodFinished',
         );
     }
@@ -2406,17 +1966,19 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $hookMethods['afterClass'],
             $emitter,
             'testAfterLastTestMethodCalled',
+            'testAfterLastTestMethodErrored',
             'testAfterLastTestMethodFinished',
         );
     }
 
     /**
      * @param 'testAfterLastTestMethodCalled'|'testAfterTestMethodCalled'|'testBeforeFirstTestMethodCalled'|'testBeforeTestMethodCalled'|'testPostConditionCalled'|'testPreConditionCalled'             $calledMethod
+     * @param 'testAfterLastTestMethodErrored'|'testAfterTestMethodErrored'|'testBeforeFirstTestMethodErrored'|'testBeforeTestMethodErrored'|'testPostConditionErrored'|'testPreConditionErrored'       $erroredMethod
      * @param 'testAfterLastTestMethodFinished'|'testAfterTestMethodFinished'|'testBeforeFirstTestMethodFinished'|'testBeforeTestMethodFinished'|'testPostConditionFinished'|'testPreConditionFinished' $finishedMethod
      *
      * @throws Throwable
      */
-    private function invokeHookMethods(HookMethodCollection $hookMethods, Event\Emitter $emitter, string $calledMethod, string $finishedMethod): void
+    private function invokeHookMethods(HookMethodCollection $hookMethods, Event\Emitter $emitter, string $calledMethod, string $erroredMethod, string $finishedMethod): void
     {
         $methodsInvoked = [];
 
@@ -2425,15 +1987,15 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 continue;
             }
 
-            try {
-                $this->{$methodName}();
-            } catch (Throwable $t) {
-            }
-
             $methodInvoked = new Event\Code\ClassMethod(
                 static::class,
                 $methodName,
             );
+
+            try {
+                $this->{$methodName}();
+            } catch (Throwable $t) {
+            }
 
             $emitter->{$calledMethod}(
                 static::class,
@@ -2443,6 +2005,12 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $methodsInvoked[] = $methodInvoked;
 
             if (isset($t)) {
+                $emitter->{$erroredMethod}(
+                    static::class,
+                    $methodInvoked,
+                    Event\Code\ThrowableBuilder::from($t),
+                );
+
                 break;
             }
         }
@@ -2577,11 +2145,27 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     }
 
     /**
+     * @see https://github.com/sebastianbergmann/phpunit/issues/6095
+     */
+    private function handleExceptionFromInvokedCountMockObjectRule(Throwable $t): void
+    {
+        if (!$t instanceof ExpectationFailedException) {
+            return;
+        }
+
+        $trace = $t->getTrace();
+
+        if (isset($trace[0]['class']) && $trace[0]['class'] === InvokedCount::class) {
+            $this->numberOfAssertionsPerformed++;
+        }
+    }
+
+    /**
      * Creates a test stub for the specified interface or class.
      *
      * @template RealInstanceType of object
      *
-     * @param class-string<RealInstanceType> $originalClassName
+     * @param class-string<RealInstanceType> $type
      *
      * @throws InvalidArgumentException
      * @throws MockObjectException
@@ -2589,22 +2173,19 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      *
      * @return RealInstanceType&Stub
      */
-    final protected static function createStub(string $originalClassName): Stub
+    final protected static function createStub(string $type): Stub
     {
         $stub = (new MockGenerator)->testDouble(
-            $originalClassName,
-            true,
+            $type,
             false,
             callOriginalConstructor: false,
             callOriginalClone: false,
-            cloneArguments: false,
-            allowMockingUnknownTypes: false,
             returnValueGeneration: self::generateReturnValuesForTestDoubles(),
         );
 
-        Event\Facade::emitter()->testCreatedStub($originalClassName);
+        Event\Facade::emitter()->testCreatedStub($type);
 
-        assert($stub instanceof $originalClassName);
+        assert($stub instanceof $type);
         assert($stub instanceof Stub);
 
         return $stub;
@@ -2633,7 +2214,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      *
      * @template RealInstanceType of object
      *
-     * @param class-string<RealInstanceType> $originalClassName
+     * @param class-string<RealInstanceType> $type
      * @param array<non-empty-string, mixed> $configuration
      *
      * @throws InvalidArgumentException
@@ -2642,9 +2223,9 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      *
      * @return RealInstanceType&Stub
      */
-    final protected static function createConfiguredStub(string $originalClassName, array $configuration): Stub
+    final protected static function createConfiguredStub(string $type, array $configuration): Stub
     {
-        $o = self::createStub($originalClassName);
+        $o = self::createStub($type);
 
         foreach ($configuration as $method => $return) {
             $o->method($method)->willReturn($return);

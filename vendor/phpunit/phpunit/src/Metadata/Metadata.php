@@ -19,25 +19,19 @@ use PHPUnit\Runner\Extension\Extension;
  */
 abstract readonly class Metadata
 {
-    private const CLASS_LEVEL  = 0;
-    private const METHOD_LEVEL = 1;
+    private const int CLASS_LEVEL  = 0;
+    private const int METHOD_LEVEL = 1;
 
     /**
-     * @var 0|1
+     * @var int<0, 1>
      */
     private int $level;
 
-    /**
-     * @param non-negative-int $priority
-     */
     public static function after(int $priority): After
     {
         return new After(self::METHOD_LEVEL, $priority);
     }
 
-    /**
-     * @param non-negative-int $priority
-     */
     public static function afterClass(int $priority): AfterClass
     {
         return new AfterClass(self::METHOD_LEVEL, $priority);
@@ -63,20 +57,22 @@ abstract readonly class Metadata
         return new BackupStaticProperties(self::METHOD_LEVEL, $enabled);
     }
 
-    /**
-     * @param non-negative-int $priority
-     */
     public static function before(int $priority): Before
     {
         return new Before(self::METHOD_LEVEL, $priority);
     }
 
-    /**
-     * @param non-negative-int $priority
-     */
     public static function beforeClass(int $priority): BeforeClass
     {
         return new BeforeClass(self::METHOD_LEVEL, $priority);
+    }
+
+    /**
+     * @param non-empty-string $namespace
+     */
+    public static function coversNamespace(string $namespace): CoversNamespace
+    {
+        return new CoversNamespace(self::CLASS_LEVEL, $namespace);
     }
 
     /**
@@ -85,6 +81,22 @@ abstract readonly class Metadata
     public static function coversClass(string $className): CoversClass
     {
         return new CoversClass(self::CLASS_LEVEL, $className);
+    }
+
+    /**
+     * @param class-string $className
+     */
+    public static function coversClassesThatExtendClass(string $className): CoversClassesThatExtendClass
+    {
+        return new CoversClassesThatExtendClass(self::CLASS_LEVEL, $className);
+    }
+
+    /**
+     * @param class-string $interfaceName
+     */
+    public static function coversClassesThatImplementInterface(string $interfaceName): CoversClassesThatImplementInterface
+    {
+        return new CoversClassesThatImplementInterface(self::CLASS_LEVEL, $interfaceName);
     }
 
     /**
@@ -110,30 +122,6 @@ abstract readonly class Metadata
     public static function coversFunction(string $functionName): CoversFunction
     {
         return new CoversFunction(self::CLASS_LEVEL, $functionName);
-    }
-
-    /**
-     * @param non-empty-string $target
-     */
-    public static function coversOnClass(string $target): Covers
-    {
-        return new Covers(self::CLASS_LEVEL, $target);
-    }
-
-    /**
-     * @param non-empty-string $target
-     */
-    public static function coversOnMethod(string $target): Covers
-    {
-        return new Covers(self::METHOD_LEVEL, $target);
-    }
-
-    /**
-     * @param class-string $className
-     */
-    public static function coversDefaultClass(string $className): CoversDefaultClass
-    {
-        return new CoversDefaultClass(self::CLASS_LEVEL, $className);
     }
 
     public static function coversNothingOnClass(): CoversNothing
@@ -263,17 +251,11 @@ abstract readonly class Metadata
         return new IgnorePhpunitDeprecations(self::METHOD_LEVEL);
     }
 
-    /**
-     * @param non-negative-int $priority
-     */
     public static function postCondition(int $priority): PostCondition
     {
         return new PostCondition(self::METHOD_LEVEL, $priority);
     }
 
-    /**
-     * @param non-negative-int $priority
-     */
     public static function preCondition(int $priority): PreCondition
     {
         return new PreCondition(self::METHOD_LEVEL, $priority);
@@ -407,6 +389,16 @@ abstract readonly class Metadata
         return new RequiresPhpunitExtension(self::METHOD_LEVEL, $extensionClass);
     }
 
+    public static function requiresEnvironmentVariableOnClass(string $environmentVariableName, null|string $value): RequiresEnvironmentVariable
+    {
+        return new RequiresEnvironmentVariable(self::CLASS_LEVEL, $environmentVariableName, $value);
+    }
+
+    public static function requiresEnvironmentVariableOnMethod(string $environmentVariableName, null|string $value): RequiresEnvironmentVariable
+    {
+        return new RequiresEnvironmentVariable(self::METHOD_LEVEL, $environmentVariableName, $value);
+    }
+
     /**
      * @param non-empty-string $setting
      * @param non-empty-string $value
@@ -471,11 +463,35 @@ abstract readonly class Metadata
     }
 
     /**
+     * @param non-empty-string $namespace
+     */
+    public static function usesNamespace(string $namespace): UsesNamespace
+    {
+        return new UsesNamespace(self::CLASS_LEVEL, $namespace);
+    }
+
+    /**
      * @param class-string $className
      */
     public static function usesClass(string $className): UsesClass
     {
         return new UsesClass(self::CLASS_LEVEL, $className);
+    }
+
+    /**
+     * @param class-string $className
+     */
+    public static function usesClassesThatExtendClass(string $className): UsesClassesThatExtendClass
+    {
+        return new UsesClassesThatExtendClass(self::CLASS_LEVEL, $className);
+    }
+
+    /**
+     * @param class-string $interfaceName
+     */
+    public static function usesClassesThatImplementInterface(string $interfaceName): UsesClassesThatImplementInterface
+    {
+        return new UsesClassesThatImplementInterface(self::CLASS_LEVEL, $interfaceName);
     }
 
     /**
@@ -503,37 +519,13 @@ abstract readonly class Metadata
         return new UsesMethod(self::CLASS_LEVEL, $className, $methodName);
     }
 
-    /**
-     * @param non-empty-string $target
-     */
-    public static function usesOnClass(string $target): Uses
-    {
-        return new Uses(self::CLASS_LEVEL, $target);
-    }
-
-    /**
-     * @param non-empty-string $target
-     */
-    public static function usesOnMethod(string $target): Uses
-    {
-        return new Uses(self::METHOD_LEVEL, $target);
-    }
-
-    /**
-     * @param class-string $className
-     */
-    public static function usesDefaultClass(string $className): UsesDefaultClass
-    {
-        return new UsesDefaultClass(self::CLASS_LEVEL, $className);
-    }
-
     public static function withoutErrorHandler(): WithoutErrorHandler
     {
         return new WithoutErrorHandler(self::METHOD_LEVEL);
     }
 
     /**
-     * @param 0|1 $level
+     * @param int<0, 1> $level
      */
     protected function __construct(int $level)
     {
@@ -599,9 +591,9 @@ abstract readonly class Metadata
     }
 
     /**
-     * @phpstan-assert-if-true Covers $this
+     * @phpstan-assert-if-true CoversNamespace $this
      */
-    public function isCovers(): bool
+    public function isCoversNamespace(): bool
     {
         return false;
     }
@@ -615,9 +607,17 @@ abstract readonly class Metadata
     }
 
     /**
-     * @phpstan-assert-if-true CoversDefaultClass $this
+     * @phpstan-assert-if-true CoversClassesThatExtendClass $this
      */
-    public function isCoversDefaultClass(): bool
+    public function isCoversClassesThatExtendClass(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @phpstan-assert-if-true CoversClassesThatImplementInterface $this
+     */
+    public function isCoversClassesThatImplementInterface(): bool
     {
         return false;
     }
@@ -857,6 +857,14 @@ abstract readonly class Metadata
     }
 
     /**
+     * @phpstan-assert-if-true RequiresEnvironmentVariable $this
+     */
+    public function isRequiresEnvironmentVariable(): bool
+    {
+        return false;
+    }
+
+    /**
      * @phpstan-assert-if-true RequiresSetting $this
      */
     public function isRequiresSetting(): bool
@@ -881,9 +889,9 @@ abstract readonly class Metadata
     }
 
     /**
-     * @phpstan-assert-if-true Uses $this
+     * @phpstan-assert-if-true UsesNamespace $this
      */
-    public function isUses(): bool
+    public function isUsesNamespace(): bool
     {
         return false;
     }
@@ -897,9 +905,17 @@ abstract readonly class Metadata
     }
 
     /**
-     * @phpstan-assert-if-true UsesDefaultClass $this
+     * @phpstan-assert-if-true UsesClassesThatExtendClass $this
      */
-    public function isUsesDefaultClass(): bool
+    public function isUsesClassesThatExtendClass(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @phpstan-assert-if-true UsesClassesThatImplementInterface $this
+     */
+    public function isUsesClassesThatImplementInterface(): bool
     {
         return false;
     }

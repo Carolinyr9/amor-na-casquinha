@@ -46,7 +46,6 @@ function __phpunit_run_isolated_test()
 
     if ({collectCodeCoverageInformation}) {
         CodeCoverage::instance()->init($configuration, CodeCoverageFilterRegistry::instance(), true);
-        CodeCoverage::instance()->ignoreLines({linesToBeIgnored});
     }
 
     $deprecationTriggers = [
@@ -100,10 +99,12 @@ function __phpunit_run_isolated_test()
         }
     }
 
+    Facade::emitter()->testRunnerFinishedChildProcess($output, '');
+
     file_put_contents(
         '{processResultFile}',
         serialize(
-            [
+            (object)[
                 'testResult'    => $test->result(),
                 'codeCoverage'  => {collectCodeCoverageInformation} ? CodeCoverage::instance()->codeCoverage() : null,
                 'numAssertions' => $test->numberOfAssertionsPerformed(),

@@ -264,7 +264,6 @@ final readonly class Loader
     private function source(string $filename, DOMXPath $xpath): Source
     {
         $baseline                           = null;
-        $restrictDeprecations               = false;
         $restrictNotices                    = false;
         $restrictWarnings                   = false;
         $ignoreSuppressionOfDeprecations    = false;
@@ -287,7 +286,6 @@ final readonly class Loader
                 $baseline = $this->toAbsolutePath($filename, $baseline);
             }
 
-            $restrictDeprecations               = $this->getBooleanAttribute($element, 'restrictDeprecations', false);
             $restrictNotices                    = $this->getBooleanAttribute($element, 'restrictNotices', false);
             $restrictWarnings                   = $this->getBooleanAttribute($element, 'restrictWarnings', false);
             $ignoreSuppressionOfDeprecations    = $this->getBooleanAttribute($element, 'ignoreSuppressionOfDeprecations', false);
@@ -334,7 +332,6 @@ final readonly class Loader
             $this->readFilterFiles($filename, $xpath, 'source/include/file'),
             $this->readFilterDirectories($filename, $xpath, 'source/exclude/directory'),
             $this->readFilterFiles($filename, $xpath, 'source/exclude/file'),
-            $restrictDeprecations,
             $restrictNotices,
             $restrictWarnings,
             $ignoreSuppressionOfDeprecations,
@@ -354,7 +351,6 @@ final readonly class Loader
     private function codeCoverage(string $filename, DOMXPath $xpath): CodeCoverage
     {
         $pathCoverage              = false;
-        $includeUncoveredFiles     = true;
         $ignoreDeprecatedCodeUnits = false;
         $disableCodeCoverageIgnore = false;
 
@@ -365,12 +361,6 @@ final readonly class Loader
                 $element,
                 'pathCoverage',
                 false,
-            );
-
-            $includeUncoveredFiles = $this->getBooleanAttribute(
-                $element,
-                'includeUncoveredFiles',
-                true,
             );
 
             $ignoreDeprecatedCodeUnits = $this->getBooleanAttribute(
@@ -500,7 +490,6 @@ final readonly class Loader
 
         return new CodeCoverage(
             $pathCoverage,
-            $includeUncoveredFiles,
             $ignoreDeprecatedCodeUnits,
             $disableCodeCoverageIgnore,
             $clover,
@@ -864,7 +853,7 @@ final readonly class Loader
             $beStrictAboutCoverageMetadata = $this->getBooleanAttribute($document->documentElement, 'beStrictAboutCoverageMetadata', false);
         }
 
-        $shortenArraysForExportThreshold = $this->getIntegerAttribute($document->documentElement, 'shortenArraysForExportThreshold', 0);
+        $shortenArraysForExportThreshold = $this->getIntegerAttribute($document->documentElement, 'shortenArraysForExportThreshold', 10);
 
         if ($shortenArraysForExportThreshold < 0) {
             $shortenArraysForExportThreshold = 0;

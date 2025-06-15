@@ -53,7 +53,6 @@ final readonly class DefaultConfiguration extends Configuration
                 false,
                 false,
                 false,
-                false,
                 [
                     'functions' => [],
                     'methods'   => [],
@@ -64,7 +63,6 @@ final readonly class DefaultConfiguration extends Configuration
             ),
             new CodeCoverage(
                 false,
-                true,
                 false,
                 false,
                 null,
@@ -152,7 +150,7 @@ final readonly class DefaultConfiguration extends Configuration
                 false,
                 false,
                 100,
-                0,
+                10,
             ),
             TestSuiteCollection::fromArray([]),
         );

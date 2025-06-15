@@ -66,7 +66,7 @@ final readonly class Generator
             return;
         }
 
-        if ($this->restrict($event) && !(new SourceFilter)->includes($this->source, $event->file())) {
+        if ($this->restrict($event) && !SourceFilter::instance()->includes($event->file())) {
             return;
         }
 
@@ -90,7 +90,7 @@ final readonly class Generator
             return $this->source->restrictNotices();
         }
 
-        return $this->source->restrictDeprecations();
+        return false;
     }
 
     private function isSuppressionIgnored(DeprecationTriggered|NoticeTriggered|PhpDeprecationTriggered|PhpNoticeTriggered|PhpWarningTriggered|WarningTriggered $event): bool

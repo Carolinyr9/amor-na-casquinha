@@ -161,6 +161,12 @@ final readonly class Merger
             $stopOnDeprecation = $xmlConfiguration->phpunit()->stopOnDeprecation();
         }
 
+        $specificDeprecationToStopOn = null;
+
+        if ($cliConfiguration->hasSpecificDeprecationToStopOn()) {
+            $specificDeprecationToStopOn = $cliConfiguration->specificDeprecationToStopOn();
+        }
+
         if ($cliConfiguration->hasStopOnError()) {
             $stopOnError = $cliConfiguration->stopOnError();
         } else {
@@ -665,8 +671,6 @@ final readonly class Merger
             }
         }
 
-        $includeUncoveredFiles = $xmlConfiguration->codeCoverage()->includeUncoveredFiles();
-
         $includePaths = [];
 
         if ($cliConfiguration->hasIncludePath()) {
@@ -781,7 +785,6 @@ final readonly class Merger
                 $sourceIncludeFiles,
                 $sourceExcludeDirectories,
                 $sourceExcludeFiles,
-                $xmlConfiguration->source()->restrictDeprecations(),
                 $xmlConfiguration->source()->restrictNotices(),
                 $xmlConfiguration->source()->restrictWarnings(),
                 $xmlConfiguration->source()->ignoreSuppressionOfDeprecations(),
@@ -828,6 +831,7 @@ final readonly class Merger
             $failOnWarning,
             $stopOnDefect,
             $stopOnDeprecation,
+            $specificDeprecationToStopOn,
             $stopOnError,
             $stopOnFailure,
             $stopOnIncomplete,
@@ -885,7 +889,6 @@ final readonly class Merger
             $groups,
             $excludeGroups,
             $randomOrderSeed,
-            $includeUncoveredFiles,
             $xmlConfiguration->testSuite(),
             $includeTestSuite,
             $excludeTestSuite,

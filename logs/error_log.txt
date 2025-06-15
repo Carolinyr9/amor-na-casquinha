@@ -725,3 +725,287 @@
 [2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 18
 [2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 19
 [2025-06-09 21:27:39] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-10 02:00:27] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 187 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 188 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 190 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 191 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 192 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 193 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 194 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 195 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 196 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 197 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 198 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 199 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 200 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 201 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:01:23] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 202 encontrado!
+[2025-06-10 02:01:23] ERROR: Erro ao obter itens do pedido.
+[2025-06-10 02:02:29] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 197 encontrado!
+[2025-06-10 02:02:33] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 197 encontrado!
+[2025-06-10 02:02:59] ERROR: Erro ao editar entregador no repositório.
+[2025-06-11 02:05:38] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 02:05:38] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 02:08:02] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 02:08:02] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 02:11:12] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 02:11:12] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 02:11:43] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 02:11:43] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 22:28:58] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 22:28:58] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 22:35:27] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 22:35:27] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 22:36:48] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 22:36:48] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 22:37:17] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 22:37:17] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 22:40:11] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 22:40:11] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 22:46:39] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-11 22:46:39] ERROR: Dados inválidos para criação do produto.
+[2025-06-11 22:46:39] ERROR: Erro ao buscar produto por ID: ID não fornecido!
+[2025-06-11 22:46:39] ERROR: Dados inválidos para edição do produto.
+[2025-06-11 22:46:39] ERROR: Erro ao buscar desativar produto por ID: ID não fornecido!
+[2025-06-12 00:31:32] ERROR: Dados inválidos para criação do cliente.
+[2025-06-12 00:47:04] ERROR: Dados inválidos para criação do cliente.
+[2025-06-12 00:47:04] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-12 00:47:04] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-12 00:47:04] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-12 00:47:04] ERROR: Dados inválidos para edição do cliente.
+[2025-06-12 00:47:04] ERROR: Cliente não encontrado para edição.
+[2025-06-12 00:47:04] ERROR: Erro ao editar cliente no repositório.
+[2025-06-12 00:47:04] ERROR: Dados inválidos para edição da senha.
+[2025-06-12 00:47:04] ERROR: Erro ao editar senha no repositório.
+[2025-06-12 00:47:04] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-12 00:47:04] ERROR: Cliente não encontrado
+[2025-06-12 00:47:04] ERROR: Erro ao desativar cliente
+[2025-06-12 00:47:04] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-12 00:48:15] ERROR: Dados inválidos para criação do cliente.
+[2025-06-12 00:48:15] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-12 00:48:15] ERROR: Erro ao criar cliente: Erro de conexão com o banco.
+[2025-06-12 00:48:15] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-12 00:48:15] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-12 00:48:15] ERROR: Erro ao listar clientes: Erro de rede no banco de dados.
+[2025-06-12 00:48:15] ERROR: Dados inválidos para edição do cliente.
+[2025-06-12 00:48:15] ERROR: Cliente não encontrado para edição.
+[2025-06-12 00:48:15] ERROR: Erro ao editar cliente no repositório.
+[2025-06-12 00:48:15] ERROR: Erro ao editar cliente: Erro no banco de dados durante a edição.
+[2025-06-12 00:48:15] ERROR: Dados inválidos para edição da senha.
+[2025-06-12 00:48:15] ERROR: Erro ao editar senha no repositório.
+[2025-06-12 00:48:15] ERROR: Erro ao editar senha: Erro no banco de dados ao alterar senha.
+[2025-06-12 00:48:15] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-12 00:48:15] ERROR: Cliente não encontrado
+[2025-06-12 00:48:15] ERROR: Erro ao desativar cliente
+[2025-06-12 00:48:15] ERROR: Erro ao desativar cliente: Erro no servidor ao desativar.
+[2025-06-12 00:48:15] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-12 00:48:15] ERROR: Erro ao listar clientes: Erro de banco de dados na listagem.
+[2025-06-12 01:04:00] ERROR: Dados inválidos para criação do cliente.
+[2025-06-12 01:04:00] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-12 01:04:00] ERROR: Erro ao criar cliente: Erro de conexão com o banco.
+[2025-06-12 01:04:00] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-12 01:04:00] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-12 01:04:00] ERROR: Erro ao listar clientes: Erro de rede no banco de dados.
+[2025-06-12 01:04:00] ERROR: Dados inválidos para edição do cliente.
+[2025-06-12 01:04:00] ERROR: Cliente não encontrado para edição.
+[2025-06-12 01:04:00] ERROR: Erro ao editar cliente no repositório.
+[2025-06-12 01:04:00] ERROR: Erro ao editar cliente: Erro no banco de dados durante a edição.
+[2025-06-12 01:04:00] ERROR: Dados inválidos para edição da senha.
+[2025-06-12 01:04:00] ERROR: Erro ao editar senha no repositório.
+[2025-06-12 01:04:00] ERROR: Erro ao editar senha: Erro no banco de dados ao alterar senha.
+[2025-06-12 01:04:00] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-12 01:04:00] ERROR: Cliente não encontrado
+[2025-06-12 01:04:00] ERROR: Erro ao desativar cliente
+[2025-06-12 01:04:00] ERROR: Erro ao desativar cliente: Erro no servidor ao desativar.
+[2025-06-12 01:04:00] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-12 01:04:00] ERROR: Erro ao listar clientes: Erro de banco de dados na listagem.
+[2025-06-15 18:14:19] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:14:19] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:14:19] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-15 18:14:19] ERROR: Erro ao criar cliente: Erro de banco de dados
+[2025-06-15 18:14:19] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:14:19] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-15 18:14:19] ERROR: Erro ao listar clientes: Erro de conexão
+[2025-06-15 18:14:20] ERROR: Dados inválidos para edição do cliente.
+[2025-06-15 18:14:20] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:14:20] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:14:20] ERROR: Erro ao listar clientes: Erro inesperado
+[2025-06-15 18:14:20] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:14:20] ERROR: Dados inválidos para edição da senha.
+[2025-06-15 18:14:20] ERROR: Erro ao editar senha no repositório.
+[2025-06-15 18:14:20] ERROR: Erro ao editar senha: Erro de banco
+[2025-06-15 18:14:20] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:14:20] ERROR: Cliente não encontrado
+[2025-06-15 18:14:20] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-15 18:14:20] ERROR: Erro ao desativar cliente
+[2025-06-15 18:14:20] ERROR: Erro ao listar clientes: Erro de rede
+[2025-06-15 18:14:20] ERROR: Cliente não encontrado
+[2025-06-15 18:14:20] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-15 18:14:20] ERROR: Erro ao listar clientes: Erro de servidor
+[2025-06-15 18:26:35] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:26:35] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:26:35] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-15 18:26:35] ERROR: Erro ao criar cliente: Erro de banco de dados
+[2025-06-15 18:26:35] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:26:35] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-15 18:26:35] ERROR: Erro ao listar clientes: Erro de conexão
+[2025-06-15 18:26:35] ERROR: Dados inválidos para edição do cliente.
+[2025-06-15 18:26:35] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:26:35] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:26:35] ERROR: Erro ao editar cliente no repositório.
+[2025-06-15 18:26:35] ERROR: Erro ao listar clientes: Erro inesperado
+[2025-06-15 18:26:35] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:26:35] ERROR: Dados inválidos para edição da senha.
+[2025-06-15 18:26:35] ERROR: Erro ao editar senha no repositório.
+[2025-06-15 18:26:35] ERROR: Erro ao editar senha: Erro de banco
+[2025-06-15 18:26:35] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:26:35] ERROR: Cliente não encontrado
+[2025-06-15 18:26:35] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-15 18:26:35] ERROR: Erro ao desativar cliente
+[2025-06-15 18:26:35] ERROR: Erro ao listar clientes: Erro de rede
+[2025-06-15 18:26:35] ERROR: Cliente não encontrado
+[2025-06-15 18:26:35] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-15 18:26:35] ERROR: Erro ao listar clientes: Erro de servidor
+[2025-06-15 18:26:56] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:26:56] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:26:56] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-15 18:26:56] ERROR: Erro ao criar cliente: Erro de banco de dados
+[2025-06-15 18:26:56] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:26:56] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-15 18:26:56] ERROR: Erro ao listar clientes: Erro de conexão
+[2025-06-15 18:26:56] ERROR: Dados inválidos para edição do cliente.
+[2025-06-15 18:26:56] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:26:56] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:26:56] ERROR: Erro ao editar cliente no repositório.
+[2025-06-15 18:26:56] ERROR: Erro ao listar clientes: Erro inesperado
+[2025-06-15 18:26:56] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:26:56] ERROR: Dados inválidos para edição da senha.
+[2025-06-15 18:26:56] ERROR: Erro ao editar senha no repositório.
+[2025-06-15 18:26:56] ERROR: Erro ao editar senha: Erro de banco
+[2025-06-15 18:26:56] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:26:56] ERROR: Cliente não encontrado
+[2025-06-15 18:26:56] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-15 18:26:56] ERROR: Erro ao desativar cliente
+[2025-06-15 18:26:56] ERROR: Erro ao listar clientes: Erro de rede
+[2025-06-15 18:26:56] ERROR: Cliente não encontrado
+[2025-06-15 18:26:56] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-15 18:26:56] ERROR: Erro ao listar clientes: Erro de servidor
+[2025-06-15 18:28:35] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:28:35] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:28:35] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-15 18:28:35] ERROR: Erro ao criar cliente: Erro de banco de dados
+[2025-06-15 18:28:35] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:28:35] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-15 18:28:35] ERROR: Erro ao listar clientes: Erro de conexão
+[2025-06-15 18:28:35] ERROR: Dados inválidos para edição do cliente.
+[2025-06-15 18:28:35] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:28:35] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:28:35] ERROR: Erro ao editar cliente no repositório.
+[2025-06-15 18:28:35] ERROR: Erro ao listar clientes: Erro inesperado
+[2025-06-15 18:28:35] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:28:35] ERROR: Dados inválidos para edição da senha.
+[2025-06-15 18:28:35] ERROR: Erro ao editar senha no repositório.
+[2025-06-15 18:28:35] ERROR: Erro ao editar senha: Erro de banco
+[2025-06-15 18:28:35] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:28:35] ERROR: Cliente não encontrado
+[2025-06-15 18:28:35] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-15 18:28:35] ERROR: Erro ao desativar cliente
+[2025-06-15 18:28:35] ERROR: Erro ao listar clientes: Erro de rede
+[2025-06-15 18:28:35] ERROR: Cliente não encontrado
+[2025-06-15 18:28:35] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-15 18:28:35] ERROR: Erro ao listar clientes: Erro de servidor
+[2025-06-15 18:32:14] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:32:14] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:32:14] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-15 18:32:14] ERROR: Erro ao criar cliente: Erro de banco de dados
+[2025-06-15 18:32:14] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:32:14] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-15 18:32:14] ERROR: Erro ao listar clientes: Erro de conexão
+[2025-06-15 18:32:14] ERROR: Dados inválidos para edição do cliente.
+[2025-06-15 18:32:14] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:32:14] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:32:14] ERROR: Erro ao editar cliente no repositório.
+[2025-06-15 18:32:14] ERROR: Erro ao listar clientes: Erro inesperado
+[2025-06-15 18:32:14] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:32:14] ERROR: Dados inválidos para edição da senha.
+[2025-06-15 18:32:14] ERROR: Erro ao editar senha: Senha atual incorreta ou falha na atualização.
+[2025-06-15 18:32:14] ERROR: Erro ao editar senha: Erro de banco
+[2025-06-15 18:32:14] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:32:14] ERROR: Cliente não encontrado
+[2025-06-15 18:32:14] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-15 18:32:14] ERROR: Erro ao desativar cliente
+[2025-06-15 18:32:14] ERROR: Erro ao listar clientes: Erro de rede
+[2025-06-15 18:32:14] ERROR: Cliente não encontrado
+[2025-06-15 18:32:14] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-15 18:32:14] ERROR: Erro ao listar clientes: Erro de servidor
+[2025-06-15 18:35:10] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:35:10] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:35:10] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-15 18:35:11] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:35:11] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-15 18:35:11] ERROR: Dados inválidos para edição do cliente.
+[2025-06-15 18:35:11] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:35:11] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:35:11] ERROR: Erro ao editar cliente no repositório.
+[2025-06-15 18:35:11] ERROR: Dados inválidos para edição da senha.
+[2025-06-15 18:35:11] ERROR: Erro ao editar senha: Senha atual incorreta ou falha na atualização.
+[2025-06-15 18:35:11] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:35:11] ERROR: Cliente não encontrado
+[2025-06-15 18:35:11] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-15 18:35:11] ERROR: Erro ao desativar cliente
+[2025-06-15 18:35:11] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-15 18:35:24] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:35:24] ERROR: Dados inválidos para criação do cliente.
+[2025-06-15 18:35:24] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-15 18:35:24] ERROR: Erro ao criar cliente: Erro de banco de dados
+[2025-06-15 18:35:24] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:35:24] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-15 18:35:24] ERROR: Erro ao listar clientes: Erro de conexão
+[2025-06-15 18:35:24] ERROR: Dados inválidos para edição do cliente.
+[2025-06-15 18:35:24] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:35:24] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:35:24] ERROR: Erro ao editar cliente no repositório.
+[2025-06-15 18:35:24] ERROR: Erro ao listar clientes: Erro inesperado
+[2025-06-15 18:35:24] ERROR: Cliente não encontrado para edição.
+[2025-06-15 18:35:24] ERROR: Dados inválidos para edição da senha.
+[2025-06-15 18:35:24] ERROR: Erro ao editar senha: Senha atual incorreta ou falha na atualização.
+[2025-06-15 18:35:24] ERROR: Erro ao editar senha: Erro de banco
+[2025-06-15 18:35:24] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-15 18:35:24] ERROR: Cliente não encontrado
+[2025-06-15 18:35:24] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-15 18:35:24] ERROR: Erro ao desativar cliente
+[2025-06-15 18:35:24] ERROR: Erro ao listar clientes: Erro de rede
+[2025-06-15 18:35:24] ERROR: Cliente não encontrado
+[2025-06-15 18:35:24] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-15 18:35:24] ERROR: Erro ao listar clientes: Erro de servidor
