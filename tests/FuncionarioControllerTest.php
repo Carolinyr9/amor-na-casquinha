@@ -76,11 +76,11 @@ class FuncionarioControllerTest extends TestCase {
     public function testBuscarFuncionarioPorEmailComEmailInvalidoRetornaNull() {
         $email = 'email_invalido'; 
 
-        $this->funcionarioRepositoryMock->expects($this->never())
+        $this->funcionarioRepositoryMock->expects($this->never()) 
             ->method('buscarFuncionarioPorEmail');
 
         $resultado = $this->funcionarioController->buscarFuncionarioPorEmail($email);
-        $this->assertNull($resultado);
+        $this->assertNull($resultado); 
     }
 
     public function testBuscarFuncionarioPorEmailComFuncionarioNaoEncontradoRetornaNull() {
@@ -129,7 +129,7 @@ class FuncionarioControllerTest extends TestCase {
                 $dados['adm'],
                 $dados['idEndereco']
             )
-            ->willReturn(5);
+            ->willReturn(5); 
 
         $resultado = $this->funcionarioController->criarFuncionario($dados);
         $this->assertInstanceOf(Funcionario::class, $resultado);
@@ -342,7 +342,7 @@ class FuncionarioControllerTest extends TestCase {
             ->method('desativarFuncionario');
 
         $resultado = $this->funcionarioController->desativarFuncionario($email);
-        $this->assertNull($resultado);
+        $this->assertNull($resultado); 
     }
 
     public function testDesativarFuncionarioNaoEncontradoRetornaNull() {
@@ -357,7 +357,7 @@ class FuncionarioControllerTest extends TestCase {
             ->method('desativarFuncionario');
 
         $resultado = $this->funcionarioController->desativarFuncionario($email);
-        $this->assertNull($resultado);
+        $this->assertNull($resultado); 
     }
 
     public function testDesativarFuncionarioQuandoRepositorioFalhaRetornaNull() {
@@ -371,10 +371,10 @@ class FuncionarioControllerTest extends TestCase {
 
         $this->funcionarioRepositoryMock->expects($this->once())
             ->method('desativarFuncionario')
-            ->willReturn(false);
+            ->willReturn(false); 
 
         $resultado = $this->funcionarioController->desativarFuncionario($email);
-        $this->assertNull($resultado);
+        $this->assertNull($resultado);     
     }
 
     public function testDesativarFuncionarioLancaExcecaoRetornaNull() {

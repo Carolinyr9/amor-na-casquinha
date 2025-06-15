@@ -9,7 +9,7 @@ use Exception;
 class FuncionarioController {
     private $repository;
 
-    public function __construct(FuncionarioRepository $repository = null) {
+    public function __construct(?FuncionarioRepository $repository = null) {
         $this->repository = $repository ?? new FuncionarioRepository();
     }
 
@@ -58,10 +58,14 @@ class FuncionarioController {
 
     public function criarFuncionario($dados) {
         try {
-            if (empty($dados['nome']) || empty($dados['email']) || 
+            if (
+                empty($dados['nome']) ||
+                empty($dados['email']) ||
                 !filter_var($dados['email'], FILTER_VALIDATE_EMAIL) ||
-                empty($dados['telefone']) || empty($dados['senha'] ||
-                empty($dados['idEndereco']))) {
+                empty($dados['telefone']) ||
+                empty($dados['senha']) ||
+                empty($dados['idEndereco'])
+            ) {
                 Logger::logError("Dados inválidos para criação do funcionário.");
                 return false;
             }
@@ -71,25 +75,29 @@ class FuncionarioController {
                 $dados['email'],
                 $dados['telefone'],
                 $dados['senha'],
-                $dados['adm'], 
+                $dados['adm'],
                 $dados['idEndereco']
             );
 
             if ($idFuncionario) {
                 $funcionario = new Funcionario(
-                    $idFuncionario,
+                    $idFuncionario,       
+                    0,                    
+                    $dados['adm'], 
                     $dados['nome'],
                     $dados['telefone'],
                     $dados['email'],
                     $dados['senha'],
-                    $dados['adm'],
-                    0,
                     $dados['idEndereco'] ?? null
                 );
                 return $funcionario;
-            } 
+            }
+
+            Logger::logError("Erro ao criar funcionario");
+            return false;
         } catch (Exception $e) {
             Logger::logError("Erro ao criar funcionario: " . $e->getMessage());
+            return false;
         }
     }
 
