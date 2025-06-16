@@ -19,9 +19,7 @@ class CategoriaProdutoControllerTest extends TestCase
 
     ## Testes para listarCategorias
 
-    public function testListarCategoriasRetornaArrayDeCategoriasProduto()
-    {
-        // Configura o mock para retornar dados de exemplo de sorveteria
+    public function testListarCategoriasRetornaArrayDeCategoriasProduto() {
         $dadosRepository = [
             [
                 'id' => 1,
@@ -52,12 +50,10 @@ class CategoriaProdutoControllerTest extends TestCase
         $this->assertCount(2, $categorias);
         $this->assertInstanceOf(CategoriaProduto::class, $categorias[0]);
         $this->assertEquals('Sorvetes Cremosos', $categorias[0]->getNome());
-        $this->assertEquals(0, $categorias[0]->isDesativado()); // Verifica que desativado é 0
+        $this->assertEquals(0, $categorias[0]->isDesativado()); 
     }
 
-    public function testListarCategoriasRetornaArrayVazioQuandoNaoHaCategoriasAtivas()
-    {
-        // Configura o mock para retornar um array vazio
+    public function testListarCategoriasRetornaArrayVazioQuandoNaoHaCategoriasAtivas() {
         $this->categoriaProdutoRepositoryMock->method('buscarCategoriasAtivas')
             ->willReturn([]);
 
@@ -67,21 +63,17 @@ class CategoriaProdutoControllerTest extends TestCase
         $this->assertEmpty($categorias);
     }
 
-    public function testListarCategoriasLidaComExcecaoDoRepositorio()
-    {
-        // Configura o mock para lançar uma exceção
+    public function testListarCategoriasLidaComExcecaoDoRepositorio() {
         $this->categoriaProdutoRepositoryMock->method('buscarCategoriasAtivas')
             ->willThrowException(new Exception("Erro de conexão com o banco de dados"));
 
         $categorias = $this->categoriaProdutoController->listarCategorias();
-        $this->assertFalse($categorias); // A controller retorna false em caso de exceção
+        $this->assertFalse($categorias);
     }
 
-    ## Testes para buscarCategorias (Todas)
+    ## Testes para buscarCategorias
 
-    public function testBuscarCategoriasRetornaArrayDeTodasAsCategoriasProduto()
-    {
-        // Configura o mock para retornar dados de exemplo de sorveteria, incluindo desativados
+    public function testBuscarCategoriasRetornaArrayDeTodasAsCategoriasProduto() {
         $dadosRepository = [
             [
                 'id' => 1,
@@ -113,12 +105,10 @@ class CategoriaProdutoControllerTest extends TestCase
         $this->assertInstanceOf(CategoriaProduto::class, $categorias[0]);
         $this->assertEquals('Sorvetes Cremosos', $categorias[0]->getNome());
         $this->assertEquals(0, $categorias[0]->isDesativado());
-        $this->assertEquals(1, $categorias[1]->isDesativado()); // Verifica que desativado é 1
+        $this->assertEquals(1, $categorias[1]->isDesativado());
     }
 
-    public function testBuscarCategoriasRetornaArrayVazioQuandoNaoHaCategorias()
-    {
-        // Configura o mock para retornar um array vazio
+    public function testBuscarCategoriasRetornaArrayVazioQuandoNaoHaCategorias() {
         $this->categoriaProdutoRepositoryMock->method('buscarCategorias')
             ->willReturn([]);
 
@@ -128,20 +118,17 @@ class CategoriaProdutoControllerTest extends TestCase
         $this->assertEmpty($categorias);
     }
 
-    public function testBuscarCategoriasLidaComExcecaoDoRepositorio()
-    {
-        // Configura o mock para lançar uma exceção
+    public function testBuscarCategoriasLidaComExcecaoDoRepositorio() {
         $this->categoriaProdutoRepositoryMock->method('buscarCategorias')
             ->willThrowException(new Exception("Erro de conexão com o banco de dados"));
 
         $categorias = $this->categoriaProdutoController->buscarCategorias();
-        $this->assertFalse($categorias); // A controller retorna false em caso de exceção
+        $this->assertFalse($categorias);
     }
 
     ## Testes para buscarCategoriaPorID
 
-    public function testBuscarCategoriaPorIDRetornaCategoriaValida()
-    {
+    public function testBuscarCategoriaPorIDRetornaCategoriaValida() {
         $id = 1;
         $categoriaEsperada = new CategoriaProduto(1, 'Sorvetes Gelado+', 'Sorvetes Cremosos', 'Delícia Gelada', 'Sorvetes de massa.', 0, 'foto_sorvete.jpg');
 
@@ -155,25 +142,22 @@ class CategoriaProdutoControllerTest extends TestCase
         $this->assertEquals($id, $categoriaRetornada->getId());
     }
 
-    public function testBuscarCategoriaPorIDRetornaFalseParaIDNaoFornecido()
-    {
+    public function testBuscarCategoriaPorIDRetornaFalseParaIDNaoFornecido() {
         $this->assertFalse($this->categoriaProdutoController->buscarCategoriaPorID(null));
         $this->assertFalse($this->categoriaProdutoController->buscarCategoriaPorID(''));
     }
 
-    public function testBuscarCategoriaPorIDRetornaNullQuandoNaoEncontrado()
-    {
+    public function testBuscarCategoriaPorIDRetornaNullQuandoNaoEncontrado() {
         $id = 99;
         $this->categoriaProdutoRepositoryMock->method('buscarCategoriaPorID')
             ->with($id)
             ->willReturn(null);
 
         $categoriaRetornada = $this->categoriaProdutoController->buscarCategoriaPorID($id);
-        $this->assertNull($categoriaRetornada); // O repositório retorna null, a controller também
+        $this->assertNull($categoriaRetornada);
     }
 
-    public function testBuscarCategoriaPorIDLidaComExcecaoDoRepositorio()
-    {
+    public function testBuscarCategoriaPorIDLidaComExcecaoDoRepositorio() {
         $id = 1;
         $this->categoriaProdutoRepositoryMock->method('buscarCategoriaPorID')
             ->willThrowException(new Exception("Erro de banco de dados"));
@@ -184,8 +168,7 @@ class CategoriaProdutoControllerTest extends TestCase
 
     ## Testes para criarCategoria
 
-    public function testCriarCategoriaComDadosValidosRetornaTrue()
-    {
+    public function testCriarCategoriaComDadosValidosRetornaTrue() {
         $dados = [
             'nome' => 'Coberturas Especiais',
             'fornecedor' => 'Doces & Cia',
@@ -204,9 +187,7 @@ class CategoriaProdutoControllerTest extends TestCase
         $this->assertTrue($resultado);
     }
 
-    public function testCriarCategoriaComDadosInvalidosRetornaFalse()
-    {
-        // Teste com nome vazio
+    public function testCriarCategoriaComDadosInvalidosRetornaFalse() {
         $dadosNomeVazio = [
             'nome' => '',
             'fornecedor' => 'Doces & Cia',
@@ -216,7 +197,6 @@ class CategoriaProdutoControllerTest extends TestCase
         ];
         $this->assertFalse($this->categoriaProdutoController->criarCategoria($dadosNomeVazio));
 
-        // Teste com fornecedor vazio
         $dadosFornecedorVazio = [
             'nome' => 'Coberturas Especiais',
             'fornecedor' => '',
@@ -226,7 +206,6 @@ class CategoriaProdutoControllerTest extends TestCase
         ];
         $this->assertFalse($this->categoriaProdutoController->criarCategoria($dadosFornecedorVazio));
 
-        // Teste com marca vazia
         $dadosMarcaVazia = [
             'nome' => 'Coberturas Especiais',
             'fornecedor' => 'Doces & Cia',
@@ -236,7 +215,6 @@ class CategoriaProdutoControllerTest extends TestCase
         ];
         $this->assertFalse($this->categoriaProdutoController->criarCategoria($dadosMarcaVazia));
 
-        // Teste com foto vazia
         $dadosFotoVazia = [
             'nome' => 'Coberturas Especiais',
             'fornecedor' => 'Doces & Cia',
@@ -246,7 +224,6 @@ class CategoriaProdutoControllerTest extends TestCase
         ];
         $this->assertFalse($this->categoriaProdutoController->criarCategoria($dadosFotoVazia));
 
-        // Teste com descrição vazia
         $dadosDescricaoVazia = [
             'nome' => 'Coberturas Especiais',
             'fornecedor' => 'Doces & Cia',
@@ -257,8 +234,7 @@ class CategoriaProdutoControllerTest extends TestCase
         $this->assertFalse($this->categoriaProdutoController->criarCategoria($dadosDescricaoVazia));
     }
 
-    public function testCriarCategoriaRetornaFalseQuandoRepositorioFalha()
-    {
+    public function testCriarCategoriaRetornaFalseQuandoRepositorioFalha() {
         $dados = [
             'nome' => 'Coberturas Especiais',
             'fornecedor' => 'Doces & Cia',
@@ -268,14 +244,13 @@ class CategoriaProdutoControllerTest extends TestCase
         ];
 
         $this->categoriaProdutoRepositoryMock->method('criarCategoria')
-            ->willReturn(false); // Simula falha na criação
+            ->willReturn(false);
 
         $resultado = $this->categoriaProdutoController->criarCategoria($dados);
         $this->assertFalse($resultado);
     }
 
-    public function testCriarCategoriaLidaComExcecaoDoRepositorio()
-    {
+    public function testCriarCategoriaLidaComExcecaoDoRepositorio() {
         $dados = [
             'nome' => 'Coberturas Especiais',
             'fornecedor' => 'Doces & Cia',
@@ -293,8 +268,7 @@ class CategoriaProdutoControllerTest extends TestCase
 
     ## Testes para editarCategoria
 
-    public function testEditarCategoriaComDadosValidosRetornaTrue()
-    {
+    public function testEditarCategoriaComDadosValidosRetornaTrue() {
         $dados = [
             'id' => 1,
             'nome' => 'Sorvetes Premium Edição',
@@ -321,14 +295,13 @@ class CategoriaProdutoControllerTest extends TestCase
 
         $resultado = $this->categoriaProdutoController->editarCategoria($dados);
         $this->assertTrue($resultado);
-        $this->assertEquals($dados['nome'], $categoriaExistente->getNome()); // Verifica que o objeto foi atualizado
+        $this->assertEquals($dados['nome'], $categoriaExistente->getNome());
     }
 
-    public function testEditarCategoriaComDadosInvalidosRetornaFalse()
-    {
+    public function testEditarCategoriaComDadosInvalidosRetornaFalse() {
         $dados = [
             'id' => 1,
-            'nome' => '', // Nome vazio
+            'nome' => '', 
             'marca' => 'NewTech',
             'descricao' => 'Nova descrição para eletrônicos',
             'foto' => 'nova_foto_eletronicos.jpg'
@@ -336,20 +309,19 @@ class CategoriaProdutoControllerTest extends TestCase
         $this->assertFalse($this->categoriaProdutoController->editarCategoria($dados));
 
         $dados['nome'] = 'Sorvetes Premium Edição';
-        $dados['marca'] = ''; // Marca vazia
+        $dados['marca'] = ''; 
         $this->assertFalse($this->categoriaProdutoController->editarCategoria($dados));
 
         $dados['marca'] = 'Elite Gelato';
-        $dados['foto'] = ''; // Foto vazia
+        $dados['foto'] = ''; 
         $this->assertFalse($this->categoriaProdutoController->editarCategoria($dados));
 
         $dados['foto'] = 'foto_sorvetes_premium_editado.jpg';
-        $dados['descricao'] = ''; // Descrição vazia
+        $dados['descricao'] = '';
         $this->assertFalse($this->categoriaProdutoController->editarCategoria($dados));
     }
 
-    public function testEditarCategoriaRetornaFalseQuandoCategoriaNaoEncontrada()
-    {
+    public function testEditarCategoriaRetornaFalseQuandoCategoriaNaoEncontrada() {
         $dados = [
             'id' => 99,
             'nome' => 'Sorvetes Premium Edição',
@@ -360,14 +332,13 @@ class CategoriaProdutoControllerTest extends TestCase
 
         $this->categoriaProdutoRepositoryMock->method('buscarCategoriaPorID')
             ->with($dados['id'])
-            ->willReturn(null); // Simula categoria não encontrada
+            ->willReturn(null);
 
         $resultado = $this->categoriaProdutoController->editarCategoria($dados);
         $this->assertFalse($resultado);
     }
 
-    public function testEditarCategoriaRetornaFalseQuandoEdicaoNoRepositorioFalha()
-    {
+    public function testEditarCategoriaRetornaFalseQuandoEdicaoNoRepositorioFalha() {
         $dados = [
             'id' => 1,
             'nome' => 'Sorvetes Premium Edição',
@@ -383,14 +354,13 @@ class CategoriaProdutoControllerTest extends TestCase
             ->willReturn($categoriaExistente);
 
         $this->categoriaProdutoRepositoryMock->method('editarCategoria')
-            ->willReturn(false); // Simula falha na edição no repositório
+            ->willReturn(false);
 
         $resultado = $this->categoriaProdutoController->editarCategoria($dados);
         $this->assertFalse($resultado);
     }
 
-    public function testEditarCategoriaLidaComExcecaoDoRepositorio()
-    {
+    public function testEditarCategoriaLidaComExcecaoDoRepositorio() {
         $dados = [
             'id' => 1,
             'nome' => 'Sorvetes Premium Edição',
@@ -408,8 +378,7 @@ class CategoriaProdutoControllerTest extends TestCase
 
     ## Testes para removerCategoria
 
-    public function testRemoverCategoriaComIDValidoRetornaTrue()
-    {
+    public function testRemoverCategoriaComIDValidoRetornaTrue() {
         $idCategoria = 1;
         $categoriaExistente = new CategoriaProduto(1, 'Sorvetes Gelado+', 'Cones Crocantes', 'Casquinha Perfeita', 'Cones para sorvete de alta qualidade.', 0, 'foto_cones.jpg');
 
@@ -423,17 +392,15 @@ class CategoriaProdutoControllerTest extends TestCase
 
         $resultado = $this->categoriaProdutoController->removerCategoria($idCategoria);
         $this->assertTrue($resultado);
-        $this->assertEquals(1, $categoriaExistente->isDesativado()); // Verifica se o objeto foi atualizado
+        $this->assertEquals(1, $categoriaExistente->isDesativado());
     }
 
-    public function testRemoverCategoriaComIDNaoFornecidoRetornaFalse()
-    {
+    public function testRemoverCategoriaComIDNaoFornecidoRetornaFalse() {
         $this->assertFalse($this->categoriaProdutoController->removerCategoria(null));
         $this->assertFalse($this->categoriaProdutoController->removerCategoria(''));
     }
 
-    public function testRemoverCategoriaRetornaFalseQuandoCategoriaNaoEncontrada()
-    {
+    public function testRemoverCategoriaRetornaFalseQuandoCategoriaNaoEncontrada() {
         $idCategoria = 99;
         $this->categoriaProdutoRepositoryMock->method('buscarCategoriaPorID')
             ->with($idCategoria)
@@ -443,8 +410,7 @@ class CategoriaProdutoControllerTest extends TestCase
         $this->assertFalse($resultado);
     }
 
-    public function testRemoverCategoriaRetornaFalseQuandoDesativacaoNoRepositorioFalha()
-    {
+    public function testRemoverCategoriaRetornaFalseQuandoDesativacaoNoRepositorioFalha() {
         $idCategoria = 1;
         $categoriaExistente = new CategoriaProduto(1, 'Sorvetes Gelado+', 'Cones Crocantes', 'Casquinha Perfeita', 'Cones para sorvete de alta qualidade.', 0, 'foto_cones.jpg');
 
@@ -453,7 +419,7 @@ class CategoriaProdutoControllerTest extends TestCase
             ->willReturn($categoriaExistente);
 
         $this->categoriaProdutoRepositoryMock->method('desativarCategoria')
-            ->willReturn(false); // Simula falha na desativação
+            ->willReturn(false);
 
         $resultado = $this->categoriaProdutoController->removerCategoria($idCategoria);
         $this->assertFalse($resultado);
@@ -486,7 +452,7 @@ class CategoriaProdutoControllerTest extends TestCase
 
         $resultado = $this->categoriaProdutoController->ativarCategoria($idCategoria);
         $this->assertTrue($resultado);
-        $this->assertEquals(0, $categoriaDesativada->isDesativado()); // Verifica se o objeto foi atualizado
+        $this->assertEquals(0, $categoriaDesativada->isDesativado());
     }
 
     public function testAtivarCategoriaComIDNaoFornecidoRetornaFalse()

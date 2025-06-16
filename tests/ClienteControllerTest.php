@@ -158,7 +158,6 @@ class ClienteControllerTest extends TestCase {
     public function testListarClientePorEmailLancaExcecaoRetornaFalse() {
         $email = 'erro@example.com';
 
-        // Simula uma exceção sendo lançada pelo repositório
         $this->clienteRepositoryMock->expects($this->once())
             ->method('listarClientePorEmail')
             ->with($email)
