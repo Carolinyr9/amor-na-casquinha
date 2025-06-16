@@ -9,7 +9,7 @@ use Exception;
 class PedidoController {
     private $repository;
 
-    public function __construct(PedidoRepository $repository = null) {
+    public function __construct(?PedidoRepository $repository = null) {
         $this->repository = $repository ?? new PedidoRepository();
     }
 

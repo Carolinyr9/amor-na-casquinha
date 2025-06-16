@@ -9,7 +9,7 @@ use Exception;
 class ItemPedidoController {
     private ItemPedidoRepository $repository;
 
-    public function __construct(ItemPedidoRepository $repository = null) {
+    public function __construct(?ItemPedidoRepository $repository = null) {
         $this->repository = $repository ?? new ItemPedidoRepository();
     }
 
@@ -21,11 +21,16 @@ class ItemPedidoController {
                 return false;
             }
     
-            $this->repository->criarPedido(
+            $criadoComSucesso = $this->repository->criarPedido(
                $dados['idPedido'],
                $dados['idProduto'],
                $dados['quantidade']
             );
+
+            if (!$criadoComSucesso) {
+                Logger::logError("Falha do repositório ao criar item do pedido.");
+                return false; 
+            }
     
             $pedido = new ItemPedido(
                 $dados['idPedido'],
@@ -45,7 +50,8 @@ class ItemPedidoController {
     public function listarInformacoesPedido($idPedido){
         try{
             if (!is_numeric($idPedido) || !isset($idPedido) || empty($idPedido)) {
-                return Logger::logError("Erro ao listar itens do pedido: ID inválido.");
+                Logger::logError("Erro ao listar itens do pedido: ID inválido.");
+                return false;
             }
 
             $dados = $this->repository->listarInformacoesPedido($idPedido);
