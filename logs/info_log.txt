@@ -57,3 +57,54 @@
 [2025-06-09 20:21:08] INFO: Status do pedido alterado com sucesso!
 [2025-06-09 20:42:23] INFO: Pedido cancelado com sucesso!
 [2025-06-10 02:02:33] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 00:10:12] INFO: Endereço editado com sucesso!
+[2025-06-16 00:16:41] INFO: Endereço editado com sucesso!
+[2025-06-16 01:17:14] INFO: Pedido criado com sucesso!
+[2025-06-16 01:17:14] INFO: Pedido criado com sucesso!
+[2025-06-16 01:23:44] INFO: Pedido criado com sucesso!
+[2025-06-16 01:28:11] INFO: Pedido criado com sucesso!
+[2025-06-16 17:59:11] INFO: Pedido criado com sucesso!
+[2025-06-16 17:59:35] INFO: Pedido criado com sucesso!
+[2025-06-16 18:03:33] INFO: Pedido criado com sucesso!
+[2025-06-16 19:20:44] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:20:44] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:20:44] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:20:44] INFO: Pedido cancelado com sucesso!
+[2025-06-16 19:24:38] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:24:38] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:24:38] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:24:38] INFO: Pedido cancelado com sucesso!
+[2025-06-16 19:29:18] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:29:18] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:29:18] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:29:18] INFO: Pedido cancelado com sucesso!
+[2025-06-16 19:37:00] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:37:00] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:37:00] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:37:00] INFO: Pedido cancelado com sucesso!
+[2025-06-16 19:39:51] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:39:51] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:39:51] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:39:51] INFO: Pedido cancelado com sucesso!
+[2025-06-16 19:41:20] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:41:20] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:41:20] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:41:20] INFO: Pedido cancelado com sucesso!
+[2025-06-16 19:41:50] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:41:50] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:41:50] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:41:50] INFO: Pedido cancelado com sucesso!
+[2025-06-16 19:44:52] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:44:52] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:44:52] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:44:52] INFO: Pedido cancelado com sucesso!
+[2025-06-16 19:44:55] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:44:55] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:44:55] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:44:55] INFO: Pedido cancelado com sucesso!
+[2025-06-16 19:50:05] INFO: Endereço editado com sucesso!
+[2025-06-16 19:50:07] INFO: Pedido criado com sucesso!
+[2025-06-16 19:50:07] INFO: Pedido criado com sucesso! ID do pedido: 3
+[2025-06-16 19:50:07] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-16 19:50:07] INFO: Status do pedido alterado com sucesso!
+[2025-06-16 19:50:07] INFO: Pedido cancelado com sucesso!
