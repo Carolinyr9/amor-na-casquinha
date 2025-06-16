@@ -9,7 +9,7 @@ use Exception;
 class EstoqueController {
     private $repository;
 
-    public function __construct(EstoqueRepository $repository = null) {
+    public function __construct(?EstoqueRepository $repository = null) {
         $this->repository = $repository ?? new EstoqueRepository();
     }
 
@@ -53,6 +53,7 @@ class EstoqueController {
                     null,
                     0
                 );
+                return $idEstoque;
             } else {
                 Logger::logError("Erro ao criar produto no estoque.");
             }
