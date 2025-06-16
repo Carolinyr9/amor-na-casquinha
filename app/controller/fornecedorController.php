@@ -9,7 +9,7 @@ use Exception;
 class FornecedorController {
     private $repository;
 
-    public function __construct(FornecedorRepository $repository = null) {
+    public function __construct(?FornecedorRepository $repository = null) {
         $this->repository = $repository ?? new FornecedorRepository();
     }
 
@@ -98,7 +98,7 @@ class FornecedorController {
                     throw new Exception("Erro ao editar fornecedor");
                 }
             } else {
-                Logger::logError("Fornecedor não encontrado: " . $e->getMessage());
+                Logger::logError("Fornecedor não encontrado");
             }
         } catch (Exception $e) {
             Logger::logError("Fornecedor não encontrado: " . $e->getMessage());
