@@ -44,7 +44,7 @@ class PedidoController {
             $pedidos = $this->repository->listarPedidoPorId($idPedido);
                 
             if(!$pedidos) {
-                Logger::logError("Pedido com ID {$dados['idPedido']} não encontrado");
+                Logger::logError("Pedido com ID {$idPedido} não encontrado"); 
                 return false;
             }
             

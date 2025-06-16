@@ -240,6 +240,7 @@ class PedidoRepository {
             return $stmt->rowCount() > 0 ? true : false;
         } catch (PDOException $e) {
             Logger::logError("Erro ao mudar o status: " . $e->getMessage());
+            return false;
         }
     }
 
@@ -254,6 +255,7 @@ class PedidoRepository {
             return $stmt->rowCount() > 0 ? true : false;
         } catch (PDOException $e) {
             Logger::logError("Erro ao mudar o status: " . $e->getMessage());
+            return false;
         }
     }
 }
