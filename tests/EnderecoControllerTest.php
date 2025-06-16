@@ -13,25 +13,14 @@ class EnderecoControllerTest extends TestCase {
     private $enderecoRepository; 
 
     protected function setUp(): void {
-        // Cria um stub/mock para EnderecoRepository usando os recursos do PHPUnit
-        // createMock é mais flexível para definir expectativas e retornos
         $this->enderecoRepository = $this->createMock(EnderecoRepository::class);
 
-        // Instancia a controller
         $this->enderecoController = new EnderecoController();
 
-        // Usa Reflection para substituir a instância real de EnderecoRepository
-        // pela nossa instância de stub/mock no objeto da controller.
-        // Isso é necessário porque a controller cria o repositório internamente.
         $reflection = new ReflectionClass(EnderecoController::class);
         $property = $reflection->getProperty('repository');
-        $property->setAccessible(true); // Torna a propriedade privada acessível
+        $property->setAccessible(true);
         $property->setValue($this->enderecoController, $this->enderecoRepository);
-    }
-
-    protected function tearDown(): void {
-        // Nenhuma limpeza específica de mocks é necessária para PHPUnit,
-        // pois eles são recriados em cada setUp().
     }
 
     // --- Testes para criarEndereco ---
@@ -47,12 +36,11 @@ class EnderecoControllerTest extends TestCase {
             'complemento' => 'Apto 1'
         ];
 
-        // Define a expectativa para o método 'criarEndereco' do stub do repositório
         $this->enderecoRepository
-             ->expects($this->once()) // Espera que seja chamado exatamente uma vez
+             ->expects($this->once()) 
              ->method('criarEndereco')
              ->with('Rua Teste', '123', '01000-000', 'Centro', 'São Paulo', 'SP', 'Apto 1')
-             ->willReturn(1); // Retorna 1 (simulando um ID gerado)
+             ->willReturn(1); 
 
         $resultado = $this->enderecoController->criarEndereco($dados);
         $this->assertEquals(1, $resultado);
@@ -61,7 +49,7 @@ class EnderecoControllerTest extends TestCase {
     public function testCriarEnderecoComNumeroInvalidoRetornaNull() {
         $dados = [
             'rua' => 'Rua Teste',
-            'numero' => 'abc', // Número inválido
+            'numero' => 'abc',
             'cep' => '01000-000',
             'bairro' => 'Centro',
             'cidade' => 'São Paulo',
@@ -69,7 +57,6 @@ class EnderecoControllerTest extends TestCase {
             'complemento' => 'Apto 1'
         ];
 
-        // Espera que o método do repositório NÃO seja chamado
         $this->enderecoRepository->expects($this->never())->method('criarEndereco');
 
         $resultado = $this->enderecoController->criarEndereco($dados);
@@ -80,14 +67,13 @@ class EnderecoControllerTest extends TestCase {
         $dados = [
             'rua' => 'Rua Teste',
             'numero' => '123',
-            'cep' => '123', // CEP inválido
+            'cep' => '123',
             'bairro' => 'Centro',
             'cidade' => 'São Paulo',
             'estado' => 'SP',
             'complemento' => 'Apto 1'
         ];
 
-        // Espera que o método do repositório NÃO seja chamado
         $this->enderecoRepository->expects($this->never())->method('criarEndereco');
 
         $resultado = $this->enderecoController->criarEndereco($dados);
@@ -105,7 +91,6 @@ class EnderecoControllerTest extends TestCase {
             'complemento' => 'Apto 1'
         ];
 
-        // Simula a falha do repositório (retorna false)
         $this->enderecoRepository
              ->expects($this->once())
              ->method('criarEndereco')
@@ -126,7 +111,6 @@ class EnderecoControllerTest extends TestCase {
             'complemento' => 'Apto 1'
         ];
 
-        // Simula uma exceção lançada pelo repositório
         $this->enderecoRepository
              ->expects($this->once())
              ->method('criarEndereco')
@@ -170,7 +154,7 @@ class EnderecoControllerTest extends TestCase {
              ->expects($this->once())
              ->method('listarEnderecoPorId')
              ->with($idEndereco)
-             ->willReturn(null); // Repositório retorna null para ID não encontrado
+             ->willReturn(null);
 
         $endereco = $this->enderecoController->listarEnderecoPorId($idEndereco);
         $this->assertNull($endereco);
@@ -209,7 +193,6 @@ class EnderecoControllerTest extends TestCase {
             'complemento' => 'Casa 2'
         ];
 
-        // Stub para listarEnderecoPorId (chamado internamente)
         $this->enderecoRepository
              ->expects($this->once())
              ->method('listarEnderecoPorId')
@@ -219,7 +202,6 @@ class EnderecoControllerTest extends TestCase {
                 'bairro' => 'Antigo', 'cidade' => 'Cidade Antiga', 'estado' => 'SP', 'complemento' => 'Apto'
              ]);
 
-        // Mock para editarEndereco do repositório
         $this->enderecoRepository
              ->expects($this->once())
              ->method('editarEndereco')
@@ -234,7 +216,7 @@ class EnderecoControllerTest extends TestCase {
         $dados = [
             'idEndereco' => 1,
             'rua' => 'Rua Editada',
-            'numero' => 'abc', // Número inválido
+            'numero' => 'abc',
             'cep' => '01000-000',
             'bairro' => 'Novo Bairro',
             'cidade' => 'Nova Cidade',
@@ -254,7 +236,7 @@ class EnderecoControllerTest extends TestCase {
             'idEndereco' => 1,
             'rua' => 'Rua Editada',
             'numero' => '123',
-            'cep' => '123', // CEP inválido
+            'cep' => '123',
             'bairro' => 'Novo Bairro',
             'cidade' => 'Nova Cidade',
             'estado' => 'MG',
@@ -270,7 +252,7 @@ class EnderecoControllerTest extends TestCase {
 
     public function testEditarEnderecoQuandoEnderecoNaoEncontradoRetornaFalse() {
         $dados = [
-            'idEndereco' => 99, // ID não existente
+            'idEndereco' => 99,
             'rua' => 'Rua Editada',
             'numero' => '456',
             'cep' => '01000-000',
@@ -286,7 +268,7 @@ class EnderecoControllerTest extends TestCase {
              ->with(99)
              ->willReturn(false);
 
-        $this->enderecoRepository->expects($this->never())->method('editarEndereco'); // Não deve chamar o editar
+        $this->enderecoRepository->expects($this->never())->method('editarEndereco');
 
         $resultado = $this->enderecoController->editarEndereco($dados);
         $this->assertFalse($resultado);
@@ -333,7 +315,6 @@ class EnderecoControllerTest extends TestCase {
             'complemento' => 'Casa 2'
         ];
 
-        // Simula uma exceção lançada por listarEnderecoPorId (ou editarEndereco, mas o listar vem primeiro no fluxo)
         $this->enderecoRepository
              ->expects($this->once())
              ->method('listarEnderecoPorId')
@@ -378,7 +359,7 @@ class EnderecoControllerTest extends TestCase {
         $this->enderecoRepository
              ->expects($this->once())
              ->method('listarEnderecos')
-             ->willReturn(false); // Repositório retorna false ou array vazio
+             ->willReturn(false);
 
         $enderecos = $this->enderecoController->listarEnderecos();
         $this->assertFalse($enderecos);
