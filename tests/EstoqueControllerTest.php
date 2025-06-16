@@ -5,7 +5,6 @@ use app\controller\EstoqueController;
 use app\model\Estoque;
 use app\repository\EstoqueRepository;
 
-// Incluir o Logger para garantir que a classe exista, embora não a mockemos diretamente
 require_once __DIR__ . '/../app/utils/helpers/Logger.php';
 
 class EstoqueControllerTest extends TestCase {
@@ -14,17 +13,13 @@ class EstoqueControllerTest extends TestCase {
     private $estoqueRepository;
 
     protected function setUp(): void {
-        // Cria um stub/mock para EstoqueRepository
         $this->estoqueRepository = $this->createMock(EstoqueRepository::class);
 
-        // Instancia a controller
         $this->estoqueController = new EstoqueController();
 
-        // Usa Reflection para substituir a instância real de EstoqueRepository
-        // pela nossa instância de stub/mock no objeto da controller.
         $reflection = new ReflectionClass(EstoqueController::class);
         $property = $reflection->getProperty('repository');
-        $property->setAccessible(true); // Torna a propriedade privada acessível
+        $property->setAccessible(true);
         $property->setValue($this->estoqueController, $this->estoqueRepository);
     }
 
@@ -149,7 +144,7 @@ class EstoqueControllerTest extends TestCase {
 
         $this->estoqueRepository->expects($this->once())
             ->method('criarProdutoEstoque')
-            ->willReturn(0); // Simula falha do repositório (retorna 0 ou false)
+            ->willReturn(0);
 
         $resultado = $this->estoqueController->criarProdutoEstoque($dados);
         $this->assertNull($resultado);
@@ -158,20 +153,18 @@ class EstoqueControllerTest extends TestCase {
     // --- Testes para listarEstoque ---
 
     public function testListarEstoqueRetornaApenasProdutosNaoVencidos() {
-        // Criar mocks para objetos Estoque
         $produtoVencido = $this->createMock(Estoque::class);
-        $produtoVencido->method('getDtVencimento')->willReturn('2020-01-01'); // Data no passado
+        $produtoVencido->method('getDtVencimento')->willReturn('2020-01-01');
         $produtoVencido->method('getIdEstoque')->willReturn(1);
 
         $produtoValido = $this->createMock(Estoque::class);
-        $produtoValido->method('getDtVencimento')->willReturn('2025-12-31'); // Data no futuro
+        $produtoValido->method('getDtVencimento')->willReturn('2025-12-31'); 
         $produtoValido->method('getIdEstoque')->willReturn(2);
 
         $this->estoqueRepository->expects($this->once())
             ->method('listarEstoque')
             ->willReturn([$produtoVencido, $produtoValido]);
 
-        // Espera que decrementarProduto seja chamado para o produto vencido
         $this->estoqueRepository->expects($this->once())
             ->method('decrementarProduto')
             ->with(0, 1); // Quantidade 0, ID 1
@@ -179,7 +172,7 @@ class EstoqueControllerTest extends TestCase {
         $estoqueRetorno = $this->estoqueController->listarEstoque();
 
         $this->assertIsArray($estoqueRetorno);
-        $this->assertCount(1, $estoqueRetorno); // Apenas o produto válido deve retornar
+        $this->assertCount(1, $estoqueRetorno); 
         $this->assertSame($produtoValido, $estoqueRetorno[0]);
     }
 
@@ -196,7 +189,6 @@ class EstoqueControllerTest extends TestCase {
             ->method('listarEstoque')
             ->willReturn([$produtoValido1, $produtoValido2]);
 
-        // Nenhum produto vencido, então decrementarProduto NÃO deve ser chamado
         $this->estoqueRepository->expects($this->never())->method('decrementarProduto');
 
         $estoqueRetorno = $this->estoqueController->listarEstoque();
@@ -282,7 +274,6 @@ class EstoqueControllerTest extends TestCase {
             'precoCompra' => 60.00
         ];
 
-        // Mock do produto que será retornado por selecionarProdutoEstoquePorID
         $produtoMock = $this->createMock(Estoque::class);
         $produtoMock->expects($this->once())
                     ->method('editarProdutoEstoque')
@@ -292,13 +283,11 @@ class EstoqueControllerTest extends TestCase {
                         $dados['qtdMinima'], $dados['qtdOcorrencia'], $dados['ocorrencia']
                     );
 
-        // Stub para o método selecionarProdutoEstoquePorID do repositório
         $this->estoqueRepository->expects($this->once())
             ->method('selecionarProdutoEstoquePorID')
             ->with($dados['idEstoque'])
-            ->willReturn($produtoMock); // Retorna o mock do produto
+            ->willReturn($produtoMock); 
 
-        // Expectativa para o método editarProdutoEstoque do repositório
         $this->estoqueRepository->expects($this->once())
             ->method('editarProdutoEstoque')
             ->with(
@@ -334,7 +323,7 @@ class EstoqueControllerTest extends TestCase {
         $this->estoqueRepository->expects($this->never())->method('selecionarProdutoEstoquePorID');
         $this->assertFalse($this->estoqueController->editarProdutoEstoque($dados));
     }
-    // ... (repetir para todos os outros campos ausentes de editarProdutoEstoque)
+
     public function testEditarProdutoEstoqueComLoteAusenteRetornaFalse() {
         $dados = [
             'idEstoque' => 1, 'ocorrencia' => 'ajuste', 'qtdOcorrencia' => 2,
@@ -435,9 +424,9 @@ class EstoqueControllerTest extends TestCase {
         $this->estoqueRepository->expects($this->once())
             ->method('selecionarProdutoEstoquePorID')
             ->with($dados['idEstoque'])
-            ->willReturn(null); // Produto não encontrado
+            ->willReturn(null); 
 
-        $this->estoqueRepository->expects($this->never())->method('editarProdutoEstoque'); // Não deve chamar o editar
+        $this->estoqueRepository->expects($this->never())->method('editarProdutoEstoque');
 
         $resultado = $this->estoqueController->editarProdutoEstoque($dados);
         $this->assertNull($resultado);
@@ -451,13 +440,11 @@ class EstoqueControllerTest extends TestCase {
             'precoCompra' => 60.00
         ];
 
-        // Mock do produto retornado por selecionarProdutoEstoquePorID
         $produtoMock = $this->createMock(Estoque::class);
         $this->estoqueRepository->expects($this->once())
             ->method('selecionarProdutoEstoquePorID')
             ->willReturn($produtoMock);
 
-        // Expectativa para o método editarProdutoEstoque do repositório falhando
         $this->estoqueRepository->expects($this->once())
             ->method('editarProdutoEstoque')
             ->willReturn(false);
@@ -474,7 +461,6 @@ class EstoqueControllerTest extends TestCase {
             'precoCompra' => 60.00
         ];
 
-        // Simula uma exceção sendo lançada na busca do produto
         $this->estoqueRepository->expects($this->once())
             ->method('selecionarProdutoEstoquePorID')
             ->willThrowException(new Exception("Erro de rede"));
@@ -488,15 +474,13 @@ class EstoqueControllerTest extends TestCase {
     public function testDesativarProdutoEstoqueComIdValidoRetornaTrue() {
         $idEstoque = 1;
         $produtoMock = $this->createMock(Estoque::class);
-        $produtoMock->expects($this->once())->method('setDesativado')->with(1); // Espera que o status seja atualizado
+        $produtoMock->expects($this->once())->method('setDesativado')->with(1); 
 
-        // Stub para selecionarProdutoEstoquePorID
         $this->estoqueRepository->expects($this->once())
             ->method('selecionarProdutoEstoquePorID')
             ->with($idEstoque)
             ->willReturn($produtoMock);
 
-        // Mock para desativarProdutoEstoque do repositório
         $this->estoqueRepository->expects($this->once())
             ->method('desativarProdutoEstoque')
             ->with($idEstoque)
@@ -569,8 +553,8 @@ class EstoqueControllerTest extends TestCase {
     public function testDecrementarQuantidadeComDadosValidosRetornaTrue() {
         $dados = ['idProduto' => 1, 'quantidade' => 5];
         $produtoMock = $this->createMock(Estoque::class);
-        $produtoMock->method('getQuantidade')->willReturn(10); // Quantidade inicial
-        $produtoMock->method('getDtVencimento')->willReturn('2025-12-31'); // Não vencido
+        $produtoMock->method('getQuantidade')->willReturn(10); 
+        $produtoMock->method('getDtVencimento')->willReturn('2025-12-31'); 
         $produtoMock->method('getIdEstoque')->willReturn(1);
 
         $this->estoqueRepository->expects($this->once())
@@ -580,7 +564,7 @@ class EstoqueControllerTest extends TestCase {
 
         $this->estoqueRepository->expects($this->once())
             ->method('decrementarProduto')
-            ->with(5, $dados['idProduto']) // Espera (10 - 5) = 5
+            ->with(5, $dados['idProduto'])
             ->willReturn(true);
 
         $resultado = $this->estoqueController->decrementarQuantidade($dados);
@@ -616,7 +600,7 @@ class EstoqueControllerTest extends TestCase {
         $dados = ['idProduto' => 1, 'quantidade' => 5];
         $produtoMock = $this->createMock(Estoque::class);
         $produtoMock->method('getQuantidade')->willReturn(10);
-        $produtoMock->method('getDtVencimento')->willReturn('2020-01-01'); // Vencido
+        $produtoMock->method('getDtVencimento')->willReturn('2020-01-01'); 
         $produtoMock->method('getIdEstoque')->willReturn(1);
 
         $this->estoqueRepository->expects($this->once())
@@ -624,20 +608,19 @@ class EstoqueControllerTest extends TestCase {
             ->with($dados['idProduto'])
             ->willReturn($produtoMock);
 
-        // Espera que o decremento seja para 0 (remover do estoque por vencimento)
         $this->estoqueRepository->expects($this->once())
             ->method('decrementarProduto')
             ->with(0, $dados['idProduto'])
-            ->willReturn(true); // O retorno do repositório ainda pode ser true se a operação for concluída
+            ->willReturn(true);
 
         $resultado = $this->estoqueController->decrementarQuantidade($dados);
-        $this->assertFalse($resultado); // Controller retorna false porque produto está vencido
+        $this->assertFalse($resultado);
     }
 
     public function testDecrementarQuantidadeInsuficienteRetornaFalse() {
-        $dados = ['idProduto' => 1, 'quantidade' => 15]; // Tenta decrementar 15 de 10
+        $dados = ['idProduto' => 1, 'quantidade' => 15]; 
         $produtoMock = $this->createMock(Estoque::class);
-        $produtoMock->method('getQuantidade')->willReturn(10); // Quantidade inicial
+        $produtoMock->method('getQuantidade')->willReturn(10); 
         $produtoMock->method('getDtVencimento')->willReturn('2025-12-31');
 
         $this->estoqueRepository->expects($this->once())
@@ -645,7 +628,7 @@ class EstoqueControllerTest extends TestCase {
             ->with($dados['idProduto'])
             ->willReturn($produtoMock);
 
-        $this->estoqueRepository->expects($this->never())->method('decrementarProduto'); // Não deve decrementar
+        $this->estoqueRepository->expects($this->never())->method('decrementarProduto'); 
 
         $resultado = $this->estoqueController->decrementarQuantidade($dados);
         $this->assertFalse($resultado);
@@ -663,8 +646,8 @@ class EstoqueControllerTest extends TestCase {
 
         $this->estoqueRepository->expects($this->once())
             ->method('decrementarProduto')
-            ->willReturn(false); // Repositório falha
-
+            ->willReturn(false); 
+                        
         $resultado = $this->estoqueController->decrementarQuantidade($dados);
         $this->assertFalse($resultado);
     }
