@@ -18,6 +18,7 @@ class EnderecoController {
         try {
             if (!is_numeric($dados['numero'])) {
                 Logger::logError("Número inválido! Insira um número válido.");
+                return;
             }
 
             if (!preg_match("/^\d{5}-?\d{3}$/", $dados['cep'])) {
@@ -47,6 +48,7 @@ class EnderecoController {
 
         } catch (Exception $e) {
             Logger::logError("Erro ao criar endereço: " . $e->getMessage());
+            return false;
         }
     }
 
@@ -54,6 +56,7 @@ class EnderecoController {
         try {
             if(!isset($idEndereco) || empty($idEndereco)){
                 Logger::logError("ID do endereço não fornecido!");
+                return;
             }
             $dados = $this->repository->listarEnderecoPorId($idEndereco);
 
@@ -71,6 +74,7 @@ class EnderecoController {
             }
         } catch (Exception $e) {
             Logger::logError("Erro ao listar endereço ID: " . $e->getMessage());
+            return false;
         }
     }    
 
@@ -78,11 +82,12 @@ class EnderecoController {
         try {
             if (!is_numeric($dados['numero'])) {
                 Logger::logError("Número inválido! Insira um número válido.");
+                return false;
             }
 
             if (!preg_match("/^\d{5}-?\d{3}$/", $dados['cep'])) {
                 Logger::logError("CEP inválido. Use o formato 99999-999");
-                return;
+                return false;
             }
 
             $endereco = $this->listarEnderecoPorId($dados['idEndereco']);
@@ -92,12 +97,14 @@ class EnderecoController {
 
                 $resultado = $this->repository->editarEndereco($dados['rua'], $dados['numero'], $dados['complemento'], $dados['cep'], $dados['bairro'], $dados['estado'], $dados['cidade'], $dados['idEndereco']);
 
-                return $answer ? Logger::logInfo("Endereço editado com sucesso!") : Logger::logError("Erro ao editar endereço!");
+                return $resultado ? Logger::logInfo("Endereço editado com sucesso!") : Logger::logError("Erro ao editar endereço!");
             } else {
                 Logger::logError("Endereço não encontrado para edição");
+                return false;
             }
         } catch (Exception $e) {
             Logger::logError("Erro ao editar endereço: " . $e->getMessage());
+            return false;
         }
     }
 
