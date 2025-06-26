@@ -43,12 +43,12 @@
                         </div>
                         <div>
                             <div class="mb-3">
-                                <label for="valorFrete" class="form-label">Valor do Frete:</label>
-                                <input type="text" id="valorFrete" name="valorFrete" class="form-control mx-auto" placeholder="Ex.: 15.00">
-                            </div>
-                            <div class="mb-3">
                                 <input name="ckbIsDelivery" id="ckbIsDelivery" type="checkbox" class="form-check-input mx-auto">
                                 <label for="ckbIsDelivery" class="form-check-label">O pedido é para entrega!</label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="valorFrete" class="form-label">Valor do Frete:</label>
+                                <input type="text" id="valorFrete" name="valorFrete" class="form-control mx-auto" placeholder="Ex.: 15.00" disabled>
                             </div>
                             <label for="meioPagamento" class="form-label">Meio de Pagamento:</label>
                             <div>
@@ -80,6 +80,7 @@
 
     <?php include_once 'components/footer.php'; ?>
     <script src="script/atualizarQtddPedidos.js"></script>
+    <script src="script/habilitarInputFrete.js"></script>
 
 </body>
 </html>
