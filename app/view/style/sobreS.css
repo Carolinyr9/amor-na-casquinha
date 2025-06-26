@@ -1,0 +1,19 @@
+.container-section {
+    width: 50%;
+    background-color: var(--quaternary);
+}
+
+.conteiner-pedidos {
+    background-color: var(--quaternary);
+}
+
+form {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .container-section {
+        width: 90%;
+    }
+
+}

@@ -63,8 +63,9 @@ if (isset($_GET['idEstoque']) && !empty($_GET['idEstoque'])) {
                     <label for="quantidade_">Quantidade</label>
                     <input type="number" class="form-control" id="quantidade_<?= $produtoEstoque->getIdEstoque() ?>"
                         name="produtos[<?= $produtoEstoque->getIdEstoque() ?>][quantidade]"
-                        value="<?= $produtoEstoque->getQuantidade() ?>" required>
+                        value="<?= $produtoEstoque->getQuantidade() ?>" required min="1">
                 </div>
+
                 <div class="form-group w-25">
                     <label for="dtEntrada_">Entrada</label>
                     <input type="date" class="form-control" id="dtEntrada_<?= $produtoEstoque->getIdEstoque() ?>"
