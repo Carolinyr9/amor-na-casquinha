@@ -5,12 +5,27 @@ use app\controller\ItemPedidoController;
 use app\controller\ProdutoController;
 use app\utils\helpers\Logger;
 
+require_once '../utils/helpers/logger.php';
+
 $itemPedidoController = new ItemPedidoController();
 $produtoController = new ProdutoController();
 $pedidoController = new PedidoController();
 
 if (isset($_POST['addPedido'])) {
+
     $produtosArray = $_POST["produtosSelecionados"] ?? [];
+
+    if($produtosArray == null || $produtosArray == []){
+        if ($produtosArray == null || $produtosArray == []) {
+        Logger::logError("Nenhum produto selecionado para o pedido.");
+        echo "<script>
+            alert('Nenhum produto selecionado para o pedido.');
+            window.history.back(); // Volta para a página anterior
+        </script>";
+        exit();
+        }
+    }
+    
     $quantidadesArray = $_POST['quantidades']  ?? [];
 
     $valorTotal = 0.0;
@@ -23,8 +38,8 @@ if (isset($_POST['addPedido'])) {
         }
     }
 
-    $valorTotal += $_POST["valorFrete"] ?? 0;
-
+    $valorFrete = isset($_POST["valorFrete"]) ? floatval(str_replace(',', '.', $_POST["valorFrete"])) : 0.0;
+    $valorTotal += $valorFrete;
 
     $dadosPedido = [
         'idCliente' => $_POST["idCliente"] ?? 0,
