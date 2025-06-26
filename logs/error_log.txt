@@ -3902,3 +3902,435 @@ Failed asserting that 'falha@example.com' matches expected null.
 [2025-06-16 19:50:07] ERROR: Dados inválidos para edição do produto.
 [2025-06-16 19:50:07] ERROR: Erro ao buscar desativar produto por ID: ID não fornecido!
 [2025-06-16 19:50:07] ERROR: Erro ao buscar ativar produto por ID: ID não fornecido!
+[2025-06-16 22:12:52] ERROR: Erro ao adicionar produto ao carrinho: produto inválido ou não existente 
+[2025-06-16 22:12:53] ERROR: Erro ao adicionar produto ao carrinho: produto inválido ou não existente 
+[2025-06-16 22:12:55] ERROR: Erro ao listar categorias: Erro de conexão com o banco de dados
+[2025-06-16 22:12:55] ERROR: Erro ao listar categorias: Erro de conexão com o banco de dados
+[2025-06-16 22:12:56] ERROR: Erro ao buscar categoria por ID: ID não fornecido!
+[2025-06-16 22:12:56] ERROR: Erro ao buscar categoria por ID: ID não fornecido!
+[2025-06-16 22:12:56] ERROR: Erro ao buscar categoria por ID: Erro de banco de dados
+[2025-06-16 22:12:56] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:12:56] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:12:56] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:12:56] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:12:56] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:12:56] ERROR: Erro ao criar categoria
+[2025-06-16 22:12:56] ERROR: Erro ao criar categoria: Erro ao inserir no banco
+[2025-06-16 22:12:56] ERROR: Dados inválidos para edição da categoria.
+[2025-06-16 22:12:56] ERROR: Dados inválidos para edição da categoria.
+[2025-06-16 22:12:56] ERROR: Dados inválidos para edição da categoria.
+[2025-06-16 22:12:56] ERROR: Dados inválidos para edição da categoria.
+[2025-06-16 22:12:56] ERROR: Categoria não encontrada
+[2025-06-16 22:12:56] ERROR: Erro ao editar categoria
+[2025-06-16 22:12:56] ERROR: Erro ao editar categoria: Erro de banco de dados
+[2025-06-16 22:12:56] ERROR: Erro ao buscar remover categoria: ID não fornecido!
+[2025-06-16 22:12:56] ERROR: Erro ao buscar remover categoria: ID não fornecido!
+[2025-06-16 22:12:56] ERROR: Categoria não encontrada
+[2025-06-16 22:12:56] ERROR: Erro ao desativar categoria
+[2025-06-16 22:12:56] ERROR: Erro ao remover categoria: Erro de banco de dados na busca
+[2025-06-16 22:12:56] ERROR: Erro ao buscar ativar categoria: ID não fornecido!
+[2025-06-16 22:12:56] ERROR: Erro ao buscar ativar categoria: ID não fornecido!
+[2025-06-16 22:12:56] ERROR: Erro ao ativar categoria: Erro de banco de dados na ativação
+[2025-06-16 22:12:56] ERROR: Erro ao ativar categoria: Erro de banco de dados na busca pós-ativação
+[2025-06-16 22:12:56] ERROR: Dados inválidos para criação do cliente.
+[2025-06-16 22:12:56] ERROR: Dados inválidos para criação do cliente.
+[2025-06-16 22:12:56] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-16 22:12:56] ERROR: Erro ao criar cliente: Erro de banco de dados
+[2025-06-16 22:12:56] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-16 22:12:56] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-16 22:12:56] ERROR: Erro ao listar clientes: Erro de conexão
+[2025-06-16 22:12:56] ERROR: Dados inválidos para edição do cliente.
+[2025-06-16 22:12:56] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-16 22:12:56] ERROR: Cliente não encontrado para edição.
+[2025-06-16 22:12:56] ERROR: Erro ao editar cliente no repositório.
+[2025-06-16 22:12:56] ERROR: Erro ao listar clientes: Erro inesperado
+[2025-06-16 22:12:56] ERROR: Cliente não encontrado para edição.
+[2025-06-16 22:12:56] ERROR: Dados inválidos para edição da senha.
+[2025-06-16 22:12:56] ERROR: Erro ao editar senha: Senha atual incorreta ou falha na atualização.
+[2025-06-16 22:12:56] ERROR: Erro ao editar senha: Erro de banco
+[2025-06-16 22:12:56] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-16 22:12:56] ERROR: Cliente não encontrado
+[2025-06-16 22:12:56] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-16 22:12:56] ERROR: Erro ao desativar cliente
+[2025-06-16 22:12:56] ERROR: Erro ao listar clientes: Erro de rede
+[2025-06-16 22:12:56] ERROR: Cliente não encontrado
+[2025-06-16 22:12:56] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-16 22:12:56] ERROR: Erro ao listar clientes: Erro de servidor
+[2025-06-16 22:14:23] ERROR: Erro ao adicionar produto ao carrinho: produto inválido ou não existente 
+[2025-06-16 22:14:23] ERROR: Erro ao adicionar produto ao carrinho: produto inválido ou não existente 
+[2025-06-16 22:14:23] ERROR: Erro ao listar categorias: Erro de conexão com o banco de dados
+[2025-06-16 22:14:23] ERROR: Erro ao listar categorias: Erro de conexão com o banco de dados
+[2025-06-16 22:14:23] ERROR: Erro ao buscar categoria por ID: ID não fornecido!
+[2025-06-16 22:14:23] ERROR: Erro ao buscar categoria por ID: ID não fornecido!
+[2025-06-16 22:14:23] ERROR: Erro ao buscar categoria por ID: Erro de banco de dados
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação da categoria.
+[2025-06-16 22:14:23] ERROR: Erro ao criar categoria
+[2025-06-16 22:14:23] ERROR: Erro ao criar categoria: Erro ao inserir no banco
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição da categoria.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição da categoria.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição da categoria.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição da categoria.
+[2025-06-16 22:14:23] ERROR: Categoria não encontrada
+[2025-06-16 22:14:23] ERROR: Erro ao editar categoria
+[2025-06-16 22:14:23] ERROR: Erro ao editar categoria: Erro de banco de dados
+[2025-06-16 22:14:23] ERROR: Erro ao buscar remover categoria: ID não fornecido!
+[2025-06-16 22:14:23] ERROR: Erro ao buscar remover categoria: ID não fornecido!
+[2025-06-16 22:14:23] ERROR: Categoria não encontrada
+[2025-06-16 22:14:23] ERROR: Erro ao desativar categoria
+[2025-06-16 22:14:23] ERROR: Erro ao remover categoria: Erro de banco de dados na busca
+[2025-06-16 22:14:23] ERROR: Erro ao buscar ativar categoria: ID não fornecido!
+[2025-06-16 22:14:23] ERROR: Erro ao buscar ativar categoria: ID não fornecido!
+[2025-06-16 22:14:23] ERROR: Erro ao ativar categoria: Erro de banco de dados na ativação
+[2025-06-16 22:14:23] ERROR: Erro ao ativar categoria: Erro de banco de dados na busca pós-ativação
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do cliente.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do cliente.
+[2025-06-16 22:14:23] ERROR: Erro ao criar cliente: Não foi possível inserir no banco.
+[2025-06-16 22:14:23] ERROR: Erro ao criar cliente: Erro de banco de dados
+[2025-06-16 22:14:23] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-16 22:14:23] ERROR: Erro ao listar clientes: Email não fornecido!
+[2025-06-16 22:14:23] ERROR: Erro ao listar clientes: Erro de conexão
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do cliente.
+[2025-06-16 22:14:23] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-16 22:14:23] ERROR: Cliente não encontrado para edição.
+[2025-06-16 22:14:23] ERROR: Erro ao editar cliente no repositório.
+[2025-06-16 22:14:23] ERROR: Erro ao listar clientes: Erro inesperado
+[2025-06-16 22:14:23] ERROR: Cliente não encontrado para edição.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição da senha.
+[2025-06-16 22:14:23] ERROR: Erro ao editar senha: Senha atual incorreta ou falha na atualização.
+[2025-06-16 22:14:23] ERROR: Erro ao editar senha: Erro de banco
+[2025-06-16 22:14:23] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-16 22:14:23] ERROR: Cliente não encontrado
+[2025-06-16 22:14:23] ERROR: Erro ao buscar desativar cliente: e-mail não fornecido!
+[2025-06-16 22:14:23] ERROR: Erro ao desativar cliente
+[2025-06-16 22:14:23] ERROR: Erro ao listar clientes: Erro de rede
+[2025-06-16 22:14:23] ERROR: Cliente não encontrado
+[2025-06-16 22:14:23] ERROR: Erro ao listar clientes: Nenhum cliente encontrado.
+[2025-06-16 22:14:23] ERROR: Erro ao listar clientes: Erro de servidor
+[2025-06-16 22:14:23] ERROR: Número inválido! Insira um número válido.
+[2025-06-16 22:14:23] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-16 22:14:23] ERROR: Erro ao criar endereço
+[2025-06-16 22:14:23] ERROR: Erro ao criar endereço: Erro de banco de dados
+[2025-06-16 22:14:23] ERROR: ID do endereço não fornecido!
+[2025-06-16 22:14:23] ERROR: ID do endereço não fornecido!
+[2025-06-16 22:14:23] ERROR: Erro ao listar endereço ID: Erro de conexão
+[2025-06-16 22:14:23] ERROR: Número inválido! Insira um número válido.
+[2025-06-16 22:14:23] ERROR: CEP inválido. Use o formato 99999-999
+[2025-06-16 22:14:23] ERROR: Endereço não encontrado para edição
+[2025-06-16 22:14:23] ERROR: Erro ao editar endereço!
+[2025-06-16 22:14:23] ERROR: Erro ao listar endereço ID: Erro inesperado
+[2025-06-16 22:14:23] ERROR: Endereço não encontrado para edição
+[2025-06-16 22:14:23] ERROR: Erro ao listar endereços: Nenhum endereço encontrado.
+[2025-06-16 22:14:23] ERROR: Erro ao listar endereços: Falha de conexão
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do entregador.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do entregador.
+[2025-06-16 22:14:23] ERROR: Erro ao criar entregador
+[2025-06-16 22:14:23] ERROR: Erro ao criar entregador: Erro de conexão com BD
+[2025-06-16 22:14:23] ERROR: Erro ao listar entregadores: Nenhum entregador encontrado.
+[2025-06-16 22:14:23] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-16 22:14:23] ERROR: Erro ao listar entregador: Entregador não encontrado.
+[2025-06-16 22:14:23] ERROR: Erro ao listar entregador: Email inválido.
+[2025-06-16 22:14:23] ERROR: Erro ao listar entregador: Entregador não encontrado.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do entregador.
+[2025-06-16 22:14:23] ERROR: Entregador não encontrado para edição.
+[2025-06-16 22:14:23] ERROR: Erro ao editar entregador no repositório.
+[2025-06-16 22:14:23] ERROR: Erro ao editar entregador: Erro inesperado
+[2025-06-16 22:14:23] ERROR: Erro ao desativar entregador: E-mail inválido.
+[2025-06-16 22:14:23] ERROR: Erro ao listar entregador: Entregador não encontrado.
+[2025-06-16 22:14:23] ERROR: Entregador não encontrado para desativação.
+[2025-06-16 22:14:23] ERROR: Erro ao desativar entregador no repositório.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para criação do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Erro ao criar produto no estoque.
+[2025-06-16 22:14:23] ERROR: Produto com data de vencimento ultrapassada: 1
+[2025-06-16 22:14:23] ERROR: Erro ao selecionar produto do estoque: ID inválido.
+[2025-06-16 22:14:23] ERROR: Erro ao selecionar produto do estoque: ID inválido.
+[2025-06-16 22:14:23] ERROR: Erro ao selecionar produto do estoque: ID inválido.
+[2025-06-16 22:14:23] ERROR: Erro ao buscar produto por ID: Erro de rede
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Dados inválidos para edição do produto no estoque.
+[2025-06-16 22:14:23] ERROR: Produto não encontrado no estoque.
+[2025-06-16 22:14:23] ERROR: Erro ao editar produto.
+[2025-06-16 22:14:23] ERROR: Erro ao editar produto: Erro de rede
+[2025-06-16 22:14:24] ERROR: Erro ao desativar produto do estoque: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao desativar produto do estoque: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao desativar produto do estoque: ID inválido.
+[2025-06-16 22:14:24] ERROR: Produto não encontrado.
+[2025-06-16 22:14:24] ERROR: Erro ao desativar produto.
+[2025-06-16 22:14:24] ERROR: Erro ao remover produto: Erro de segurança
+[2025-06-16 22:14:24] ERROR: Dados inválidos para decrementação do produto no estoque.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para decrementação do produto no estoque.
+[2025-06-16 22:14:24] ERROR: Produto não encontrado.
+[2025-06-16 22:14:24] ERROR: Produto com data de vencimento ultrapassada: 1
+[2025-06-16 22:14:24] ERROR: Quantidade insuficiente em estoque.
+[2025-06-16 22:14:24] ERROR: Erro ao decrementar produto.
+[2025-06-16 22:14:24] ERROR: Erro ao decrementar produto: Erro de comunicação
+[2025-06-16 22:14:24] ERROR: Erro ao verificar quantidade mínima: Erro ao verificar estoque mínimo
+[2025-06-16 22:14:24] ERROR: Erro ao listar fornecedores: Erro de conexão com o banco de dados
+[2025-06-16 22:14:24] ERROR: Erro ao listar fornecedor: Email inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao buscar fornecedor por ID: Erro de banco de dados
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação do fornecedor.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação do fornecedor.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação do fornecedor.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação do fornecedor.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação do fornecedor.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação do fornecedor.
+[2025-06-16 22:14:24] ERROR: Erro ao criar fornecedor
+[2025-06-16 22:14:24] ERROR: Erro ao criar fornecedor: Erro ao inserir no banco
+[2025-06-16 22:14:24] ERROR: Dados inválidos para edição do fornecedor.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para edição do fornecedor.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para edição do fornecedor.
+[2025-06-16 22:14:24] ERROR: Fornecedor não encontrado
+[2025-06-16 22:14:24] ERROR: Fornecedor não encontrado: Erro ao editar fornecedor
+[2025-06-16 22:14:24] ERROR: Fornecedor não encontrado: Erro de banco de dados na busca
+[2025-06-16 22:14:24] ERROR: Fornecedor não encontrado: Erro de banco de dados na edição
+[2025-06-16 22:14:24] ERROR: Erro ao desativar entregador: Email inválido.
+[2025-06-16 22:14:24] ERROR: Fornecedor não encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao desativar fornecedor
+[2025-06-16 22:14:24] ERROR: Erro ao desativar fornecedor: Erro de banco de dados na busca
+[2025-06-16 22:14:24] ERROR: Erro ao desativar fornecedor: Erro de banco de dados na desativação
+[2025-06-16 22:14:24] ERROR: Erro ao listar funcionarios: Erro no banco de dados
+[2025-06-16 22:14:24] ERROR: Erro ao listar funcionário: Email inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao buscar funcionario por email: Erro de conexão
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação do funcionário.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação do funcionário.
+[2025-06-16 22:14:24] ERROR: Erro ao criar funcionario
+[2025-06-16 22:14:24] ERROR: Erro ao criar funcionario: Erro de gravação
+[2025-06-16 22:14:24] ERROR: Dados inválidos para edição do funcionário.
+[2025-06-16 22:14:24] ERROR: Funcionario nao encontrado para edicao
+[2025-06-16 22:14:24] ERROR: Erro ao editar funcionario
+[2025-06-16 22:14:24] ERROR: Erro ao editar funcionario: Erro de rede
+[2025-06-16 22:14:24] ERROR: Erro ao desativar entregador: Email inválido.
+[2025-06-16 22:14:24] ERROR: Funcionario nao encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao desativar funcionario
+[2025-06-16 22:14:24] ERROR: Erro ao desativar funcionario: Erro de segurança
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação de itens do pedido.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação de itens do pedido.
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação de itens do pedido.
+[2025-06-16 22:14:24] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-16 22:14:24] ERROR: Erro ao associar itens ao pedido: Erro de banco de dados
+[2025-06-16 22:14:24] ERROR: Erro ao listar itens do pedido: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar itens do pedido: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar itens do pedido: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 99 encontrado!
+[2025-06-16 22:14:24] ERROR: Erro ao listar informações do pedido: Erro de conexão com o DB
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID cliente: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID cliente: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID cliente: ID inválido.
+[2025-06-16 22:14:24] ERROR: Pedido com ID 999 não encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID do cliente: Erro de conexão com o banco de dados
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID pedido: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID pedido: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID pedido: ID inválido.
+[2025-06-16 22:14:24] ERROR: Pedido com ID 999 não encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID: Erro de banco de dados
+[2025-06-16 22:14:24] ERROR: Erro ao criar pedido: Campo obrigatório 'idCliente' não fornecido!
+[2025-06-16 22:14:24] ERROR: Erro ao criar pedido: Campo obrigatório 'valorTotal' não fornecido!
+[2025-06-16 22:14:24] ERROR: Erro ao criar pedido: Falha ao persistir pedido.
+[2025-06-16 22:14:24] ERROR: Erro ao criar pedido: Erro ao inserir pedido no banco
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedidos: Nenhum pedido encontrado!
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedidos: Erro de banco de dados na listagem
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID entregador: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID entregador: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID entregador: ID inválido.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID do entregador: Nenhum pedido encontrado!
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID do entregador: Erro de banco de dados ao listar por entregador
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedidos por periodo: dados inválidos.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedidos por periodo: dados inválidos.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedidos por periodo: dados inválidos.
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por periodo: Nenhum pedido encontrado!
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por periodo: Erro de banco de dados ao listar por período
+[2025-06-16 22:14:24] ERROR: Erro ao atribuir entregador: dados inválidos.
+[2025-06-16 22:14:24] ERROR: Erro ao atribuir entregador: dados inválidos.
+[2025-06-16 22:14:24] ERROR: Pedido com ID 999 não encontrado
+[2025-06-16 22:14:24] ERROR: Pedido com ID 999 não encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao atribuir entregador ao pedido: Nenhum pedido encontrado!
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID: Erro de banco de dados na busca do pedido
+[2025-06-16 22:14:24] ERROR: Pedido com ID 1 não encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao mudar status do pedido: dados inválidos.
+[2025-06-16 22:14:24] ERROR: Erro ao mudar status do pedido: dados inválidos.
+[2025-06-16 22:14:24] ERROR: Pedido com ID 999 não encontrado
+[2025-06-16 22:14:24] ERROR: Pedido não encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao mudar status do pedido: Nenhum pedido encontrado!
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID: Erro de banco de dados na busca do pedido
+[2025-06-16 22:14:24] ERROR: Pedido não encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao cancelar pedido: dados inválidos.
+[2025-06-16 22:14:24] ERROR: Erro ao cancelar pedido: dados inválidos.
+[2025-06-16 22:14:24] ERROR: Pedido com ID 999 não encontrado
+[2025-06-16 22:14:24] ERROR: Pedido não encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao cancelar pedido: Nenhum pedido encontrado!
+[2025-06-16 22:14:24] ERROR: Erro ao listar pedido por ID: Erro de banco de dados no cancelamento
+[2025-06-16 22:14:24] ERROR: Pedido não encontrado
+[2025-06-16 22:14:24] ERROR: Erro ao buscar produto por ID categoria: ID não fornecido!
+[2025-06-16 22:14:24] ERROR: Dados inválidos para criação do produto.
+[2025-06-16 22:14:24] ERROR: Erro ao buscar produto por ID: ID não fornecido!
+[2025-06-16 22:14:24] ERROR: Dados inválidos para edição do produto.
+[2025-06-16 22:14:24] ERROR: Erro ao buscar desativar produto por ID: ID não fornecido!
+[2025-06-16 22:14:24] ERROR: Erro ao buscar ativar produto por ID: ID não fornecido!
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-17 00:15:33] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-17 00:15:51] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-17 00:15:58] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-17 00:16:27] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-17 00:16:36] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-25 03:16:27] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-25 03:16:27] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-25 03:17:25] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-25 03:17:25] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-25 03:18:23] ERROR: Erro ao criar pedido: Campo obrigatório 'valorTotal' não fornecido!
+[2025-06-25 03:18:56] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 198 encontrado!
+[2025-06-25 03:20:49] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-25 03:22:07] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-25 03:24:24] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 205 encontrado!
+[2025-06-25 03:24:24] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-25 03:24:30] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 198 encontrado!
+[2025-06-25 03:25:16] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-25 03:34:07] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 198 encontrado!
+[2025-06-25 03:34:58] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 192 encontrado!
+[2025-06-25 03:35:08] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 195 encontrado!
+[2025-06-25 03:35:12] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 192 encontrado!
+[2025-06-25 03:35:16] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 192 encontrado!
+[2025-06-25 03:35:18] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 192 encontrado!
+[2025-06-25 03:36:37] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 195 encontrado!
+[2025-06-25 03:37:29] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 198 encontrado!
+[2025-06-25 03:37:31] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 198 encontrado!
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 2
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 3
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 4
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 5
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 7
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 8
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 10
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 11
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 12
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 13
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 15
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 16
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 17
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 18
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 19
+[2025-06-25 03:37:56] ERROR: Produto com data de vencimento ultrapassada: 20
+[2025-06-25 03:40:05] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-25 03:40:47] ERROR: Produto com data de vencimento ultrapassada: 9
+[2025-06-26 01:38:56] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:38:56] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:40:53] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:40:53] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:41:01] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:41:01] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:48:53] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:48:53] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:49:31] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:49:31] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:52:49] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:52:49] ERROR: Pedido com ID 4 não encontrado
+[2025-06-26 01:54:42] ERROR: Erro ao editar senha: Senha atual incorreta ou falha na atualização.
+[2025-06-26 01:56:39] ERROR: Erro ao editar senha: Senha atual incorreta ou falha na atualização.
+[2025-06-26 02:04:12] ERROR: Erro ao editar produto.
+[2025-06-26 02:04:29] ERROR: Erro ao editar produto.
+[2025-06-26 02:10:12] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 205 encontrado!
+[2025-06-26 02:10:12] ERROR: Erro ao obter itens do pedido.
+[2025-06-26 02:31:48] ERROR: Erro ao criar pedido: Campo obrigatório 'valorTotal' não fornecido!
+[2025-06-26 02:34:52] ERROR: Nenhum produto selecionado para o pedido.
+[2025-06-26 02:34:57] ERROR: Nenhum produto selecionado para o pedido.
+[2025-06-26 02:41:32] ERROR: Nenhum produto selecionado para o pedido.
+[2025-06-26 02:47:21] ERROR: Nenhum produto selecionado para o pedido.
+[2025-06-26 02:47:40] ERROR: Falha do repositório ao criar item do pedido.
