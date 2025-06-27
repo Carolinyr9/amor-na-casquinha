@@ -28,24 +28,24 @@ $entregadores = $entregadorController->listarEntregadores();
     <?php include_once 'components/header.php'; ?>
 
     <main>
-        <h1 class="m-auto text-center pt-4 pb-4">Atribuir Entregador</h1>
+        <h1 class="titulo">Atribuir Entregador</h1>
         <div class="container d-flex flex-column justify-content-center align-items-center">
 
-            <div class="box-entregador d-flex flex-column justify-content-center align-items-center gap-4 py-4 w-50 rounded-4">
+            <div class="container-entregador d-flex flex-row flex-wrap justify-content-center align-items-center gap-4 py-4 rounded-4">
 
                 <?php if (!empty($entregadores)): ?>
                     <?php foreach ($entregadores as $entregador): 
                         $link = 'atribuirEntregador.php?idEntregador=' . $entregador->getId() . '&idPedido=' . $idPedido;
                     ?>
-                        <div class="border-0 box-card w-75 d-flex justify-content-center align-items-center">
+                        <div class="cards-pessoa d-flex justify-content-center align-items-center p-4 rounded-4">
                             <div class="d-flex align-items-center flex-column">
-                                <h3 class="titulo px-3"><?= htmlspecialchars($entregador->getNome()) ?></h3>
+                                <h3 class="subtitulo"><?= htmlspecialchars($entregador->getNome()) ?></h3>
                                 <div class="px-3">
                                     <p>Email: <?= htmlspecialchars($entregador->getEmail()) ?></p>
                                     <p>Celular: <?= htmlspecialchars($entregador->getTelefone()) ?></p>
                                     <p>CNH: <?= htmlspecialchars($entregador->getCnh()) ?></p>
                                 </div>
-                                <a href="<?= htmlspecialchars($link) ?>" class="btn-addEntregador px-3 text-decoration-none text-dark">
+                                <a href="<?= htmlspecialchars($link) ?>" class="botao botao-primary">
                                     Atribuir entregador
                                 </a>
                             </div>
@@ -57,7 +57,7 @@ $entregadores = $entregadorController->listarEntregadores();
 
             </div>
 
-            <a href="pedidos.php" class="voltar mt-3 fs-5 fw-bold rounded-4 border-0 text-dark text-decoration-none">
+            <a href="pedidos.php" class="botao botao-secondary mt-3">
                 Voltar
             </a>
 
@@ -67,4 +67,3 @@ $entregadores = $entregadorController->listarEntregadores();
     <?php include_once 'components/footer.php'; ?>
 </body>
 </html>
-``
