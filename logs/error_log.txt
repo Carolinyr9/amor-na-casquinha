@@ -4359,3 +4359,6 @@ Failed asserting that 'falha@example.com' matches expected null.
 [2025-06-27 04:10:15] ERROR: Erro ao carregar endereço: Endereço não encontrado
 [2025-06-27 04:10:21] ERROR: ID do endereço não fornecido!
 [2025-06-27 04:10:21] ERROR: Erro ao carregar endereço: Endereço não encontrado
+[2025-06-27 04:33:33] ERROR: Erro ao listar clientes: Cliente não encontrado ou formato inválido.
+[2025-06-27 04:35:04] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 201 encontrado!
+[2025-06-27 04:35:09] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 192 encontrado!

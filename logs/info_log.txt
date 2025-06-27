@@ -134,3 +134,6 @@
 [2025-06-27 04:09:28] INFO: Entregador atribuído ao pedido com sucesso!
 [2025-06-27 04:09:39] INFO: Status do pedido alterado com sucesso!
 [2025-06-27 04:09:44] INFO: Status do pedido alterado com sucesso!
+[2025-06-27 04:32:45] INFO: Pedido cancelado com sucesso!
+[2025-06-27 04:34:19] INFO: Status do pedido alterado com sucesso!
+[2025-06-27 04:34:36] INFO: Pedido cancelado com sucesso!
