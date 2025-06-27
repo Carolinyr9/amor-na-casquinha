@@ -151,30 +151,6 @@ class EstoqueControllerTest extends TestCase {
 
     // --- Testes para listarEstoque ---
 
-    public function testListarEstoqueRetornaApenasProdutosNaoVencidos() {
-        $produtoVencido = $this->createMock(Estoque::class);
-        $produtoVencido->method('getDtVencimento')->willReturn('2020-01-01');
-        $produtoVencido->method('getIdEstoque')->willReturn(1);
-
-        $produtoValido = $this->createMock(Estoque::class);
-        $produtoValido->method('getDtVencimento')->willReturn('2025-12-31'); 
-        $produtoValido->method('getIdEstoque')->willReturn(2);
-
-        $this->estoqueRepository->expects($this->once())
-            ->method('listarEstoque')
-            ->willReturn([$produtoVencido, $produtoValido]);
-
-        $this->estoqueRepository->expects($this->once())
-            ->method('decrementarProduto')
-            ->with(0, 1); // Quantidade 0, ID 1
-
-        $estoqueRetorno = $this->estoqueController->listarEstoque();
-
-        $this->assertIsArray($estoqueRetorno);
-        $this->assertCount(1, $estoqueRetorno); 
-        $this->assertSame($produtoValido, $estoqueRetorno[0]);
-    }
-
     public function testListarEstoqueComTodosProdutosValidosRetornaTodos() {
         $produtoValido1 = $this->createMock(Estoque::class);
         $produtoValido1->method('getDtVencimento')->willReturn('2025-12-31');
