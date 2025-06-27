@@ -73,6 +73,16 @@ $entregadorController = new EntregadorController();
                                 <button type="submit" class="botao botao-primary">Mudar Status</button>
                             </form>
                         <?php endif; ?>
+                        <?php if ($statusAtual !== 'Concluído' && $statusAtual !== 'Cancelado'): ?>
+                            <form method="POST" action="" class="mt-3">
+                                <input type="hidden" name="cancelarPedido" value="1" />
+                                <div class="mb-3">
+                                    <label for="motivoCancelamento" class="form-label">Motivo do Cancelamento:</label>
+                                    <textarea name="motivoCancelamento" id="motivoCancelamento" class="form-control" rows="3" required></textarea>
+                                </div>
+                                <button type="submit" class="botao botao-alerta">Cancelar Pedido</button>
+                            </form>
+                        <?php endif; ?>
                     <?php else: ?>
                         <div class="alert alert-danger">Pedido não encontrado.</div>
                     <?php endif; ?>
