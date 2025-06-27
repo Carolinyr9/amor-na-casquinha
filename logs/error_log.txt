@@ -4334,3 +4334,28 @@ Failed asserting that 'falha@example.com' matches expected null.
 [2025-06-26 02:41:32] ERROR: Nenhum produto selecionado para o pedido.
 [2025-06-26 02:47:21] ERROR: Nenhum produto selecionado para o pedido.
 [2025-06-26 02:47:40] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-27 03:42:45] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 197 encontrado!
+[2025-06-27 03:42:48] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 197 encontrado!
+[2025-06-27 03:42:50] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 197 encontrado!
+[2025-06-27 03:43:01] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 197 encontrado!
+[2025-06-27 03:43:03] ERROR: Erro ao listar informações do pedido: Nenhum pedido com o id 197 encontrado!
+[2025-06-27 03:45:48] ERROR: Falha do repositório ao criar item do pedido.
+[2025-06-27 03:46:15] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:47:29] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:47:29] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:47:31] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:47:31] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:47:31] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:47:32] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:47:33] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:49:26] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:49:27] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 03:52:11] ERROR: Erro ao listar entregador: ID inválido.
+[2025-06-27 04:10:07] ERROR: ID do endereço não fornecido!
+[2025-06-27 04:10:07] ERROR: Erro ao carregar endereço: Endereço não encontrado
+[2025-06-27 04:10:14] ERROR: ID do endereço não fornecido!
+[2025-06-27 04:10:14] ERROR: Erro ao carregar endereço: Endereço não encontrado
+[2025-06-27 04:10:15] ERROR: ID do endereço não fornecido!
+[2025-06-27 04:10:15] ERROR: Erro ao carregar endereço: Endereço não encontrado
+[2025-06-27 04:10:21] ERROR: ID do endereço não fornecido!
+[2025-06-27 04:10:21] ERROR: Erro ao carregar endereço: Endereço não encontrado

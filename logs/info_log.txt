@@ -126,3 +126,11 @@
 [2025-06-26 01:29:13] INFO: Endereço editado com sucesso!
 [2025-06-26 01:54:22] INFO: Endereço editado com sucesso!
 [2025-06-26 02:47:40] INFO: Pedido criado com sucesso! ID do pedido: 209
+[2025-06-27 03:42:48] INFO: Status do pedido alterado com sucesso!
+[2025-06-27 03:42:50] INFO: Status do pedido alterado com sucesso!
+[2025-06-27 03:43:03] INFO: Status do pedido alterado com sucesso!
+[2025-06-27 03:45:48] INFO: Pedido criado com sucesso! ID do pedido: 210
+[2025-06-27 04:09:13] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-27 04:09:28] INFO: Entregador atribuído ao pedido com sucesso!
+[2025-06-27 04:09:39] INFO: Status do pedido alterado com sucesso!
+[2025-06-27 04:09:44] INFO: Status do pedido alterado com sucesso!
