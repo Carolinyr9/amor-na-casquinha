@@ -38,3 +38,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mudarStatus'])) {
     header("Location: informacoesPedido.php?idPedido=$pedidoId");
     exit();
 }
+
+if (isset($_POST['cancelarPedido'])) {
+
+    $pedidoId = $_GET['idPedido'] ?? null;
+    $dados = [
+        'idPedido' => $pedidoId,
+        'motivoCancelamento' => $_POST['motivoCancelamento'] ?? null
+    ];
+    $pedidoController->cancelarPedido($dados);
+    header("Location: informacoesPedido.php?idPedido=$pedidoId");
+    exit();
+}
