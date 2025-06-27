@@ -36,9 +36,9 @@ if (!empty($pedidos)): ?>
             <?php endif; ?>
         <?php else: ?>
      
-                <?php $redirectToInformacao = ($nomePaginaAtual === 'pedidos.php') ? 
-                        'informacoesPedido.php?idPedido='.$pedido->getIdPedido() : 
-                        'informacoesPedidoCliente.php?idPedido=' . $pedido->getIdPedido(); ?>
+        <?php $redirectToInformacao = ($nomePaginaAtual === 'pedidos.php') ? 
+                'informacoesPedido.php?idPedido='.$pedido->getIdPedido() : 
+                'informacoesPedidoCliente.php?idPedido=' . $pedido->getIdPedido(); ?>
 
                 <div class="cards-pedido d-flex align-items-center flex-column rounded-3 text-center p-3">
 
@@ -52,7 +52,7 @@ if (!empty($pedidos)): ?>
                     <a href="<?= $redirectToInformacao; ?>" class="botao botao-primary">Ver Informações</a>
 
                     <?php if ($nomePaginaAtual === 'pedidos.php' && ($pedido->getTipoFrete() == 1 && $pedido->getIdEntregador() == NULL)): ?>
-                                <a class="card__btn--Entregador mt-3 text-decoration-none text-black" href="atribuirEntregador.php?idPedido=<?= $pedido->getIdPedido(); ?>">Atribuir Entregador ao Pedido</a>
+                                <a class="link mt-3" href="atribuirEntregador.php?idPedido=<?= $pedido->getIdPedido(); ?>">Atribuir Entregador ao Pedido</a>
                     <?php endif; ?>
 
                 </div>
